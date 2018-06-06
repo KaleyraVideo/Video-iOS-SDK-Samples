@@ -1,0 +1,472 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D17DF72D3D58919776E5F9DB /* Pods_Bandyer_iOS_SDK_Basic_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A93449CC8483ED14B28B2985 /* Pods_Bandyer_iOS_SDK_Basic_Example.framework */; };
+		E62EF5D820BD509B000AC923 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62EF5D720BD509B000AC923 /* AppDelegate.swift */; };
+		E62EF5DD20BD509B000AC923 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E62EF5DB20BD509B000AC923 /* Main.storyboard */; };
+		E62EF5E220BD509C000AC923 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E62EF5E020BD509C000AC923 /* LaunchScreen.storyboard */; };
+		E63268B620BD8D1B00A9372C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63268B520BD8D1B00A9372C /* LoginViewController.swift */; };
+		E63268BE20BDB19E00A9372C /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63268BD20BDB19E00A9372C /* CallViewController.swift */; };
+		E63268C020BEEA2900A9372C /* CallViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63268BF20BEEA2900A9372C /* CallViewControllerDelegate.swift */; };
+		E63268C220BEF04F00A9372C /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63268C120BEF04F00A9372C /* RoomViewController.swift */; };
+		E63268C620BEF14200A9372C /* CallControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63268C520BEF14200A9372C /* CallControlsViewController.swift */; };
+		E63268C920BEF67400A9372C /* StreamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63268C720BEF67300A9372C /* StreamCollectionViewCell.swift */; };
+		E63268CA20BEF67400A9372C /* StreamCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E63268C820BEF67300A9372C /* StreamCollectionViewCell.xib */; };
+		E63D5FBE20C7F1D200DCFB50 /* StreamsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63D5FBD20C7F1D200DCFB50 /* StreamsCollectionViewController.swift */; };
+		E657FBCB20C7E8BA00860FC9 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E657FBCA20C7E8BA00860FC9 /* ContactsTableViewController.swift */; };
+		E6A673F620C6777100DCD9EE /* SampleVideo_640x360_10mb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E6C9C55920C537BA00F7F976 /* SampleVideo_640x360_10mb.mp4 */; };
+		E6A673F820C6794400DCD9EE /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A673F720C6794400DCD9EE /* RoundedButton.swift */; };
+		E6A673FA20C6916900DCD9EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6A673F920C6916900DCD9EE /* Assets.xcassets */; };
+		E6A673FC20C6961600DCD9EE /* CalleeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A673FB20C6961600DCD9EE /* CalleeFormatter.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		23DCFE017E2C54C14811B24B /* Pods-Bandyer-iOS-SDK-Basic-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bandyer-iOS-SDK-Basic-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bandyer-iOS-SDK-Basic-Example/Pods-Bandyer-iOS-SDK-Basic-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		A93449CC8483ED14B28B2985 /* Pods_Bandyer_iOS_SDK_Basic_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bandyer_iOS_SDK_Basic_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B778FA90131E124C5538A940 /* Pods-Bandyer-iOS-SDK-Basic-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bandyer-iOS-SDK-Basic-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bandyer-iOS-SDK-Basic-Example/Pods-Bandyer-iOS-SDK-Basic-Example.release.xcconfig"; sourceTree = "<group>"; };
+		E62EF5D420BD509B000AC923 /* Bandyer-iOS-SDK-Basic-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bandyer-iOS-SDK-Basic-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E62EF5D720BD509B000AC923 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E62EF5DC20BD509B000AC923 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E62EF5E120BD509C000AC923 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E62EF5E320BD509C000AC923 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E63268B520BD8D1B00A9372C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		E63268BD20BDB19E00A9372C /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
+		E63268BF20BEEA2900A9372C /* CallViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewControllerDelegate.swift; sourceTree = "<group>"; };
+		E63268C120BEF04F00A9372C /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
+		E63268C520BEF14200A9372C /* CallControlsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallControlsViewController.swift; sourceTree = "<group>"; };
+		E63268C720BEF67300A9372C /* StreamCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamCollectionViewCell.swift; sourceTree = "<group>"; };
+		E63268C820BEF67300A9372C /* StreamCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StreamCollectionViewCell.xib; sourceTree = "<group>"; };
+		E63D5FBD20C7F1D200DCFB50 /* StreamsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamsCollectionViewController.swift; sourceTree = "<group>"; };
+		E657FBCA20C7E8BA00860FC9 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
+		E6A673F720C6794400DCD9EE /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		E6A673F920C6916900DCD9EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E6A673FB20C6961600DCD9EE /* CalleeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalleeFormatter.swift; sourceTree = "<group>"; };
+		E6C9C55920C537BA00F7F976 /* SampleVideo_640x360_10mb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleVideo_640x360_10mb.mp4; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E62EF5D120BD509B000AC923 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D17DF72D3D58919776E5F9DB /* Pods_Bandyer_iOS_SDK_Basic_Example.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		25F824297F7056EF0AEC6685 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				23DCFE017E2C54C14811B24B /* Pods-Bandyer-iOS-SDK-Basic-Example.debug.xcconfig */,
+				B778FA90131E124C5538A940 /* Pods-Bandyer-iOS-SDK-Basic-Example.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DA218391CFBF9D88B54B0C94 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A93449CC8483ED14B28B2985 /* Pods_Bandyer_iOS_SDK_Basic_Example.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E62EF5CB20BD509B000AC923 = {
+			isa = PBXGroup;
+			children = (
+				E62EF5D620BD509B000AC923 /* Bandyer-iOS-SDK-Basic-Example */,
+				E62EF5D520BD509B000AC923 /* Products */,
+				25F824297F7056EF0AEC6685 /* Pods */,
+				DA218391CFBF9D88B54B0C94 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E62EF5D520BD509B000AC923 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E62EF5D420BD509B000AC923 /* Bandyer-iOS-SDK-Basic-Example.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E62EF5D620BD509B000AC923 /* Bandyer-iOS-SDK-Basic-Example */ = {
+			isa = PBXGroup;
+			children = (
+				E6A673F920C6916900DCD9EE /* Assets.xcassets */,
+				E6C9C55920C537BA00F7F976 /* SampleVideo_640x360_10mb.mp4 */,
+				E62EF5D720BD509B000AC923 /* AppDelegate.swift */,
+				E62EF5DB20BD509B000AC923 /* Main.storyboard */,
+				E62EF5E020BD509C000AC923 /* LaunchScreen.storyboard */,
+				E62EF5E320BD509C000AC923 /* Info.plist */,
+				E63268B520BD8D1B00A9372C /* LoginViewController.swift */,
+				E657FBCA20C7E8BA00860FC9 /* ContactsTableViewController.swift */,
+				E63268BD20BDB19E00A9372C /* CallViewController.swift */,
+				E63268BF20BEEA2900A9372C /* CallViewControllerDelegate.swift */,
+				E63268C120BEF04F00A9372C /* RoomViewController.swift */,
+				E63D5FBD20C7F1D200DCFB50 /* StreamsCollectionViewController.swift */,
+				E63268C520BEF14200A9372C /* CallControlsViewController.swift */,
+				E63268C720BEF67300A9372C /* StreamCollectionViewCell.swift */,
+				E63268C820BEF67300A9372C /* StreamCollectionViewCell.xib */,
+				E6A673F720C6794400DCD9EE /* RoundedButton.swift */,
+				E6A673FB20C6961600DCD9EE /* CalleeFormatter.swift */,
+			);
+			path = "Bandyer-iOS-SDK-Basic-Example";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E62EF5D320BD509B000AC923 /* Bandyer-iOS-SDK-Basic-Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E62EF5E620BD509C000AC923 /* Build configuration list for PBXNativeTarget "Bandyer-iOS-SDK-Basic-Example" */;
+			buildPhases = (
+				EB5E8FC085A779F50CF6D263 /* [CP] Check Pods Manifest.lock */,
+				E62EF5D020BD509B000AC923 /* Sources */,
+				E62EF5D120BD509B000AC923 /* Frameworks */,
+				E62EF5D220BD509B000AC923 /* Resources */,
+				46B5808EFE0807019F853417 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Bandyer-iOS-SDK-Basic-Example";
+			productName = "Bandyer-iOS-SDK-Basic-Example";
+			productReference = E62EF5D420BD509B000AC923 /* Bandyer-iOS-SDK-Basic-Example.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E62EF5CC20BD509B000AC923 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = Bandyer;
+				TargetAttributes = {
+					E62EF5D320BD509B000AC923 = {
+						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 0930;
+					};
+				};
+			};
+			buildConfigurationList = E62EF5CF20BD509B000AC923 /* Build configuration list for PBXProject "Bandyer-iOS-SDK-Basic-Example" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E62EF5CB20BD509B000AC923;
+			productRefGroup = E62EF5D520BD509B000AC923 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E62EF5D320BD509B000AC923 /* Bandyer-iOS-SDK-Basic-Example */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E62EF5D220BD509B000AC923 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6A673F620C6777100DCD9EE /* SampleVideo_640x360_10mb.mp4 in Resources */,
+				E63268CA20BEF67400A9372C /* StreamCollectionViewCell.xib in Resources */,
+				E62EF5E220BD509C000AC923 /* LaunchScreen.storyboard in Resources */,
+				E62EF5DD20BD509B000AC923 /* Main.storyboard in Resources */,
+				E6A673FA20C6916900DCD9EE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		46B5808EFE0807019F853417 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Bandyer-iOS-SDK-Basic-Example/Pods-Bandyer-iOS-SDK-Basic-Example-frameworks.sh",
+				"${PODS_ROOT}/BandyerSDK/BandyerCommunicationCenter.framework",
+				"${PODS_ROOT}/BandyerSDK/BandyerCoreAV.framework",
+				"${PODS_ROOT}/BandyerSDK/BandyerFoundation.framework",
+				"${PODS_ROOT}/BandyerSDK/WebRTC.framework",
+				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BandyerCommunicationCenter.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BandyerCoreAV.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BandyerFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bandyer-iOS-SDK-Basic-Example/Pods-Bandyer-iOS-SDK-Basic-Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB5E8FC085A779F50CF6D263 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Bandyer-iOS-SDK-Basic-Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E62EF5D020BD509B000AC923 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E6A673F820C6794400DCD9EE /* RoundedButton.swift in Sources */,
+				E63268C020BEEA2900A9372C /* CallViewControllerDelegate.swift in Sources */,
+				E63268B620BD8D1B00A9372C /* LoginViewController.swift in Sources */,
+				E63D5FBE20C7F1D200DCFB50 /* StreamsCollectionViewController.swift in Sources */,
+				E657FBCB20C7E8BA00860FC9 /* ContactsTableViewController.swift in Sources */,
+				E62EF5D820BD509B000AC923 /* AppDelegate.swift in Sources */,
+				E63268C620BEF14200A9372C /* CallControlsViewController.swift in Sources */,
+				E63268C220BEF04F00A9372C /* RoomViewController.swift in Sources */,
+				E6A673FC20C6961600DCD9EE /* CalleeFormatter.swift in Sources */,
+				E63268BE20BDB19E00A9372C /* CallViewController.swift in Sources */,
+				E63268C920BEF67400A9372C /* StreamCollectionViewCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E62EF5DB20BD509B000AC923 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E62EF5DC20BD509B000AC923 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E62EF5E020BD509C000AC923 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E62EF5E120BD509C000AC923 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E62EF5E420BD509C000AC923 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E62EF5E520BD509C000AC923 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E62EF5E720BD509C000AC923 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23DCFE017E2C54C14811B24B /* Pods-Bandyer-iOS-SDK-Basic-Example.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TQ49746752;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = "Bandyer-iOS-SDK-Basic-Example/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "it.bandyer.Bandyer-iOS-SDK-Basic-Example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E62EF5E820BD509C000AC923 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B778FA90131E124C5538A940 /* Pods-Bandyer-iOS-SDK-Basic-Example.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TQ49746752;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = "Bandyer-iOS-SDK-Basic-Example/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "it.bandyer.Bandyer-iOS-SDK-Basic-Example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E62EF5CF20BD509B000AC923 /* Build configuration list for PBXProject "Bandyer-iOS-SDK-Basic-Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E62EF5E420BD509C000AC923 /* Debug */,
+				E62EF5E520BD509C000AC923 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E62EF5E620BD509C000AC923 /* Build configuration list for PBXNativeTarget "Bandyer-iOS-SDK-Basic-Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E62EF5E720BD509C000AC923 /* Debug */,
+				E62EF5E820BD509C000AC923 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E62EF5CC20BD509B000AC923 /* Project object */;
+}

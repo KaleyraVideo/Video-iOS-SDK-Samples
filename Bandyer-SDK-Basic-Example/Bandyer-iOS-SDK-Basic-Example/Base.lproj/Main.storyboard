@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBA-wR-zOo">
+                                <rect key="frame" x="168" y="587" width="38" height="30"/>
+                                <state key="normal" title="Login"/>
+                                <connections>
+                                    <action selector="loginButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="de7-cW-bwg"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Sdo-Er-Fty">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Sdo-Er-Fty" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="5zD-Bw-2v1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JBA-wR-zOo" secondAttribute="bottom" constant="50" id="Ot9-bY-OYf"/>
+                            <constraint firstItem="Sdo-Er-Fty" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="S0m-qD-n49"/>
+                            <constraint firstItem="JBA-wR-zOo" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SgK-QW-vUk"/>
+                            <constraint firstItem="Sdo-Er-Fty" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VvC-Rd-uVh"/>
+                            <constraint firstItem="Sdo-Er-Fty" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fjG-BY-azR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="login" destination="JBA-wR-zOo" id="tcd-k4-1wE"/>
+                        <outlet property="spinner" destination="Sdo-Er-Fty" id="brZ-LA-vNI"/>
+                        <segue destination="3vM-98-2dP" kind="presentation" identifier="ShowContactsSegueId" id="j5I-FC-D6Z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2" y="32"/>
+        </scene>
+        <!--Call View Controller-->
+        <scene sceneID="RaP-8e-q9F">
+            <objects>
+                <viewController id="MOJ-tI-L5k" customClass="CallViewController" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MsQ-Gm-bjB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xsY-kE-fCR">
+                                <rect key="frame" x="87" y="117.5" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="1ol-t3-EM8"/>
+                                    <constraint firstAttribute="height" constant="200" id="XQE-zu-xN5"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="GMX-9C-xo1">
+                                <rect key="frame" x="40" y="581" width="295" height="56"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k3m-iH-oyH" customClass="RoundedButton" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
+                                        <color key="backgroundColor" red="0.97031968832015991" green="0.0" blue="0.11642596900208207" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="tintColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                        <state key="normal" image="baseline_call_end_white_36pt"/>
+                                        <connections>
+                                            <action selector="declineButtonTouched:" destination="MOJ-tI-L5k" eventType="touchUpInside" id="s3f-63-Jo8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mce-eh-ChQ" customClass="RoundedButton" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target">
+                                        <rect key="frame" x="239" y="0.0" width="56" height="56"/>
+                                        <color key="backgroundColor" red="0.60000002379999995" green="0.90980398650000005" blue="0.047058828179999998" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="tintColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                        <state key="normal" image="baseline_call_white_36pt"/>
+                                        <connections>
+                                            <action selector="answerButtonTouched:" destination="MOJ-tI-L5k" eventType="touchUpInside" id="WwK-qA-oLD"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F24-ZC-aoH">
+                                <rect key="frame" x="157" y="56" width="61.5" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6HX-31-Pnv" customClass="RoundedButton" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target">
+                                <rect key="frame" x="160" y="581" width="56" height="56"/>
+                                <color key="backgroundColor" red="0.97031968830000004" green="0.0" blue="0.116425969" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" image="baseline_call_end_white_36pt"/>
+                                <connections>
+                                    <action selector="hangUpButtonTouched:" destination="MOJ-tI-L5k" eventType="touchUpInside" id="r7Z-lo-cFn"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="F24-ZC-aoH" firstAttribute="top" secondItem="JEE-bt-ziq" secondAttribute="top" constant="36" id="47q-ox-sL8"/>
+                            <constraint firstItem="JEE-bt-ziq" firstAttribute="bottom" secondItem="GMX-9C-xo1" secondAttribute="bottom" constant="30" id="HNQ-GB-vSE"/>
+                            <constraint firstItem="F24-ZC-aoH" firstAttribute="centerX" secondItem="MsQ-Gm-bjB" secondAttribute="centerX" id="IK5-pF-jkD"/>
+                            <constraint firstItem="F24-ZC-aoH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JEE-bt-ziq" secondAttribute="leading" constant="20" id="XrE-1X-vFi"/>
+                            <constraint firstItem="xsY-kE-fCR" firstAttribute="centerX" secondItem="MsQ-Gm-bjB" secondAttribute="centerX" id="YNy-pj-And"/>
+                            <constraint firstItem="6HX-31-Pnv" firstAttribute="centerX" secondItem="MsQ-Gm-bjB" secondAttribute="centerX" id="nOz-1a-jz3"/>
+                            <constraint firstItem="xsY-kE-fCR" firstAttribute="top" secondItem="F24-ZC-aoH" secondAttribute="bottom" constant="30" id="ogu-eC-uB9"/>
+                            <constraint firstItem="JEE-bt-ziq" firstAttribute="trailing" secondItem="GMX-9C-xo1" secondAttribute="trailing" constant="40" id="qoP-f9-kPY"/>
+                            <constraint firstItem="JEE-bt-ziq" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="F24-ZC-aoH" secondAttribute="trailing" constant="20" id="suO-Ui-IK9"/>
+                            <constraint firstItem="GMX-9C-xo1" firstAttribute="leading" secondItem="JEE-bt-ziq" secondAttribute="leading" constant="40" id="viy-K1-edf"/>
+                            <constraint firstItem="GMX-9C-xo1" firstAttribute="centerX" secondItem="MsQ-Gm-bjB" secondAttribute="centerX" id="wEA-sJ-Uz6"/>
+                            <constraint firstItem="6HX-31-Pnv" firstAttribute="top" secondItem="GMX-9C-xo1" secondAttribute="top" id="zyi-vq-35g"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="JEE-bt-ziq"/>
+                    </view>
+                    <connections>
+                        <outlet property="answerButton" destination="mce-eh-ChQ" id="eqb-8N-Rq0"/>
+                        <outlet property="buttonsContainer" destination="GMX-9C-xo1" id="I0X-we-Y4c"/>
+                        <outlet property="declineButton" destination="k3m-iH-oyH" id="mui-YF-hcr"/>
+                        <outlet property="hangUpButton" destination="6HX-31-Pnv" id="LW5-PH-lEV"/>
+                        <outlet property="profileImageView" destination="xsY-kE-fCR" id="R94-PH-Wph"/>
+                        <outlet property="titleLabel" destination="F24-ZC-aoH" id="pMO-bE-yxc"/>
+                        <segue destination="q26-8j-45R" kind="presentation" identifier="showRoomSegueId" id="5Je-ea-knT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OgY-9I-rPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1" y="1012"/>
+        </scene>
+        <!--Streams Collection View Controller-->
+        <scene sceneID="2nR-oP-Woc">
+            <objects>
+                <collectionViewController storyboardIdentifier="streamsController" id="X8U-U5-qnc" customClass="StreamsCollectionViewController" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="streamsController" dataMode="prototypes" id="dnT-ea-1tV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LpM-R2-Ybw">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="remoteCell" id="1AE-KH-5Cl" customClass="StreamCollectionViewCell" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="X8U-U5-qnc" id="MZT-Db-3tf"/>
+                            <outlet property="delegate" destination="X8U-U5-qnc" id="TJZ-NB-Sbd"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TSp-0X-45b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2510" y="524"/>
+        </scene>
+        <!--Room View Controller-->
+        <scene sceneID="tIn-8z-FSp">
+            <objects>
+                <viewController id="q26-8j-45R" customClass="RoomViewController" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GKd-Yq-lLO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <viewLayoutGuide key="safeArea" id="kzA-C5-au7"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="zKN-H6-d8P" appends="YES" id="aLG-j3-GPt"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="overlayGestureRecognizer" destination="zKN-H6-d8P" id="KYY-v6-J7W"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tit-Ep-Juv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="zKN-H6-d8P">
+                    <connections>
+                        <action selector="overlayGestureRecognizerTappedWithUiGestureRecognizer:" destination="q26-8j-45R" id="qoX-IG-e1Q"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1617" y="1012"/>
+        </scene>
+        <!--Call Controls View Controller-->
+        <scene sceneID="Wp5-Ht-CmT">
+            <objects>
+                <viewController storyboardIdentifier="controlsController" id="nU6-GG-686" customClass="CallControlsViewController" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="controlsController" id="vFQ-Ih-Lpa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="PkV-EE-7rV">
+                                <rect key="frame" x="20" y="601" width="335" height="36"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3bp-fI-AcP">
+                                        <rect key="frame" x="0.0" y="0.0" width="53" height="36"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="baseline_switch_camera_white_24pt"/>
+                                        <connections>
+                                            <action selector="switchCameraButtonTouched:" destination="nU6-GG-686" eventType="touchUpInside" id="coM-um-P9U"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lbx-S8-VYB">
+                                        <rect key="frame" x="53" y="0.0" width="53" height="36"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="baseline_mic_off_white_24pt"/>
+                                        <connections>
+                                            <action selector="micButtonTouched:" destination="nU6-GG-686" eventType="touchUpInside" id="zAC-kA-LTZ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EKd-nR-WCF" customClass="RoundedButton" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target">
+                                        <rect key="frame" x="106" y="0.0" width="123" height="36"/>
+                                        <color key="backgroundColor" red="0.97031968830000004" green="0.0" blue="0.116425969" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="tintColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                        <state key="normal" image="baseline_call_end_white_36pt"/>
+                                        <connections>
+                                            <action selector="hangUpButtonTouched:" destination="nU6-GG-686" eventType="touchUpInside" id="OfH-A7-mOA"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qew-tv-dtt">
+                                        <rect key="frame" x="229" y="0.0" width="53" height="36"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="baseline_videocam_off_white_24pt"/>
+                                        <connections>
+                                            <action selector="videoButtonTouched:" destination="nU6-GG-686" eventType="touchUpInside" id="NBZ-JL-wZJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jwV-Y8-CgT">
+                                        <rect key="frame" x="282" y="0.0" width="53" height="36"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" image="baseline_speaker_phone_white_24pt"/>
+                                        <connections>
+                                            <action selector="speakerButtonTouched:" destination="nU6-GG-686" eventType="touchUpInside" id="xdU-v3-RYt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjx-8F-2kc">
+                                <rect key="frame" x="157" y="46" width="61.5" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" red="0.98653450730000003" green="1" blue="0.95081946569999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Xjx-8F-2kc" firstAttribute="centerX" secondItem="vFQ-Ih-Lpa" secondAttribute="centerX" id="3kU-lx-rLL"/>
+                            <constraint firstItem="ZMN-5q-Ang" firstAttribute="bottom" secondItem="PkV-EE-7rV" secondAttribute="bottom" constant="30" id="ATg-fC-5Rc"/>
+                            <constraint firstItem="Xjx-8F-2kc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZMN-5q-Ang" secondAttribute="leading" constant="20" id="Jg5-2p-J9v"/>
+                            <constraint firstItem="PkV-EE-7rV" firstAttribute="leading" secondItem="ZMN-5q-Ang" secondAttribute="leading" constant="20" id="Wn5-lX-cKF"/>
+                            <constraint firstItem="PkV-EE-7rV" firstAttribute="centerX" secondItem="vFQ-Ih-Lpa" secondAttribute="centerX" id="a6g-At-ilG"/>
+                            <constraint firstItem="ZMN-5q-Ang" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Xjx-8F-2kc" secondAttribute="trailing" constant="20" id="fC6-el-cRQ"/>
+                            <constraint firstItem="Xjx-8F-2kc" firstAttribute="top" secondItem="ZMN-5q-Ang" secondAttribute="top" constant="26" id="psm-pq-HnX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ZMN-5q-Ang"/>
+                    </view>
+                    <connections>
+                        <outlet property="hangUpButton" destination="EKd-nR-WCF" id="CIv-in-X3M"/>
+                        <outlet property="micButton" destination="Lbx-S8-VYB" id="VqH-4b-lC5"/>
+                        <outlet property="speakerButton" destination="jwV-Y8-CgT" id="6Cf-co-ROG"/>
+                        <outlet property="switchCameraButton" destination="3bp-fI-AcP" id="04S-EH-CCI"/>
+                        <outlet property="titleLabel" destination="Xjx-8F-2kc" id="6Jr-1i-XaV"/>
+                        <outlet property="videoButton" destination="Qew-tv-dtt" id="Gba-Li-i9u"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gfm-Tz-tuQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2510" y="1323"/>
+        </scene>
+        <!--Contacts Table View Controller-->
+        <scene sceneID="pkr-Vc-Dfm">
+            <objects>
+                <tableViewController id="NvB-Rx-2Hb" customClass="ContactsTableViewController" customModule="Bandyer_iOS_SDK_Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="611-hd-cTV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCellId" textLabel="vWR-5x-Ykb" style="IBUITableViewCellStyleDefault" id="bxz-q4-9ac">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bxz-q4-9ac" id="lYA-y2-y1s">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vWR-5x-Ykb">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="NvB-Rx-2Hb" id="oRQ-pB-eZK"/>
+                            <outlet property="delegate" destination="NvB-Rx-2Hb" id="cWm-ep-1ap"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="4YU-74-lpu">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="RHh-0O-JH3">
+                            <rect key="frame" x="102" y="7" width="171" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Call"/>
+                                <segment title="Conference"/>
+                            </segments>
+                            <connections>
+                                <action selector="callTypeDidChange:" destination="NvB-Rx-2Hb" eventType="valueChanged" id="Bpl-4v-hyJ"/>
+                            </connections>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" image="baseline_call_white_24pt" id="Pae-hi-u7D">
+                            <connections>
+                                <action selector="callButtonTouched:" destination="NvB-Rx-2Hb" id="GQT-Su-1Sn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="callButton" destination="Pae-hi-u7D" id="MFm-VH-b2v"/>
+                        <outlet property="callType" destination="RHh-0O-JH3" id="crI-YY-NEH"/>
+                        <segue destination="MOJ-tI-L5k" kind="presentation" identifier="showCallSegueId" id="rm5-ed-yab"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zd2-0h-Jvl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1617" y="32"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bif-ra-1g5">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3vM-98-2dP" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PPF-Ma-nqh">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="NvB-Rx-2Hb" kind="relationship" relationship="rootViewController" id="rRW-nM-eq8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Tf-Zl-K89" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="814" y="32"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="baseline_call_end_white_36pt" width="36" height="36"/>
+        <image name="baseline_call_white_24pt" width="24" height="24"/>
+        <image name="baseline_call_white_36pt" width="36" height="36"/>
+        <image name="baseline_mic_off_white_24pt" width="24" height="24"/>
+        <image name="baseline_speaker_phone_white_24pt" width="24" height="24"/>
+        <image name="baseline_switch_camera_white_24pt" width="24" height="24"/>
+        <image name="baseline_videocam_off_white_24pt" width="24" height="24"/>
+    </resources>
+</document>
