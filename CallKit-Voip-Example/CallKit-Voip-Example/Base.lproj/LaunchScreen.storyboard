@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="GrQ-Si-iAD">
+            <objects>
+                <viewController id="vBp-dL-fIE" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FdT-UF-bvJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bandyer SDK Basic Example" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="joc-04-WCR">
+                                <rect key="frame" x="79.5" y="323.5" width="216" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                </variation>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bandyer_logo" translatesAutoresizingMaskIntoConstraints="NO" id="42t-WS-idc">
+                                <rect key="frame" x="123.5" y="165.5" width="128" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="42t-WS-idc" secondAttribute="height" multiplier="1:1" id="HZD-ws-qCu"/>
+                                    <constraint firstAttribute="width" constant="128" id="fmX-SE-HT8">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="256"/>
+                                    </constraint>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2018 - Present Bandyer S.r.l. All Rights Reserved." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="KAw-vh-hHb">
+                                <rect key="frame" x="50.5" y="636" width="274" height="11"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="joc-04-WCR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PH8-10-MlV" secondAttribute="leading" constant="20" id="5En-Nt-l7V"/>
+                            <constraint firstItem="42t-WS-idc" firstAttribute="centerX" secondItem="FdT-UF-bvJ" secondAttribute="centerX" id="5XM-b4-vix"/>
+                            <constraint firstItem="PH8-10-MlV" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="joc-04-WCR" secondAttribute="trailing" constant="20" id="EUN-ch-KhH"/>
+                            <constraint firstItem="joc-04-WCR" firstAttribute="top" secondItem="42t-WS-idc" secondAttribute="bottom" constant="30" id="HEs-60-Xjf"/>
+                            <constraint firstItem="joc-04-WCR" firstAttribute="centerX" secondItem="FdT-UF-bvJ" secondAttribute="centerX" id="ZrX-65-Ifm"/>
+                            <constraint firstItem="KAw-vh-hHb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PH8-10-MlV" secondAttribute="leading" constant="20" id="e9b-Cr-Mr8"/>
+                            <constraint firstItem="PH8-10-MlV" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KAw-vh-hHb" secondAttribute="trailing" constant="20" id="gOb-WE-ja8"/>
+                            <constraint firstItem="KAw-vh-hHb" firstAttribute="centerX" secondItem="FdT-UF-bvJ" secondAttribute="centerX" id="iDp-HQ-zQA"/>
+                            <constraint firstItem="PH8-10-MlV" firstAttribute="bottom" secondItem="KAw-vh-hHb" secondAttribute="bottom" constant="20" id="l7m-3k-Npr"/>
+                            <constraint firstItem="joc-04-WCR" firstAttribute="centerY" secondItem="FdT-UF-bvJ" secondAttribute="centerY" id="pkk-UK-6aZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PH8-10-MlV"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ybr-GJ-r2u" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="bandyer_logo" width="600" height="600"/>
+    </resources>
+</document>
