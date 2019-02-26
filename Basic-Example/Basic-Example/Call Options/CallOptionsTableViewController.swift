@@ -32,8 +32,7 @@ class CallOptionsTableViewController : UITableViewController{
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        super.tableView(tableView, didSelectRowAt: indexPath)
-
+    
         if indexPath.section == 0 {
             switch indexPath.row{
                 case 0: options.type = .audioVideoCallType
@@ -64,7 +63,7 @@ extension CallOptionsTableViewController : UITextFieldDelegate{
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let value = Int(textField.text!) else {
+        guard let value = UInt(textField.text!) else {
             return
         }
 

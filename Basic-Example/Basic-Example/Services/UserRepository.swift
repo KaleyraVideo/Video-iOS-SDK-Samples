@@ -31,7 +31,7 @@ class UserRepository {
 
         precondition(url != nil)
 
-        guard isFetching else {
+        guard !isFetching else {
             queue.async {
                 completion(nil, NSError(domain: "com.acme.error", code:1, userInfo:[NSLocalizedFailureReasonErrorKey : "Already fetching users"]))
             }
@@ -43,10 +43,10 @@ class UserRepository {
 
         self.task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
 
-            guard let e = error else{
+            guard error == nil else{
 
                 self.queue.async {
-                    completion(nil, NSError(domain: "com.acme.error", code: 2, userInfo: [NSLocalizedFailureReasonErrorKey : "An error occurred while fetching users", NSUnderlyingErrorKey : error]))
+                    completion(nil, NSError(domain: "com.acme.error", code: 2, userInfo: [NSLocalizedFailureReasonErrorKey : "An error occurred while fetching users", NSUnderlyingErrorKey : error!]))
                 }
 
                 return

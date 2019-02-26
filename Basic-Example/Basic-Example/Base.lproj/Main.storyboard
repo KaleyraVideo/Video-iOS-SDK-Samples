@@ -13,7 +13,7 @@
         <!--Contacts View Controller-->
         <scene sceneID="i6T-2V-678">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="4FH-Ta-Shf" customClass="ContactsViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="4FH-Ta-Shf" customClass="ContactsViewController" customModule="Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Q5y-1U-XGq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -124,7 +124,7 @@
         <!--Select Options-->
         <scene sceneID="hpt-E5-vR8">
             <objects>
-                <tableViewController id="FTF-y7-ioi" customClass="CallOptionsTableViewController" sceneMemberID="viewController">
+                <tableViewController id="FTF-y7-ioi" customClass="CallOptionsTableViewController" customModule="Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="1tx-hQ-QLn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -261,7 +261,7 @@
         <!--Choose a user-->
         <scene sceneID="7QV-wl-Dfo">
             <objects>
-                <tableViewController id="Fma-V4-fjf" customClass="LoginViewController" sceneMemberID="viewController">
+                <tableViewController id="Fma-V4-fjf" customClass="LoginViewController" customModule="Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jNV-nx-i5j">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

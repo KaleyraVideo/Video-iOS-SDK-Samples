@@ -18,7 +18,7 @@ class ContactsViewController: UIViewController {
     @IBOutlet private var tableView:UITableView!
     @IBOutlet private var callTypeControl:UISegmentedControl!
     @IBOutlet private var callOptionsBarButtonItem: UIBarButtonItem!
-    @IBOutlet private var callBarButtonItem: UIBarButtonItem!
+    @IBOutlet private var callBarButtonItem: UIBarButtonItem?
     @IBOutlet private var logoutBarButtonItem: UIBarButtonItem!
     @IBOutlet private var userBarButtonItem: UIBarButtonItem!
 
@@ -52,7 +52,7 @@ class ContactsViewController: UIViewController {
 
         //Here we create the array containing the "user aliases" we want to contact.
         for contactIndex in selectedContacts {
-            let alias: String = addressBook?.contacts[contactIndex.row].alias
+            let alias: String = (addressBook?.contacts[contactIndex.row].alias)!
             aliases.append(alias)
         }
 
@@ -146,7 +146,6 @@ class ContactsViewController: UIViewController {
 
             guard let path = filePath else {
                 fatalError("The fake file for the file capturer could not be found")
-                return
             }
 
             //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
@@ -213,7 +212,7 @@ extension ContactsViewController : UITableViewDelegate{
             selectedContacts.append(indexPath)
         }
 
-        callBarButtonItem.isEnabled = selectedContacts.count > 1
+        callBarButtonItem?.isEnabled = selectedContacts.count > 1
 
         if !tableView.allowsMultipleSelection {
             startOutgoingCall()

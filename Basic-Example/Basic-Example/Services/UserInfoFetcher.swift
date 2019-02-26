@@ -6,18 +6,21 @@
 import Foundation
 import BandyerSDK
 
-class UserInfoFetcher: BDKUserInfoFetcher {
+class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
     private let addressBook: AddressBook
     private let aliasMap: [String: Contact]
 
     init(_ addressBook: AddressBook) {
         self.addressBook = addressBook
-
+        var aliasMap:[String: Contact] = [:]
+        
         for contact in addressBook.contacts {
             aliasMap.updateValue(contact, forKey: contact.alias)
         }
 
         aliasMap.updateValue(addressBook.me!, forKey: addressBook.me!.alias)
+        
+        self.aliasMap = aliasMap
     }
 
     func fetchUsers(_ aliases: [String], completion: @escaping ([BDKUserInfoDisplayItem]?) -> Void) {

@@ -57,7 +57,11 @@ class LoginViewController : UITableViewController{
         repository.fetchAllUsers { aliases, error in
             self.refreshControl?.endRefreshing()
 
-            guard let _ = error, let users = aliases else{
+            guard error == nil else{
+                return
+            }
+            
+            guard let users = aliases else{
                 return
             }
 
@@ -103,7 +107,7 @@ extension LoginViewController : BCXCallClientObserver{
     }
 
     public func callClientDidStart(_ client: BCXCallClient) {
-        guard presentedViewController != nil else{
+        guard presentedViewController == nil else{
             return
         }
 
