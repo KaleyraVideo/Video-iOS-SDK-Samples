@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dictionaryPayload = p.dictionaryPayload as NSDictionary
         
         //You must change the keypath otherwise notifications won't be handled by the sdk
-        let incomingCallPayload = dictionaryPayload.value(forKey: "KEYPATH_TO_DATA_DICTIONARY") as! [AnyHashable : Any]
+        let incomingCallPayload = dictionaryPayload.value(forKeyPath: "KEYPATH_TO_DATA_DICTIONARY") as! [AnyHashable : Any]
         
         //We ask the client to handle the notification payload
         BandyerSDK.instance().callClient.handleNotification(incomingCallPayload)
