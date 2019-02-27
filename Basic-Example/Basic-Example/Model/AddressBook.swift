@@ -19,9 +19,9 @@ struct AddressBook {
 
             if alias == currentUser {
                 me = contact
+            } else {
+                contacts.append(contact)
             }
-
-            contacts.append(contact)
         }
     }
 }

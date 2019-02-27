@@ -1,5 +1,6 @@
-// Copyright © 2019 Bandyer. All rights reserved.
-// See LICENSE for licensing information
+//
+//  Copyright © 2019 Bandyer. All rights reserved.
+//
 
 import UIKit
 

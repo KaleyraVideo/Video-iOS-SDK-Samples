@@ -1,6 +1,5 @@
 //
-// Created by Marco Brescianini on 2019-02-26.
-// Copyright (c) 2019 Bandyer. All rights reserved.
+//  Copyright © 2019 Bandyer. All rights reserved.
 //
 
 import Foundation

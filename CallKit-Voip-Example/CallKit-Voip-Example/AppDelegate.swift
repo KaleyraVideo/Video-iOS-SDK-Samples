@@ -1,8 +1,4 @@
 //
-//  AppDelegate.swift
-//  CallKit-Voip-Example
-//
-//  Created by Marco Brescianini on 26/02/2019.
 //  Copyright © 2019 Bandyer. All rights reserved.
 //
 
@@ -72,12 +68,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let callKitIcon = UIImage(named: "callkit-icon")
         config.nativeUITemplateIconImageData = callKitIcon?.pngData()
-        
+
+        //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
+        BandyerSDK.instance().initialize(withApplicationId: "YOUR_APP_ID", config: config)
+
         //We subscribe to the call client in order to be informed when the client is ready to handle notifications payload
         BandyerSDK.instance().callClient.add(self, queue: DispatchQueue.main)
-        
-        //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
-        BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
         
         //Here we are initializing the push kit registry
         registry = PKPushRegistry(queue: DispatchQueue.main)
@@ -111,7 +107,11 @@ extension AppDelegate : PKPushRegistryDelegate{
         let token = pushCredentials.token.map { String(format: "%02.2hhx", $0) }.joined()
         debugPrint("Push credentials updated \(token), you should send them to your backend system")
     }
-    
+
+    //Beware! starting from iOS 12 this method is being deprecated. However, you should not implement the new method
+    //(the one with the completion closure... https://developer.apple.com/documentation/pushkit/pkpushregistrydelegate/2875784-pushregistry)
+    //otherwise you are not going to be able to receive incoming calls when the app is started
+    //from background or has moved to background. This issue will be resolved in an upcoming SDK release.
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
         switch BandyerSDK.instance().callClient.state {
         case .running:
@@ -155,8 +155,8 @@ extension AppDelegate : BCXCallClientObserver{
 
 extension AppDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        //When System call ui is show to the user, it will show a "video" button if the call supports it
-        //The code below will handle the intent received from the system and it will hand it to the call view controller
+        //When System call ui is shown to the user, it will show a "video" button if the call supports it.
+        //The code below will handle the siri intent received from the system and it will hand it to the call view controller
         //if the controller is presented
         
         if userActivity.interaction?.intent is INStartVideoCallIntent{

@@ -1,6 +1,5 @@
 //
-// Created by Marco Brescianini on 2019-02-25.
-// Copyright (c) 2019 Bandyer. All rights reserved.
+//  Copyright © 2019 Bandyer. All rights reserved.
 //
 
 import Foundation
@@ -19,9 +18,9 @@ struct AddressBook {
 
             if alias == currentUser {
                 me = contact
+            } else {
+                contacts.append(contact)
             }
-
-            contacts.append(contact)
         }
     }
 }
