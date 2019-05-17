@@ -21,7 +21,7 @@ This app uses fake users fetched from our backend system. We provide access to t
 
 To get basic support please submit an Issue
 
-If you prefer commercial support, please contact bandyer.com by mail: mailto:info@bandyer.com.
+If you prefer commercial support, please contact bandyer.com sending an email at: [info@bandyer.com](mailto:info@bandyer.com.)
 
 ## Credits
 
