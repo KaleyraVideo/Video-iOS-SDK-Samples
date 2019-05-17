@@ -11,7 +11,7 @@ class CallOptionsItem : NSCopying{
     var maximumDuration:UInt
     
     init(){
-        type = .audioVideoCallType
+        type = .audioVideo
         record = false
         maximumDuration = 0
     }

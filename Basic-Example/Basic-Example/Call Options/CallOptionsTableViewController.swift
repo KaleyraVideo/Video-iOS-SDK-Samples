@@ -35,10 +35,10 @@ class CallOptionsTableViewController : UITableViewController{
     
         if indexPath.section == 0 {
             switch indexPath.row{
-                case 0: options.type = .audioVideoCallType
-                case 1: options.type = .audioUpgradableCallType
-                case 2: options.type = .audioOnlyCallType
-                default: options.type = .audioVideoCallType
+                case 0: options.type = .audioVideo
+                case 1: options.type = .audioUpgradable
+                case 2: options.type = .audioOnly
+                default: options.type = .audioVideo
             }
 
             tableView.reloadData()
