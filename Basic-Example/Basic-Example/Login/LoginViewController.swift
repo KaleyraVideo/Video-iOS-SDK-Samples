@@ -82,7 +82,7 @@ class LoginViewController : UITableViewController{
     //MARK: Login
 
     func loginUsers(){
-        BandyerSDK.instance().callClient.add(self, queue: DispatchQueue.main)
+        BandyerSDK.instance().callClient.add(observer: self, queue: .main)
         BandyerSDK.instance().callClient.start(selectedUserId!)
     }
 

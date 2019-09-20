@@ -24,7 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //Here we are telling the SDK we want to work in a sandbox environment.
         //Beware the default environment is production, we strongly recommend to test your app in a sandbox environment.
-        config.environment = BDKEnvironment.sandbox
+        config.environment = .sandbox
+
+        //Here we are disabling CallKit support
+        config.isCallKitEnabled = false
         
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
