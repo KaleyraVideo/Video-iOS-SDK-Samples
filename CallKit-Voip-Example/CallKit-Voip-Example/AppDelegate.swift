@@ -4,15 +4,13 @@
 
 import UIKit
 import PushKit
+import Intents
 import BandyerSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var registry: PKPushRegistry?
-    var pendingPayload: PKPushPayload?
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //Before we can get started, you must review your project configuration, and enable the required
@@ -40,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Here we are telling the SDK we want to work in a sandbox environment.
         //Beware the default environment is production, we strongly recommend to test your app in a sandbox environment.
-        config.environment = BDKEnvironment.sandbox
+        config.environment = .sandbox
         
         //On iOS 10 and above this statement is not needed, the default configuration object
         //enables CallKit by default, it is here for completeness sake
@@ -69,36 +67,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let callKitIcon = UIImage(named: "callkit-icon")
         config.nativeUITemplateIconImageData = callKitIcon?.pngData()
 
+        //The following statement is going to tell the BandyerSDK which object it must forward device push tokens to when one is received.
+        config.pushRegistryDelegate = self
+
+        //This statement is going to tell the BandyerSDK where to look for incoming call information within the VoIP push notifications it receives
+        config.notificationPayloadKeyPath = "SET YOUR PAYLOAD KEY PATH HERE";
+
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: "YOUR_APP_ID", config: config)
 
-        //We subscribe to the call client in order to be informed when the client is ready to handle notifications payload
-        BandyerSDK.instance().callClient.add(self, queue: DispatchQueue.main)
-        
-        //Here we are initializing the push kit registry
-        registry = PKPushRegistry(queue: DispatchQueue.main)
-        registry?.delegate = self
-        registry?.desiredPushTypes = [.voIP]
-        
         return true
-    }
-    
-    func handlePushPayload(_ payload:PKPushPayload?){
-        
-        guard let p = payload else {
-            return
-        }
-        
-        
-        let dictionaryPayload = p.dictionaryPayload as NSDictionary
-        
-        //You must change the keypath otherwise notifications won't be handled by the sdk
-        let incomingCallPayload = dictionaryPayload.value(forKeyPath: "KEYPATH_TO_DATA_DICTIONARY") as! [AnyHashable : Any]
-        
-        //We ask the client to handle the notification payload
-        BandyerSDK.instance().callClient.handleNotification(incomingCallPayload)
-
-        //If everything went fine, client observers `callClient:didReceiveIncomingCall:` method will get invoked
     }
 }
 
@@ -107,50 +85,6 @@ extension AppDelegate : PKPushRegistryDelegate{
         let token = pushCredentials.token.map { String(format: "%02.2hhx", $0) }.joined()
         debugPrint("Push credentials updated \(token), you should send them to your backend system")
     }
-
-    //Beware! starting from iOS 12 this method is being deprecated. However, you should not implement the new method
-    //(the one with the completion closure... https://developer.apple.com/documentation/pushkit/pkpushregistrydelegate/2875784-pushregistry)
-    //otherwise you are not going to be able to receive incoming calls when the app is started
-    //from background or has moved to background. This issue will be resolved in an upcoming SDK release.
-    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
-        switch BandyerSDK.instance().callClient.state {
-        case .running:
-            //If the client is running we hand it the push payload
-            handlePushPayload(payload)
-        case .paused:
-            //Otherwise if the client is paused we first resume it and when it will notify us it has resumed we hand it
-            //the notification payload
-            pendingPayload = payload
-            BandyerSDK.instance().callClient.resume()
-            
-            //Beware, if the client is stopped you must first start it and then only when it notifies it has started
-            //you can hand it the notification payload. In this sample app we are going to start the client in the
-            //Login view controller. The login view controller will be presented even if the app is started in background
-        default:
-            pendingPayload = payload
-        }
-    }
-}
-
-extension AppDelegate : BCXCallClientObserver{
-    
-    public func callClientDidStart(_ client: BCXCallClient) {
-        guard pendingPayload != nil else{
-            return
-        }
-        
-        handlePushPayload(pendingPayload)
-        pendingPayload = nil
-    }
-    
-    public func callClientDidResume(_ client: BCXCallClient) {
-        guard pendingPayload != nil else{
-            return
-        }
-        
-        handlePushPayload(pendingPayload)
-        pendingPayload = nil
-    }
 }
 
 extension AppDelegate {
@@ -158,17 +92,23 @@ extension AppDelegate {
         //When System call ui is shown to the user, it will show a "video" button if the call supports it.
         //The code below will handle the siri intent received from the system and it will hand it to the call view controller
         //if the controller is presented
-        
-        if userActivity.interaction?.intent is INStartVideoCallIntent{
-            let vc = self.visibleController(window?.rootViewController)
-            
-            if vc is BDKCallViewController{
-                let callController = vc! as! BDKCallViewController
-                callController.handle(userActivity.interaction?.intent as! INStartVideoCallIntent)
+
+        if #available(iOS 13.0, *) {
+            guard let callIntent = userActivity.interaction?.intent as? INStartCallIntent else { return false}
+            guard let callController = visibleController(window?.rootViewController) as? CallViewController else { return false }
+
+            callController.handle(startCallIntent: callIntent)
+            return true
+        } else {
+            if #available(iOS 10.0, *) {
+                guard let videoCallIntent = userActivity.interaction?.intent as? INStartVideoCallIntent else { return false}
+                guard let callController = visibleController(window?.rootViewController) as? CallViewController else { return false }
+
+                callController.handle(startVideoCallIntent: videoCallIntent)
                 return true
             }
         }
-        
+
         return false
     }
     
@@ -178,7 +118,7 @@ extension AppDelegate {
             return nil
         }
         
-        if visibleVC.presentedViewController != nil{
+        if visibleVC.presentedViewController != nil {
             if visibleVC.presentedViewController is UINavigationController {
                 let navController = visibleVC.presentedViewController as! UINavigationController
                 return visibleController(navController.viewControllers.last)

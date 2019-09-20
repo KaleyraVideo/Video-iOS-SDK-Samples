@@ -37,7 +37,7 @@ class ContactsViewController: UIViewController {
         disableMultipleSelection(false)
 
         //When view loads we register as a client observer, in order to receive notifications about incoming calls received and client state changes.
-        BandyerSDK.instance().callClient.add(self, queue: DispatchQueue.main)
+        BandyerSDK.instance().callClient.add(observer: self, queue: .main)
     }
 
     //MARK: Calls
@@ -139,7 +139,7 @@ class ContactsViewController: UIViewController {
 
             //Here we are configuring the BDKCallViewController instance created from the storyboard.
             //A `BDKCallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
-            let config = BDKCallViewControllerConfiguration()
+            let config = CallViewControllerConfiguration()
 
             let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
 
@@ -158,7 +158,7 @@ class ContactsViewController: UIViewController {
             //and provide those information to the view controller
             config.userInfoFetcher = UserInfoFetcher(addressBook!)
 
-            let controller = segue.destination as! BDKCallViewController
+            let controller = segue.destination as! CallViewController
 
             //Remember to subscribe as the delegate of the view controller. The view controller will notify its delegate when it has finished its
             //job
@@ -169,7 +169,7 @@ class ContactsViewController: UIViewController {
             controller.setConfiguration(config)
 
             //Then we tell the view controller what it should do.
-            controller.handle(intent!)
+            controller.handle(intent: intent!)
 
         }
     }
@@ -359,9 +359,13 @@ extension ContactsViewController{
 }
 
 //MARK: Call view controller delegate
-extension ContactsViewController : BDKCallViewControllerDelegate{
-    public func callViewControllerDidFinish(_ controller: BDKCallViewController) {
+extension ContactsViewController : CallViewControllerDelegate{
+    public func callViewControllerDidFinish(_ controller: CallViewController) {
         dismiss(animated: true, completion: nil)
+    }
+
+    public func callViewController(_ controller: CallViewController, openChatWith participantId: String) {
+
     }
 }
 
