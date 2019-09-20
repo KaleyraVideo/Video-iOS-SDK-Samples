@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //is received. You should provide the name of the sound resource in the app bundle that is going to be used as
         //ringtone. If you don't set this value, the SDK will use the default system ringtone.
         
-        //config.nativeUIRingToneSound = @"MyRingtoneSound";
+        //config.nativeUIRingToneSound = "MyRingtoneSound"
         
         //The following statements are going to change the app icon shown in the system call UI. When the user answers
         //a call from the lock screen or when the app is not in foreground and a call is in progress, the system
@@ -71,7 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.pushRegistryDelegate = self
 
         //This statement is going to tell the BandyerSDK where to look for incoming call information within the VoIP push notifications it receives
-        config.notificationPayloadKeyPath = "SET YOUR PAYLOAD KEY PATH HERE";
+        config.notificationPayloadKeyPath = "SET YOUR PAYLOAD KEY PATH HERE"
 
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: "YOUR_APP_ID", config: config)
