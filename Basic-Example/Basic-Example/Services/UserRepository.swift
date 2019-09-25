@@ -56,7 +56,7 @@ class UserRepository {
                 let json = try JSONSerialization.jsonObject(with: data!)
 
                 self.queue.async {
-                    var decodedData = json as! [String: [String]]
+                    let decodedData = json as! [String: [String]]
                     completion(decodedData["user_id_list"], nil)
                 }
             } catch {
