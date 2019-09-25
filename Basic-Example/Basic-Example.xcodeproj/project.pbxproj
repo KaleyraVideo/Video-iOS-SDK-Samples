@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,7 @@
 		62DD2D6AD7FEEC68486DAFDA /* ContactsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD218D7B408938E27BB4D3 /* ContactsGenerator.swift */; };
 		62DD2DADE34897C56920F1FA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2C3446AE3CF2B6FD8874 /* LoginViewController.swift */; };
 		62DD2E6ED8FB132BC22A9AC5 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2B3F76C397824929A041 /* UserSession.swift */; };
+		A1DD897F233BB9F7001769DC /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DD897E233BB9F7001769DC /* ContactsNavigationController.swift */; };
 		A8D1B3A022504BB04B688201 /* Pods_Basic_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E8EC3071AFD69BC51FBEAD /* Pods_Basic_Example.framework */; };
 		A9AB7E7322244512001FADA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AB7E7222244512001FADA6 /* AppDelegate.swift */; };
 		A9AB7E7822244512001FADA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9AB7E7622244512001FADA6 /* Main.storyboard */; };
@@ -238,6 +239,7 @@
 		62DD2C3446AE3CF2B6FD8874 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		62DD2CD0F8D5D0D883830624 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		62DD2FEBCF6B7716B797A9AF /* CallOptionsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallOptionsItem.swift; sourceTree = "<group>"; };
+		A1DD897E233BB9F7001769DC /* ContactsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
 		A9AB7E6F22244512001FADA6 /* Basic-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Basic-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9AB7E7222244512001FADA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9AB7E7722244512001FADA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 			isa = PBXGroup;
 			children = (
 				62DD2BC1A38D46FF18451FA2 /* ContactsViewController.swift */,
+				A1DD897E233BB9F7001769DC /* ContactsNavigationController.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -1098,6 +1101,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1DD897F233BB9F7001769DC /* ContactsNavigationController.swift in Sources */,
 				A9AB7E7322244512001FADA6 /* AppDelegate.swift in Sources */,
 				62DD202670553350AA1E2434 /* CallOptionsItem.swift in Sources */,
 				62DD2515D11B00C87A28F96A /* CallOptionsTableViewController.swift in Sources */,
@@ -1256,6 +1260,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TQ49746752;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Basic-Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1274,6 +1280,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TQ49746752;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Basic-Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

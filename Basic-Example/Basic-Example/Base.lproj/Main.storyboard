@@ -77,7 +77,7 @@
                                 <action selector="logoutBarButtonTouchedWithSender:" destination="4FH-Ta-Shf" id="vDg-oT-4d3"/>
                             </connections>
                         </barButtonItem>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="wnl-XX-JrK">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="wnl-XX-JrK">
                             <rect key="frame" x="97" y="6" width="181" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -97,27 +97,11 @@
                         <outlet property="tableView" destination="Kw3-uw-QRK" id="Poq-SC-cka"/>
                         <outlet property="userBarButtonItem" destination="h5V-fD-C9j" id="yXJ-Hl-VCS"/>
                         <segue destination="FTF-y7-ioi" kind="show" identifier="showOptionsSegue" id="w5o-ji-bSA"/>
-                        <segue destination="Vjx-cu-BPD" kind="presentation" identifier="showCallSegue" modalPresentationStyle="fullScreen" id="ZA1-XO-TrY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OWd-in-Stc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2187" y="132"/>
-        </scene>
-        <!--Call View Controller-->
-        <scene sceneID="Lp7-xb-nhp">
-            <objects>
-                <viewController id="Vjx-cu-BPD" customClass="BDKCallViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="H61-GF-d9d">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Sdw-Ty-unN"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KEh-Sz-sJc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2187" y="907"/>
         </scene>
         <!--Select Options-->
         <scene sceneID="hpt-E5-vR8">
@@ -299,10 +283,10 @@
             </objects>
             <point key="canvasLocation" x="49" y="133"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Contacts Navigation Controller-->
         <scene sceneID="5Lo-5h-Ma2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ocs-Yn-HrP" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ocs-Yn-HrP" customClass="ContactsNavigationController" customModule="Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3wZ-l1-l8D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
