@@ -32,8 +32,7 @@ class ContactsViewController: UIViewController {
     private var intent: BDKIntent?
     
     private let callBannerController = CallBannerController()
-    private let messageNotificationController = MessageNotificationController()
-    
+
     //MARK: View
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,23 +45,18 @@ class ContactsViewController: UIViewController {
         
         callBannerController.delegate = self
         callBannerController.parentViewController = self
-        
-        messageNotificationController.delegate = self
-        messageNotificationController.parentViewController = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         callBannerController.show()
-        messageNotificationController.show()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         callBannerController.hide()
-        messageNotificationController.hide()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -166,33 +160,7 @@ class ContactsViewController: UIViewController {
             controller.delegate = self
         }
     }
-    
-    //MARK: Present Chat ViewController
-    private func presentChat(from notification: ChatNotification) {
-        
-        if presentedViewController == nil {
-            presentChat(from: self, notification: notification)
-        }
-    }
-    
-    private func presentChat(from controller: UIViewController, notification: ChatNotification) {
-        
-        guard let intent = OpenChatIntent.openChat(from: notification) else {
-            return
-        }
-        presentChat(from: self, intent: intent)
-    }
-    
-    private func presentChat(from controller: UIViewController, intent: OpenChatIntent) {
-        
-        let channelViewController = ChannelViewController()
-        channelViewController.delegate = self
-        channelViewController.intent = intent
-        
-        controller.present(channelViewController, animated: true)
-    }
-    
-    
+
     //MARK: Present Call ViewController
     
     private func performCallViewControllerPresentation() {
@@ -446,59 +414,7 @@ extension ContactsViewController: CallWindowDelegate {
     }
     
     func callWindow(_ window: CallWindow, openChatWith intent: OpenChatIntent) {
-        hideCallViewController()
-        presentChat(from: self, intent: intent)
-    }
-}
-
-//MARK: Channel view controller delegate
-extension ContactsViewController: ChannelViewControllerDelegate {
-    func channelViewControllerDidFinish(_ controller: ChannelViewController) {
-        controller.dismiss(animated: true)
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, didTouch notification: ChatNotification) {
-        
-        let presentedChannelVC = presentedViewController as? ChannelViewController
-        
-        if presentedChannelVC != nil {
-            controller.dismiss(animated: true) { [weak self] in
-                self?.presentChat(from: notification)
-            }
-        } else {
-           presentChat(from: notification)
-        }
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, didTouch banner: CallBannerView) {
-        controller.dismiss(animated: true) { [weak self] in
-            self?.performCallViewControllerPresentation()
-        }
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, willHide banner: CallBannerView) {
-        restoreStatusBarAppearance()
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, willShow banner: CallBannerView) {
-        setStatusBarAppearanceToLight()
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {
-        intent = BDKMakeCallIntent(callee: users, type: .audioUpgradable)
-        self.performCallViewControllerPresentation()
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, didTapVideoCallWith users: [String]) {
-        intent = BDKMakeCallIntent(callee: users, type: .audioVideo)
-        self.performCallViewControllerPresentation()
-    }
-}
-
-//MARK: Message Notification Controller delegate
-extension ContactsViewController: MessageNotificationControllerDelegate {
-    func messageNotificationController(_ controller: MessageNotificationController, didTouch notification: ChatNotification) {
-        presentChat(from: notification)
+        //Do nothing since chat is not supported on this project
     }
 }
 

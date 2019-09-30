@@ -1,5 +1,7 @@
-// Copyright © 2019 Bandyer. All rights reserved.
-// See LICENSE for licensing information
+//
+// Created by Luca Tagliabue on 2019-11-30.
+// Copyright (c) 2019 Bandyer. All rights reserved.
+//
 
 import UIKit
 

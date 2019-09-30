@@ -128,7 +128,14 @@ extension LoginViewController : BCXCallClientObserver{
 extension LoginViewController{
 
     func showActivityIndicatorInNavigationBar(){
-        let indicator = UIActivityIndicatorView(style: .gray)
+        
+        let style: UIActivityIndicatorView.Style
+        if #available(iOS 13.0, *) {
+            style = .medium
+        } else {
+            style = .gray
+        }
+        let indicator = UIActivityIndicatorView(style: style)
         indicator.startAnimating()
         let item = UIBarButtonItem(customView: indicator)
         navigationItem.setRightBarButton(item, animated: true)
