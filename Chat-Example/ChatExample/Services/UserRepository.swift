@@ -29,7 +29,7 @@ class UserRepository {
 
     func fetchAllUsers(_ completion: @escaping ([String]?,Error?) -> Void){
 
-        precondition(url != nil)
+        precondition(url != nil, "An url must be provided")
 
         guard !isFetching else {
             queue.async {

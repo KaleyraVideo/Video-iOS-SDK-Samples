@@ -43,7 +43,8 @@ class ContactsViewController: UIViewController {
         
         //When view loads we register as a client observer, in order to receive notifications about incoming calls received and client state changes.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
-        
+
+        //When view loads we have to setup custom view controllers.
         callBannerController.delegate = self
         callBannerController.parentViewController = self
         
@@ -284,7 +285,7 @@ class ContactsViewController: UIViewController {
 }
 
 //MARK: Table view data source
-extension ContactsViewController : UITableViewDataSource{
+extension ContactsViewController: UITableViewDataSource {
     
     public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -310,7 +311,7 @@ extension ContactsViewController : UITableViewDataSource{
 }
 
 //MARK: Table view delegate
-extension ContactsViewController : UITableViewDelegate{
+extension ContactsViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if selectedContacts.contains(indexPath){
@@ -330,7 +331,7 @@ extension ContactsViewController : UITableViewDelegate{
 }
 
 //MARK: Call client observer
-extension ContactsViewController : BCXCallClientObserver{
+extension ContactsViewController: BCXCallClientObserver {
     
     public func callClient(_ client: BCXCallClient, didReceiveIncomingCall call: BCXCall) {
         receiveIncomingCall()
@@ -398,7 +399,7 @@ extension ContactsViewController {
 }
 
 //MARK: Toast
-extension ContactsViewController{
+extension ContactsViewController {
     
     func showToast(message:String, color:UIColor){
         hideToast()
