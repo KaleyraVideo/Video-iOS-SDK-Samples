@@ -10,7 +10,6 @@ class ContactsViewController: UIViewController {
     //MARK: Constants
     private let cellIdentifier = "userCellId"
     private let optionsSegueIdentifier = "showOptionsSegue"
-    private let callSegueIdentifier = "showCallSegue"
 
     //MARK: Outlets and subviews
 
@@ -23,11 +22,16 @@ class ContactsViewController: UIViewController {
     private var activityBarButtonItem: UIBarButtonItem?
     private var toastView: UIView?
 
+    private var callWindow: CallWindow?
+
     var addressBook: AddressBook?
 
     private var selectedContacts:[IndexPath] = []
     private var options:CallOptionsItem = CallOptionsItem()
     private var intent: BDKIntent?
+
+    private let callBannerController = CallBannerController()
+    private let messageNotificationController = MessageNotificationController()
 
     //MARK: View
     override func viewDidLoad() {
@@ -38,6 +42,34 @@ class ContactsViewController: UIViewController {
 
         //When view loads we register as a client observer, in order to receive notifications about incoming calls received and client state changes.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
+
+        callBannerController.delegate = self
+        callBannerController.parentViewController = self
+
+        //When view loads we have to setup custom view controllers.
+        messageNotificationController.delegate = self
+        messageNotificationController.parentViewController = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        callBannerController.show()
+        messageNotificationController.show()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        callBannerController.hide()
+        messageNotificationController.hide()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+
+        callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
+
+        super.viewWillTransition(to: size, with: coordinator)
     }
 
     //MARK: Calls
@@ -64,20 +96,17 @@ class ContactsViewController: UIViewController {
 
         intent = BDKMakeCallIntent(callee: aliases, type: options.type, record: options.record, maximumDuration: options.maximumDuration)
 
-        //Then we trigger a segue to a BDKCallViewController.
-        performSegue(withIdentifier: callSegueIdentifier, sender: self)
+        //Then we trigger a presentation of BDKCallViewController.
+        performCallViewControllerPresentation()
     }
 
     func receiveIncomingCall(){
 
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use,
-        //then we trigger a segue to a BDKCallViewController.
+        //then we trigger a presentation of BDKCallViewController.
         intent = BDKIncomingCallHandlingIntent()
-        performSegue(withIdentifier: callSegueIdentifier, sender: self)
-
-        //If you don't use a storyboard you should create a BDKCallViewController instance, configure it, hand it the intent object created
-        //Finally you can present it.
+        performCallViewControllerPresentation()
     }
 
     //MARK: Enable / Disable multiple selection
@@ -135,48 +164,127 @@ class ContactsViewController: UIViewController {
             let controller = segue.destination as! CallOptionsTableViewController
             controller.options = options
             controller.delegate = self
-        } else if segue.identifier == callSegueIdentifier {
-
-            //Here we are configuring the BDKCallViewController instance created from the storyboard.
-            //A `BDKCallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
-            let config = CallViewControllerConfiguration()
-
-            let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
-
-            guard let path = filePath else {
-                fatalError("The fake file for the file capturer could not be found")
-            }
-
-            //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
-            let url = URL(fileURLWithPath:path)
-            config.fakeCapturerFileURL = url
-
-            //This statement tells the view controller which object, conforming to `BDKUserInfoFetcher` protocol, should use to present contact
-            //information in its views.
-            //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
-            //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
-            //and provide those information to the view controller
-            config.userInfoFetcher = UserInfoFetcher(addressBook!)
-
-            let controller = segue.destination as! CallViewController
-
-            //Remember to subscribe as the delegate of the view controller. The view controller will notify its delegate when it has finished its
-            //job
-            controller.delegate = self
-
-            //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
-            //view is loaded, otherwise an exception is thrown.
-            controller.setConfiguration(config)
-
-            //Then we tell the view controller what it should do.
-            controller.handle(intent: intent!)
-
         }
+    }
+
+    //MARK: Present Chat ViewController
+    private func presentChat(from notification: ChatNotification) {
+
+        if presentedViewController == nil {
+            presentChat(from: self, notification: notification)
+        }
+    }
+
+    private func presentChat(from controller: UIViewController, notification: ChatNotification) {
+
+        guard let intent = OpenChatIntent.openChat(from: notification) else {
+            return
+        }
+        presentChat(from: self, intent: intent)
+    }
+
+    private func presentChat(from controller: UIViewController, intent: OpenChatIntent) {
+
+        let channelViewController = ChannelViewController()
+        channelViewController.delegate = self
+        channelViewController.intent = intent
+
+        controller.present(channelViewController, animated: true)
+    }
+
+
+    //MARK: Present Call ViewController
+
+    private func performCallViewControllerPresentation() {
+
+        prepareForCallViewControllerPresentation()
+
+        //Here we tell the call window what it should do and we present the BDKCallViewController if there is no another call in progress.
+        //Otherwise you should manage the behaviour, for example with a UIAlert warning.
+
+        callWindow?.shouldPresentCallViewController(intent: intent, completion: { [weak self] succeeded in
+            if (!succeeded) {
+                let alert = UIAlertController(title: "Warning", message: "Another call ongoing.", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "Ok", style: .default) { (_) in
+                    alert.dismiss(animated: true)
+                }
+                alert.addAction(defaultAction)
+                self?.present(alert, animated: true)
+            }
+        })
+    }
+
+    private func prepareForCallViewControllerPresentation() {
+        initCallWindowIfNeeded()
+
+        //Here we are configuring the BDKCallViewController instance created from the storyboard.
+        //A `BDKCallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
+        let config = CallViewControllerConfiguration()
+
+        let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
+
+        guard let path = filePath else {
+            fatalError("The fake file for the file capturer could not be found")
+        }
+
+        //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
+        let url = URL(fileURLWithPath:path)
+        config.fakeCapturerFileURL = url
+
+        //This statement tells the view controller which object, conforming to `BDKUserInfoFetcher` protocol, should use to present contact
+        //information in its views.
+        //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
+        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
+        //and provide those information to the view controller
+        config.userInfoFetcher = UserInfoFetcher(addressBook!)
+
+        //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
+        //view is loaded, otherwise an exception is thrown.
+        callWindow?.setConfiguration(config)
+    }
+
+    private func initCallWindowIfNeeded() {
+        //Please remember to reference the call window only once in order to avoid the reset of BDKCallViewController.
+        guard callWindow == nil else { return }
+
+        //Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
+        let window: CallWindow
+
+        if let instance = CallWindow.instance {
+            window = instance
+        } else {
+            //This will automatically save the new instance inside BDKCallWindow.instance.
+            window = CallWindow()
+        }
+
+        //Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its
+        //job
+        window.callDelegate = self
+
+        callWindow = window
+    }
+
+    //MARK: Hide Call ViewController
+
+    private func hideCallViewController() {
+        callWindow?.isHidden = true
+    }
+
+    //MARK: StatusBar appearance
+
+    private func restoreStatusBarAppearance() {
+        let rootNavigationController = navigationController as? ContactsNavigationController
+        rootNavigationController?.restoreStatusBarAppearance()
+    }
+
+    private func setStatusBarAppearanceToLight() {
+        let rootNavigationController = navigationController as? ContactsNavigationController
+        rootNavigationController?.setStatusBarAppearance(.lightContent)
     }
 }
 
 //MARK: Table view data source
-extension ContactsViewController : UITableViewDataSource{
+extension ContactsViewController: UITableViewDataSource {
 
     public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -202,7 +310,7 @@ extension ContactsViewController : UITableViewDataSource{
 }
 
 //MARK: Table view delegate
-extension ContactsViewController : UITableViewDelegate{
+extension ContactsViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         if selectedContacts.contains(indexPath){
@@ -222,7 +330,7 @@ extension ContactsViewController : UITableViewDelegate{
 }
 
 //MARK: Call client observer
-extension ContactsViewController : BCXCallClientObserver{
+extension ContactsViewController: BCXCallClientObserver {
 
     public func callClient(_ client: BCXCallClient, didReceiveIncomingCall call: BCXCall) {
         receiveIncomingCall()
@@ -324,7 +432,7 @@ extension ContactsViewController {
 }
 
 //MARK: Toast
-extension ContactsViewController{
+extension ContactsViewController {
 
     func showToast(message:String, color:UIColor){
         hideToast()
@@ -358,20 +466,89 @@ extension ContactsViewController{
     }
 }
 
-//MARK: Call view controller delegate
-extension ContactsViewController : CallViewControllerDelegate{
-    public func callViewControllerDidFinish(_ controller: CallViewController) {
-        dismiss(animated: true, completion: nil)
-    }
-
-    public func callViewController(_ controller: CallViewController, openChatWith participantId: String) {
-
-    }
-}
-
 //MARK: Call options controller delegate
 extension ContactsViewController : CallOptionsTableViewControllerDelegate {
     func controllerDidUpdateOptions(_ controller: CallOptionsTableViewController) {
         options = controller.options
+    }
+}
+
+//MARK: Call window delegate
+extension ContactsViewController: CallWindowDelegate {
+    func callWindowDidFinish(_ window: CallWindow) {
+        hideCallViewController()
+    }
+
+    func callWindow(_ window: CallWindow, openChatWith intent: OpenChatIntent) {
+        hideCallViewController()
+        presentChat(from: self, intent: intent)
+    }
+}
+
+//MARK: Channel view controller delegate
+extension ContactsViewController: ChannelViewControllerDelegate {
+    func channelViewControllerDidFinish(_ controller: ChannelViewController) {
+        controller.dismiss(animated: true)
+    }
+
+    func channelViewController(_ controller: ChannelViewController, didTouch notification: ChatNotification) {
+
+        let presentedChannelVC = presentedViewController as? ChannelViewController
+
+        if presentedChannelVC != nil {
+            controller.dismiss(animated: true) { [weak self] in
+                self?.presentChat(from: notification)
+            }
+        } else {
+            presentChat(from: notification)
+        }
+    }
+
+    func channelViewController(_ controller: ChannelViewController, didTouch banner: CallBannerView) {
+        controller.dismiss(animated: true) { [weak self] in
+            self?.performCallViewControllerPresentation()
+        }
+    }
+
+    func channelViewController(_ controller: ChannelViewController, willHide banner: CallBannerView) {
+        restoreStatusBarAppearance()
+    }
+
+    func channelViewController(_ controller: ChannelViewController, willShow banner: CallBannerView) {
+        setStatusBarAppearanceToLight()
+    }
+
+    func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {
+        intent = BDKMakeCallIntent(callee: users, type: .audioUpgradable)
+        self.performCallViewControllerPresentation()
+    }
+
+    func channelViewController(_ controller: ChannelViewController, didTapVideoCallWith users: [String]) {
+        intent = BDKMakeCallIntent(callee: users, type: .audioVideo)
+        self.performCallViewControllerPresentation()
+    }
+}
+
+//MARK: Message Notification Controller delegate
+extension ContactsViewController: MessageNotificationControllerDelegate {
+    func messageNotificationController(_ controller: MessageNotificationController, didTouch notification: ChatNotification) {
+        presentChat(from: notification)
+    }
+}
+
+//MARK: Call Banner Controller delegate
+extension ContactsViewController: CallBannerControllerDelegate {
+    func callBannerController(_ controller: CallBannerController, didTouch banner: CallBannerView) {
+        //Please remember to override the current call intent with the one saved inside call window.
+        intent = callWindow?.intent
+        performCallViewControllerPresentation()
+    }
+
+    func callBannerController(_ controller: CallBannerController, willShow banner: CallBannerView) {
+        setStatusBarAppearanceToLight()
+    }
+
+    func callBannerController(_ controller: CallBannerController, willHide banner: CallBannerView) {
+        restoreStatusBarAppearance()
     }
 }
