@@ -54,6 +54,8 @@ class LoginViewController : UITableViewController{
     func refreshUsers(){
         refreshControl?.beginRefreshing()
 
+        //Here we are fetching user information from our backend system.
+        //We are doing this in order to have the list of available users we can impersonate.
         repository.fetchAllUsers { aliases, error in
             self.refreshControl?.endRefreshing()
 
@@ -82,8 +84,17 @@ class LoginViewController : UITableViewController{
     //MARK: Login
 
     func loginUsers(){
+        //Once the end user has selected which user wants to impersonate, we start the SDK client.
+
+        //We are registering as a call client observer in order to be notified when the client changes its state.
+        //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
+        //otherwise the SDK will notify the observer onto its background internal queue.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
+
+        //Then we start the call client providing the "user alias" of the user selected.
         BandyerSDK.instance().callClient.start(selectedUserId!)
+
+        //Here we start the chat client, providing the "user alias" of the user selected.
         BandyerSDK.instance().chatClient.start(userId: selectedUserId!)
     }
 
@@ -131,7 +142,6 @@ extension LoginViewController{
     func showActivityIndicatorInNavigationBar(){
         
         let style: UIActivityIndicatorView.Style
-
         if #available(iOS 13.0, *) {
             style = .medium
         } else {
