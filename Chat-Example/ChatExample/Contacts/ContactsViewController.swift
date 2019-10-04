@@ -68,6 +68,7 @@ class ContactsViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
+         //Remember to call viewWillTransitionTo on custom view controllers to update UI while rotating.
         callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
         messageNotificationController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
         
