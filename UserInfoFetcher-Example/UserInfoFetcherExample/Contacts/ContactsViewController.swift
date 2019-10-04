@@ -45,8 +45,26 @@ class ContactsViewController: UIViewController {
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 
         //When view loads we have to setup custom view controllers.
+        setupBannerView()
+        setupNotificationView()
+    }
+
+    private func setupBannerView() {
         callBannerController.delegate = self
         callBannerController.parentViewController = self
+    }
+
+    private func setupNotificationView() {
+    
+        //Here we are configuring the notification view
+        
+        //WARNING!!! If userInfoFetcher is set, the global userInfoFetcher will be overridden.
+        let userInfoFetcher = NotificationUserInfoFetcher(addressBook: addressBook!)
+            
+        //Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one. The same result is achieved without setting the configuration property.
+            
+        let configuration = MessageNotificationControllerConfiguration(userInfoFetcher: userInfoFetcher)
+        messageNotificationController.configuration = configuration;
         
         messageNotificationController.delegate = self
         messageNotificationController.parentViewController = self
@@ -190,6 +208,23 @@ class ContactsViewController: UIViewController {
         
         let channelViewController = ChannelViewController()
         channelViewController.delegate = self
+       
+        //Here we are configuring the channel view controller:
+        // if audioButton is true, the channel view controller will show audio button on nav bar;
+        // if videoButton is true, the channel view controller will show video button on nav bar;
+        // if userInfoFetcher is set, the global userInfoFetcher will be overridden. WARNING!!!
+        
+        let userInfoFetcher = ChatUserInfoFetcher(addressBook: addressBook!)
+        
+         //Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one. The same result is achieved without setting the configuration property.
+        let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: userInfoFetcher)
+        
+        //let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, userInfoFetcher: nil)
+        
+        //If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: nil)
+        channelViewController.configuration = configuration;
+
+        //Please make sure to set intent after configuration, otherwise the configuration will be not taking in charge.
         channelViewController.intent = intent
         
         controller.present(channelViewController, animated: true)
@@ -234,12 +269,11 @@ class ContactsViewController: UIViewController {
         let url = URL(fileURLWithPath:path)
         config.fakeCapturerFileURL = url
         
-        //This statement tells the view controller which object, conforming to `BDKUserInfoFetcher` protocol, should use to present contact
-        //information in its views.
+        //This statement tells the view controller which object, conforming to `BDKUserInfoFetcher` protocol, should use to present contact information in its views.
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
-        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
-        //and provide those information to the view controller
-        config.userInfoFetcher = UserInfoFetcher(addressBook!)
+        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system and provide those information to the view controller.
+        //WARNING!!! If userInfoFetcher is set, the one set at initialization time will be overriden.
+        config.userInfoFetcher = CallUserInfoFetcher(addressBook: addressBook!)
 
         //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
         //view is loaded, otherwise an exception is thrown.

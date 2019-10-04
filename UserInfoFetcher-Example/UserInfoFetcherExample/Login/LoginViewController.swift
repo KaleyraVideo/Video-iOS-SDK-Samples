@@ -68,6 +68,12 @@ class LoginViewController : UITableViewController{
             }
 
             self.userIds = users
+            
+            //Here we are setting the AddressBook to our custom UserInfoFetcher to let BandyerSDK use it.
+            
+            let addressBook = AddressBook(users)
+            
+            GlobalUserInfoFetcher.instance?.addressBook = addressBook
 
             guard self.selectedUserId != nil else {
                 return

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32DC9188CD5587C51C08B477 /* CallUserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC9FBE55E4D4B2830DF0E1 /* CallUserInfoFetcher.swift */; };
+		32DC91D3EE1D7B4DF6D5E782 /* GlobalUserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC9EF8F690CF07912F2B9F /* GlobalUserInfoFetcher.swift */; };
+		32DC94EABC14CB270A8B3663 /* ChatUserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC973068E7B9819161025D /* ChatUserInfoFetcher.swift */; };
+		32DC9879C390DE26703F990E /* ContactsMapGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC95FEEBB704150A5E2ED2 /* ContactsMapGenerator.swift */; };
+		32DC9D4015A7889B68F13E54 /* NotificationUserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC9EDE44B04BAFCBF1AFE3 /* NotificationUserInfoFetcher.swift */; };
 		742E397D0728041EDCC74952 /* Pods_UserInfoFetcherExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E597B1F12EC86C9B2F9FC0C /* Pods_UserInfoFetcherExample.framework */; };
 		A11283BB2347390500F035DC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11282E02347390400F035DC /* LoginViewController.swift */; };
 		A11283BC2347390500F035DC /* CallOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11282E22347390400F035DC /* CallOptionsTableViewController.swift */; };
@@ -216,7 +221,6 @@
 		A11284882347390500F035DC /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11283B22347390500F035DC /* Contact.swift */; };
 		A11284892347390500F035DC /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11283B42347390500F035DC /* UserRepository.swift */; };
 		A112848A2347390500F035DC /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11283B52347390500F035DC /* UserSession.swift */; };
-		A112848B2347390500F035DC /* UserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11283B62347390500F035DC /* UserInfoFetcher.swift */; };
 		A112848C2347390500F035DC /* ContactsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11283B72347390500F035DC /* ContactsGenerator.swift */; };
 		A112848D2347390500F035DC /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11283B92347390500F035DC /* ContactsViewController.swift */; };
 		A112848E2347390500F035DC /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11283BA2347390500F035DC /* ContactsNavigationController.swift */; };
@@ -227,6 +231,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32DC95FEEBB704150A5E2ED2 /* ContactsMapGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsMapGenerator.swift; sourceTree = "<group>"; };
+		32DC973068E7B9819161025D /* ChatUserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUserInfoFetcher.swift; sourceTree = "<group>"; };
+		32DC9EDE44B04BAFCBF1AFE3 /* NotificationUserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationUserInfoFetcher.swift; sourceTree = "<group>"; };
+		32DC9EF8F690CF07912F2B9F /* GlobalUserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalUserInfoFetcher.swift; sourceTree = "<group>"; };
+		32DC9FBE55E4D4B2830DF0E1 /* CallUserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallUserInfoFetcher.swift; sourceTree = "<group>"; };
 		423B811D5D54108F40EE82F9 /* Pods-UserInfoFetcherExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UserInfoFetcherExample.debug.xcconfig"; path = "Target Support Files/Pods-UserInfoFetcherExample/Pods-UserInfoFetcherExample.debug.xcconfig"; sourceTree = "<group>"; };
 		8AF2A035667CE8FD87387A59 /* Pods-UserInfoFetcherExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UserInfoFetcherExample.release.xcconfig"; path = "Target Support Files/Pods-UserInfoFetcherExample/Pods-UserInfoFetcherExample.release.xcconfig"; sourceTree = "<group>"; };
 		9E597B1F12EC86C9B2F9FC0C /* Pods_UserInfoFetcherExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UserInfoFetcherExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -438,7 +447,6 @@
 		A11283B22347390500F035DC /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		A11283B42347390500F035DC /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		A11283B52347390500F035DC /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
-		A11283B62347390500F035DC /* UserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoFetcher.swift; sourceTree = "<group>"; };
 		A11283B72347390500F035DC /* ContactsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
 		A11283B92347390500F035DC /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		A11283BA2347390500F035DC /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
@@ -477,6 +485,17 @@
 				8AF2A035667CE8FD87387A59 /* Pods-UserInfoFetcherExample.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		A111BA422347B9EA00E14669 /* UserInfoFetcher */ = {
+			isa = PBXGroup;
+			children = (
+				32DC9EDE44B04BAFCBF1AFE3 /* NotificationUserInfoFetcher.swift */,
+				32DC9FBE55E4D4B2830DF0E1 /* CallUserInfoFetcher.swift */,
+				32DC973068E7B9819161025D /* ChatUserInfoFetcher.swift */,
+				32DC9EF8F690CF07912F2B9F /* GlobalUserInfoFetcher.swift */,
+			);
+			path = UserInfoFetcher;
 			sourceTree = "<group>";
 		};
 		A11282DF2347390400F035DC /* Login */ = {
@@ -732,10 +751,11 @@
 		A11283B32347390500F035DC /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A111BA422347B9EA00E14669 /* UserInfoFetcher */,
 				A11283B42347390500F035DC /* UserRepository.swift */,
 				A11283B52347390500F035DC /* UserSession.swift */,
-				A11283B62347390500F035DC /* UserInfoFetcher.swift */,
 				A11283B72347390500F035DC /* ContactsGenerator.swift */,
+				32DC95FEEBB704150A5E2ED2 /* ContactsMapGenerator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1112,7 +1132,11 @@
 				A11284872347390500F035DC /* AddressBook.swift in Sources */,
 				A11283BD2347390500F035DC /* CallOptionsItem.swift in Sources */,
 				A112848A2347390500F035DC /* UserSession.swift in Sources */,
-				A112848B2347390500F035DC /* UserInfoFetcher.swift in Sources */,
+				32DC9879C390DE26703F990E /* ContactsMapGenerator.swift in Sources */,
+				32DC9188CD5587C51C08B477 /* CallUserInfoFetcher.swift in Sources */,
+				32DC94EABC14CB270A8B3663 /* ChatUserInfoFetcher.swift in Sources */,
+				32DC91D3EE1D7B4DF6D5E782 /* GlobalUserInfoFetcher.swift in Sources */,
+				32DC9D4015A7889B68F13E54 /* NotificationUserInfoFetcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
