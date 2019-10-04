@@ -69,6 +69,7 @@ class ContactsViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
+        messageNotificationController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
         
         super.viewWillTransition(to: size, with: coordinator)
     }
