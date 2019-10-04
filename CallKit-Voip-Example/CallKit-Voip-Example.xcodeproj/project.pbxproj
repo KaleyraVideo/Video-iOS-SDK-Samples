@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -233,6 +233,7 @@
 		32DC9E4F96E5416BC7F4345E /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
 		3DA579B5A6A8A0D7EC5CC2D3 /* Pods-CallKit-Voip-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CallKit-Voip-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-CallKit-Voip-Example/Pods-CallKit-Voip-Example.release.xcconfig"; sourceTree = "<group>"; };
 		9623817767E677256F468091 /* Pods_CallKit_Voip_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CallKit_Voip_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A14C11C223478E6500AA97B7 /* CallKit-Voip-Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CallKit-Voip-Example.entitlements"; sourceTree = "<group>"; };
 		A9B7246A22255FAB00D421D1 /* CallKit-Voip-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CallKit-Voip-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B7246D22255FAB00D421D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9B7247222255FAB00D421D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -498,6 +499,7 @@
 		A9B7246C22255FAB00D421D1 /* CallKit-Voip-Example */ = {
 			isa = PBXGroup;
 			children = (
+				A14C11C223478E6500AA97B7 /* CallKit-Voip-Example.entitlements */,
 				A9B726322225905B00D421D1 /* Call Options */,
 				A9B726352225905B00D421D1 /* Contacts */,
 				A9B7270B2225905C00D421D1 /* Login */,
@@ -1267,6 +1269,7 @@
 			baseConfigurationReference = 18948756C3DF79871FE23329 /* Pods-CallKit-Voip-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "CallKit-Voip-Example/CallKit-Voip-Example.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "CallKit-Voip-Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1285,6 +1288,7 @@
 			baseConfigurationReference = 3DA579B5A6A8A0D7EC5CC2D3 /* Pods-CallKit-Voip-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "CallKit-Voip-Example/CallKit-Voip-Example.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "CallKit-Voip-Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
