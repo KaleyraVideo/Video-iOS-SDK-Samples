@@ -79,15 +79,11 @@ class ContactsViewController: UIViewController {
     
     func startOutgoingCall(){
         
-        //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call
-        //we want to be performed, along with any call option.
-        
-        var aliases:[String] = []
+        //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
         
         //Here we create the array containing the "user aliases" we want to contact.
-        for contactIndex in selectedContacts {
-            let alias: String = (addressBook?.contacts[contactIndex.row].alias)!
-            aliases.append(alias)
+        let aliases = selectedContacts.compactMap { (contactIndex) -> String? in
+            return addressBook?.contacts[contactIndex.row].alias
         }
         
         //Then we create the intent providing the aliases array (which is a required parameter) along with the type of call we want perform.
