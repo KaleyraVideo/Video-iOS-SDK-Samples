@@ -4,13 +4,12 @@
 
 import Foundation
 
-class ContactsMapGenerator: NSObject {
+class ContactsMapGenerator {
 
     private let addressBook: AddressBook
     
     init(with addressBook: AddressBook) {
         self.addressBook = addressBook
-        super.init()
     }
     
     func createAliasMap() -> [String: Contact] {
