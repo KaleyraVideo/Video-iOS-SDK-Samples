@@ -23,7 +23,7 @@ class NotificationUserInfoFetcher: NSObject, BDKUserInfoFetcher {
                 return nil
             }
             
-             //Suppose for a notification we want to show only first name and the user profile image
+            //Suppose for a notification we want to show only first name and the user profile image.
             let item = BDKUserInfoDisplayItem(alias: alias)
             item.firstName = contact.firstName
             item.imageURL = contact.profileImageURL

@@ -23,7 +23,7 @@ class CallUserInfoFetcher: NSObject, BDKUserInfoFetcher {
                 return nil
             }
             
-            //Suppose for a call we want to show only first name, last name and the user profile image
+            //Suppose for a call we want to show only first name, last name and the user profile image.
             let item = BDKUserInfoDisplayItem(alias: alias)
             item.firstName = contact.firstName
             item.lastName = contact.lastName

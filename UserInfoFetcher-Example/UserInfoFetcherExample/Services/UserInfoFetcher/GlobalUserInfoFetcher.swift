@@ -34,7 +34,7 @@ class GlobalUserInfoFetcher: NSObject, BDKUserInfoFetcher {
                 return nil
             }
             
-            //Suppose globally we want to have all the fields availabile.
+            //Suppose globally we want to have all the fields available.
             let item = BDKUserInfoDisplayItem(alias: alias)
             item.firstName = contact.firstName
             item.lastName = contact.lastName
