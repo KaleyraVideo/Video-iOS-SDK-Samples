@@ -78,7 +78,7 @@ let window: CallWindow
 if let instance = CallWindow.instance {
     window = instance
 } else {
-//This will automatically save the new instance inside CallWindow.instance.
+    //This will automatically save the new instance inside CallWindow.instance.
     window = CallWindow()
 }
 
