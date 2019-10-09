@@ -17,6 +17,14 @@ This repository is meant to provide some examples for you to better understand h
 4. Open the project in Xcode using the `.xcworkspace` file just created.
 5. Use the API Key obtained where needed.
 
+## Support
+
+From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki). You will easly find guides to all the Bandyer world! 
+
+To get basic support please submit an Issue. We will help you as soon as possible.
+
+If you prefer commercial support, please contact bandyer.com sending an email at: [info@bandyer.com](mailto:info@bandyer.com.)
+
 ## License
 
 Using this software, you agree to our license. For more details, see [LICENSE](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/blob/master/LICENSE) file.
