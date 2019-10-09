@@ -219,8 +219,8 @@ If you prefer commercial support, please contact bandyer.com sending an email at
 
 ## Credits
 
-- Sample video file taken from https://sample-videos.com/
-- Sample user profile images taken from https://randomuser.me/
+- Sample video file taken from [Sample Videos](https://sample-videos.com/).
+- Sample user profile images taken from [RANDOM USER GENERATOR](https://randomuser.me/).
 - Icons are part of the [Feather icon set](https://www.iconfinder.com/iconsets/feather-2) by [Cole Bemis](https://www.iconfinder.com/colebemis) distributed under [Creative Commons Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/) downloaded from [Iconfinder](https://www.iconfinder.com/) website.
 
 ## License
