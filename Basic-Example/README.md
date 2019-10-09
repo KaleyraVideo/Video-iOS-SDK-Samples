@@ -24,7 +24,7 @@ If your backend system already provides Bandyer "user alias" for your users, the
 
 In this demo app, all the integration work is already done for you. In this section we will explain how to take advantage of the basic feature provided by Bandyer SDK in another app.
 
-###Initialization
+### Initialization
 
 First of all you have to initialize the SDK using the unique instance of [BandyerSDK](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BandyerSDK.html) and configure it using [BDKConfig](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKConfig.html) class. Yuo can follow this code snippet:
 
@@ -45,7 +45,7 @@ BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", conf
 ```
 In the demo project, we did it inside `AppDelegate` class, but you can do everywhere you need, just before using our SDK.
 
-###SDK Start
+### SDK Start
 
 Once the end user has selected which user wants to impersonate, you have to start the SDK client. 
 
@@ -62,7 +62,7 @@ BandyerSDK.instance().callClient.start("SELECTED USER ID")
 ```
 Yuor class responsible of starting the client has the possibility to become an observer of the [BCXCallClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCXCallClient.html) lifecycle, implementing the [BCXCallClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCXCallClientObserver.html). Once the `callClientDidStart` callback is fired, you can start to interact with our system.
 
-###Make a Call
+### Make a Call
 
 In order to make a call, we provide you a custom `UIWindow`: the [CallWindow](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/CallWindow.html).
 
@@ -76,10 +76,10 @@ guard callWindow == nil else { return }
 let window: CallWindow
 
 if let instance = CallWindow.instance {
-	window = instance
+    window = instance
 } else {
 //This will automatically save the new instance inside CallWindow.instance.
-	window = CallWindow()
+    window = CallWindow()
 }
 
 //Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its job
@@ -98,7 +98,7 @@ let config = CallViewControllerConfiguration()
 let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
         
 guard let path = filePath else {
-	fatalError("The fake file for the file capturer could not be found")
+    fatalError("The fake file for the file capturer could not be found")
 }
         
 //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
@@ -124,7 +124,7 @@ Once the CalllWindow is inited and the CallViewController is properly configured
         
 //Here we create the array containing the "user aliases" we want to contact.
 let aliases = selectedContacts.compactMap { (contactIndex) -> String? in
-	return addressBook?.contacts[contactIndex.row].alias
+    return addressBook?.contacts[contactIndex.row].alias
 }
         
 //Then we create the intent providing the aliases array (which is a required parameter) along with the type of call we want perform.
@@ -149,18 +149,18 @@ Since there must be only one ongoing call at a time, the CallViewController will
 //Otherwise you should manage the behaviour, for example with a UIAlert warning.
         
 callWindow?.shouldPresentCallViewController(intent: intent, completion: { [weak self] succeeded in
-	if (!succeeded) {
-		let alert = UIAlertController(title: "Warning", message: "Another call ongoing.", preferredStyle: .alert)
+    if (!succeeded) {
+	let alert = UIAlertController(title: "Warning", message: "Another call ongoing.", preferredStyle: .alert)
       	let defaultAction = UIAlertAction(title: "Ok", style: .default) { (_) in
-       		alert.dismiss(animated: true)
+       	    alert.dismiss(animated: true)
        	}
        	alert.addAction(defaultAction)
       	self?.present(alert, animated: true)
-	}
+    }
 })
 ```
 
-###Call Banner View
+### Call Banner View
 
 When there is an ongoing call but the CallViewController is not presented, your view controller can show a green banner view just under the status bar. The custom `UIView` that the SDK will show is the [CallBannerView](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/CallBannerView.html).
 
@@ -183,15 +183,15 @@ When your view controller is hidden you have to tell the call banner controller 
 
 ```swift
 override func viewWillAppear(_ animated: Bool) {
-	super.viewWillAppear(animated)
+    super.viewWillAppear(animated)
         
-   callBannerController.show()
+    callBannerController.show()
 }
  
 override func viewWillDisappear(_ animated: Bool) {
-	super.viewWillDisappear(animated)
+    super.viewWillDisappear(animated)
         
-   callBannerController.hide()
+    callBannerController.hide()
 } 
 ```
 
