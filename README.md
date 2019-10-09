@@ -8,6 +8,7 @@ This repository is meant to provide some examples for you to better understand h
 - [**CallKit-Voip-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/CallKit-Voip-Example): This application shows you how it's easy and simple to integrate CallKit and Voip notifications capabilities with Bandyer in your app.
 - [**Chat-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/Chat-Example): This application show you how it's easy integrate chat capability in your app using Bandyer.
 - [**UserInfoFetcher-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UserInfoFetcher-Example): This application show you how to customize the appearance of user information displayed using Bandyer.
+- **More coming soon**
 
 ## General Quick Start
 
