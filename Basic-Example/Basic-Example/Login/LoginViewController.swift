@@ -82,7 +82,11 @@ class LoginViewController : UITableViewController{
     //MARK: Login
 
     func loginUsers(){
+        //We are registering as a call client observer in order to be notified when the client changes its state.
+        //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
+        //otherwise the SDK will notify the observer onto its background internal queue.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
+        //Then we start the call client providing the "user alias" of the user selected.
         BandyerSDK.instance().callClient.start(selectedUserId!)
     }
 

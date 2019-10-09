@@ -98,9 +98,9 @@ class ContactsViewController: UIViewController {
     func receiveIncomingCall(){
         
         //When the client detects an incoming call it will notify its observers through this method.
-        //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use,
-        //then we trigger a presentation of CallViewController.
+        //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use.
         intent = BDKIncomingCallHandlingIntent()
+        //Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
     }
     
@@ -168,7 +168,7 @@ class ContactsViewController: UIViewController {
     
         prepareForCallViewControllerPresentation()
 
-        //Here we tell the call window what it should do and we present the BDKCallViewController if there is no another call in progress.
+        //Here we tell the call window what it should do and we present the CallViewController if there is no another call in progress.
         //Otherwise you should manage the behaviour, for example with a UIAlert warning.
         
         callWindow?.shouldPresentCallViewController(intent: intent, completion: { [weak self] succeeded in
