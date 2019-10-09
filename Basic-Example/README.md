@@ -105,16 +105,16 @@ guard let path = filePath else {
 let url = URL(fileURLWithPath:path)
 config.fakeCapturerFileURL = url
         
- //This statement tells the view controller which object, conforming to `UserInfoFetcher` protocol, should use to present contact
- //information in its views.
- //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
- //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
- //and provide those information to the view controller
+//This statement tells the view controller which object, conforming to `UserInfoFetcher` protocol, should use to present contact
+//information in its views.
+//The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
+//using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
+//and provide those information to the view controller
  config.userInfoFetcher = UserInfoFetcher(addressBook!)
 
- //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
- //view is loaded, otherwise an exception is thrown.
- callWindow?.setConfiguration(config)
+//Here, we set the configuration object created. You must set the view controller configuration object before the view controller
+//view is loaded, otherwise an exception is thrown.
+callWindow?.setConfiguration(config)
 ```
 
 Once the CalllWindow is inited and the CallViewController is properly configured, you can present it, passing an implementation of [BDKIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BDKIntent.html) protocol to the CallWindow. In this sample app, we support two kind of call: outgoing and incoming, so there are two implementations of intent for the same ([BDKMakeCallIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKMakeCallIntent.html) and [BDKIncomingCallHandlingIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKIncomingCallHandlingIntent.html)).
@@ -199,11 +199,11 @@ Since the size of the banner changes with orientation, you have to update the UI
 
 ```swift
 override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+
+    //Remember to call viewWillTransitionTo on custom view controller to update UI while rotating.
+    callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
         
-	//Remember to call viewWillTransitionTo on custom view controller to update UI while rotating.
-	callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
-        
-	super.viewWillTransition(to: size, with: coordinator)
+    super.viewWillTransition(to: size, with: coordinator)
 }
 ```
 
