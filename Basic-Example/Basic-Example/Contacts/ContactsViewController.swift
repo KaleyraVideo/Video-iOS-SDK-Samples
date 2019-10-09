@@ -37,12 +37,17 @@ class ContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //When view loads we have to setup custom view controller.
+        setupCallBannerView()
+        
         userBarButtonItem.title = UserSession.currentUser
         disableMultipleSelection(false)
         
-        //When view loads we register as a client observer, in order to receive notifications about incoming calls received and client state changes.
+        //When view loads we register as a call client observer, in order to receive notifications about incoming calls received and client state changes.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
-        
+    }
+    
+    private func setupCallBannerView() {
         callBannerController.delegate = self
         callBannerController.parentViewController = self
     }
@@ -82,12 +87,11 @@ class ContactsViewController: UIViewController {
         //The record flag specifies whether we want the call to be recorded or not.
         //The maximumDuration parameter specifies how long the call can last.
         //If you provide 0, the call will be created without a maximum duration value.
-        //We store the intent for later use, because we are using storyboards. When this view controller is asked to prepare for segue
-        //we are going to hand the intent to the `BDKCallViewController` created by the storyboard
+        //We store the intent for later use, because we can present again the CallViewController with the same call.
         
         intent = BDKMakeCallIntent(callee: aliases, type: options.type, record: options.record, maximumDuration: options.maximumDuration)
         
-        //Then we trigger a presentation of BDKCallViewController.
+        //Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
     }
     
@@ -95,7 +99,7 @@ class ContactsViewController: UIViewController {
         
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use,
-        //then we trigger a presentation of BDKCallViewController.
+        //then we trigger a presentation of CallViewController.
         intent = BDKIncomingCallHandlingIntent()
         performCallViewControllerPresentation()
     }
@@ -182,8 +186,8 @@ class ContactsViewController: UIViewController {
     private func prepareForCallViewControllerPresentation() {
         initCallWindowIfNeeded()
         
-        //Here we are configuring the BDKCallViewController instance created from the storyboard.
-        //A `BDKCallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
+        //Here we are configuring the CallViewController instance.
+        //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
         
         let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
@@ -196,7 +200,7 @@ class ContactsViewController: UIViewController {
         let url = URL(fileURLWithPath:path)
         config.fakeCapturerFileURL = url
         
-        //This statement tells the view controller which object, conforming to `BDKUserInfoFetcher` protocol, should use to present contact
+        //This statement tells the view controller which object, conforming to `UserInfoFetcher` protocol, should use to present contact
         //information in its views.
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
@@ -209,7 +213,7 @@ class ContactsViewController: UIViewController {
     }
 
     private func initCallWindowIfNeeded() {
-        //Please remember to reference the call window only once in order to avoid the reset of BDKCallViewController.
+        //Please remember to reference the call window only once in order to avoid the reset of CallViewController.
         guard callWindow == nil else { return }
        
         //Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
@@ -218,7 +222,7 @@ class ContactsViewController: UIViewController {
         if let instance = CallWindow.instance {
             window = instance
         } else {
-            //This will automatically save the new instance inside BDKCallWindow.instance.
+            //This will automatically save the new instance inside CallWindow.instance.
             window = CallWindow()
         }
 
