@@ -10,9 +10,8 @@ This example is only related to let users make and receive a call. For other exa
 2. Install [CocoaPods](https://guides.cocoapods.org/using/getting-started.html#getting-started) .
 3. In terminal, `cd` to the sample project directory you are interested in and type `pod install`.
 4. Open the project in Xcode using the `.xcworkspace` file just created.
-5. Add `NSCameraUsageDescription` and `NSMicrophoneUsageDescription` keys to the app's Info.plist file.
-6. Replace "PUT YOUR APP ID HERE" placeholder inside `AppDelegate` class with the app id provided. 
-7. Replace the app bundle identifier and set up code signing if you want to run the example on a real device.
+5. Replace "PUT YOUR APP ID HERE" placeholder inside `AppDelegate` class with the app id provided. 
+6. Replace the app bundle identifier and set up code signing if you want to run the example on a real device.
 
 ## Caveats
 
@@ -22,7 +21,12 @@ If your backend system already provides Bandyer "user alias" for your users, the
 
 ## Usage
 
-In this demo app, all the integration work is already done for you. In this section we will explain how to take advantage of the basic feature provided by Bandyer SDK in another app.
+In this demo app, all the integration work is already done for you. In this section we will explain how to take advantage of the feature provided by Bandyer SDK in another app.
+
+### Setup
+
+Before we dive into the details of how the SDK must be configured and initialized, you should add `NSCameraUsageDescription` and `NSMicrophoneUsageDescription` keys into app Info.plist, otherwise your app is going to crash anytime it tries to access camera
+or microphone devices.
 
 ### Initialization
 
