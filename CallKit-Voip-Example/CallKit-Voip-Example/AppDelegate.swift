@@ -14,15 +14,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //Before we can get started, you must review your project configuration, and enable the required
-        //app capabilities for CallKit and Voip notifications.
+        //app capabilities for CallKit and VoIP notifications.
         //
         //Namely, you must enable "Background modes" capability
         //checking "Audio, AirPlay and Picture in Picture" and "Voice over IP" checkboxes on.
-        //You must also enable "Push notifications" capability even if you use VOIP notifications only.
+        //You must also enable "Push notifications" capability even if you use VoIP notifications only.
         //
         //Privacy usage descriptions:
         //You must add NSCameraUsageDescription and NSMicrophoneUsageDescription to your app Info.plist file.
-        //Those values are required to access microphone and camera. In this example app, those values have been already added for you
+        //Those values are required to access microphone and camera. In this example app, those values have been already added for you.
         //
         //CallKit:
         //CallKit framework must be linked to your app and it must linked as a required framework,
@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //framework is linked as required framework
         
         //Here we are going to initialize the Bandyer SDK
-        //The sdk needs a configuration object where it is specified which environment the sdk should work in
+        //The sdk needs a configuration object where it is specified which environment the sdk should work in.
         let config = BDKConfig()
         
         //Here we are telling the SDK we want to work in a sandbox environment.
@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.notificationPayloadKeyPath = "SET YOUR PAYLOAD KEY PATH HERE"
 
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
-        BandyerSDK.instance().initialize(withApplicationId: "YOUR_APP_ID", config: config)
+        BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
 
         return true
     }
