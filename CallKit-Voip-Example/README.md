@@ -81,7 +81,7 @@ config.pushRegistryDelegate = self
 config.notificationPayloadKeyPath = "SET YOUR PAYLOAD KEY PATH HERE"
 
 //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
-BandyerSDK.instance().initialize(withApplicationId: "YOUR_APP_ID", config: config)
+BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
 
 ```
 In the demo project, we did it inside `AppDelegate` class, but you can do everywhere you need, just before using our SDK.
