@@ -24,7 +24,7 @@ From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/B
 
 To get basic support please submit an Issue. We will help you as soon as possible.
 
-If you prefer commercial support, please contact bandyer.com sending an email at: [info@bandyer.com](mailto:info@bandyer.com.)
+If you prefer commercial support, please contact bandyer.com sending an email at: [info@bandyer.com](mailto:info@bandyer.com).
 
 ## License
 
