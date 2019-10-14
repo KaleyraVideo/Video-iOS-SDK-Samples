@@ -3,7 +3,7 @@
 
 import UIKit
 
-@objc protocol CallOptionsTableViewControllerDelegate{
+protocol CallOptionsTableViewControllerDelegate{
     func controllerDidUpdateOptions(_ controller:CallOptionsTableViewController) -> Void
 }
 

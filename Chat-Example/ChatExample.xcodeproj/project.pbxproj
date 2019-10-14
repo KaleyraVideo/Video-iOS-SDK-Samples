@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32DC976C48D588A729E768CE /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC9A22E88822AFD9566805 /* ContactTableViewCell.swift */; };
 		884107236D8620B06EBCD483 /* Pods_ChatExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0323BAA8804BD7E9346A0BB /* Pods_ChatExample.framework */; };
 		A1126A3F234260B000A3FFBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126A3E234260B000A3FFBA /* AppDelegate.swift */; };
 		A1126A46234260B000A3FFBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1126A44234260B000A3FFBA /* Main.storyboard */; };
@@ -227,6 +228,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32DC9A22E88822AFD9566805 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		A1126A3B234260B000A3FFBA /* ChatExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1126A3E234260B000A3FFBA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1126A45234260B000A3FFBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -784,6 +786,7 @@
 			children = (
 				A1126B322342618400A3FFBA /* ContactsViewController.swift */,
 				A1126B332342618400A3FFBA /* ContactsNavigationController.swift */,
+				32DC9A22E88822AFD9566805 /* ContactTableViewCell.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -1125,6 +1128,7 @@
 				A1126C072342618500A3FFBA /* CallOptionsTableViewController.swift in Sources */,
 				A1126A3F234260B000A3FFBA /* AppDelegate.swift in Sources */,
 				A1126B3C2342618400A3FFBA /* Contact.swift in Sources */,
+				32DC976C48D588A729E768CE /* ContactTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

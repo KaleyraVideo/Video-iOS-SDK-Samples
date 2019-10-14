@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4h3-CB-z7x">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4h3-CB-z7x">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--Contacts View Controller-->
         <scene sceneID="i6T-2V-678">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="4FH-Ta-Shf" customClass="ContactsViewController" customModule="Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="4FH-Ta-Shf" customClass="ContactsViewController" customModule="ChatExample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Q5y-1U-XGq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -20,29 +20,67 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCellId" textLabel="xwd-OC-QS7" detailTextLabel="UYW-lJ-Xdd" rowHeight="60" style="IBUITableViewCellStyleSubtitle" id="cMc-4h-VCO">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCellId" rowHeight="60" id="wd2-wa-fqS" customClass="ContactTableViewCell" customModule="SDK_Sample" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cMc-4h-VCO" id="n32-J1-lr1">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wd2-wa-fqS" id="CfU-am-71W">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xwd-OC-QS7">
-                                                    <rect key="frame" x="15" y="10" width="33.5" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dB-mf-85F" userLabel="Title">
+                                                    <rect key="frame" x="20" y="10" width="33.5" height="23.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UYW-lJ-Xdd">
-                                                    <rect key="frame" x="15" y="33.5" width="44" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone" translatesAutoresizingMaskIntoConstraints="NO" id="6BU-x8-X0Z">
+                                                    <rect key="frame" x="23" y="38" width="9.5" height="9.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="6BU-x8-X0Z" secondAttribute="height" multiplier="1:1" id="SNn-NL-Gdr"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nnw-N0-Mg9" userLabel="Subtitle">
+                                                    <rect key="frame" x="37.5" y="35.5" width="44" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqg-PE-FOr" userLabel="Chat">
+                                                    <rect key="frame" x="322" y="8" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="vqg-PE-FOr" secondAttribute="height" multiplier="1:1" id="8Zv-Aj-Ddh"/>
+                                                        <constraint firstAttribute="width" constant="44" id="lQx-BR-Z4x"/>
+                                                    </constraints>
+                                                    <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                                    <state key="normal" image="chat">
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="didTouchChatButton:" destination="wd2-wa-fqS" eventType="touchUpInside" id="ZF3-OR-ciD"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="5dB-mf-85F" firstAttribute="leading" secondItem="CfU-am-71W" secondAttribute="leading" constant="20" id="3fd-Er-Bbh"/>
+                                                <constraint firstItem="vqg-PE-FOr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5dB-mf-85F" secondAttribute="trailing" constant="8" symbolic="YES" id="4Q8-0K-cMU"/>
+                                                <constraint firstItem="6BU-x8-X0Z" firstAttribute="centerY" secondItem="Nnw-N0-Mg9" secondAttribute="centerY" id="5GO-of-sSL"/>
+                                                <constraint firstItem="vqg-PE-FOr" firstAttribute="centerY" secondItem="CfU-am-71W" secondAttribute="centerY" id="VOs-gB-I7h"/>
+                                                <constraint firstItem="6BU-x8-X0Z" firstAttribute="height" secondItem="Nnw-N0-Mg9" secondAttribute="height" constant="-5" id="Zxb-T8-YUm"/>
+                                                <constraint firstAttribute="trailing" secondItem="vqg-PE-FOr" secondAttribute="trailing" constant="9" id="hDF-kR-8P3"/>
+                                                <constraint firstItem="6BU-x8-X0Z" firstAttribute="leading" secondItem="5dB-mf-85F" secondAttribute="leading" constant="3" id="jJV-t3-4x9"/>
+                                                <constraint firstItem="Nnw-N0-Mg9" firstAttribute="leading" secondItem="6BU-x8-X0Z" secondAttribute="trailing" constant="5" id="k6q-LJ-Nhf"/>
+                                                <constraint firstItem="vqg-PE-FOr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Nnw-N0-Mg9" secondAttribute="trailing" constant="8" symbolic="YES" id="lHY-KE-M8t"/>
+                                                <constraint firstItem="Nnw-N0-Mg9" firstAttribute="top" secondItem="5dB-mf-85F" secondAttribute="bottom" constant="2" id="mFB-mi-Ps0"/>
+                                                <constraint firstAttribute="bottom" secondItem="Nnw-N0-Mg9" secondAttribute="bottom" constant="10" id="p7l-f8-m26"/>
+                                                <constraint firstItem="5dB-mf-85F" firstAttribute="top" secondItem="CfU-am-71W" secondAttribute="top" constant="10" id="po3-xG-XcM"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="chatButton" destination="vqg-PE-FOr" id="boO-FY-Zek"/>
+                                            <outlet property="subtitleLabel" destination="Nnw-N0-Mg9" id="lFD-9v-WhB"/>
+                                            <outlet property="titleLabel" destination="5dB-mf-85F" id="Uo7-tt-QZA"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -106,7 +144,7 @@
         <!--Select Options-->
         <scene sceneID="hpt-E5-vR8">
             <objects>
-                <tableViewController id="FTF-y7-ioi" customClass="CallOptionsTableViewController" customModule="Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="FTF-y7-ioi" customClass="CallOptionsTableViewController" customModule="ChatExample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="1tx-hQ-QLn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -241,7 +279,7 @@
         <!--Choose a user-->
         <scene sceneID="7QV-wl-Dfo">
             <objects>
-                <tableViewController id="Fma-V4-fjf" customClass="LoginViewController" customModule="Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Fma-V4-fjf" customClass="LoginViewController" customModule="ChatExample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jNV-nx-i5j">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -286,7 +324,7 @@
         <!--Contacts Navigation Controller-->
         <scene sceneID="5Lo-5h-Ma2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ocs-Yn-HrP" customClass="ContactsNavigationController" customModule="Basic_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ocs-Yn-HrP" customClass="ContactsNavigationController" customModule="ChatExample" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3wZ-l1-l8D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -325,7 +363,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chat" width="24" height="24"/>
         <image name="logout" width="24" height="24"/>
+        <image name="phone" width="24" height="24"/>
         <image name="settings" width="24" height="24"/>
     </resources>
 </document>

@@ -108,7 +108,7 @@ class ContactsViewController: UIViewController {
         performCallViewControllerPresentation()
     }
     
-    //MARK: Enable / Disable multiple selection
+    //MARK: Enabling / Disabling multiple selection
     
     func enableMultipleSelection(_ animated:Bool){
         tableView.allowsMultipleSelection = true
@@ -123,17 +123,45 @@ class ContactsViewController: UIViewController {
         
         tableView.setEditing(false, animated: animated)
     }
-    
-    
+
+    //MARK: Enabling / Disabling chat button
+
+    private func enableChatButtonOnVisibleCells() {
+
+        let cells = tableView.visibleCells as? [ContactTableViewCell]
+
+        cells?.forEach { cell in
+            UIView.animate(withDuration: 0.3, animations: {
+                cell.chatButton.alpha = 1
+            }, completion: { _ in
+                cell.chatButton.isEnabled = true
+            })
+        }
+    }
+
+    private func disableChatButtonOnVisibleCells() {
+
+        let cells = tableView.visibleCells as? [ContactTableViewCell]
+
+        cells?.forEach { cell in
+            cell.chatButton.isEnabled = false
+            UIView.animate(withDuration: 0.3, animations: {
+                cell.chatButton.alpha = 0
+            })
+        }
+    }
+
     //MARK: Actions
     @IBAction func callTypeValueChanged(sender:UISegmentedControl){
         if sender.selectedSegmentIndex == 0 {
             selectedContacts.removeAll()
             disableMultipleSelection(true)
             hideCallButtonFromNavigationBar(animated: true)
+            enableChatButtonOnVisibleCells()
         } else {
             enableMultipleSelection(true)
             showCallButtonInNavigationBar(animated: true)
+            disableChatButtonOnVisibleCells()
         }
     }
     
@@ -294,16 +322,25 @@ extension ContactsViewController: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ContactTableViewCell else {
+            fatalError("Only ContactTableViewCell type is supported")
+        }
+
+        cell.delegate = self
+
         let contact = addressBook?.contacts[indexPath.row]
         cell.textLabel?.text = contact?.fullName
         cell.detailTextLabel?.text = contact?.alias
-        
-        let image = UIImage(named: "phone")?.withRenderingMode(.alwaysTemplate)
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        cell.accessoryView = imageView
-        
+
+        if tableView.allowsMultipleSelection {
+            cell.chatButton.isEnabled = false
+            cell.chatButton.alpha = 0
+        } else {
+            cell.chatButton.isEnabled = false
+            cell.chatButton.alpha = 1
+        }
+
         return cell
     }
 }
@@ -515,5 +552,15 @@ extension ContactsViewController: CallBannerControllerDelegate {
     
     func callBannerController(_ controller: CallBannerController, willHide banner: CallBannerView) {
         restoreStatusBarAppearance()
+    }
+}
+
+//MARK: Contact table view cell delegate
+extension ContactsViewController: ContactTableViewCellDelegate {
+    func contactTableViewCell(_ cell: ContactTableViewCell, didTouch chatButton: UIButton, withCounterpart aliasId: String) {
+
+        let intent = OpenChatIntent.openChat(with: aliasId)
+
+        presentChat(from: self, intent: intent)
     }
 }
