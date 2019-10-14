@@ -45,9 +45,26 @@ class ContactsViewController: UIViewController {
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 
         //When view loads we have to setup custom view controllers.
+        setupBannerView()
+        setupNotificationView()
+    }
+
+    private func setupBannerView() {
         callBannerController.delegate = self
         callBannerController.parentViewController = self
-        
+    }
+
+    private func setupNotificationView() {
+
+        //Here we are configuring the notification view.
+
+        //WARNING!!! If userInfoFetcher is set, the global userInfoFetcher will be overridden.
+        let userInfoFetcher = UserInfoFetcher(addressBook!)
+
+        //Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one. The same result is achieved without setting the configuration property.
+        let configuration = MessageNotificationControllerConfiguration(userInfoFetcher: userInfoFetcher)
+        messageNotificationController.configuration = configuration
+
         messageNotificationController.delegate = self
         messageNotificationController.parentViewController = self
     }
@@ -211,11 +228,29 @@ class ContactsViewController: UIViewController {
     }
     
     private func presentChat(from controller: UIViewController, intent: OpenChatIntent) {
-        
+
         let channelViewController = ChannelViewController()
         channelViewController.delegate = self
+
+        //Here we are configuring the channel view controller:
+        // if audioButton is true, the channel view controller will show audio button on nav bar;
+        // if videoButton is true, the channel view controller will show video button on nav bar;
+        // if userInfoFetcher is set, the global userInfoFetcher will be overridden. WARNING!!!
+
+        let userInfoFetcher = UserInfoFetcher(addressBook!)
+
+        //Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one. The same result is achieved without setting the configuration property.
+        let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: userInfoFetcher)
+
+        //Otherwise you can use other initializer.
+        //let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, userInfoFetcher: nil)
+
+        //If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: nil)
+        channelViewController.configuration = configuration
+
+        //Please make sure to set intent after configuration, otherwise the configuration will be not taking in charge.
         channelViewController.intent = intent
-        
+
         controller.present(channelViewController, animated: true)
     }
     

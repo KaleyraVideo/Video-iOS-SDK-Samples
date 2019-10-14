@@ -18,15 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //if you haven't done so already, otherwise your app is going to crash anytime it tries to access camera
         //or microphone devices.
         
-        //Here we are going to initialize the Bandyer SDK
-        //The sdk needs a configuration object where it is specified which environment the sdk should work in
+        //Here we are going to initialize the Bandyer SDK.
+        //The sdk needs a configuration object where it is specified which environment the sdk should work in.
         let config = BDKConfig()
 
         //Here we are telling the SDK we want to work in a sandbox environment.
         //Beware the default environment is production, we strongly recommend to test your app in a sandbox environment.
         config.environment = .sandbox
 
-        //Here we are disabling CallKit support
+        //Here we are disabling CallKit support.
+        //Make sure to disable CallKit, otherwise it will be enable by default if the system supports CallKit (i.e iOS >= 10.0).
         config.isCallKitEnabled = false
         
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
