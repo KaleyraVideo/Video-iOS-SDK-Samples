@@ -3,12 +3,12 @@
 
 import UIKit
 
-protocol CallOptionsTableViewControllerDelegate{
+protocol CallOptionsTableViewControllerDelegate: class {
     func controllerDidUpdateOptions(_ controller:CallOptionsTableViewController) -> Void
 }
 
 class CallOptionsTableViewController : UITableViewController{
-    @IBOutlet var delegate :CallOptionsTableViewControllerDelegate?
+    weak var delegate :CallOptionsTableViewControllerDelegate?
     
     var options = CallOptionsItem()
 

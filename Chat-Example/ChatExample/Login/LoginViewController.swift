@@ -94,6 +94,11 @@ class LoginViewController : UITableViewController{
         //Then we start the call client providing the "user alias" of the user selected.
         BandyerSDK.instance().callClient.start(selectedUserId!)
 
+        //We are registering as a chat client observer in order to be notified when the client changes its state.
+        //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
+        //otherwise the SDK will notify the observer onto its background internal queue.
+        BandyerSDK.instance().chatClient.add(observer: self, queue: .main)
+
         //Here we start the chat client, providing the "user alias" of the user selected.
         BandyerSDK.instance().chatClient.start(userId: selectedUserId!)
     }
@@ -113,26 +118,30 @@ class LoginViewController : UITableViewController{
 
 extension LoginViewController : BCXCallClientObserver{
     public func callClientWillStart(_ client: BCXCallClient) {
-        view.isUserInteractionEnabled = false
-
-        showActivityIndicatorInNavigationBar()
+        clientsWillStart(chatClient: BandyerSDK.instance().chatClient, callClient: client)
     }
 
     public func callClientDidStart(_ client: BCXCallClient) {
-        guard presentedViewController == nil else{
-            return
-        }
-
-        UserSession.currentUser = selectedUserId
-
-        performSegue(withIdentifier: segueIdentifier, sender: self)
-        hideActivityIndicatorFromNavigationBar()
-        view.isUserInteractionEnabled = true
+        clientsDidStart(chatClient: BandyerSDK.instance().chatClient, callClient: client)
     }
 
     public func callClient(_ client: BCXCallClient, didFailWithError error: Error) {
-        hideActivityIndicatorFromNavigationBar()
-        view.isUserInteractionEnabled = true
+        clients(chatClient: BandyerSDK.instance().chatClient, callClient: client, didFailWithError: error)
+    }
+}
+
+extension LoginViewController : BCHChatClientObserver {
+
+    public func chatClientWillStart(_ client: BCHChatClient) {
+        clientsWillStart(chatClient: client, callClient: BandyerSDK.instance().callClient)
+    }
+
+    public func chatClientDidStart(_ client: BCHChatClient) {
+        clientsDidStart(chatClient: client, callClient: BandyerSDK.instance().callClient)
+    }
+
+    public func chatClient(_ client: BCHChatClient, didFailWithError error: Error) {
+        clients(chatClient: client, callClient: BandyerSDK.instance().callClient, didFailWithError: error)
     }
 }
 
@@ -155,6 +164,44 @@ extension LoginViewController{
 
     func hideActivityIndicatorFromNavigationBar(){
         navigationItem.setRightBarButton(nil, animated: true)
+    }
+}
+
+//MARK:  Clients observer wrapper
+extension LoginViewController {
+
+    private func clientsWillStart(chatClient: BCHChatClient, callClient: BCXCallClient) {
+        if callClient.state == .starting ||
+                   chatClient.state == .starting {
+            view.isUserInteractionEnabled = false
+            showActivityIndicatorInNavigationBar()
+        }
+    }
+
+    private func clientsDidStart(chatClient: BCHChatClient, callClient: BCXCallClient) {
+
+        if callClient.state == .running &&
+                   chatClient.state == .running {
+
+            guard presentedViewController == nil else{
+                return
+            }
+
+            UserSession.currentUser = selectedUserId
+
+            performSegue(withIdentifier: segueIdentifier, sender: self)
+            hideActivityIndicatorFromNavigationBar()
+            view.isUserInteractionEnabled = true
+        }
+    }
+
+    private func clients(chatClient: BCHChatClient, callClient: BCXCallClient, didFailWithError error: Error) {
+
+        if callClient.state == .stopped ||
+                   chatClient.state == .failed {
+            hideActivityIndicatorFromNavigationBar()
+            view.isUserInteractionEnabled = true
+        }
     }
 }
 
