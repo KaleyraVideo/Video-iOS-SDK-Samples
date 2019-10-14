@@ -60,7 +60,7 @@ BandyerSDK.instance().chatClient.add(observer: self, queue: .main)
 //Here we start the chat client, providing the "user alias" of the user selected.
 BandyerSDK.instance().chatClient.start(userId:"SELECTED USER ID")
 ```
-Your class responsible of starting the client has the possibility to become an observer of the [BCHChatClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCHChatClient.html) lifecycle, implementing the [BCHChatClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCHChatClientObserver.html). Once the `chatClientDidStart` callback is fired, you can start to interact with our system.
+Your class responsible of starting the client has the possibility to become an observer of the [BCHChatClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCHChatClient.html) life cycle, implementing the [BCHChatClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCHChatClientObserver.html). Once the `chatClientDidStart` callback is fired, you can start to interact with our system.
 
 ### Start a chat
 

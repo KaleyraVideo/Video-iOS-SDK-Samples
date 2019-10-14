@@ -13,7 +13,7 @@ This example is only related to manage CallKit and VoIP notifications. For other
 4. Open the project workspace in Xcode.
 5. Replace "PUT YOUR APP ID HERE" placeholder inside `AppDelegate` class with the app id provided. 
 6. Replace the app bundle identifier and set up code signing if you want to run the example on a real device.
-7. Replace "SET YOUR PAYLOAD KEY PATH HERE" keypath placeholder in `notificationPayloadKeyPath` property of configuration class.
+7. Replace "SET YOUR PAYLOAD KEY PATH HERE" key-path placeholder in `notificationPayloadKeyPath` property of configuration class.
 
 ## Caveats
 
@@ -31,7 +31,7 @@ Before we dive into the details of how the SDK must be configured and initialize
 or microphone devices.
 
 You must review your project configuration, and enable the required app capabilities for CallKit and VoIP notifications.
-Namely,  you must update your application capabilities turning on **Background Modes** and **Push Notifications** in your project **Capabilites** tab in Xcode. Flag `Audio, Airplay and Picture in Picture` and `Voice over IP` checkboxes on, under **Background modes** section.
+Namely,  you must update your application capabilities turning on **Background Modes** and **Push Notifications** in your project **Capabilities** tab in Xcode. Flag `Audio, Airplay and Picture in Picture` and `Voice over IP` checkboxes on, under **Background modes** section.
 
 **CallKit** framework must be linked to your app and it must linked as a required framework, otherwise the app will have a weird behaviour when it is launched upon receiving a VoIP notification. It is going to be launched, but the system is going to suspend it after few milliseconds.
 
@@ -141,7 +141,7 @@ For further usage guideline, you can visit our dedicated [Wiki page](https://git
 
 ## Support
 
-From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki). You will easly find guides to all the Bandyer world! 
+From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki). You will easily find guides to all the Bandyer world! 
 
 To get basic support please submit an Issue. We will help you as soon as possible.
 

@@ -5,7 +5,7 @@ This repository is meant to provide some examples for you to better understand h
 ## What's inside
 
 - [**Basic-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/Basic-Example):  This application is a basic example demonstrating the SDK capabilities and the features it provides.
-- [**CallKit-Voip-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/CallKit-Voip-Example): This application shows you how it's easy and simple to integrate CallKit and Voip notifications capabilities with Bandyer in your app.
+- [**CallKit-Voip-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/CallKit-Voip-Example): This application shows you how it's easy and simple to integrate CallKit and VoIP notifications capabilities with Bandyer in your app.
 - [**Chat-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/Chat-Example): This application show you how it's easy integrate chat capability in your app using Bandyer.
 - [**UserInfoFetcher-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UserInfoFetcher-Example): This application show you how to customize the appearance of user information displayed with Bandyer.
 - **More coming soon**
@@ -20,7 +20,7 @@ This repository is meant to provide some examples for you to better understand h
 
 ## Support
 
-From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki). You will easly find guides to all the Bandyer world! 
+From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki). You will easily find guides to all the Bandyer world! 
 
 To get basic support please submit an Issue. We will help you as soon as possible.
 

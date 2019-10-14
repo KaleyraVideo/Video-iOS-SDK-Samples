@@ -64,7 +64,7 @@ BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 //Then we start the call client providing the "user alias" of the user selected.
 BandyerSDK.instance().callClient.start("SELECTED USER ID")
 ```
-Yuor class responsible of starting the client has the possibility to become an observer of the [BCXCallClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCXCallClient.html) lifecycle, implementing the [BCXCallClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCXCallClientObserver.html). Once the `callClientDidStart` callback is fired, you can start to interact with our system.
+Your class responsible of starting the client has the possibility to become an observer of the [BCXCallClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCXCallClient.html) life cycle, implementing the [BCXCallClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCXCallClientObserver.html). Once the `callClientDidStart` callback is fired, you can start to interact with our system.
 
 ### Make a Call
 
@@ -170,13 +170,13 @@ When there is an ongoing call but the CallViewController is not presented, your 
 
 Yuo don't have to manage by yourself the behaviour of the banner, inside the SDK you can find the [CallBannerController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/CallBannerController.html) that does the job for you.
 
-You can easly init the controller using this code snippet:
+You can easily init the controller using this code snippet:
 
 ```swift
 let callBannerController = CallBannerController()
 ```
 
-Once inited, you have to setup the controller, attaching the delegate and the view controller. If you don't pass the parentViewController an exception will be throwed, since the call banner controller needs it to add the banner to your view hierarchy.
+Once inited, you have to setup the controller, attaching the delegate and the view controller. If you don't pass the parentViewController an exception will be thrown, since the call banner controller needs it to add the banner to your view hierarchy.
 
 ```swift
 callBannerController.delegate = self
@@ -215,7 +215,7 @@ On `ContactsViewController` class you can find all this code snippets working an
 
 ## Support
 
-From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki). You will easly find guides to all the Bandyer world! 
+From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki). You will easily find guides to all the Bandyer world! 
 
 To get basic support please submit an Issue. We will help you as soon as possible.
 
