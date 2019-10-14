@@ -56,7 +56,7 @@ class ContactsViewController: UIViewController {
 
     private func setupNotificationView() {
     
-        //Here we are configuring the notification view
+        //Here we are configuring the notification view.
         
         //WARNING!!! If userInfoFetcher is set, the global userInfoFetcher will be overridden.
         let userInfoFetcher = NotificationUserInfoFetcher(addressBook: addressBook!)
