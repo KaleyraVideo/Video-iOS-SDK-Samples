@@ -91,7 +91,7 @@ let configuration = ChannelViewControllerConfiguration(audioButton: true, videoB
 channelViewController.configuration = configuration
 ```
 
-Once the ChannelViewController is properly configured, you have to pass an instance of [OpenChatIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/OpenChatIntent.html) to the it. You can open the chat controller directly with the counterpart id or from a `ChatNotification` instance.
+Once the ChannelViewController is properly configured, you have to pass an instance of [OpenChatIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/OpenChatIntent.html) to it. You can open the channel controller directly with the counterpart id or from a `ChatNotification` instance.
 
 ```swift
 let intent = OpenChatIntent.openChat(with: "Counterpart ID")
