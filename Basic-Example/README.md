@@ -173,7 +173,7 @@ Yuo don't have to manage by yourself the behaviour of the banner, inside the SDK
 You can easly init the controller using this code snippet:
 
 ```swift
-private let callBannerController = CallBannerController()
+let callBannerController = CallBannerController()
 ```
 
 Once inited, you have to setup the controller, attaching the delegate and the view controller. If you don't pass the parentViewController an exception will be throwed, since the call banner controller needs it to add the banner to your view hierarchy.
