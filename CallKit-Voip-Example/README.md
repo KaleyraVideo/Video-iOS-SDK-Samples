@@ -39,7 +39,7 @@ Namely,  you must update your application capabilities turning on **Background M
 
 First of all you have to initialize the SDK using the unique instance of [BandyerSDK](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BandyerSDK.html) and configure it using [BDKConfig](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKConfig.html) class. Yuo can follow this code snippet:
 
-```objective-c
+```swift
 //Here we are going to initialize the Bandyer SDK.
 //The sdk needs a configuration object where it is specified which environment the sdk should work in.
 
