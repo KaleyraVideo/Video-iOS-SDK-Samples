@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //
         //CallKit:
         //CallKit framework must be linked to your app and it must linked as a required framework,
-        //otherwise the app will have a weird behaviour when it is launched upon receiving a voip notification.
+        //otherwise the app will have a weird behaviour when it is launched upon receiving a VoIP notification.
         //It is going to be launched, but the system is going to suspend it after few milliseconds.
         //In this example app, the CallKit framework has been already added for you.
         //Please check the project "Build Settings" tab under the "Other Linker Flags" directive that the CallKit
