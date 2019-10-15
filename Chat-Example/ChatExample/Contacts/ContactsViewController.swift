@@ -107,9 +107,7 @@ class ContactsViewController: UIViewController {
         //The record flag specifies whether we want the call to be recorded or not.
         //The maximumDuration parameter specifies how long the call can last.
         //If you provide 0, the call will be created without a maximum duration value.
-        //We store the intent for later use, because we are using storyboards. When this view controller is asked to prepare for segue
-        //we are going to hand the intent to the `BDKCallViewController` created by the storyboard
-        
+        //We store the intent for later use, because we can present again the CallViewController with the same call.
         intent = BDKMakeCallIntent(callee: aliases, type: options.type, record: options.record, maximumDuration: options.maximumDuration)
         
         //Then we trigger a presentation of BDKCallViewController.
@@ -297,7 +295,7 @@ class ContactsViewController: UIViewController {
         //information in its views.
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
-        //and provide those information to the view controller
+        //and provide those information to the view controller.
         config.userInfoFetcher = UserInfoFetcher(addressBook!)
 
         //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
@@ -319,8 +317,7 @@ class ContactsViewController: UIViewController {
             window = CallWindow()
         }
 
-        //Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its
-        //job
+        //Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its job.
         window.callDelegate = self
 
         callWindow = window

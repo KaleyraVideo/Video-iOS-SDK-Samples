@@ -108,9 +108,7 @@ class ContactsViewController: UIViewController {
         //The record flag specifies whether we want the call to be recorded or not.
         //The maximumDuration parameter specifies how long the call can last.
         //If you provide 0, the call will be created without a maximum duration value.
-        //We store the intent for later use, because we are using storyboards. When this view controller is asked to prepare for segue
-        //we are going to hand the intent to the `BDKCallViewController` created by the storyboard
-        
+        //We store the intent for later use, because we can present again the CallViewController with the same call.
         intent = BDKMakeCallIntent(callee: aliases, type: options.type, record: options.record, maximumDuration: options.maximumDuration)
         
         //Then we trigger a presentation of BDKCallViewController.
@@ -253,7 +251,7 @@ class ContactsViewController: UIViewController {
         initCallWindowIfNeeded()
         
         //Here we are configuring the BDKCallViewController instance created from the storyboard.
-        //A `BDKCallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
+        //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
         
         let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
@@ -291,8 +289,7 @@ class ContactsViewController: UIViewController {
             window = CallWindow()
         }
 
-        //Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its
-        //job
+        //Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its job.
         window.callDelegate = self
 
         callWindow = window
