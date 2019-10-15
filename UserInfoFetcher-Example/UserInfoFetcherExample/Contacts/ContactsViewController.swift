@@ -119,7 +119,7 @@ class ContactsViewController: UIViewController {
         
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use,
-        //then we trigger a presentation of BDKCallViewController.
+        //then we trigger a presentation of CallViewController.
         intent = BDKIncomingCallHandlingIntent()
         performCallViewControllerPresentation()
     }
@@ -232,7 +232,7 @@ class ContactsViewController: UIViewController {
     
         prepareForCallViewControllerPresentation()
 
-        //Here we tell the call window what it should do and we present the BDKCallViewController if there is no another call in progress.
+        //Here we tell the call window what it should do and we present the CallViewController if there is no another call in progress.
         //Otherwise you should manage the behaviour, for example with a UIAlert warning.
         
         callWindow?.shouldPresentCallViewController(intent: intent, completion: { [weak self] succeeded in
@@ -250,7 +250,7 @@ class ContactsViewController: UIViewController {
     private func prepareForCallViewControllerPresentation() {
         initCallWindowIfNeeded()
         
-        //Here we are configuring the BDKCallViewController instance created from the storyboard.
+        //Here we are configuring the CallViewController instance created from the storyboard.
         //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
         

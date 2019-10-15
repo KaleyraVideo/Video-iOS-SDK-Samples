@@ -85,7 +85,7 @@ class ContactsViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
-         //Remember to call viewWillTransitionTo on custom view controllers to update UI while rotating.
+        //Remember to call viewWillTransitionTo on custom view controllers to update UI while rotating.
         callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
         messageNotificationController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
         
@@ -259,7 +259,7 @@ class ContactsViewController: UIViewController {
     
         prepareForCallViewControllerPresentation()
 
-        //Here we tell the call window what it should do and we present the BDKCallViewController if there is no another call in progress.
+        //Here we tell the call window what it should do and we present the CallViewController if there is no another call in progress.
         //Otherwise you should manage the behaviour, for example with a UIAlert warning.
         
         callWindow?.shouldPresentCallViewController(intent: intent, completion: { [weak self] succeeded in
@@ -278,7 +278,7 @@ class ContactsViewController: UIViewController {
         initCallWindowIfNeeded()
         
         //Here we are configuring the BDKCallViewController instance created from the storyboard.
-        //A `BDKCallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
+        //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
         
         let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")

@@ -5,6 +5,8 @@
 
 import UIKit
 
+//Here we subclass UINavigationController class in order to change preferredStatusBarStyle when the CallBannerView is showed.
+
 class ContactsNavigationController: UINavigationController {
 
     private var statusBarStyleBackup: UIStatusBarStyle?
