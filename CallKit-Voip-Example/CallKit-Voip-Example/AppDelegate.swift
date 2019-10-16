@@ -15,15 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //Before we can get started, you must review your project configuration, and enable the required
         //app capabilities for CallKit and VoIP notifications.
-        //
+        
         //Namely, you must enable "Background modes" capability
         //checking "Audio, AirPlay and Picture in Picture" and "Voice over IP" checkboxes on.
         //You must also enable "Push notifications" capability even if you use VoIP notifications only.
-        //
+        
         //Privacy usage descriptions:
         //You must add NSCameraUsageDescription and NSMicrophoneUsageDescription to your app Info.plist file.
-        //Those values are required to access microphone and camera. In this example app, those values have been already added for you.
-        //
+        //Those values are required to access microphone and camera. In this sample app, those values have been already added for you.
+        
+        //To enable build on physical devices, you should disable bitcode on build settings tab of your target settings. In this sample app, this flag is already set for you.
+        
         //CallKit:
         //CallKit framework must be linked to your app and it must linked as a required framework,
         //otherwise the app will have a weird behaviour when it is launched upon receiving a VoIP notification.
