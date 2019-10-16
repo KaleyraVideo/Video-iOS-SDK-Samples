@@ -23,6 +23,10 @@ If your backend system already provides Bandyer "user alias" for your users, the
 
 In this demo app, all the integration work is already done for you. In this section we will explain how to take advantage of the feature provided by Bandyer SDK in another app.
 
+### Setup
+
+To let you build on physical devices, you should set *No* to  *Enable Bitcode* on **Build Settings** tab under **Build Options** section of your target settings.
+
 ### Initialization
 
 First of all you have to initialize the SDK using the unique instance of [BandyerSDK](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BandyerSDK.html) and configure it using [BDKConfig](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKConfig.html) class. Yuo can follow this code snippet:

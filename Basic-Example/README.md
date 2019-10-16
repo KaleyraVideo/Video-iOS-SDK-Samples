@@ -25,8 +25,9 @@ In this demo app, all the integration work is already done for you. In this sect
 
 ### Setup
 
-Before we dive into the details of how the SDK must be configured and initialized, you should add `NSCameraUsageDescription` and `NSMicrophoneUsageDescription` keys into app Info.plist, otherwise your app is going to crash anytime it tries to access camera
-or microphone devices.
+Before we dive into the details of how the SDK must be configured and initialized, you should add `NSCameraUsageDescription` and `NSMicrophoneUsageDescription` keys into app Info.plist, otherwise your app is going to crash anytime it tries to access camera or microphone devices.
+
+To let you build on physical devices, you should set *No* to  *Enable Bitcode* on **Build Settings** tab under **Build Options** section of your target settings.
 
 ### Initialization
 

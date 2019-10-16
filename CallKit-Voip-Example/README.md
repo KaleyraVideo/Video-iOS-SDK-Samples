@@ -4,7 +4,6 @@ This sample application shows you how it's easy and simple to integrate CallKit 
 
 This example is only related to manage CallKit and VoIP notifications. For other examples, please visit the [Sample apps index page](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift).
 
-
 ## Quickstart
 
 1. Obtain a Mobile API key.
@@ -29,6 +28,8 @@ In this demo app, all the integration work is already done for you. In this sect
 
 Before we dive into the details of how the SDK must be configured and initialized, you should add `NSCameraUsageDescription` and `NSMicrophoneUsageDescription` keys into app Info.plist, otherwise your app is going to crash anytime it tries to access camera
 or microphone devices.
+
+To let you build on physical devices, you should set *No* to  *Enable Bitcode* on **Build Settings** tab under **Build Options** section of your target settings. 
 
 You must review your project configuration, and enable the required app capabilities for CallKit and VoIP notifications.
 Namely,  you must update your application capabilities turning on **Background Modes** and **Push Notifications** in your project **Capabilities** tab in Xcode. Flag `Audio, Airplay and Picture in Picture` and `Voice over IP` checkboxes on, under **Background modes** section.
