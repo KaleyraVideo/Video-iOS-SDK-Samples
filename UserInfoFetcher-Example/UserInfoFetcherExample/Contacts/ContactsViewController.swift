@@ -487,42 +487,58 @@ extension ContactsViewController: ChannelViewControllerDelegate {
     func channelViewControllerDidFinish(_ controller: ChannelViewController) {
         controller.dismiss(animated: true)
     }
-    
+
     func channelViewController(_ controller: ChannelViewController, didTouch notification: ChatNotification) {
-        
+
         let presentedChannelVC = presentedViewController as? ChannelViewController
-        
+
         if presentedChannelVC != nil {
             controller.dismiss(animated: true) { [weak self] in
                 self?.presentChat(from: notification)
             }
         } else {
-           presentChat(from: notification)
+            presentChat(from: notification)
         }
     }
-    
+
     func channelViewController(_ controller: ChannelViewController, didTouch banner: CallBannerView) {
+        //Please remember to override the current call intent with the one saved inside call window.
+        intent = callWindow?.intent
         controller.dismiss(animated: true) { [weak self] in
             self?.performCallViewControllerPresentation()
         }
     }
-    
+
     func channelViewController(_ controller: ChannelViewController, willHide banner: CallBannerView) {
         restoreStatusBarAppearance()
     }
-    
+
     func channelViewController(_ controller: ChannelViewController, willShow banner: CallBannerView) {
         setStatusBarAppearanceToLight()
     }
-    
+
     func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {
-        intent = BDKMakeCallIntent(callee: users, type: .audioUpgradable)
-        self.performCallViewControllerPresentation()
+        dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioUpgradable)
     }
-    
+
     func channelViewController(_ controller: ChannelViewController, didTapVideoCallWith users: [String]) {
-        intent = BDKMakeCallIntent(callee: users, type: .audioVideo)
-        self.performCallViewControllerPresentation()
+        dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioVideo)
+    }
+
+    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callee: [String], type: BDKCallType) {
+
+        let presentedChannelVC = presentedViewController as? ChannelViewController
+
+        if presentedChannelVC != nil {
+            channelViewController.dismiss(animated: true) { [weak self] in
+                self?.intent = BDKMakeCallIntent(callee: callee, type: type)
+                self?.performCallViewControllerPresentation()
+            }
+            return;
+        }
+
+        intent = BDKMakeCallIntent(callee: callee, type: type)
+        performCallViewControllerPresentation()
     }
 }
 

@@ -118,8 +118,7 @@ class ContactsViewController: UIViewController {
         
         tableView.setEditing(false, animated: animated)
     }
-    
-    
+
     //MARK: Actions
     @IBAction func callTypeValueChanged(sender:UISegmentedControl){
         if sender.selectedSegmentIndex == 0 {

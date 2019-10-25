@@ -13,8 +13,8 @@ class ContactsViewController: UIViewController {
 
     //MARK: Outlets and subviews
 
-    @IBOutlet private var tableView:UITableView!
-    @IBOutlet private var callTypeControl:UISegmentedControl!
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var callTypeControl: UISegmentedControl!
     @IBOutlet private var callOptionsBarButtonItem: UIBarButtonItem!
     @IBOutlet private var logoutBarButtonItem: UIBarButtonItem!
     @IBOutlet private var userBarButtonItem: UIBarButtonItem!
@@ -26,8 +26,8 @@ class ContactsViewController: UIViewController {
 
     var addressBook: AddressBook?
 
-    private var selectedContacts:[IndexPath] = []
-    private var options:CallOptionsItem = CallOptionsItem()
+    private var selectedContacts: [IndexPath] = []
+    private var options: CallOptionsItem = CallOptionsItem()
     private var intent: BDKIntent?
 
     private let callBannerController = CallBannerController()
@@ -77,7 +77,7 @@ class ContactsViewController: UIViewController {
 
     //MARK: Calls
 
-    func startOutgoingCall(){
+    func startOutgoingCall() {
 
         //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
 
@@ -97,7 +97,7 @@ class ContactsViewController: UIViewController {
         performCallViewControllerPresentation()
     }
 
-    func receiveIncomingCall(){
+    func receiveIncomingCall() {
 
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use,
@@ -108,14 +108,14 @@ class ContactsViewController: UIViewController {
 
     //MARK: Enable / Disable multiple selection
 
-    func enableMultipleSelection(_ animated:Bool){
+    func enableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = true
         tableView.allowsMultipleSelectionDuringEditing = true
 
         tableView.setEditing(true, animated: animated)
     }
 
-    func disableMultipleSelection(_ animated:Bool){
+    func disableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = false
         tableView.allowsMultipleSelectionDuringEditing = false
 
@@ -123,7 +123,7 @@ class ContactsViewController: UIViewController {
     }
 
     //MARK: Actions
-    @IBAction func callTypeValueChanged(sender:UISegmentedControl){
+    @IBAction func callTypeValueChanged(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             selectedContacts.removeAll()
             disableMultipleSelection(true)
@@ -134,15 +134,15 @@ class ContactsViewController: UIViewController {
         }
     }
 
-    @IBAction func callBarButtonItemTouched(sender:UIBarButtonItem){
+    @IBAction func callBarButtonItemTouched(sender: UIBarButtonItem) {
         startOutgoingCall()
     }
 
-    @IBAction func callOptionsBarButtonTouched(sender: UIBarButtonItem){
+    @IBAction func callOptionsBarButtonTouched(sender: UIBarButtonItem) {
         performSegue(withIdentifier: optionsSegueIdentifier, sender: self)
     }
 
-    @IBAction func logoutBarButtonTouched(sender: UIBarButtonItem){
+    @IBAction func logoutBarButtonTouched(sender: UIBarButtonItem) {
         //When the user sign off, we also stop the client.
         //We highly recommend to stop the client when the end user signs off
         //Failing to do so, will result in incoming calls being processed by the SDK.
@@ -188,7 +188,6 @@ class ContactsViewController: UIViewController {
         controller.present(channelViewController, animated: true)
     }
 
-
     //MARK: Present Call ViewController
 
     private func performCallViewControllerPresentation() {
@@ -224,7 +223,7 @@ class ContactsViewController: UIViewController {
         }
 
         //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
-        let url = URL(fileURLWithPath:path)
+        let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
 
         //This statement tells the view controller which object, conforming to `BDKUserInfoFetcher` protocol, should use to present contact
@@ -308,7 +307,7 @@ extension ContactsViewController: UITableViewDataSource {
 extension ContactsViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        if selectedContacts.contains(indexPath){
+        if selectedContacts.contains(indexPath) {
             selectedContacts.remove(at: selectedContacts.lastIndex(of: indexPath)!)
         } else {
             selectedContacts.append(indexPath)
@@ -340,13 +339,13 @@ extension ContactsViewController: BCXCallClientObserver {
     public func callClientDidStartReconnecting(_ client: BCXCallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
-        showToast(message:"Client is reconnecting, please wait...", color:UIColor.orange)
+        showToast(message: "Client is reconnecting, please wait...", color: UIColor.orange)
     }
 
     public func callClientWillResume(_ client: BCXCallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
-        showToast(message:"Client is resuming, please wait...", color:UIColor.orange)
+        showToast(message: "Client is resuming, please wait...", color: UIColor.orange)
     }
 
     public func callClientDidResume(_ client: BCXCallClient) {
@@ -359,7 +358,7 @@ extension ContactsViewController: BCXCallClientObserver {
 //MARK: Activity indicator nav bar
 extension ContactsViewController {
 
-    func showActivityIndicatorInNavigationBar(animated: Bool){
+    func showActivityIndicatorInNavigationBar(animated: Bool) {
         guard activityBarButtonItem == nil else {
             return
         }
@@ -375,7 +374,7 @@ extension ContactsViewController {
         activityBarButtonItem = item
     }
 
-    func hideActivityIndicatorFromNavigationBar(animated: Bool){
+    func hideActivityIndicatorFromNavigationBar(animated: Bool) {
 
         guard let item = activityBarButtonItem else {
             return
@@ -395,7 +394,7 @@ extension ContactsViewController {
 //MARK: Call button nav bar
 extension ContactsViewController {
 
-    func showCallButtonInNavigationBar(animated:Bool){
+    func showCallButtonInNavigationBar(animated: Bool) {
         guard callBarButtonItem == nil else {
             return
         }
@@ -409,17 +408,17 @@ extension ContactsViewController {
         callBarButtonItem = item
     }
 
-    func hideCallButtonFromNavigationBar(animated:Bool){
+    func hideCallButtonFromNavigationBar(animated: Bool) {
 
         guard let item = callBarButtonItem else {
             return
         }
 
-        guard var items = navigationItem.rightBarButtonItems else{
+        guard var items = navigationItem.rightBarButtonItems else {
             return
         }
 
-        if (items.contains(item)){
+        if (items.contains(item)) {
             items.remove(at: items.lastIndex(of: item)!)
             navigationItem.setRightBarButtonItems(items, animated: animated)
         }
@@ -429,7 +428,7 @@ extension ContactsViewController {
 //MARK: Toast
 extension ContactsViewController {
 
-    func showToast(message:String, color:UIColor){
+    func showToast(message: String, color: UIColor) {
         hideToast()
 
         let container = UIView(frame: .zero)
@@ -456,13 +455,13 @@ extension ContactsViewController {
 
     }
 
-    func hideToast(){
+    func hideToast() {
         toastView?.removeFromSuperview()
     }
 }
 
 //MARK: Call options controller delegate
-extension ContactsViewController : CallOptionsTableViewControllerDelegate {
+extension ContactsViewController: CallOptionsTableViewControllerDelegate {
     func controllerDidUpdateOptions(_ controller: CallOptionsTableViewController) {
         options = controller.options
     }
@@ -500,6 +499,8 @@ extension ContactsViewController: ChannelViewControllerDelegate {
     }
 
     func channelViewController(_ controller: ChannelViewController, didTouch banner: CallBannerView) {
+        //Please remember to override the current call intent with the one saved inside call window.
+        intent = callWindow?.intent
         controller.dismiss(animated: true) { [weak self] in
             self?.performCallViewControllerPresentation()
         }
@@ -514,13 +515,27 @@ extension ContactsViewController: ChannelViewControllerDelegate {
     }
 
     func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {
-        intent = BDKMakeCallIntent(callee: users, type: .audioUpgradable)
-        self.performCallViewControllerPresentation()
+        dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioUpgradable)
     }
 
     func channelViewController(_ controller: ChannelViewController, didTapVideoCallWith users: [String]) {
-        intent = BDKMakeCallIntent(callee: users, type: .audioVideo)
-        self.performCallViewControllerPresentation()
+        dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioVideo)
+    }
+
+    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callee: [String], type: BDKCallType) {
+
+        let presentedChannelVC = presentedViewController as? ChannelViewController
+
+        if presentedChannelVC != nil {
+            channelViewController.dismiss(animated: true) { [weak self] in
+                self?.intent = BDKMakeCallIntent(callee: callee, type: type)
+                self?.performCallViewControllerPresentation()
+            }
+            return;
+        }
+
+        intent = BDKMakeCallIntent(callee: callee, type: type)
+        performCallViewControllerPresentation()
     }
 }
 
