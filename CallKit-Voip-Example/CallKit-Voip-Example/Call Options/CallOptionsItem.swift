@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import BandyerSDK
+import Bandyer
 
 class CallOptionsItem : NSCopying{
     

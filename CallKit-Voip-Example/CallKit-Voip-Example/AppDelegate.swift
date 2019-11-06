@@ -5,7 +5,7 @@
 import UIKit
 import PushKit
 import Intents
-import BandyerSDK
+import Bandyer
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -71,10 +71,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //The following statement is going to tell the BandyerSDK which object it must forward device push tokens to when one is received.
         config.pushRegistryDelegate = self
-
+        
+#error("Please set the payload keypath here")
         //This statement is going to tell the BandyerSDK where to look for incoming call information within the VoIP push notifications it receives
         config.notificationPayloadKeyPath = "SET YOUR PAYLOAD KEY PATH HERE"
 
+#error("Please initialize the Bandyer SDK with your App Id")
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
 
