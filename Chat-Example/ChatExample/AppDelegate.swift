@@ -3,7 +3,7 @@
 //
 
 import UIKit
-import BandyerSDK
+import Bandyer
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,9 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         config.environment = .sandbox
 
         //Here we are disabling CallKit support.
-        //Make sure to disable CallKit, otherwise it will be enable by default if the system supports CallKit (i.e iOS >= 10.0).
+        //Make sure to disable CallKit, otherwise it will be enabled by default if the system supports CallKit (i.e iOS >= 10.0).
         config.isCallKitEnabled = false
-        
+
+#error("Please initialize the Bandyer SDK with your App Id")
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
         

@@ -4,7 +4,7 @@
 //
 
 import UIKit
-import BandyerSDK
+import Bandyer
 
 class ContactsViewController: UIViewController {
     

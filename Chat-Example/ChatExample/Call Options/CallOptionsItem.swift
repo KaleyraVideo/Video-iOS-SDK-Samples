@@ -2,7 +2,7 @@
 // See LICENSE for licensing information
 
 import Foundation
-import BandyerSDK
+import Bandyer
 
 class CallOptionsItem : NSCopying{
     
