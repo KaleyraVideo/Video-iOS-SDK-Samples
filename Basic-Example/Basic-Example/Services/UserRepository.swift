@@ -22,6 +22,7 @@ class UserRepository {
     }
 
     init(){
+#error("Here we are retrieving user information from the Bandyer servers. In order to retrieve user information you must provide a Bandyer REST Api Key and a REST Endpoint. Beware your app should retrieve user information from YOUR backend system not directly from ours.")
         apiKey = "REST API KEY"
         url = URL(string: "REST URL")
         queue = DispatchQueue.main

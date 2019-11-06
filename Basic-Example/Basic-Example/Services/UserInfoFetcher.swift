@@ -4,7 +4,7 @@
 //
 
 import Foundation
-import BandyerSDK
+import Bandyer
 
 class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
     private let addressBook: AddressBook
