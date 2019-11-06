@@ -2,7 +2,7 @@
 //  Copyright © 2019 Bandyer. All rights reserved.
 //
 
-import BandyerSDK
+import Bandyer
 
 class GlobalUserInfoFetcher: NSObject, BDKUserInfoFetcher {
     
