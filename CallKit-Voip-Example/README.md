@@ -136,8 +136,6 @@ The client SDK expects a payload in the following format:
 
 ```
 
-You must provide a dictionary to call client `handleNotification:` method formatted with the format above.
-
 For further usage guideline, you can visit our dedicated [Wiki page](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki/VOIP-notifications).
 
 ## Support
