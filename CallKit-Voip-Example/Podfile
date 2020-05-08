@@ -3,6 +3,6 @@ platform :ios, '10.0'
 target 'CallKit-Voip-Example' do
   use_frameworks!
 
-  pod 'Bandyer', :git => 'https://github.com/Bandyer/Bandyer-iOS-SDK.git'
+  pod 'Bandyer', :git => 'https://github.com/Bandyer/Bandyer-iOS-SDK.git', :branch => 'pre-release'
 
 end
