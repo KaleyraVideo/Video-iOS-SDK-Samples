@@ -74,7 +74,7 @@ class ContactsViewController: UIViewController {
 
     //MARK: Calls
 
-    func startOutgoingCall() {
+    private func startOutgoingCall() {
 
         //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
 
@@ -94,7 +94,7 @@ class ContactsViewController: UIViewController {
         performCallViewControllerPresentation()
     }
 
-    func receiveIncomingCall() {
+    private func receiveIncomingCall() {
 
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use.
@@ -105,14 +105,14 @@ class ContactsViewController: UIViewController {
 
     //MARK: Enable / Disable multiple selection
 
-    func enableMultipleSelection(_ animated: Bool) {
+    private func enableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = true
         tableView.allowsMultipleSelectionDuringEditing = true
 
         tableView.setEditing(true, animated: animated)
     }
 
-    func disableMultipleSelection(_ animated: Bool) {
+    private func disableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = false
         tableView.allowsMultipleSelectionDuringEditing = false
 
