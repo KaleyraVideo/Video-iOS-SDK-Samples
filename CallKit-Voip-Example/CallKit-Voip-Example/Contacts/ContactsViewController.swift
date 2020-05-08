@@ -188,21 +188,35 @@ class ContactsViewController: UIViewController {
     //MARK: Present Call ViewController
 
     private func performCallViewControllerPresentation() {
+        guard let intent = self.intent else {
+            return
+        }
+        
         prepareForCallViewControllerPresentation()
-
+        
         //Here we tell the call window what it should do and we present the BDKCallViewController if there is no another call in progress.
         //Otherwise you should manage the behaviour, for example with a UIAlert warning.
-
-        callWindow?.shouldPresentCallViewController(intent: intent, completion: { [weak self] succeeded in
-            if (!succeeded) {
-                let alert = UIAlertController(title: "Warning", message: "Another call ongoing.", preferredStyle: .alert)
-                let defaultAction = UIAlertAction(title: "Ok", style: .default) { (_) in
-                    alert.dismiss(animated: true)
-                }
-                alert.addAction(defaultAction)
-                self?.present(alert, animated: true)
+        
+        callWindow?.presentCallViewController(for: intent) { [weak self] error in
+            guard let error = error else { return }
+            guard let self = self else { return }
+            
+            switch error {
+            case let presentationError as CallPresentationError where presentationError.errorCode == CallPresentationErrorCode.anotherCallOnGoing.rawValue:
+                self.presentAlert(title: "Warning", message: "Another call ongoing.")
+            default:
+                self.presentAlert(title: "Error", message: "Impossible to start a call now. Try again later.")
             }
-        })
+        }
+    }
+    
+    private func presentAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Ok", style: .default) { (_) in
+            alert.dismiss(animated: true)
+        }
+        alert.addAction(defaultAction)
+        self.present(alert, animated: true)
     }
 
     private func prepareForCallViewControllerPresentation() {
