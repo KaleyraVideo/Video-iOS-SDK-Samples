@@ -829,6 +829,7 @@
 				TargetAttributes = {
 					A9B7246922255FAB00D421D1 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1140;
 					};
 				};
 			};
@@ -1279,7 +1280,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.acme.CallKit-Voip-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1299,7 +1300,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.acme.CallKit-Voip-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
