@@ -6,10 +6,10 @@ import Foundation
 
 struct AddressBook {
 
-    private (set) var me:Contact?
-    private (set) var contacts:[Contact]
+    private (set) var me: Contact?
+    private (set) var contacts: [Contact]
 
-    init(_ aliases:[String], currentUser:String){
+    init(_ aliases: [String], currentUser: String) {
 
         contacts = []
 

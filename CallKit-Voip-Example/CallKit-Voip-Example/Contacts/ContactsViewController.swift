@@ -77,13 +77,13 @@ class ContactsViewController: UIViewController {
 
     //MARK: Calls
 
-    func startOutgoingCall() {
+    private func startOutgoingCall() {
 
         //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
 
         //Here we create the array containing the "user aliases" we want to contact.
         let aliases = selectedContacts.compactMap { (contactIndex) -> String? in
-            return addressBook?.contacts[contactIndex.row].alias
+            addressBook?.contacts[contactIndex.row].alias
         }
 
         //Then we create the intent providing the aliases array (which is a required parameter) along with the type of call we want perform.
@@ -97,7 +97,7 @@ class ContactsViewController: UIViewController {
         performCallViewControllerPresentation()
     }
 
-    func receiveIncomingCall() {
+    private func receiveIncomingCall() {
 
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use,
@@ -108,14 +108,14 @@ class ContactsViewController: UIViewController {
 
     //MARK: Enable / Disable multiple selection
 
-    func enableMultipleSelection(_ animated: Bool) {
+    private func enableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = true
         tableView.allowsMultipleSelectionDuringEditing = true
 
         tableView.setEditing(true, animated: animated)
     }
 
-    func disableMultipleSelection(_ animated: Bool) {
+    private func disableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = false
         tableView.allowsMultipleSelectionDuringEditing = false
 
@@ -165,14 +165,12 @@ class ContactsViewController: UIViewController {
 
     //MARK: Present Chat ViewController
     private func presentChat(from notification: ChatNotification) {
-
         if presentedViewController == nil {
             presentChat(from: self, notification: notification)
         }
     }
 
     private func presentChat(from controller: UIViewController, notification: ChatNotification) {
-
         guard let intent = OpenChatIntent.openChat(from: notification) else {
             return
         }
@@ -180,7 +178,6 @@ class ContactsViewController: UIViewController {
     }
 
     private func presentChat(from controller: UIViewController, intent: OpenChatIntent) {
-
         let channelViewController = ChannelViewController()
         channelViewController.delegate = self
         channelViewController.intent = intent
@@ -191,7 +188,6 @@ class ContactsViewController: UIViewController {
     //MARK: Present Call ViewController
 
     private func performCallViewControllerPresentation() {
-
         prepareForCallViewControllerPresentation()
 
         //Here we tell the call window what it should do and we present the BDKCallViewController if there is no another call in progress.
@@ -240,7 +236,9 @@ class ContactsViewController: UIViewController {
 
     private func initCallWindowIfNeeded() {
         //Please remember to reference the call window only once in order to avoid the reset of BDKCallViewController.
-        guard callWindow == nil else { return }
+        guard callWindow == nil else {
+            return
+        }
 
         //Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
         let window: CallWindow
@@ -281,11 +279,11 @@ class ContactsViewController: UIViewController {
 extension ContactsViewController: UITableViewDataSource {
 
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        1
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return addressBook!.contacts.count
+        addressBook!.contacts.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -375,7 +373,6 @@ extension ContactsViewController {
     }
 
     func hideActivityIndicatorFromNavigationBar(animated: Bool) {
-
         guard let item = activityBarButtonItem else {
             return
         }
@@ -409,7 +406,6 @@ extension ContactsViewController {
     }
 
     func hideCallButtonFromNavigationBar(animated: Bool) {
-
         guard let item = callBarButtonItem else {
             return
         }
@@ -445,13 +441,14 @@ extension ContactsViewController {
         view.addSubview(container)
         toastView = container
 
-        label.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
+        let constraints = [label.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+                           label.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+                           container.topAnchor.constraint(equalTo: tableView.topAnchor),
+                           container.leftAnchor.constraint(equalTo: view.leftAnchor),
+                           container.rightAnchor.constraint(equalTo: view.rightAnchor),
+                           container.heightAnchor.constraint(equalToConstant: 16)]
 
-        container.topAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
-        container.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        container.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        container.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        NSLayoutConstraint.activate(constraints)
 
     }
 

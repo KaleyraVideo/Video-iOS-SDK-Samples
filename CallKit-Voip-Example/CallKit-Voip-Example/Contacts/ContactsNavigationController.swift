@@ -13,17 +13,22 @@ class ContactsNavigationController: UINavigationController {
 
     private var statusBarStyle: UIStatusBarStyle? {
         didSet {
-            guard statusBarStyle != nil else { return }
+            guard statusBarStyle != nil else {
+                return
+            }
 
-            guard statusBarStyle != oldValue else { return }
+            guard statusBarStyle != oldValue else {
+                return
+            }
 
             setNeedsStatusBarAppearanceUpdate()
         }
     }
 
     override public var preferredStatusBarStyle: UIStatusBarStyle {
-
-        guard let style = statusBarStyle else { return super.preferredStatusBarStyle }
+        guard let style = statusBarStyle else {
+            return super.preferredStatusBarStyle
+        }
 
         return style
     }

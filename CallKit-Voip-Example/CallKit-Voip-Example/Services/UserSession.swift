@@ -6,11 +6,11 @@ import Foundation
 
 class UserSession {
 
-    class var currentUser: String?{
+    class var currentUser: String? {
         get {
-            return UserDefaults.standard.object(forKey: "com.acme.logged_user_id") as! String?
+            UserDefaults.standard.object(forKey: "com.acme.logged_user_id") as! String?
         }
-        set{
+        set {
             UserDefaults.standard.set(newValue as String?, forKey: "com.acme.logged_user_id")
             UserDefaults.standard.synchronize()
         }
