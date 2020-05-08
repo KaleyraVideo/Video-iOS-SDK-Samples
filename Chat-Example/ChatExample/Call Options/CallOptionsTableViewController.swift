@@ -4,20 +4,20 @@
 import UIKit
 
 protocol CallOptionsTableViewControllerDelegate: class {
-    func controllerDidUpdateOptions(_ controller:CallOptionsTableViewController) -> Void
+    func controllerDidUpdateOptions(_ controller: CallOptionsTableViewController) -> Void
 }
 
-class CallOptionsTableViewController : UITableViewController{
-    weak var delegate :CallOptionsTableViewControllerDelegate?
-    
-    var options = CallOptionsItem()
+class CallOptionsTableViewController: UITableViewController {
 
+    weak var delegate: CallOptionsTableViewControllerDelegate?
+
+    var options = CallOptionsItem()
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
 
         if indexPath.section == 0 {
-            cell.accessoryType = indexPath.row == self.options.type.rawValue ? .checkmark : .none;
+            cell.accessoryType = indexPath.row == self.options.type.rawValue ? .checkmark : .none
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 let recordingSwitch = cell.accessoryView as! UISwitch?
@@ -28,17 +28,17 @@ class CallOptionsTableViewController : UITableViewController{
             }
         }
 
-        return cell;
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+
         if indexPath.section == 0 {
-            switch indexPath.row{
-                case 0: options.type = .audioVideo
-                case 1: options.type = .audioUpgradable
-                case 2: options.type = .audioOnly
-                default: options.type = .audioVideo
+            switch indexPath.row {
+            case 0: options.type = .audioVideo
+            case 1: options.type = .audioUpgradable
+            case 2: options.type = .audioOnly
+            default: options.type = .audioVideo
             }
 
             tableView.reloadData()
@@ -52,11 +52,10 @@ class CallOptionsTableViewController : UITableViewController{
         tableView.reloadData()
         delegate?.controllerDidUpdateOptions(self)
     }
-
 }
 
-extension CallOptionsTableViewController : UITextFieldDelegate{
-    
+extension CallOptionsTableViewController: UITextFieldDelegate {
+
     public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

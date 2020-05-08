@@ -6,7 +6,7 @@
 import UIKit
 
 protocol ContactTableViewCellDelegate: class {
-    func contactTableViewCell(_ cell:  ContactTableViewCell, didTouch chatButton: UIButton, withCounterpart aliasId: String)
+    func contactTableViewCell(_ cell: ContactTableViewCell, didTouch chatButton: UIButton, withCounterpart aliasId: String)
 }
 
 class ContactTableViewCell: UITableViewCell {

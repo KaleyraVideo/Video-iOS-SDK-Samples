@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 enum Gender{
     case unknown
     case male
@@ -18,7 +17,6 @@ struct Contact{
     var firstName : String?
     var lastName : String?
     var fullName : String?{
-
         guard let first = firstName, let last = lastName else {
             return nil
         }
@@ -30,7 +28,6 @@ struct Contact{
     var email : String?
     var age : UInt?
     var profileImageURL :URL?
-
 
     init (_ alias:String){
         self.alias = alias

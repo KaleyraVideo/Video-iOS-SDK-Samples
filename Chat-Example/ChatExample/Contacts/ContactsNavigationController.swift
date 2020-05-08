@@ -22,7 +22,6 @@ class ContactsNavigationController: UINavigationController {
     }
 
     override public var preferredStatusBarStyle: UIStatusBarStyle {
-
         guard let style = statusBarStyle else { return super.preferredStatusBarStyle }
 
         return style
