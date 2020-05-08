@@ -7,120 +7,120 @@ import UIKit
 import Bandyer
 
 class ContactsViewController: UIViewController {
-    
+
     //MARK: Constants
     private let cellIdentifier = "userCellId"
     private let optionsSegueIdentifier = "showOptionsSegue"
-    
+
     //MARK: Outlets and subviews
-    
-    @IBOutlet private var tableView:UITableView!
-    @IBOutlet private var callTypeControl:UISegmentedControl!
+
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var callTypeControl: UISegmentedControl!
     @IBOutlet private var callOptionsBarButtonItem: UIBarButtonItem!
     @IBOutlet private var callBarButtonItem: UIBarButtonItem?
     @IBOutlet private var logoutBarButtonItem: UIBarButtonItem!
     @IBOutlet private var userBarButtonItem: UIBarButtonItem!
-    
+
     private var toastView: UIView?
-    
+
     private var callWindow: CallWindow?
-    
+
     var addressBook: AddressBook?
-    
-    private var selectedContacts:[IndexPath] = []
-    private var options:CallOptionsItem = CallOptionsItem()
+
+    private var selectedContacts: [IndexPath] = []
+    private var options: CallOptionsItem = CallOptionsItem()
     private var intent: BDKIntent?
-    
+
     private let callBannerController = CallBannerController()
 
     //MARK: View
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         //When view loads we have to setup custom view controller.
         setupCallBannerView()
-        
+
         userBarButtonItem.title = UserSession.currentUser
         disableMultipleSelection(false)
-        
+
         //When view loads we register as a call client observer, in order to receive notifications about incoming calls received and client state changes.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
     }
-    
+
     private func setupCallBannerView() {
         callBannerController.delegate = self
         callBannerController.parentViewController = self
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         callBannerController.show()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         callBannerController.hide()
     }
-    
+
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
+
         //Remember to call viewWillTransitionTo on custom view controller to update UI while rotating.
         callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
-        
+
         super.viewWillTransition(to: size, with: coordinator)
     }
-    
+
     //MARK: Calls
-    
-    func startOutgoingCall(){
-        
+
+    func startOutgoingCall() {
+
         //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
-        
+
         //Here we create the array containing the "user aliases" we want to contact.
         let aliases = selectedContacts.compactMap { (contactIndex) -> String? in
-            return addressBook?.contacts[contactIndex.row].alias
+            addressBook?.contacts[contactIndex.row].alias
         }
-        
+
         //Then we create the intent providing the aliases array (which is a required parameter) along with the type of call we want perform.
         //The record flag specifies whether we want the call to be recorded or not.
         //The maximumDuration parameter specifies how long the call can last.
         //If you provide 0, the call will be created without a maximum duration value.
         //We store the intent for later use, because we can present again the CallViewController with the same call.
         intent = BDKMakeCallIntent(callee: aliases, type: options.type, record: options.record, maximumDuration: options.maximumDuration)
-        
+
         //Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
     }
-    
-    func receiveIncomingCall(){
-        
+
+    func receiveIncomingCall() {
+
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use.
         intent = BDKIncomingCallHandlingIntent()
         //Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
     }
-    
+
     //MARK: Enable / Disable multiple selection
-    
-    func enableMultipleSelection(_ animated:Bool){
+
+    func enableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = true
         tableView.allowsMultipleSelectionDuringEditing = true
-        
+
         tableView.setEditing(true, animated: animated)
     }
-    
-    func disableMultipleSelection(_ animated:Bool){
+
+    func disableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = false
         tableView.allowsMultipleSelectionDuringEditing = false
-        
+
         tableView.setEditing(false, animated: animated)
     }
 
     //MARK: Actions
-    @IBAction func callTypeValueChanged(sender:UISegmentedControl){
+    @IBAction func callTypeValueChanged(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             selectedContacts.removeAll()
             disableMultipleSelection(true)
@@ -130,27 +130,27 @@ class ContactsViewController: UIViewController {
             showCallButtonInNavigationBar(animated: true)
         }
     }
-    
-    @IBAction func callBarButtonItemTouched(sender:UIBarButtonItem){
+
+    @IBAction func callBarButtonItemTouched(sender: UIBarButtonItem) {
         startOutgoingCall()
     }
-    
-    @IBAction func callOptionsBarButtonTouched(sender: UIBarButtonItem){
+
+    @IBAction func callOptionsBarButtonTouched(sender: UIBarButtonItem) {
         performSegue(withIdentifier: optionsSegueIdentifier, sender: self)
     }
-    
-    @IBAction func logoutBarButtonTouched(sender: UIBarButtonItem){
+
+    @IBAction func logoutBarButtonTouched(sender: UIBarButtonItem) {
         //When the user sign off, we also stop the client.
         //We highly recommend to stop the client when the end user signs off
         //Failing to do so, will result in incoming calls being processed by the SDK.
         //Moreover the previously logged user will appear to the Bandyer platform as she/he is available and ready to receive calls.
-        
+
         UserSession.currentUser = nil
         BandyerSDK.instance().callClient.stop()
-        
+
         dismiss(animated: true, completion: nil)
     }
-    
+
     //MARK: Navigation to other screens
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == optionsSegueIdentifier {
@@ -161,14 +161,14 @@ class ContactsViewController: UIViewController {
     }
 
     //MARK: Present Call ViewController
-    
+
     private func performCallViewControllerPresentation() {
-    
+
         prepareForCallViewControllerPresentation()
 
         //Here we tell the call window what it should do and we present the CallViewController if there is no another call in progress.
         //Otherwise you should manage the behaviour, for example with a UIAlert warning.
-        
+
         callWindow?.shouldPresentCallViewController(intent: intent, completion: { [weak self] succeeded in
             if (!succeeded) {
                 let alert = UIAlertController(title: "Warning", message: "Another call ongoing.", preferredStyle: .alert)
@@ -183,21 +183,21 @@ class ContactsViewController: UIViewController {
 
     private func prepareForCallViewControllerPresentation() {
         initCallWindowIfNeeded()
-        
+
         //Here we are configuring the CallViewController instance.
         //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
-        
+
         let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
-        
+
         guard let path = filePath else {
             fatalError("The fake file for the file capturer could not be found")
         }
-        
+
         //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
-        let url = URL(fileURLWithPath:path)
+        let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
-        
+
         //This statement tells the view controller which object, conforming to `UserInfoFetcher` protocol, should use to present contact
         //information in its views.
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
@@ -212,8 +212,10 @@ class ContactsViewController: UIViewController {
 
     private func initCallWindowIfNeeded() {
         //Please remember to reference the call window only once in order to avoid the reset of CallViewController.
-        guard callWindow == nil else { return }
-       
+        guard callWindow == nil else {
+            return
+        }
+
         //Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
         let window: CallWindow
 
@@ -229,64 +231,65 @@ class ContactsViewController: UIViewController {
 
         callWindow = window
     }
-    
+
     //MARK: Hide Call ViewController
 
     private func hideCallViewController() {
         callWindow?.isHidden = true
     }
-    
+
     //MARK: StatusBar appearance
-    
+
     private func restoreStatusBarAppearance() {
         let rootNavigationController = navigationController as? ContactsNavigationController
         rootNavigationController?.restoreStatusBarAppearance()
     }
-    
-     private func setStatusBarAppearanceToLight() {
+
+    private func setStatusBarAppearanceToLight() {
         let rootNavigationController = navigationController as? ContactsNavigationController
         rootNavigationController?.setStatusBarAppearance(.lightContent)
     }
 }
 
 //MARK: Table view data source
-extension ContactsViewController : UITableViewDataSource{
-    
+extension ContactsViewController: UITableViewDataSource {
+
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        1
     }
-    
+
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return addressBook!.contacts.count
+        addressBook!.contacts.count
     }
-    
+
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         let contact = addressBook?.contacts[indexPath.row]
         cell.textLabel?.text = contact?.fullName
         cell.detailTextLabel?.text = contact?.alias
-        
+
         let image = UIImage(named: "phone")?.withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         cell.accessoryView = imageView
-        
+
         return cell
     }
 }
 
 //MARK: Table view delegate
-extension ContactsViewController : UITableViewDelegate{
+extension ContactsViewController: UITableViewDelegate {
+
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if selectedContacts.contains(indexPath){
+
+        if selectedContacts.contains(indexPath) {
             selectedContacts.remove(at: selectedContacts.lastIndex(of: indexPath)!)
         } else {
             selectedContacts.append(indexPath)
         }
-        
+
         callBarButtonItem?.isEnabled = selectedContacts.count > 1
-        
+
         if !tableView.allowsMultipleSelection {
             startOutgoingCall()
             tableView.deselectRow(at: indexPath, animated: true)
@@ -296,30 +299,30 @@ extension ContactsViewController : UITableViewDelegate{
 }
 
 //MARK: Call client observer
-extension ContactsViewController : BCXCallClientObserver{
-    
+extension ContactsViewController: BCXCallClientObserver {
+
     public func callClient(_ client: BCXCallClient, didReceiveIncomingCall call: BCXCall) {
         receiveIncomingCall()
     }
-    
+
     public func callClientDidStart(_ client: BCXCallClient) {
         view.isUserInteractionEnabled = false
         hideActivityIndicatorFromNavigationBar(animated: true)
         hideToast()
     }
-    
+
     public func callClientDidStartReconnecting(_ client: BCXCallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
-        showToast(message:"Client is reconnecting, please wait...", color:UIColor.orange)
+        showToast(message: "Client is reconnecting, please wait...", color: UIColor.orange)
     }
-    
+
     public func callClientWillResume(_ client: BCXCallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
-        showToast(message:"Client is resuming, please wait...", color:UIColor.orange)
+        showToast(message: "Client is resuming, please wait...", color: UIColor.orange)
     }
-    
+
     public func callClientDidResume(_ client: BCXCallClient) {
         view.isUserInteractionEnabled = true
         hideActivityIndicatorFromNavigationBar(animated: true)
@@ -329,20 +332,19 @@ extension ContactsViewController : BCXCallClientObserver{
 
 //MARK: Activity indicator nav bar
 extension ContactsViewController {
-    
-    func showActivityIndicatorInNavigationBar(animated: Bool){
+
+    func showActivityIndicatorInNavigationBar(animated: Bool) {
         let indicator = UIActivityIndicatorView(style: .gray)
         indicator.startAnimating()
         let item = UIBarButtonItem(customView: indicator)
         navigationItem.setRightBarButton(item, animated: animated)
     }
-    
-    func hideActivityIndicatorFromNavigationBar(animated: Bool){
-        
-        guard let indicator = navigationItem.rightBarButtonItem?.customView else{
+
+    func hideActivityIndicatorFromNavigationBar(animated: Bool) {
+        guard let indicator = navigationItem.rightBarButtonItem?.customView else {
             return
         }
-        
+
         if indicator is UIActivityIndicatorView {
             navigationItem.setRightBarButton(nil, animated: animated)
         }
@@ -351,49 +353,49 @@ extension ContactsViewController {
 
 //MARK: Call button nav bar
 extension ContactsViewController {
-    
-    func showCallButtonInNavigationBar(animated:Bool){
+
+    func showCallButtonInNavigationBar(animated: Bool) {
         let item = UIBarButtonItem(image: UIImage(named: "phone"), style: .plain, target: self, action: #selector(callBarButtonItemTouched(sender:)))
         navigationItem.setRightBarButton(item, animated: animated)
         callBarButtonItem = item
     }
-    
-    func hideCallButtonFromNavigationBar(animated:Bool){
+
+    func hideCallButtonFromNavigationBar(animated: Bool) {
         navigationItem.setRightBarButton(nil, animated: animated)
     }
 }
 
 //MARK: Toast
-extension ContactsViewController{
-    
-    func showToast(message:String, color:UIColor){
+extension ContactsViewController {
+
+    func showToast(message: String, color: UIColor) {
         hideToast()
-        
+
         let container = UIView(frame: .zero)
         container.translatesAutoresizingMaskIntoConstraints = false
         container.backgroundColor = color
-        
+
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.black
         label.font = UIFont.boldSystemFont(ofSize: 7)
         label.text = message
-        
+
         container.addSubview(label)
         view.addSubview(container)
         toastView = container
-        
-        label.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
-        
-        container.topAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
-        container.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        container.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        container.heightAnchor.constraint(equalToConstant: 16).isActive = true
-        
+
+        let constraints = [label.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+                           label.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+                           container.topAnchor.constraint(equalTo: tableView.topAnchor),
+                           container.leftAnchor.constraint(equalTo: view.leftAnchor),
+                           container.rightAnchor.constraint(equalTo: view.rightAnchor),
+                           container.heightAnchor.constraint(equalToConstant: 16)]
+
+        NSLayoutConstraint.activate(constraints)
     }
-    
-    func hideToast(){
+
+    func hideToast() {
         toastView?.removeFromSuperview()
     }
 }
@@ -410,7 +412,7 @@ extension ContactsViewController: CallWindowDelegate {
     func callWindowDidFinish(_ window: CallWindow) {
         hideCallViewController()
     }
-    
+
     func callWindow(_ window: CallWindow, openChatWith intent: OpenChatIntent) {
         //Do nothing since chat is not supported on this project
     }
@@ -423,11 +425,11 @@ extension ContactsViewController: CallBannerControllerDelegate {
         intent = callWindow?.intent
         performCallViewControllerPresentation()
     }
-    
+
     func callBannerController(_ controller: CallBannerController, willShow banner: CallBannerView) {
         setStatusBarAppearanceToLight()
     }
-    
+
     func callBannerController(_ controller: CallBannerController, willHide banner: CallBannerView) {
         restoreStatusBarAppearance()
     }

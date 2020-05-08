@@ -3,15 +3,15 @@
 
 import UIKit
 
-@objc protocol CallOptionsTableViewControllerDelegate{
-    func controllerDidUpdateOptions(_ controller:CallOptionsTableViewController) -> Void
+@objc protocol CallOptionsTableViewControllerDelegate {
+    func controllerDidUpdateOptions(_ controller: CallOptionsTableViewController) -> Void
 }
 
-class CallOptionsTableViewController : UITableViewController{
-    @IBOutlet var delegate :CallOptionsTableViewControllerDelegate?
+class CallOptionsTableViewController: UITableViewController {
+
+    @IBOutlet var delegate: CallOptionsTableViewControllerDelegate?
     
     var options = CallOptionsItem()
-
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
@@ -52,10 +52,9 @@ class CallOptionsTableViewController : UITableViewController{
         tableView.reloadData()
         delegate?.controllerDidUpdateOptions(self)
     }
-
 }
 
-extension CallOptionsTableViewController : UITextFieldDelegate{
+extension CallOptionsTableViewController: UITextFieldDelegate {
     
     public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

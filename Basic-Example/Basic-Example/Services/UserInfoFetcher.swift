@@ -3,29 +3,29 @@
 // Copyright (c) 2019 Bandyer. All rights reserved.
 //
 
-import Foundation
 import Bandyer
 
 class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
+
     private let addressBook: AddressBook
     private let aliasMap: [String: Contact]
 
     init(_ addressBook: AddressBook) {
         self.addressBook = addressBook
-        var aliasMap:[String: Contact] = [:]
-        
+        var aliasMap: [String: Contact] = [:]
+
         for contact in addressBook.contacts {
             aliasMap.updateValue(contact, forKey: contact.alias)
         }
 
         aliasMap.updateValue(addressBook.me!, forKey: addressBook.me!.alias)
-        
+
         self.aliasMap = aliasMap
     }
 
     func fetchUsers(_ aliases: [String], completion: @escaping ([BDKUserInfoDisplayItem]?) -> Void) {
 
-        var items:[BDKUserInfoDisplayItem] = []
+        var items: [BDKUserInfoDisplayItem] = []
 
         for alias in aliases {
             let contact = aliasMap[alias]
@@ -42,6 +42,6 @@ class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
     }
 
     func copy(with zone: NSZone?) -> Any {
-        return UserInfoFetcher(addressBook)
+        UserInfoFetcher(addressBook)
     }
 }

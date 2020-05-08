@@ -1,10 +1,9 @@
 // Copyright © 2019 Bandyer. All rights reserved.
 // See LICENSE for licensing information
 
-import Foundation
 import Bandyer
 
-class CallOptionsItem : NSCopying{
+class CallOptionsItem: NSCopying {
     
     var type: BDKCallType
     var record: Bool
@@ -21,8 +20,6 @@ class CallOptionsItem : NSCopying{
         copy.type = type
         copy.record = record
         copy.maximumDuration = maximumDuration
-        
         return copy
     }
-    
 }
