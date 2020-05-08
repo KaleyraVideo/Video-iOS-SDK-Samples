@@ -74,6 +74,7 @@ class ContactsViewController: UIViewController {
 
     private func setupNotificationsCoordinator() {
         BandyerSDK.instance().notificationsCoordinator?.chatListener = self
+        BandyerSDK.instance().notificationsCoordinator?.fileShareListener = self
         BandyerSDK.instance().notificationsCoordinator?.start()
     }
 
@@ -587,5 +588,12 @@ extension ContactsViewController: InAppChatNotificationTouchListener {
         } else {
             presentChat(from: notification)
         }
+    }
+}
+
+//MARK: In App file share notification touch listener delegate
+extension ContactsViewController: InAppFileShareNotificationTouchListener {
+    func onTouch(_ notification: FileShareNotification) {
+        callWindow?.presentCallViewController(for: OpenDownloadsIntent())
     }
 }
