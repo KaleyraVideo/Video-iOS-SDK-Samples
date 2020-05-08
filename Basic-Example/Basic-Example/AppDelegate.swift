@@ -16,6 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //you should add NSCameraUsageDescription and NSMicrophoneUsageDescription keys into app Info.plist
         //if you haven't done so already, otherwise your app is going to crash anytime it tries to access camera
         //or microphone devices. In this sample app, those values have been already added for you.
+
+        //Consider also to add NSPhotoLibraryUsageDescription key into app Info.plist in case you want your users to upload photos on our services.
+
+        //If your build target is less than iOS 11, please add iCloud entitlement with at least Key-value storage checked,
+        //otherwise your app is going to crash anytime the user try to upload a document from iCloud.
+        //In this sample app, this is already done for you inside 'Signing & Capabilities' tab of project settings.
         
         //To enable build on physical devices, you should disable bitcode on build settings tab of your target settings. In this sample app, this flag is already set for you.
         
