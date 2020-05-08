@@ -56,12 +56,14 @@ class ContactsViewController: UIViewController {
         super.viewWillAppear(animated)
 
         callBannerController.show()
+        setupNotificationsCoordinator()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         callBannerController.hide()
+        disableNotificationsCoordinator()
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -71,7 +73,18 @@ class ContactsViewController: UIViewController {
 
         super.viewWillTransition(to: size, with: coordinator)
     }
-
+    
+    //MARK: In-app Notification
+    
+    private func setupNotificationsCoordinator() {
+        BandyerSDK.instance().notificationsCoordinator?.fileShareListener = self
+        BandyerSDK.instance().notificationsCoordinator?.start()
+    }
+    
+    private func disableNotificationsCoordinator() {
+        BandyerSDK.instance().notificationsCoordinator?.stop()
+    }
+    
     //MARK: Calls
 
     private func startOutgoingCall() {
@@ -445,5 +458,12 @@ extension ContactsViewController: CallBannerControllerDelegate {
 
     func callBannerController(_ controller: CallBannerController, willHide banner: CallBannerView) {
         restoreStatusBarAppearance()
+    }
+}
+
+//MARK: In App file share notification touch listener delegate
+extension ContactsViewController: InAppFileShareNotificationTouchListener {
+    func onTouch(_ notification: FileShareNotification) {
+        callWindow?.presentCallViewController(for: OpenDownloadsIntent())
     }
 }
