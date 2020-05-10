@@ -3,15 +3,15 @@
 
 import UIKit
 
-@objc protocol CallOptionsTableViewControllerDelegate{
-    func controllerDidUpdateOptions(_ controller:CallOptionsTableViewController) -> Void
+@objc protocol CallOptionsTableViewControllerDelegate {
+    func controllerDidUpdateOptions(_ controller: CallOptionsTableViewController) -> Void
 }
 
-class CallOptionsTableViewController : UITableViewController{
-    @IBOutlet var delegate :CallOptionsTableViewControllerDelegate?
-    
-    var options = CallOptionsItem()
+class CallOptionsTableViewController: UITableViewController {
 
+    @IBOutlet var delegate: CallOptionsTableViewControllerDelegate?
+
+    var options = CallOptionsItem()
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
@@ -32,13 +32,13 @@ class CallOptionsTableViewController : UITableViewController{
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+
         if indexPath.section == 0 {
-            switch indexPath.row{
-                case 0: options.type = .audioVideo
-                case 1: options.type = .audioUpgradable
-                case 2: options.type = .audioOnly
-                default: options.type = .audioVideo
+            switch indexPath.row {
+            case 0: options.type = .audioVideo
+            case 1: options.type = .audioUpgradable
+            case 2: options.type = .audioOnly
+            default: options.type = .audioVideo
             }
 
             tableView.reloadData()
@@ -52,11 +52,10 @@ class CallOptionsTableViewController : UITableViewController{
         tableView.reloadData()
         delegate?.controllerDidUpdateOptions(self)
     }
-
 }
 
-extension CallOptionsTableViewController : UITextFieldDelegate{
-    
+extension CallOptionsTableViewController: UITextFieldDelegate {
+
     public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

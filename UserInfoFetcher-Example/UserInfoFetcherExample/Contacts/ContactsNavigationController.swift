@@ -14,7 +14,6 @@ class ContactsNavigationController: UINavigationController {
     private var statusBarStyle: UIStatusBarStyle? {
         didSet {
             guard statusBarStyle != nil else { return }
-
             guard statusBarStyle != oldValue else { return }
 
             setNeedsStatusBarAppearanceUpdate()
@@ -22,20 +21,19 @@ class ContactsNavigationController: UINavigationController {
     }
 
     override public var preferredStatusBarStyle: UIStatusBarStyle {
-
         guard let style = statusBarStyle else { return super.preferredStatusBarStyle }
 
         return style
     }
 
-    @objc public func setStatusBarAppearance(_ style: UIStatusBarStyle) {
+    func setStatusBarAppearance(_ style: UIStatusBarStyle) {
         if statusBarStyleBackup == nil {
             statusBarStyleBackup = preferredStatusBarStyle
         }
         statusBarStyle = style
     }
 
-    @objc public func restoreStatusBarAppearance() {
+    func restoreStatusBarAppearance() {
         statusBarStyle = statusBarStyleBackup
     }
 }
