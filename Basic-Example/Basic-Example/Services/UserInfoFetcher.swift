@@ -12,6 +12,7 @@ class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
 
     init(_ addressBook: AddressBook) {
         self.addressBook = addressBook
+
         var aliasMap: [String: Contact] = [:]
 
         for contact in addressBook.contacts {
@@ -24,18 +25,16 @@ class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
     }
 
     func fetchUsers(_ aliases: [String], completion: @escaping ([BDKUserInfoDisplayItem]?) -> Void) {
-
-        var items: [BDKUserInfoDisplayItem] = []
-
-        for alias in aliases {
+        let items = aliases.map { alias -> BDKUserInfoDisplayItem in
             let contact = aliasMap[alias]
+
             let item = BDKUserInfoDisplayItem(alias: alias)
             item.firstName = contact?.firstName
             item.lastName = contact?.lastName
             item.email = contact?.email
             item.imageURL = contact?.profileImageURL
 
-            items.append(item)
+            return item
         }
 
         completion(items)

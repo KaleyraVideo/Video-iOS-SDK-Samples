@@ -27,14 +27,14 @@ class ContactsNavigationController: UINavigationController {
         return style
     }
 
-    @objc public func setStatusBarAppearance(_ style: UIStatusBarStyle) {
+    func setStatusBarAppearance(_ style: UIStatusBarStyle) {
         if statusBarStyleBackup == nil {
             statusBarStyleBackup = preferredStatusBarStyle
         }
         statusBarStyle = style
     }
 
-    @objc public func restoreStatusBarAppearance() {
+    func restoreStatusBarAppearance() {
         statusBarStyle = statusBarStyleBackup
     }
 }
