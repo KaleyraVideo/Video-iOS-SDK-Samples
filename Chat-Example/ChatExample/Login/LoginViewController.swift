@@ -51,7 +51,7 @@ class LoginViewController: UITableViewController {
 
     //MARK: Refreshing users
 
-    func refreshUsers() {
+    private func refreshUsers() {
         refreshControl?.beginRefreshing()
 
         //Here we are fetching user information from our backend system.
@@ -83,7 +83,7 @@ class LoginViewController: UITableViewController {
 
     //MARK: Login
 
-    func loginUsers() {
+    private func loginUsers() {
         //Once the end user has selected which user wants to impersonate, we start the SDK client.
 
         //We are registering as a call client observer in order to be notified when the client changes its state.
@@ -148,7 +148,7 @@ extension LoginViewController: BCHChatClientObserver {
 //MARK: Activity indicator
 extension LoginViewController {
 
-    func showActivityIndicatorInNavigationBar() {
+    private func showActivityIndicatorInNavigationBar() {
 
         let style: UIActivityIndicatorView.Style
         if #available(iOS 13.0, *) {
@@ -162,7 +162,7 @@ extension LoginViewController {
         navigationItem.setRightBarButton(item, animated: true)
     }
 
-    func hideActivityIndicatorFromNavigationBar() {
+    private func hideActivityIndicatorFromNavigationBar() {
         navigationItem.setRightBarButton(nil, animated: true)
     }
 }
