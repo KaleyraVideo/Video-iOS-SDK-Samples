@@ -32,6 +32,6 @@ class ContactsGenerator {
         contact.email = "\(contact.firstName!).\(contact.lastName!)@example.com"
         contact.age = UInt.random(in: 18...80)
 
-        return contact;
+        return contact
     }
 }

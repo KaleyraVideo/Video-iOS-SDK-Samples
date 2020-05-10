@@ -133,7 +133,6 @@ extension AppDelegate {
     }
 
     func visibleController(_ controller: UIViewController?) -> UIViewController? {
-
         guard let visibleVC = controller else {
             return nil
         }
