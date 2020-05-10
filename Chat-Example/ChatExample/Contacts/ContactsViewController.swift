@@ -94,7 +94,7 @@ class ContactsViewController: UIViewController {
         
         //Here we create the array containing the "user aliases" we want to contact.
         let aliases = selectedContacts.compactMap { (contactIndex) -> String? in
-            return addressBook?.contacts[contactIndex.row].alias
+            addressBook?.contacts[contactIndex.row].alias
         }
         
         //Then we create the intent providing the aliases array (which is a required parameter) along with the type of call we want perform.
@@ -223,16 +223,18 @@ class ContactsViewController: UIViewController {
         // if audioButton is true, the channel view controller will show audio button on nav bar;
         // if videoButton is true, the channel view controller will show video button on nav bar;
         // if userInfoFetcher is set, the global userInfoFetcher will be overridden. WARNING!!!
+        // if formatter is set, the default formatter will be overridden.
         
         let userInfoFetcher = UserInfoFetcher(addressBook!)
-        
-        //Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one. The same result is achieved without setting the configuration property.
-        let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: userInfoFetcher)
+
+        //Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one.
+        //If we pass a nil formatter, the Bandyer SDK will use a default one.
+        let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: userInfoFetcher, formatter: AsteriskFormatter())
         
         //Otherwise you can use other initializer.
-        //let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, userInfoFetcher: nil)
+        //let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, userInfoFetcher: nil, formatter: nil)
         
-        //If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: nil)
+        //If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: nil, formatter: nil)
         channelViewController.configuration = configuration
         
         //Please make sure to set intent after configuration, otherwise the configuration will be not taking in charge.
