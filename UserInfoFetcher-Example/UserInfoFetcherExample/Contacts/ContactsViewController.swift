@@ -32,7 +32,6 @@ class ContactsViewController: UIViewController {
     private var intent: BDKIntent?
 
     private let callBannerController = CallBannerController()
-    private let messageNotificationController = MessageNotificationController()
 
     //MARK: View
     override func viewDidLoad() {
@@ -46,7 +45,6 @@ class ContactsViewController: UIViewController {
 
         //When view loads we have to setup custom view controllers.
         setupBannerView()
-        setupNotificationView()
     }
 
     private func setupBannerView() {
@@ -54,42 +52,37 @@ class ContactsViewController: UIViewController {
         callBannerController.parentViewController = self
     }
 
-    private func setupNotificationView() {
-        //Here we are configuring the notification view.
-
-        //WARNING!!! If userInfoFetcher is set, the global userInfoFetcher will be overridden.
-        let userInfoFetcher = NotificationUserInfoFetcher(addressBook: addressBook!)
-
-        //Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one. The same result is achieved without setting the configuration property.
-
-        let configuration = MessageNotificationControllerConfiguration(userInfoFetcher: userInfoFetcher)
-        messageNotificationController.configuration = configuration
-
-        messageNotificationController.delegate = self
-        messageNotificationController.parentViewController = self
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         callBannerController.show()
-        messageNotificationController.show()
+        setupNotificationsCoordinator()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         callBannerController.hide()
-        messageNotificationController.hide()
+        disableNotificationsCoordinator()
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 
         //Remember to call viewWillTransitionTo on custom view controllers to update UI while rotating.
         callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
-        messageNotificationController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
 
         super.viewWillTransition(to: size, with: coordinator)
+    }
+
+    //MARK: In-app Notification
+
+    private func setupNotificationsCoordinator() {
+        BandyerSDK.instance().notificationsCoordinator?.chatListener = self
+        BandyerSDK.instance().notificationsCoordinator?.start()
+    }
+
+    private func disableNotificationsCoordinator() {
+        BandyerSDK.instance().notificationsCoordinator?.stop()
     }
 
     //MARK: Calls
@@ -549,13 +542,6 @@ extension ContactsViewController: ChannelViewControllerDelegate {
     }
 }
 
-//MARK: Message Notification Controller delegate
-extension ContactsViewController: MessageNotificationControllerDelegate {
-    func messageNotificationController(_ controller: MessageNotificationController, didTouch notification: ChatNotification) {
-        presentChat(from: notification)
-    }
-}
-
 //MARK: Call Banner Controller delegate
 extension ContactsViewController: CallBannerControllerDelegate {
     func callBannerController(_ controller: CallBannerController, didTouch banner: CallBannerView) {
@@ -570,5 +556,22 @@ extension ContactsViewController: CallBannerControllerDelegate {
 
     func callBannerController(_ controller: CallBannerController, willHide banner: CallBannerView) {
         restoreStatusBarAppearance()
+    }
+}
+
+//MARK: In App file share notification touch listener delegate
+extension ContactsViewController: InAppChatNotificationTouchListener {
+    func onTouch(_ notification: ChatNotification) {
+        if let callWindow = self.callWindow, !callWindow.isHidden {
+            callWindow.isHidden = true
+        }
+
+        if presentedViewController is ChannelViewController {
+            presentedViewController?.dismiss(animated: true) { [weak self] in
+                self?.presentChat(from: notification)
+            }
+        } else {
+            presentChat(from: notification)
+        }
     }
 }
