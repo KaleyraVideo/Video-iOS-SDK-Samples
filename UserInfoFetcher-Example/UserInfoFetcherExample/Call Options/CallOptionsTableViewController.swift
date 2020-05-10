@@ -17,7 +17,7 @@ class CallOptionsTableViewController: UITableViewController {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
 
         if indexPath.section == 0 {
-            cell.accessoryType = indexPath.row == self.options.type.rawValue ? .checkmark : .none;
+            cell.accessoryType = indexPath.row == self.options.type.rawValue ? .checkmark : .none
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 let recordingSwitch = cell.accessoryView as! UISwitch?
@@ -28,7 +28,7 @@ class CallOptionsTableViewController: UITableViewController {
             }
         }
 
-        return cell;
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -535,7 +535,7 @@ extension ContactsViewController: ChannelViewControllerDelegate {
                 self?.intent = BDKMakeCallIntent(callee: callee, type: type)
                 self?.performCallViewControllerPresentation()
             }
-            return;
+            return
         }
 
         intent = BDKMakeCallIntent(callee: callee, type: type)
