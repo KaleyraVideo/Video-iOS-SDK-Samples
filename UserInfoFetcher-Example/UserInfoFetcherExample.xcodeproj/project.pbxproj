@@ -450,6 +450,7 @@
 		A11283B72347390500F035DC /* ContactsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
 		A11283B92347390500F035DC /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		A11283BA2347390500F035DC /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
+		A168184A24687F8000CFDF2F /* UserInfoFetcherExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UserInfoFetcherExample.entitlements; sourceTree = "<group>"; };
 		A18F46B72345FEA10072DE09 /* UserInfoFetcherExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserInfoFetcherExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A18F46BA2345FEA10072DE09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A18F46C12345FEA10072DE09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -790,6 +791,7 @@
 		A18F46B92345FEA10072DE09 /* UserInfoFetcherExample */ = {
 			isa = PBXGroup;
 			children = (
+				A168184A24687F8000CFDF2F /* UserInfoFetcherExample.entitlements */,
 				A11282E12347390400F035DC /* Call Options */,
 				A11283B82347390500F035DC /* Contacts */,
 				A11282DF2347390400F035DC /* Login */,
@@ -1281,6 +1283,7 @@
 			baseConfigurationReference = 423B811D5D54108F40EE82F9 /* Pods-UserInfoFetcherExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = UserInfoFetcherExample/UserInfoFetcherExample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = UserInfoFetcherExample/Info.plist;
@@ -1300,6 +1303,7 @@
 			baseConfigurationReference = 8AF2A035667CE8FD87387A59 /* Pods-UserInfoFetcherExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = UserInfoFetcherExample/UserInfoFetcherExample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = UserInfoFetcherExample/Info.plist;
