@@ -5,6 +5,7 @@
 import UIKit
 import PushKit
 import Intents
+import CallKit
 import Bandyer
 
 @UIApplicationMain
@@ -74,6 +75,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let callKitIcon = UIImage(named: "callkit-icon")
         config.nativeUITemplateIconImageData = callKitIcon?.pngData()
+
+        //The following statements will tell the BandyerSDK to use the app custom BCXHandleProvider. When any call is performed this
+        //object will tell CallKit which is the name of the call opponent it should show on the system call UI.
+        config.supportedHandleTypes = Set(arrayLiteral: NSNumber(integerLiteral: CXHandle.HandleType.generic.rawValue))
+        config.handleProvider = HandleProvider(addressBook: AddressBook.instance)
 
         //The following statement is going to tell the BandyerSDK which object it must forward device push tokens to when one is received.
         config.pushRegistryDelegate = self

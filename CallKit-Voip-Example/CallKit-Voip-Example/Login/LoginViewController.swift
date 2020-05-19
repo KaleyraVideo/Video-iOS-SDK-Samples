@@ -105,8 +105,8 @@ class LoginViewController: UITableViewController {
             let navController = segue.destination as! UINavigationController
             let controller = navController.topViewController as! ContactsViewController
 
-            let addressBook = AddressBook(userIds, currentUser: selectedUserId!)
-            controller.addressBook = addressBook
+            AddressBook.instance.update(withAliases: userIds, currentUser: selectedUserId!)
+            controller.addressBook = AddressBook.instance
         }
     }
 }
@@ -140,7 +140,6 @@ extension LoginViewController: BCXCallClientObserver {
 extension LoginViewController {
 
     func showActivityIndicatorInNavigationBar() {
-
         let style: UIActivityIndicatorView.Style
         if #available(iOS 13.0, *) {
             style = .medium

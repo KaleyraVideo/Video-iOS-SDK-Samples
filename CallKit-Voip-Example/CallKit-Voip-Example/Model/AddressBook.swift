@@ -4,15 +4,21 @@
 
 import Foundation
 
-struct AddressBook {
+class AddressBook {
 
     private (set) var me: Contact?
     private (set) var contacts: [Contact]
+    static private (set) var instance: AddressBook = AddressBook()
 
-    init(_ aliases: [String], currentUser: String) {
-
+    private init() {
         contacts = []
+    }
 
+    func findContact(alias: String) -> Contact? {
+        contacts.first { $0.alias == alias }
+    }
+
+    func update(withAliases aliases: [String], currentUser: String) {
         for alias in aliases {
             let contact = ContactsGenerator.contact(alias)
 
