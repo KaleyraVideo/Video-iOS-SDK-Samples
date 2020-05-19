@@ -478,6 +478,24 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A977E3ED24740DFA0000A0C2 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				A9B7247122255FAB00D421D1 /* Main.storyboard */,
+				A9B7247622255FAC00D421D1 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		A977E3EE24740E0E0000A0C2 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				A14C11C223478E6500AA97B7 /* CallKit-Voip-Example.entitlements */,
+				A9B7247922255FAC00D421D1 /* Info.plist */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		A9B7246122255FAB00D421D1 = {
 			isa = PBXGroup;
 			children = (
@@ -499,7 +517,8 @@
 		A9B7246C22255FAB00D421D1 /* CallKit-Voip-Example */ = {
 			isa = PBXGroup;
 			children = (
-				A14C11C223478E6500AA97B7 /* CallKit-Voip-Example.entitlements */,
+				A977E3EE24740E0E0000A0C2 /* Support */,
+				A977E3ED24740DFA0000A0C2 /* Storyboards */,
 				A9B726322225905B00D421D1 /* Call Options */,
 				A9B726352225905B00D421D1 /* Contacts */,
 				A9B7270B2225905C00D421D1 /* Login */,
@@ -507,10 +526,6 @@
 				A9B7263C2225905B00D421D1 /* Resources */,
 				A9B726372225905B00D421D1 /* Services */,
 				A9B7246D22255FAB00D421D1 /* AppDelegate.swift */,
-				A9B7247122255FAB00D421D1 /* Main.storyboard */,
-				A9B7247422255FAC00D421D1 /* Assets.xcassets */,
-				A9B7247622255FAC00D421D1 /* LaunchScreen.storyboard */,
-				A9B7247922255FAC00D421D1 /* Info.plist */,
 			);
 			path = "CallKit-Voip-Example";
 			sourceTree = "<group>";
@@ -528,8 +543,8 @@
 		A9B726322225905B00D421D1 /* Call Options */ = {
 			isa = PBXGroup;
 			children = (
-				A9B726332225905B00D421D1 /* CallOptionsTableViewController.swift */,
 				A9B726342225905B00D421D1 /* CallOptionsItem.swift */,
+				A9B726332225905B00D421D1 /* CallOptionsTableViewController.swift */,
 			);
 			path = "Call Options";
 			sourceTree = "<group>";
@@ -537,8 +552,8 @@
 		A9B726352225905B00D421D1 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				A9B726362225905B00D421D1 /* ContactsViewController.swift */,
 				32DC9E4F96E5416BC7F4345E /* ContactsNavigationController.swift */,
+				A9B726362225905B00D421D1 /* ContactsViewController.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -546,10 +561,10 @@
 		A9B726372225905B00D421D1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A9B7263B2225905B00D421D1 /* ContactsGenerator.swift */,
+				A9B7263A2225905B00D421D1 /* UserInfoFetcher.swift */,
 				A9B726382225905B00D421D1 /* UserRepository.swift */,
 				A9B726392225905B00D421D1 /* UserSession.swift */,
-				A9B7263A2225905B00D421D1 /* UserInfoFetcher.swift */,
-				A9B7263B2225905B00D421D1 /* ContactsGenerator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -557,6 +572,7 @@
 		A9B7263C2225905B00D421D1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A9B7247422255FAC00D421D1 /* Assets.xcassets */,
 				A9B7263D2225905B00D421D1 /* SampleVideo_640x360_10mb.mp4 */,
 				A9B7263E2225905B00D421D1 /* Men */,
 				A9B726A32225905B00D421D1 /* Women */,
