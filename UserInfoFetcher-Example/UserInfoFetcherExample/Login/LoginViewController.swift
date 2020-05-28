@@ -56,7 +56,9 @@ class LoginViewController: UITableViewController {
 
         //Here we are fetching user information from our backend system.
         //We are doing this in order to have the list of available users we can impersonate.
-        repository.fetchAllUsers { aliases, error in
+        repository.fetchAllUsers { [weak self] aliases, error in
+            guard let self = self else { return }
+            
             self.refreshControl?.endRefreshing()
 
             guard error == nil else {
@@ -70,14 +72,8 @@ class LoginViewController: UITableViewController {
             self.userIds = users
 
             //Here we are setting the AddressBook to our custom UserInfoFetcher to let BandyerSDK use it.
-
-            let addressBook = AddressBook(users)
-
+            let addressBook = AddressBook(users, currentUser: self.selectedUserId)
             GlobalUserInfoFetcher.instance?.addressBook = addressBook
-
-            guard self.selectedUserId != nil else {
-                return
-            }
 
             self.loginUsers()
         }
@@ -90,6 +86,9 @@ class LoginViewController: UITableViewController {
     //MARK: Login
 
     private func loginUsers() {
+        guard let selectedUserId = self.selectedUserId else {
+            return
+        }
         //Once the end user has selected which user wants to impersonate, we start the SDK client.
 
         //We are registering as a call client observer in order to be notified when the client changes its state.
@@ -98,22 +97,26 @@ class LoginViewController: UITableViewController {
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 
         //Then we start the call client providing the "user alias" of the user selected.
-        BandyerSDK.instance().callClient.start(selectedUserId!)
+        BandyerSDK.instance().callClient.start(selectedUserId)
 
         //Here we start the chat client, providing the "user alias" of the user selected.
-        BandyerSDK.instance().chatClient.start(userId: selectedUserId!)
+        BandyerSDK.instance().chatClient.start(userId: selectedUserId)
     }
 
     //MARK: Navigating to contacts
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == segueIdentifier {
-            let navController = segue.destination as! UINavigationController
-            let controller = navController.topViewController as! ContactsViewController
-
-            let addressBook = AddressBook(userIds, currentUser: selectedUserId!)
-            controller.addressBook = addressBook
+        guard segue.identifier == segueIdentifier else {
+            return
         }
+        guard let navController = segue.destination as? UINavigationController else {
+            return
+        }
+        guard let controller = navController.topViewController as? ContactsViewController else {
+            return
+        }
+        
+        controller.addressBook = AddressBook(userIds, currentUser: selectedUserId)
     }
 }
 
