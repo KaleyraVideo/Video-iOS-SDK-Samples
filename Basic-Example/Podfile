@@ -3,5 +3,5 @@ platform :ios, '9.0'
 target 'Basic-Example' do
   use_frameworks!
 
-  pod 'Bandyer', :git => 'https://github.com/Bandyer/Bandyer-iOS-SDK.git', :branch => 'pre-release'
+  pod 'Bandyer', :git => 'https://github.com/Bandyer/Bandyer-iOS-SDK.git'
 end
