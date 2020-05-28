@@ -7,21 +7,22 @@ import Foundation
 
 struct AddressBook {
 
-    private (set) var me: Contact?
-    private (set) var contacts: [Contact]
+    let me: Contact?
+    let contacts: [Contact]
 
-    init(_ aliases: [String], currentUser: String? = nil) {
-
-        contacts = []
-
-        for alias in aliases {
-            let contact = ContactsGenerator.contact(alias)
-
-            if alias == currentUser {
-                me = contact
-            } else {
-                contacts.append(contact)
+    init(_ aliases: [String], currentUser: String?) {
+        
+        self.contacts = aliases.compactMap { (alias) -> Contact? in
+            guard alias != currentUser else {
+                return nil
             }
+            return ContactsGenerator.contact(alias)
+        }
+        
+        if let meAlias = aliases.first(where: { $0 == currentUser }) {
+            self.me = ContactsGenerator.contact(meAlias)
+        } else {
+            self.me = nil
         }
     }
 }
