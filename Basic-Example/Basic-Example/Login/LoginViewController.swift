@@ -54,7 +54,9 @@ class LoginViewController: UITableViewController {
     private func refreshUsers() {
         refreshControl?.beginRefreshing()
 
-        repository.fetchAllUsers { aliases, error in
+        repository.fetchAllUsers { [weak self] aliases, error in
+            guard let self = self else { return }
+
             self.refreshControl?.endRefreshing()
 
             guard error == nil else {
@@ -67,10 +69,6 @@ class LoginViewController: UITableViewController {
 
             self.userIds = users
 
-            guard self.selectedUserId != nil else {
-                return
-            }
-
             self.loginUsers()
         }
     }
@@ -82,24 +80,35 @@ class LoginViewController: UITableViewController {
     //MARK: Login
 
     private func loginUsers() {
+        guard let selectedUserId = self.selectedUserId else {
+            return
+        }
+
         //We are registering as a call client observer in order to be notified when the client changes its state.
         //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
         //otherwise the SDK will notify the observer onto its background internal queue.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
         //Then we start the call client providing the "user alias" of the user selected.
-        BandyerSDK.instance().callClient.start(selectedUserId!)
+        BandyerSDK.instance().callClient.start(selectedUserId)
     }
 
     //MARK: Navigating to contacts
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == segueIdentifier {
-            let navController = segue.destination as! UINavigationController
-            let controller = navController.topViewController as! ContactsViewController
-
-            let addressBook = AddressBook(userIds, currentUser: selectedUserId!)
-            controller.addressBook = addressBook
+        guard segue.identifier == segueIdentifier else {
+            return
         }
+        guard let navController = segue.destination as? UINavigationController else {
+            return
+        }
+        guard let controller = navController.topViewController as? ContactsViewController else {
+            return
+        }
+        guard let selectedUserId = self.selectedUserId else {
+            return
+        }
+
+        controller.addressBook = AddressBook(userIds, currentUser: selectedUserId)
     }
 }
 
