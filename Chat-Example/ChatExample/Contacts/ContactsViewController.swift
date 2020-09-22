@@ -373,9 +373,10 @@ extension ContactsViewController: UITableViewDataSource {
         cell.delegate = self
         
         let contact = addressBook?.contacts[indexPath.row]
+
         cell.titleLabel.text = contact?.fullName
         cell.subtitleLabel.text = contact?.alias
-        
+
         if tableView.allowsMultipleSelection {
             cell.chatButton.isEnabled = false
             cell.chatButton.alpha = 0

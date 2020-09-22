@@ -295,8 +295,15 @@ extension ContactsViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         let contact = addressBook?.contacts[indexPath.row]
-        cell.textLabel?.text = contact?.fullName
-        cell.detailTextLabel?.text = contact?.alias
+        if #available(iOS 14.0, *) {
+            var config = cell.defaultContentConfiguration()
+            config.text = contact?.fullName
+            config.secondaryText = contact?.alias
+            cell.contentConfiguration = config
+        } else {
+            cell.textLabel?.text = contact?.fullName
+            cell.detailTextLabel?.text = contact?.alias
+        }
 
         let image = UIImage(named: "phone")?.withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)

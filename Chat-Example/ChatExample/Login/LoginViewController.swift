@@ -227,7 +227,13 @@ extension LoginViewController {
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        cell.textLabel?.text = userIds[indexPath.row]
+        if #available(iOS 14.0, *) {
+            var config = cell.defaultContentConfiguration()
+            config.text = userIds[indexPath.row]
+            cell.contentConfiguration = config
+        } else {
+            cell.textLabel?.text = userIds[indexPath.row]
+        }
         return cell
     }
 }
