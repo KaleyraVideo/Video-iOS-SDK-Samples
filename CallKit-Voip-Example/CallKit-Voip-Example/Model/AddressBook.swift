@@ -29,4 +29,9 @@ class AddressBook {
             }
         }
     }
+
+    func cleanUp() {
+        me = nil
+        contacts.removeAll()
+    }
 }

@@ -28,7 +28,7 @@ class LoginViewController: UITableViewController {
             tableView.reloadData()
         }
     }
-    
+
     private var addressBook: AddressBook?
 
     //MARK: View
@@ -48,13 +48,17 @@ class LoginViewController: UITableViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
+        cleanUp()
+    }
+
+    private func cleanUp() {
         selectedUserId = nil
+        addressBook = nil
     }
 
     private func cleanup() {
         selectedUserId = nil
         addressBook = nil
-        GlobalUserInfoFetcher.instance?.addressBook = nil
     }
 
     //MARK: Refreshing users
@@ -78,12 +82,6 @@ class LoginViewController: UITableViewController {
             }
 
             self.userIds = users
-
-            //Here we are setting the AddressBook to our custom UserInfoFetcher to let BandyerSDK use it.
-            let addressBook = AddressBook(users, currentUser: self.selectedUserId)
-            GlobalUserInfoFetcher.instance?.addressBook = addressBook
-            
-            self.addressBook = addressBook
 
             self.loginUsers()
         }
@@ -111,6 +109,17 @@ class LoginViewController: UITableViewController {
 
         //Here we start the chat client, providing the "user alias" of the user selected.
         BandyerSDK.instance().chatClient.start(userId: selectedUserId)
+
+        let addressBook = AddressBook(userIds, currentUser: selectedUserId)
+
+        //This statement tells the Bandyer SDK which object, conforming to `UserInfoFetcher` protocol, should use to present contact
+        //information in its views.
+        //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
+        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
+        //and provide those information to the Bandyer SDK.
+        BandyerSDK.instance().userInfoFetcher = UserInfoFetcher(addressBook: addressBook)
+
+        self.addressBook = addressBook
     }
 
     //MARK: Navigating to contacts
@@ -126,7 +135,7 @@ class LoginViewController: UITableViewController {
             return
         }
         
-        controller.addressBook = self.addressBook
+        controller.addressBook = addressBook
     }
 }
 

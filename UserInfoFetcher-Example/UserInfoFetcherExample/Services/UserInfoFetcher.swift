@@ -4,35 +4,24 @@
 
 import Bandyer
 
-class GlobalUserInfoFetcher: NSObject, BDKUserInfoFetcher {
+class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
 
-    static var instance: GlobalUserInfoFetcher?
+    private let addressBook: AddressBook
 
-    var addressBook: AddressBook? {
-        didSet {
-            guard let book = addressBook else {
-                return
-            }
+    private let aliasMap: [String: Contact]
 
-            aliasMap = ContactsMapGenerator(with: book).createAliasMap()
-        }
-    }
-
-    private var aliasMap: [String: Contact]?
-
-    override init() {
-        super.init()
-
-        GlobalUserInfoFetcher.instance = self
+    init(addressBook: AddressBook) {
+        self.addressBook = addressBook
+        self.aliasMap = ContactsMapGenerator(with: addressBook).createAliasMap()
     }
 
     func fetchUsers(_ aliases: [String], completion: @escaping ([BDKUserInfoDisplayItem]?) -> Void) {
         let items = aliases.compactMap { (alias) -> BDKUserInfoDisplayItem? in
-            guard let contact = aliasMap?[alias] else {
+            guard let contact = aliasMap[alias] else {
                 return nil
             }
 
-            //Suppose globally we want to have all the fields available.
+            //Suppose we want to have all the fields available.
             let item = BDKUserInfoDisplayItem(alias: alias)
             item.firstName = contact.firstName
             item.lastName = contact.lastName
@@ -45,8 +34,7 @@ class GlobalUserInfoFetcher: NSObject, BDKUserInfoFetcher {
     }
 
     func copy(with zone: NSZone? = nil) -> Any {
-        let fetcher = GlobalUserInfoFetcher()
-        fetcher.addressBook = self.addressBook
+        let fetcher = UserInfoFetcher(addressBook: self.addressBook)
         return fetcher
     }
 }

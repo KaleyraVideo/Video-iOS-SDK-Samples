@@ -28,6 +28,8 @@ class LoginViewController: UITableViewController {
             tableView.reloadData()
         }
     }
+    
+    private var addressBook: AddressBook?
 
     //MARK: View
 
@@ -46,7 +48,12 @@ class LoginViewController: UITableViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
+        cleanUp()
+    }
+    
+    private func cleanUp() {
         selectedUserId = nil
+        addressBook = nil
     }
 
     //MARK: Refreshing users
@@ -90,6 +97,17 @@ class LoginViewController: UITableViewController {
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
         //Then we start the call client providing the "user alias" of the user selected.
         BandyerSDK.instance().callClient.start(selectedUserId)
+        
+        let addressBook = AddressBook(userIds, currentUser: selectedUserId)
+        
+        //This statement tells the Bandyer SDK which object, conforming to `UserInfoFetcher` protocol, should use to present contact
+        //information in its views.
+        //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
+        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
+        //and provide those information to the Bandyer SDK.
+        BandyerSDK.instance().userInfoFetcher = UserInfoFetcher(addressBook)
+        
+        self.addressBook = addressBook
     }
 
     //MARK: Navigating to contacts
@@ -104,11 +122,8 @@ class LoginViewController: UITableViewController {
         guard let controller = navController.topViewController as? ContactsViewController else {
             return
         }
-        guard let selectedUserId = self.selectedUserId else {
-            return
-        }
-
-        controller.addressBook = AddressBook(userIds, currentUser: selectedUserId)
+        
+        controller.addressBook = addressBook
     }
 }
 

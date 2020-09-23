@@ -217,28 +217,20 @@ class ContactsViewController: UIViewController {
     }
     
     private func presentChat(from controller: UIViewController, intent: OpenChatIntent) {
-        guard let addresses = addressBook else {
-            fatalError("The addressBook for the userInfoFetcher could not be found")
-        }
         let channelViewController = ChannelViewController()
         channelViewController.delegate = self
         
         //Here we are configuring the channel view controller:
         // if audioButton is true, the channel view controller will show audio button on nav bar;
         // if videoButton is true, the channel view controller will show video button on nav bar;
-        // if userInfoFetcher is set, the global userInfoFetcher will be overridden. WARNING!!!
         // if formatter is set, the default formatter will be overridden.
-        
-        let userInfoFetcher = UserInfoFetcher(addresses)
 
-        //Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one.
-        //If we pass a nil formatter, the Bandyer SDK will use a default one.
-        let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: userInfoFetcher, formatter: AsteriskFormatter())
+        let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, formatter: AsteriskFormatter())
         
         //Otherwise you can use other initializer.
-        //let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, userInfoFetcher: nil, formatter: nil)
+        //let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, formatter: nil)
         
-        //If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: nil, formatter: nil)
+        //If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, formatter: nil)
         channelViewController.configuration = configuration
         
         //Please make sure to set intent after configuration, otherwise the configuration will be not taking in charge.
@@ -287,7 +279,7 @@ class ContactsViewController: UIViewController {
         guard let addresses = addressBook else {
             fatalError("The addressBook for the call userInfoFetcher could not be found")
         }
-        
+
         //Here we are configuring the BDKCallViewController instance created from the storyboard.
         //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
@@ -301,14 +293,7 @@ class ContactsViewController: UIViewController {
         //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
         let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
-        
-        //This statement tells the view controller which object, conforming to `BDKUserInfoFetcher` protocol, should use to present contact
-        //information in its views.
-        //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
-        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
-        //and provide those information to the view controller.
-        config.userInfoFetcher = UserInfoFetcher(addresses)
-        
+
         //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
         //view is loaded, otherwise an exception is thrown.
         callWindow?.setConfiguration(config)

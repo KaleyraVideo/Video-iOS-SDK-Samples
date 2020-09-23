@@ -29,6 +29,8 @@ class LoginViewController: UITableViewController {
         }
     }
 
+    private var addressBook: AddressBook?
+
     //MARK: View
 
     override func viewDidLoad() {
@@ -46,7 +48,13 @@ class LoginViewController: UITableViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
+        cleanUp()
+    }
+
+    private func cleanUp() {
         selectedUserId = nil
+        addressBook = nil
+        AddressBook.instance.cleanUp()
     }
 
     //MARK: Refreshing users
@@ -98,6 +106,19 @@ class LoginViewController: UITableViewController {
 
         //Here we start the chat client, providing the "user alias" of the user selected.
         BandyerSDK.instance().chatClient.start(userId: selectedUserId)
+
+        AddressBook.instance.update(withAliases: userIds, currentUser: selectedUserId)
+
+        let addressBook = AddressBook.instance
+
+        //This statement tells the Bandyer SDK which object, conforming to `UserInfoFetcher` protocol, should use to present contact
+        //information in its views.
+        //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
+        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
+        //and provide those information to the Bandyer SDK.
+        BandyerSDK.instance().userInfoFetcher = UserInfoFetcher(addressBook)
+
+        self.addressBook = addressBook
     }
 
     //MARK: Navigating to contacts
@@ -112,12 +133,8 @@ class LoginViewController: UITableViewController {
         guard let controller = navController.topViewController as? ContactsViewController else {
             return
         }
-        guard let selectedUserId = self.selectedUserId else {
-            return
-        }
 
-        AddressBook.instance.update(withAliases: userIds, currentUser: selectedUserId)
-        controller.addressBook = AddressBook.instance
+        controller.addressBook = addressBook
     }
 }
 

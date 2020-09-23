@@ -14,7 +14,7 @@ class HandleProvider: NSObject, BCXHandleProvider {
     }
 
     func copy(with zone: NSZone? = nil) -> Any {
-        return self
+        self
     }
 
     func handle(forAliases aliases: [String]?, completion: @escaping (CXHandle) -> Void) {
