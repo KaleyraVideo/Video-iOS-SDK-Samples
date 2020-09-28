@@ -164,9 +164,9 @@ class ContactsViewController: UIViewController {
     //MARK: Navigation to other screens
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == optionsSegueIdentifier {
-            let controller = segue.destination as! CallOptionsTableViewController
-            controller.options = options
-            controller.delegate = self
+            let controller = segue.destination as? CallOptionsTableViewController
+            controller?.options = options
+            controller?.delegate = self
         }
     }
 
@@ -229,6 +229,10 @@ class ContactsViewController: UIViewController {
     private func prepareForCallViewControllerPresentation() {
         initCallWindowIfNeeded()
 
+        guard let addresses = addressBook else {
+            fatalError("The addressBook for the call userInfoFetcher could not be found")
+        }
+
         //Here we are configuring the CallViewController instance.
         //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
@@ -248,7 +252,7 @@ class ContactsViewController: UIViewController {
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
         //and provide those information to the view controller.
-        config.userInfoFetcher = UserInfoFetcher(addressBook!)
+        config.userInfoFetcher = UserInfoFetcher(addresses)
 
         //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
         //view is loaded, otherwise an exception is thrown.
@@ -294,6 +298,18 @@ class ContactsViewController: UIViewController {
         let rootNavigationController = navigationController as? ContactsNavigationController
         rootNavigationController?.setStatusBarAppearance(.lightContent)
     }
+
+    private func remove(item: UIBarButtonItem, animated: Bool) {
+        guard var items = navigationItem.rightBarButtonItems else {
+            return
+        }
+        guard let lastIndex = items.lastIndex(of: item) else {
+            return
+        }
+
+        items.remove(at: lastIndex)
+        navigationItem.setRightBarButtonItems(items, animated: animated)
+    }
 }
 
 //MARK: Table view data source
@@ -304,7 +320,7 @@ extension ContactsViewController: UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        addressBook!.contacts.count
+        addressBook?.contacts.count ?? 0
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -326,8 +342,8 @@ extension ContactsViewController: UITableViewDataSource {
 extension ContactsViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        if selectedContacts.contains(indexPath) {
-            selectedContacts.remove(at: selectedContacts.lastIndex(of: indexPath)!)
+        if let index = selectedContacts.lastIndex(of: indexPath) {
+            selectedContacts.remove(at: index)
         } else {
             selectedContacts.append(indexPath)
         }
@@ -398,14 +414,7 @@ extension ContactsViewController {
             return
         }
 
-        guard var items = navigationItem.rightBarButtonItems else {
-            return
-        }
-
-        if items.contains(item) {
-            items.remove(at: items.lastIndex(of: item)!)
-            navigationItem.setRightBarButtonItems(items, animated: animated)
-        }
+        remove(item: item, animated: animated)
     }
 }
 
@@ -431,14 +440,7 @@ extension ContactsViewController {
             return
         }
 
-        guard var items = navigationItem.rightBarButtonItems else {
-            return
-        }
-
-        if (items.contains(item)) {
-            items.remove(at: items.lastIndex(of: item)!)
-            navigationItem.setRightBarButtonItems(items, animated: animated)
-        }
+        remove(item: item, animated: animated)
     }
 }
 

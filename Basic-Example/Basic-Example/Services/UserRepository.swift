@@ -44,7 +44,7 @@ class UserRepository {
 
         self.task = URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) -> Void in
 
-            guard error == nil else{
+            guard let data = data, error == nil else{
 
                 self.queue.async {
                     completion(nil, NSError(domain: "com.acme.error", code: 2, userInfo: [NSLocalizedFailureReasonErrorKey : "An error occurred while fetching users", NSUnderlyingErrorKey : error!]))
@@ -54,11 +54,11 @@ class UserRepository {
             }
 
             do {
-                let json = try JSONSerialization.jsonObject(with: data!)
+                let json = try JSONSerialization.jsonObject(with: data)
 
                 self.queue.async {
-                    let decodedData = json as! [String: [String]]
-                    completion(decodedData["user_id_list"], nil)
+                    let decodedData = json as? [String: [String]]
+                    completion(decodedData?["user_id_list"], nil)
                 }
             } catch {
                 self.queue.async {

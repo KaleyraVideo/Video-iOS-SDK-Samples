@@ -18,7 +18,9 @@ class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
             aliasMap.updateValue(contact, forKey: contact.alias)
         }
 
-        aliasMap.updateValue(addressBook.me!, forKey: addressBook.me!.alias)
+        if let me = addressBook.me {
+            aliasMap.updateValue(me, forKey: me.alias)
+        }
 
         self.aliasMap = aliasMap
     }

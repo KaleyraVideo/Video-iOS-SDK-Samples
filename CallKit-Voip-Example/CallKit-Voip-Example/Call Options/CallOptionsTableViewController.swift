@@ -21,10 +21,10 @@ class CallOptionsTableViewController: UITableViewController {
             cell.accessoryType = indexPath.row == self.options.type.rawValue ? .checkmark : .none
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
-                let recordingSwitch = cell.accessoryView as! UISwitch?
+                let recordingSwitch = cell.accessoryView as? UISwitch
                 recordingSwitch?.isOn = self.options.record
             } else if indexPath.row == 1 {
-                let textField = cell.accessoryView as! UITextField?
+                let textField = cell.accessoryView as? UITextField
                 textField?.text = String(self.options.maximumDuration)
             }
         }
@@ -48,7 +48,9 @@ class CallOptionsTableViewController: UITableViewController {
     }
 
     @IBAction func recordingSwitchValueChanged(sender: AnyObject) {
-        let `switch` = sender as! UISwitch
+        guard let `switch` = sender as? UISwitch else {
+            return
+        }
         options.record = `switch`.isOn
         tableView.reloadData()
         delegate?.controllerDidUpdateOptions(self)
@@ -63,7 +65,7 @@ extension CallOptionsTableViewController: UITextFieldDelegate {
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let value = UInt(textField.text!) else {
+        guard let text = textField.text, let value = UInt(text) else {
             return
         }
 

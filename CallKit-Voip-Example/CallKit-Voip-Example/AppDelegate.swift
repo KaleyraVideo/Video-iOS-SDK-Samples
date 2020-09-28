@@ -144,8 +144,7 @@ extension AppDelegate {
         }
 
         if visibleVC.presentedViewController != nil {
-            if visibleVC.presentedViewController is UINavigationController {
-                let navController = visibleVC.presentedViewController as! UINavigationController
+            if let navController = visibleVC.presentedViewController as? UINavigationController {
                 return visibleController(navController.viewControllers.last)
             }
 

@@ -16,24 +16,25 @@ class ContactsGenerator {
         var contact = Contact(alias)
 
         let female = Int.random(in: 1...2)
-        var resourceName = ""
+        let resourceName: String
+        let firstName: String
 
-        if (female == 1)
-        {
+        if (female == 1) {
             contact.gender = .female
-            contact.firstName = femaleNames[Int.random(in: 0 ..< femaleNames.count)]
-            resourceName = "woman_\(Int.random(in: 0 ... 99))"
-        } else
-        {
+            firstName = femaleNames[Int.random(in: 0..<femaleNames.count)]
+            resourceName = "woman_\(Int.random(in: 0...99))"
+        } else {
             contact.gender = .male
-            contact.firstName = maleNames[Int.random(in: 0 ..< maleNames.count)]
-            resourceName = "male_\(Int.random(in: 0 ... 99))"
+            firstName = maleNames[Int.random(in: 0..<maleNames.count)]
+            resourceName = "male_\(Int.random(in: 0...99))"
         }
+        let lastName = lastNames[Int.random(in: 0..<lastNames.count)]
 
         contact.profileImageURL = Bundle.main.url(forResource: resourceName, withExtension: ".jpg")
-        contact.lastName = lastNames[Int.random(in: 0 ..< lastNames.count)]
-        contact.email = "\(contact.firstName!).\(contact.lastName!)@example.com"
-        contact.age = UInt.random(in: 18 ... 80)
+        contact.lastName = lastName
+        contact.firstName = firstName
+        contact.email = "\(firstName).\(lastName)@example.com"
+        contact.age = UInt.random(in: 18...80)
 
         return contact
     }
