@@ -28,6 +28,8 @@ class LoginViewController: UITableViewController {
             tableView.reloadData()
         }
     }
+    
+    private var addressBook: AddressBook?
 
     //MARK: View
 
@@ -47,6 +49,12 @@ class LoginViewController: UITableViewController {
         super.viewDidDisappear(animated)
 
         selectedUserId = nil
+    }
+
+    private func cleanup() {
+        selectedUserId = nil
+        addressBook = nil
+        GlobalUserInfoFetcher.instance?.addressBook = nil
     }
 
     //MARK: Refreshing users
@@ -74,6 +82,8 @@ class LoginViewController: UITableViewController {
             //Here we are setting the AddressBook to our custom UserInfoFetcher to let BandyerSDK use it.
             let addressBook = AddressBook(users, currentUser: self.selectedUserId)
             GlobalUserInfoFetcher.instance?.addressBook = addressBook
+            
+            self.addressBook = addressBook
 
             self.loginUsers()
         }
@@ -116,7 +126,7 @@ class LoginViewController: UITableViewController {
             return
         }
         
-        controller.addressBook = AddressBook(userIds, currentUser: selectedUserId)
+        controller.addressBook = self.addressBook
     }
 }
 
