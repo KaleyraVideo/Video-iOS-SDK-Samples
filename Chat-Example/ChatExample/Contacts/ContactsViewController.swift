@@ -169,6 +169,7 @@ class ContactsViewController: UIViewController {
             enableMultipleSelection(true)
             showCallButtonInNavigationBar(animated: true)
             disableChatButtonOnVisibleCells()
+            callBarButtonItem?.isEnabled = false
         }
     }
     
@@ -276,10 +277,6 @@ class ContactsViewController: UIViewController {
     private func prepareForCallViewControllerPresentation() {
         initCallWindowIfNeeded()
 
-        guard let addresses = addressBook else {
-            fatalError("The addressBook for the call userInfoFetcher could not be found")
-        }
-
         //Here we are configuring the BDKCallViewController instance created from the storyboard.
         //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
@@ -377,20 +374,34 @@ extension ContactsViewController: UITableViewDataSource {
 //MARK: Table view delegate
 extension ContactsViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if let index = selectedContacts.lastIndex(of: indexPath) {
-            selectedContacts.remove(at: index)
-        } else {
-            selectedContacts.append(indexPath)
-        }
-        
-        callBarButtonItem?.isEnabled = selectedContacts.count > 1
+
+        bindSelectionOfContact(fromRowAt: indexPath)
         
         if !tableView.allowsMultipleSelection {
             startOutgoingCall()
             tableView.deselectRow(at: indexPath, animated: true)
             selectedContacts.removeAll()
         }
+    }
+
+    public func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard tableView.allowsMultipleSelection else {
+            return indexPath
+        }
+
+        bindSelectionOfContact(fromRowAt: indexPath)
+
+        return indexPath
+    }
+
+    private func bindSelectionOfContact(fromRowAt indexPath: IndexPath) {
+        if let index = selectedContacts.lastIndex(of: indexPath) {
+            selectedContacts.remove(at: index)
+        } else {
+            selectedContacts.append(indexPath)
+        }
+
+        callBarButtonItem?.isEnabled = selectedContacts.count > 1
     }
 }
 
