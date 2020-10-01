@@ -57,6 +57,8 @@ class ContactsViewController: UIViewController {
         
         callBannerController.show()
         setupNotificationsCoordinator()
+
+        tableView.backgroundColor = UIColor.customBackground
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -392,6 +394,10 @@ extension ContactsViewController: UITableViewDelegate {
         bindSelectionOfContact(fromRowAt: indexPath)
 
         return indexPath
+    }
+
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.customBackground
     }
 
     private func bindSelectionOfContact(fromRowAt indexPath: IndexPath) {

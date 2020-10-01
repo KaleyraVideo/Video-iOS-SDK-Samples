@@ -38,6 +38,8 @@ class LoginViewController: UITableViewController {
         super.viewDidLoad()
 
         self.refreshControl?.addTarget(self, action: #selector(refreshControlDidRefresh), for: .valueChanged)
+
+        tableView.backgroundColor = UIColor.customBackground
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -245,6 +247,10 @@ extension LoginViewController {
             cell.textLabel?.text = userIds[indexPath.row]
         }
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.customBackground
     }
 }
 

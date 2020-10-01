@@ -12,7 +12,7 @@ class UserSession {
             UserDefaults.standard.object(forKey: "com.acme.logged_user_id") as? String
         }
         set {
-            UserDefaults.standard.set(newValue as String?, forKey: "com.acme.logged_user_id")
+            UserDefaults.standard.set(newValue, forKey: "com.acme.logged_user_id")
             UserDefaults.standard.synchronize()
         }
     }

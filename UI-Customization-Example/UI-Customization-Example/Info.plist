@@ -24,6 +24,8 @@
     <string>Camera usage description goes here</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Microphone usage description goes here</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library usage description goes here</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -47,5 +49,13 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>UIAppFonts</key>
+    <array>
+        <string>Roboto-Light.ttf</string>
+        <string>Roboto-Medium.ttf</string>
+        <string>Roboto-Thin.ttf</string>
+        <string>Roboto-Regular.ttf</string>
+        <string>Roboto-Bold.ttf</string>
+    </array>
 </dict>
 </plist>

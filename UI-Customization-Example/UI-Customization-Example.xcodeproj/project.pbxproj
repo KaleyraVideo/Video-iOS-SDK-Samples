@@ -225,7 +225,14 @@
 		2F9A8D0B251CB5B8000FAF1E /* woman_58.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A8C42251CB5B8000FAF1E /* woman_58.jpg */; };
 		2F9A8D0C251CB5B8000FAF1E /* woman_64.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A8C43251CB5B8000FAF1E /* woman_64.jpg */; };
 		2F9A8D0D251CB5B8000FAF1E /* woman_70.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A8C44251CB5B8000FAF1E /* woman_70.jpg */; };
+		32DC92217C8DEFF9F360872E /* UIColor+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC996F7690913B1F752080 /* UIColor+Custom.swift */; };
+		32DC9633FA8642350C110856 /* UIFont+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC904F9432CBFF5B17389D /* UIFont+Custom.swift */; };
 		55903752087D84A443880C32 /* Pods_UI_Customization_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E22395C47C7C29D8A0AC72C7 /* Pods_UI_Customization_Example.framework */; };
+		A1597A6A2525F1080026BCD7 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A692525F1080026BCD7 /* Roboto-Light.ttf */; };
+		A1597A6D2525F3360026BCD7 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A6C2525F3360026BCD7 /* Roboto-Medium.ttf */; };
+		A1597A73252606EE0026BCD7 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A72252606EE0026BCD7 /* Roboto-Thin.ttf */; };
+		A1597A76252609DD0026BCD7 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A75252609DC0026BCD7 /* Roboto-Regular.ttf */; };
+		A1597A79252615A50026BCD7 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A78252615A50026BCD7 /* Roboto-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -450,7 +457,14 @@
 		2F9A8C42251CB5B8000FAF1E /* woman_58.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_58.jpg; sourceTree = "<group>"; };
 		2F9A8C43251CB5B8000FAF1E /* woman_64.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_64.jpg; sourceTree = "<group>"; };
 		2F9A8C44251CB5B8000FAF1E /* woman_70.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_70.jpg; sourceTree = "<group>"; };
+		32DC904F9432CBFF5B17389D /* UIFont+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Custom.swift"; sourceTree = "<group>"; };
+		32DC996F7690913B1F752080 /* UIColor+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Custom.swift"; sourceTree = "<group>"; };
 		42F60AF0EEBDDB1A82DBF136 /* Pods-UI-Customization-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UI-Customization-Example.release.xcconfig"; path = "Target Support Files/Pods-UI-Customization-Example/Pods-UI-Customization-Example.release.xcconfig"; sourceTree = "<group>"; };
+		A1597A692525F1080026BCD7 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		A1597A6C2525F3360026BCD7 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		A1597A72252606EE0026BCD7 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		A1597A75252609DC0026BCD7 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		A1597A78252615A50026BCD7 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		E22395C47C7C29D8A0AC72C7 /* Pods_UI_Customization_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UI_Customization_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8EF8DF0D81D5D01F6446720 /* Pods-UI-Customization-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UI-Customization-Example.debug.xcconfig"; path = "Target Support Files/Pods-UI-Customization-Example/Pods-UI-Customization-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -488,6 +502,7 @@
 		2F9A8B19251C9D2B000FAF1E /* UI-Customization-Example */ = {
 			isa = PBXGroup;
 			children = (
+				A1597A682525F0AD0026BCD7 /* Fonts */,
 				2F9A8B79251CB5B8000FAF1E /* Resources */,
 				2F9A8B75251CB073000FAF1E /* UI-Customization-Example.entitlements */,
 				2F9A8B6D251CAC61000FAF1E /* Call Options */,
@@ -500,6 +515,7 @@
 				2F9A8B23251C9D2B000FAF1E /* Assets.xcassets */,
 				2F9A8B25251C9D2B000FAF1E /* LaunchScreen.storyboard */,
 				2F9A8B28251C9D2B000FAF1E /* Info.plist */,
+				32DC9480A072BFE838748AE7 /* Custom Theme */,
 			);
 			path = "UI-Customization-Example";
 			sourceTree = "<group>";
@@ -776,6 +792,27 @@
 			path = Women;
 			sourceTree = "<group>";
 		};
+		32DC9480A072BFE838748AE7 /* Custom Theme */ = {
+			isa = PBXGroup;
+			children = (
+				32DC996F7690913B1F752080 /* UIColor+Custom.swift */,
+				32DC904F9432CBFF5B17389D /* UIFont+Custom.swift */,
+			);
+			path = "Custom Theme";
+			sourceTree = "<group>";
+		};
+		A1597A682525F0AD0026BCD7 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A1597A78252615A50026BCD7 /* Roboto-Bold.ttf */,
+				A1597A75252609DC0026BCD7 /* Roboto-Regular.ttf */,
+				A1597A72252606EE0026BCD7 /* Roboto-Thin.ttf */,
+				A1597A6C2525F3360026BCD7 /* Roboto-Medium.ttf */,
+				A1597A692525F1080026BCD7 /* Roboto-Light.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		C7DDDB67F63ABD42212AC829 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -880,6 +917,7 @@
 				2F9A8C4B251CB5B8000FAF1E /* man_25.jpg in Resources */,
 				2F9A8C79251CB5B8000FAF1E /* man_68.jpg in Resources */,
 				2F9A8C93251CB5B8000FAF1E /* man_74.jpg in Resources */,
+				A1597A6D2525F3360026BCD7 /* Roboto-Medium.ttf in Resources */,
 				2F9A8B27251C9D2B000FAF1E /* LaunchScreen.storyboard in Resources */,
 				2F9A8CB9251CB5B8000FAF1E /* woman_56.jpg in Resources */,
 				2F9A8C8C251CB5B8000FAF1E /* man_59.jpg in Resources */,
@@ -929,6 +967,7 @@
 				2F9A8C5F251CB5B8000FAF1E /* man_85.jpg in Resources */,
 				2F9A8C6C251CB5B8000FAF1E /* man_45.jpg in Resources */,
 				2F9A8CCA251CB5B8000FAF1E /* woman_93.jpg in Resources */,
+				A1597A6A2525F1080026BCD7 /* Roboto-Light.ttf in Resources */,
 				2F9A8C62251CB5B8000FAF1E /* man_50.jpg in Resources */,
 				2F9A8CDF251CB5B8000FAF1E /* woman_30.jpg in Resources */,
 				2F9A8C6A251CB5B8000FAF1E /* man_92.jpg in Resources */,
@@ -964,6 +1003,7 @@
 				2F9A8CC5251CB5B8000FAF1E /* woman_1.jpg in Resources */,
 				2F9A8D07251CB5B8000FAF1E /* woman_98.jpg in Resources */,
 				2F9A8D01251CB5B8000FAF1E /* woman_66.jpg in Resources */,
+				A1597A76252609DD0026BCD7 /* Roboto-Regular.ttf in Resources */,
 				2F9A8CD3251CB5B8000FAF1E /* woman_51.jpg in Resources */,
 				2F9A8C85251CB5B8000FAF1E /* man_72.jpg in Resources */,
 				2F9A8CF6251CB5B8000FAF1E /* woman_60.jpg in Resources */,
@@ -1020,6 +1060,7 @@
 				2F9A8C64251CB5B8000FAF1E /* man_78.jpg in Resources */,
 				2F9A8CBC251CB5B8000FAF1E /* woman_57.jpg in Resources */,
 				2F9A8CB0251CB5B8000FAF1E /* woman_7.jpg in Resources */,
+				A1597A73252606EE0026BCD7 /* Roboto-Thin.ttf in Resources */,
 				2F9A8C5D251CB5B8000FAF1E /* man_2.jpg in Resources */,
 				2F9A8CC6251CB5B8000FAF1E /* woman_52.jpg in Resources */,
 				2F9A8CF8251CB5B8000FAF1E /* woman_75.jpg in Resources */,
@@ -1039,6 +1080,7 @@
 				2F9A8C9C251CB5B8000FAF1E /* man_76.jpg in Resources */,
 				2F9A8D04251CB5B8000FAF1E /* woman_8.jpg in Resources */,
 				2F9A8CDE251CB5B8000FAF1E /* woman_24.jpg in Resources */,
+				A1597A79252615A50026BCD7 /* Roboto-Bold.ttf in Resources */,
 				2F9A8D09251CB5B8000FAF1E /* woman_65.jpg in Resources */,
 				2F9A8CBF251CB5B8000FAF1E /* woman_80.jpg in Resources */,
 				2F9A8CE2251CB5B8000FAF1E /* woman_31.jpg in Resources */,
@@ -1122,6 +1164,8 @@
 				2F9A8B71251CAC61000FAF1E /* CallOptionsItem.swift in Sources */,
 				2F9A8B73251CAE92000FAF1E /* AsteriskFormatter.swift in Sources */,
 				2F9A8B4B251CA7E1000FAF1E /* UserRepository.swift in Sources */,
+				32DC92217C8DEFF9F360872E /* UIColor+Custom.swift in Sources */,
+				32DC9633FA8642350C110856 /* UIFont+Custom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
