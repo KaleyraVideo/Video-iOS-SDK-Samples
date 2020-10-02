@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func customizeInAppNotification() {
-        //Only after that the SDK is initialized, you can change the In-app notification theme and set a custom formatter.
+        //Only after the SDK is initialized, you can change the In-app notification theme and set a custom formatter.
         //If you try to set the theme or the formatter before SDK initialization, the notificationsCoordinator will be nil and sets will not be applied.
         //The formatter will be used to display the user information on the In-app notification heading.
 

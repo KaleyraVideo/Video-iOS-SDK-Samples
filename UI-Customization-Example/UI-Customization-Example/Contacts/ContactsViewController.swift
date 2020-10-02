@@ -234,7 +234,7 @@ class ContactsViewController: UIViewController {
         let theme = BDKTheme()
         theme.tertiaryBackgroundColor = UIColor(red: 204/255, green: 210/255, blue: 226/255, alpha: 1)
 
-        //You can also format the way our SDK displays the user information inside the chat page. In this example, the user info will be preceded by an asterisk.
+        //You can also format the way our SDK displays the user information inside the chat channel page. In this example, the user info will be preceded by an asterisk.
 
         let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, formatter: AsteriskFormatter(), theme: theme)
         
