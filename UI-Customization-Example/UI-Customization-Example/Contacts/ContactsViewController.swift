@@ -234,6 +234,8 @@ class ContactsViewController: UIViewController {
         let theme = BDKTheme()
         theme.tertiaryBackgroundColor = UIColor(red: 204/255, green: 210/255, blue: 226/255, alpha: 1)
 
+        //You can also format the way our SDK displays the user information inside the chat page. In this example, the user info will be preceded by an asterisk.
+
         let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, formatter: AsteriskFormatter(), theme: theme)
         
         //Otherwise you can use other initializer.
@@ -320,11 +322,14 @@ class ContactsViewController: UIViewController {
 
         //In the next lines you can see how it's possible to customize the File Sharing view controller theme.
         let fileSharingTheme = BDKTheme()
-        //By setting a point size property of the theme you can change the point size of all the ll medium/large labels.
+        //By setting a point size property of the theme you can change the point size of all the medium/large labels.
         fileSharingTheme.mediumFontPointSize = 20
         fileSharingTheme.largeFontPointSize = 40
 
         config.fileSharingTheme = fileSharingTheme
+
+        //You can also format the way our SDK displays the user information inside the call page. In this example, the user info will be preceded by a percentage.
+        config.callInfoTitleFormatter = PercentageFormatter()
 
         //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
         //view is loaded, otherwise an exception is thrown.

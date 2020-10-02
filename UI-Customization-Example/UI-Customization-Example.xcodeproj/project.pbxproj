@@ -23,7 +23,6 @@
 		2F9A8B6B251CAAD3000FAF1E /* ContactsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B49251CA7E1000FAF1E /* ContactsGenerator.swift */; };
 		2F9A8B70251CAC61000FAF1E /* CallOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B6E251CAC61000FAF1E /* CallOptionsTableViewController.swift */; };
 		2F9A8B71251CAC61000FAF1E /* CallOptionsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B6F251CAC61000FAF1E /* CallOptionsItem.swift */; };
-		2F9A8B73251CAE92000FAF1E /* AsteriskFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B4A251CA7E1000FAF1E /* AsteriskFormatter.swift */; };
 		2F9A8C45251CB5B8000FAF1E /* SampleVideo_640x360_10mb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A8B7A251CB5B8000FAF1E /* SampleVideo_640x360_10mb.mp4 */; };
 		2F9A8C46251CB5B8000FAF1E /* man_24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A8B7C251CB5B8000FAF1E /* man_24.jpg */; };
 		2F9A8C47251CB5B8000FAF1E /* man_30.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A8B7D251CB5B8000FAF1E /* man_30.jpg */; };
@@ -226,7 +225,11 @@
 		2F9A8D0C251CB5B8000FAF1E /* woman_64.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A8C43251CB5B8000FAF1E /* woman_64.jpg */; };
 		2F9A8D0D251CB5B8000FAF1E /* woman_70.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2F9A8C44251CB5B8000FAF1E /* woman_70.jpg */; };
 		32DC92217C8DEFF9F360872E /* UIColor+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC996F7690913B1F752080 /* UIColor+Custom.swift */; };
+		32DC93EF6698ADCCF3150814 /* AsteriskFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC99DFECC38B577C13D1A0 /* AsteriskFormatter.swift */; };
+		32DC94A576ED04A6B988BF22 /* PercentageFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC939D21A040F9E9BADF92 /* PercentageFormatter.swift */; };
 		32DC9633FA8642350C110856 /* UIFont+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC904F9432CBFF5B17389D /* UIFont+Custom.swift */; };
+		32DC9996CB6B5D3E5F9A5014 /* MyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC930EFB4263F31AA39133 /* MyFormatter.swift */; };
+		32DC9F93BDC01E0B203CE20B /* HashtagFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC981CBF4DC219AAB3D7AD /* HashtagFormatter.swift */; };
 		55903752087D84A443880C32 /* Pods_UI_Customization_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E22395C47C7C29D8A0AC72C7 /* Pods_UI_Customization_Example.framework */; };
 		A1597A6A2525F1080026BCD7 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A692525F1080026BCD7 /* Roboto-Light.ttf */; };
 		A1597A6D2525F3360026BCD7 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A6C2525F3360026BCD7 /* Roboto-Medium.ttf */; };
@@ -247,7 +250,6 @@
 		2F9A8B47251CA7E1000FAF1E /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		2F9A8B48251CA7E1000FAF1E /* UserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoFetcher.swift; sourceTree = "<group>"; };
 		2F9A8B49251CA7E1000FAF1E /* ContactsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
-		2F9A8B4A251CA7E1000FAF1E /* AsteriskFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsteriskFormatter.swift; sourceTree = "<group>"; };
 		2F9A8B57251CA96C000FAF1E /* AddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBook.swift; sourceTree = "<group>"; };
 		2F9A8B58251CA96C000FAF1E /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		2F9A8B64251CAAA6000FAF1E /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
@@ -458,7 +460,11 @@
 		2F9A8C43251CB5B8000FAF1E /* woman_64.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_64.jpg; sourceTree = "<group>"; };
 		2F9A8C44251CB5B8000FAF1E /* woman_70.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_70.jpg; sourceTree = "<group>"; };
 		32DC904F9432CBFF5B17389D /* UIFont+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Custom.swift"; sourceTree = "<group>"; };
+		32DC930EFB4263F31AA39133 /* MyFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyFormatter.swift; sourceTree = "<group>"; };
+		32DC939D21A040F9E9BADF92 /* PercentageFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PercentageFormatter.swift; sourceTree = "<group>"; };
+		32DC981CBF4DC219AAB3D7AD /* HashtagFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagFormatter.swift; sourceTree = "<group>"; };
 		32DC996F7690913B1F752080 /* UIColor+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Custom.swift"; sourceTree = "<group>"; };
+		32DC99DFECC38B577C13D1A0 /* AsteriskFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsteriskFormatter.swift; sourceTree = "<group>"; };
 		42F60AF0EEBDDB1A82DBF136 /* Pods-UI-Customization-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UI-Customization-Example.release.xcconfig"; path = "Target Support Files/Pods-UI-Customization-Example/Pods-UI-Customization-Example.release.xcconfig"; sourceTree = "<group>"; };
 		A1597A692525F1080026BCD7 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		A1597A6C2525F3360026BCD7 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
@@ -535,7 +541,7 @@
 				2F9A8B47251CA7E1000FAF1E /* UserSession.swift */,
 				2F9A8B48251CA7E1000FAF1E /* UserInfoFetcher.swift */,
 				2F9A8B49251CA7E1000FAF1E /* ContactsGenerator.swift */,
-				2F9A8B4A251CA7E1000FAF1E /* AsteriskFormatter.swift */,
+				32DC93CCC721BA6EC3C86F28 /* Formatters */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -790,6 +796,17 @@
 				2F9A8C44251CB5B8000FAF1E /* woman_70.jpg */,
 			);
 			path = Women;
+			sourceTree = "<group>";
+		};
+		32DC93CCC721BA6EC3C86F28 /* Formatters */ = {
+			isa = PBXGroup;
+			children = (
+				32DC99DFECC38B577C13D1A0 /* AsteriskFormatter.swift */,
+				32DC981CBF4DC219AAB3D7AD /* HashtagFormatter.swift */,
+				32DC930EFB4263F31AA39133 /* MyFormatter.swift */,
+				32DC939D21A040F9E9BADF92 /* PercentageFormatter.swift */,
+			);
+			path = Formatters;
 			sourceTree = "<group>";
 		};
 		32DC9480A072BFE838748AE7 /* Custom Theme */ = {
@@ -1162,10 +1179,13 @@
 				2F9A8B68251CAAA6000FAF1E /* ContactTableViewCell.swift in Sources */,
 				2F9A8B59251CA96C000FAF1E /* AddressBook.swift in Sources */,
 				2F9A8B71251CAC61000FAF1E /* CallOptionsItem.swift in Sources */,
-				2F9A8B73251CAE92000FAF1E /* AsteriskFormatter.swift in Sources */,
 				2F9A8B4B251CA7E1000FAF1E /* UserRepository.swift in Sources */,
 				32DC92217C8DEFF9F360872E /* UIColor+Custom.swift in Sources */,
 				32DC9633FA8642350C110856 /* UIFont+Custom.swift in Sources */,
+				32DC93EF6698ADCCF3150814 /* AsteriskFormatter.swift in Sources */,
+				32DC9F93BDC01E0B203CE20B /* HashtagFormatter.swift in Sources */,
+				32DC9996CB6B5D3E5F9A5014 /* MyFormatter.swift in Sources */,
+				32DC94A576ED04A6B988BF22 /* PercentageFormatter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,19 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Make sure to disable CallKit, otherwise it will be enabled by default if the system supports CallKit (i.e iOS >= 10.0).
         config.isCallKitEnabled = false
 
-#error("Please initialize the Bandyer SDK with your App Id")
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
         
         applyTheme()
 
-        //Only after that the BandyerSDK is initialized, you can change the In-app notification theme.
+        customizeInAppNotification()
 
-        let theme = BDKTheme()
-        theme.emphasisFont = UIFont.robotoRegular.withSize(5)
-
-        BandyerSDK.instance().notificationsCoordinator?.theme = theme
-        
         return true
     }
     
@@ -84,5 +78,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BDKTheme.default().font = UIFont.robotoRegular
         BDKTheme.default().emphasisFont = UIFont.robotoBold
         BDKTheme.default().mediumFontPointSize = 15
+    }
+
+    private func customizeInAppNotification() {
+        //Only after that the SDK is initialized, you can change the In-app notification theme and set a custom formatter.
+        //If you try to set the theme or the formatter before SDK initialization, the notificationsCoordinator will be nil and sets will not be applied.
+        //The formatter will be used to display the user information on the In-app notification heading.
+
+        let theme = BDKTheme()
+        theme.secondaryFont = UIFont.robotoRegular.withSize(5)
+
+        BandyerSDK.instance().notificationsCoordinator?.theme = theme
+        BandyerSDK.instance().notificationsCoordinator?.formatter = HashtagFormatter()
     }
 }
