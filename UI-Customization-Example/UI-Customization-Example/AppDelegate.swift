@@ -43,6 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
         
         applyTheme()
+
+        //Only after that the BandyerSDK is initialized, you can change the In-app notification theme.
+
+        let theme = BDKTheme()
+        theme.emphasisFont = UIFont.robotoRegular.withSize(5)
+
+        BandyerSDK.instance().notificationsCoordinator?.theme = theme
         
         return true
     }
