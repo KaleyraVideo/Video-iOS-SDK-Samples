@@ -29,7 +29,7 @@ To let you build on physical devices, you should set *No* to  *Enable Bitcode* o
 
 ### Initialization
 
-First of all you have to initialize the SDK using the unique instance of [BandyerSDK](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BandyerSDK.html) and configure it using [BDKConfig](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKConfig.html) class. Yuo can follow this code snippet:
+First of all you have to initialize the SDK using the unique instance of [BandyerSDK](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BandyerSDK.html) and configure it using [BDKConfig](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKConfig.html) class. You can follow this code snippet:
 
 ```swift
 //Here we are going to initialize the Bandyer SDK.
@@ -64,15 +64,15 @@ BandyerSDK.instance().chatClient.add(observer: self, queue: .main)
 //Here we start the chat client, providing the "user alias" of the user selected.
 BandyerSDK.instance().chatClient.start(userId:"SELECTED USER ID")
 ```
-Your class responsible of starting the client has the possibility to become an observer of the [BCHChatClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCHChatClient.html) life cycle, implementing the [BCHChatClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCHChatClientObserver.html). Once the `chatClientDidStart` callback is fired, you can start to interact with our system.
+Your class responsible of starting the client has the possibility to become an observer of the [BCHChatClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BCHChatClient.html) life cycle, implementing the [BCHChatClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BCHChatClientObserver.html). Once the `chatClientDidStart` callback is fired, you can start to interact with our system.
 
 ### Start a chat
 
-In order to make a call, we provide you a custom `UIViewController`: the [ChannelViewController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/ChannelViewController.html).
+In order to make a call, we provide you a custom `UIViewController`: the [ChannelViewController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/ChannelViewController.html).
 
 Inside the `ContactsViewController` class you can find some code snippet on how to manage initialization of a ChannelViewController instance. 
 
-When you want to start a new chat session, you need to configure the ChannelViewController instance with a [ChannelViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/ChannelViewControllerConfiguration.html), passing to it your implementation of [BDKUserInfoFetcher](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BDKUserInfoFetcher.html) protocol. This protocol is intended to manage your custom formatting of an user instance. The ChannelViewController will use this fetcher to properly present contact information in its views. For further information on how it works, please have a look to our [sample app](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UserInfoFetcher-Example) related to this argument. 
+When you want to start a new chat session, you need to configure the ChannelViewController instance with a [ChannelViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/ChannelViewControllerConfiguration.html), passing to it your implementation of [BDKUserInfoFetcher](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BDKUserInfoFetcher.html) protocol. This protocol is intended to manage your custom formatting of an user instance. The ChannelViewController will use this fetcher to properly present contact information in its views. For further information on how it works, please have a look to our [sample app](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UserInfoFetcher-Example) related to this argument. 
 
 ```swift
 let channelViewController = ChannelViewController()
@@ -95,7 +95,7 @@ let configuration = ChannelViewControllerConfiguration(audioButton: true, videoB
 channelViewController.configuration = configuration
 ```
 
-Once the ChannelViewController is properly configured, you have to pass an instance of [OpenChatIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/OpenChatIntent.html) to it. You can open the channel controller directly with the counterpart id or from a `ChatNotification` instance.
+Once the ChannelViewController is properly configured, you have to pass an instance of [OpenChatIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/OpenChatIntent.html) to it. You can open the channel controller directly with the counterpart id or from a `ChatNotification` instance.
 
 ```swift
 let intent = OpenChatIntent.openChat(with: "Counterpart ID")
@@ -120,7 +120,7 @@ controller.present(channelViewController, animated: true)
 
 When your logged user receives a chat message, your view controller can show a custom `UIView` at the top of the screen. This view acts like a in-app notification, so user can click it to open the chat or can dismiss it just swiping to the top.
 
-Yuo don't have to manage by yourself the behaviour of the notification view, inside the SDK you can find the [MessageNotificationController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/MessageNotificationController.html) that does the job for you.
+You don't have to manage by yourself the behaviour of the notification view, inside the SDK you can find the [MessageNotificationController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/MessageNotificationController.html) that does the job for you.
 
 You can easily init the controller using this code snippet:
 

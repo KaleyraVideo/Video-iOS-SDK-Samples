@@ -31,7 +31,7 @@ To let you build on physical devices, you should set *No* to  *Enable Bitcode* o
 
 ### Initialization
 
-First of all you have to initialize the SDK using the unique instance of [BandyerSDK](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BandyerSDK.html) and configure it using [BDKConfig](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKConfig.html) class. Yuo can follow this code snippet:
+First of all you have to initialize the SDK using the unique instance of [BandyerSDK](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BandyerSDK.html) and configure it using [BDKConfig](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKConfig.html) class. You can follow this code snippet:
 
 ```swift
 //Here we are going to initialize the Bandyer SDK.
@@ -65,11 +65,11 @@ BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 //Then we start the call client providing the "user alias" of the user selected.
 BandyerSDK.instance().callClient.start("SELECTED USER ID")
 ```
-Your class responsible of starting the client has the possibility to become an observer of the [BCXCallClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCXCallClient.html) life cycle, implementing the [BCXCallClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BCXCallClientObserver.html). Once the `callClientDidStart` callback is fired, you can start to interact with our system.
+Your class responsible of starting the client has the possibility to become an observer of the [BCXCallClient](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BCXCallClient.html) life cycle, implementing the [BCXCallClientObserver](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BCXCallClientObserver.html). Once the `callClientDidStart` callback is fired, you can start to interact with our system.
 
 ### Make a Call
 
-In order to make a call, we provide you a custom `UIWindow`: the [CallWindow](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/CallWindow.html).
+In order to make a call, we provide you a custom `UIWindow`: the [CallWindow](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/CallWindow.html).
 
 Inside the `ContactsViewController` class you can find some code snippet on how to manage initialization of a CallWindow instance. Please make sure to have only one instance of CallWindow in memory at a time, otherwise an exception will be thrown. This rule is designed in a way that your view controllers can share the same ongoing call. 
 
@@ -93,7 +93,7 @@ window.callDelegate = self
 callWindow = window
 ```
 
-When you want to start a new call, you need to configure the CallWindow instance with a [BDKCallViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKCallViewControllerConfiguration.html), passing to it your implementation of [BDKUserInfoFetcher](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BDKUserInfoFetcher.html) protocol. This protocol is intended to manage your custom formatting of an user instance. The CallViewController will use this fetcher to properly present contact information in its views. For further information on how it works, please have a look to our [sample app](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UserInfoFetcher-Example) related to this argument. 
+When you want to start a new call, you need to configure the CallWindow instance with a [BDKCallViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKCallViewControllerConfiguration.html), passing to it your implementation of [BDKUserInfoFetcher](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BDKUserInfoFetcher.html) protocol. This protocol is intended to manage your custom formatting of an user instance. The CallViewController will use this fetcher to properly present contact information in its views. For further information on how it works, please have a look to our [sample app](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UserInfoFetcher-Example) related to this argument. 
 
 ```swift
 //Here we are configuring the CallViewController instance.
@@ -122,7 +122,7 @@ config.fakeCapturerFileURL = url
 callWindow?.setConfiguration(config)
 ```
 
-Once the CallWindow is inited and the CallViewController is properly configured, you can present it, passing an implementation of [BDKIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Protocols/BDKIntent.html) protocol to the CallWindow. In this sample app, we support two kind of call: outgoing and incoming, so there are two implementations of intent for the same ([BDKMakeCallIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKMakeCallIntent.html) and [BDKIncomingCallHandlingIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/BDKIncomingCallHandlingIntent.html)).
+Once the CallWindow is inited and the CallViewController is properly configured, you can present it, passing an implementation of [BDKIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BDKIntent.html) protocol to the CallWindow. In this sample app, we support two kind of call: outgoing and incoming, so there are two implementations of intent for the same ([BDKMakeCallIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKMakeCallIntent.html) and [BDKIncomingCallHandlingIntent](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKIncomingCallHandlingIntent.html)).
 
 ```swift
 //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
@@ -167,9 +167,9 @@ callWindow?.shouldPresentCallViewController(intent: intent, completion: { [weak 
 
 ### Call Banner View
 
-When there is an ongoing call but the CallViewController is not presented, your view controller can show a green banner view just under the status bar. The custom `UIView` that the SDK will show is the [CallBannerView](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/CallBannerView.html).
+When there is an ongoing call but the CallViewController is not presented, your view controller can show a green banner view just under the status bar. The custom `UIView` that the SDK will show is the [CallBannerView](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/CallBannerView.html).
 
-Yuo don't have to manage by yourself the behaviour of the banner, inside the SDK you can find the [CallBannerController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/Classes/CallBannerController.html) that does the job for you.
+You don't have to manage by yourself the behaviour of the banner, inside the SDK you can find the [CallBannerController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/CallBannerController.html) that does the job for you.
 
 You can easily init the controller using this code snippet:
 
