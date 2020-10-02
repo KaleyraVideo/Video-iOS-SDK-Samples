@@ -227,13 +227,19 @@ class ContactsViewController: UIViewController {
         // if audioButton is true, the channel view controller will show audio button on nav bar;
         // if videoButton is true, the channel view controller will show video button on nav bar;
         // if formatter is set, the default formatter will be overridden.
+        // if theme is set, the default theme will be overridden.
 
-        let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, formatter: AsteriskFormatter())
+        //Let's suppose that you want to change the tertiaryBackgroundColor only inside the ChannelViewController.
+        //You can achieve this result by allocate a new instance of the theme and set the tertiaryBackgroundColor property whit the wanted value.
+        let theme = BDKTheme()
+        theme.tertiaryBackgroundColor = UIColor(red: 204/255, green: 210/255, blue: 226/255, alpha: 1)
+
+        let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, formatter: AsteriskFormatter(), theme: theme)
         
         //Otherwise you can use other initializer.
-        //let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, formatter: nil)
+        //let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, formatter: nil, theme: nil)
         
-        //If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, formatter: nil)
+        //If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, formatter: nil, theme: nil)
         channelViewController.configuration = configuration
         
         //Please make sure to set intent after configuration, otherwise the configuration will be not taking in charge.
@@ -292,6 +298,33 @@ class ContactsViewController: UIViewController {
         //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
         let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
+
+        //Let's suppose that you want to change the navBarTitleFont only inside the BDKCallViewController.
+        //You can achieve this result by allocate a new instance of the theme and set the navBarTitleFont property whit the wanted value.
+        let callTheme = BDKTheme()
+        callTheme.navBarTitleFont = UIFont.robotoBold.withSize(30)
+
+        config.callTheme = callTheme
+
+        //The same reasoning will let you change the accentColor only inside the Whiteboard view controller.
+        let whiteboardTheme = BDKTheme()
+        whiteboardTheme.accentColor = UIColor.systemBlue
+
+        config.whiteboardTheme = whiteboardTheme
+
+        //You can also customize the theme only of the Whiteboard text editor view controller.
+        let whiteboardTextEditorTheme = BDKTheme()
+        whiteboardTextEditorTheme.bodyFont = UIFont.robotoThin.withSize(30)
+
+        config.whiteboardTextEditorTheme = whiteboardTextEditorTheme
+
+        //In the next lines you can see how it's possible to customize the File Sharing view controller theme.
+        let fileSharingTheme = BDKTheme()
+        //By setting a point size property of the theme you can change the point size of all the ll medium/large labels.
+        fileSharingTheme.mediumFontPointSize = 20
+        fileSharingTheme.largeFontPointSize = 40
+
+        config.fileSharingTheme = fileSharingTheme
 
         //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
         //view is loaded, otherwise an exception is thrown.
