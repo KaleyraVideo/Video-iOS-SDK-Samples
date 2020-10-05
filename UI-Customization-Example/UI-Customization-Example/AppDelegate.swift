@@ -73,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             config.handleProvider = HandleProvider(addressBook: AddressBook.instance)
         }
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
+#error("Please initialize the Bandyer SDK with your App Id")
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
         
         applyTheme()
