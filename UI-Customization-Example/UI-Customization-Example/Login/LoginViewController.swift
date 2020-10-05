@@ -108,7 +108,9 @@ class LoginViewController: UITableViewController {
         //Here we start the chat client, providing the "user alias" of the user selected.
         BandyerSDK.instance().chatClient.start(userId: selectedUserId)
 
-        let addressBook = AddressBook(userIds, currentUser: selectedUserId)
+        AddressBook.instance.update(withAliases: userIds, currentUser: selectedUserId)
+
+        let addressBook = AddressBook.instance
 
         //This statement tells the Bandyer SDK which object, conforming to `UserInfoFetcher` protocol, should use to present contact
         //information in its views.

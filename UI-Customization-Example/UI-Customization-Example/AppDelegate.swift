@@ -5,6 +5,7 @@
 
 import UIKit
 import Bandyer
+import CallKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -34,10 +35,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Beware the default environment is production, we strongly recommend to test your app in a sandbox environment.
         config.environment = .sandbox
 
-        //Here we are disabling CallKit support.
-        //Make sure to disable CallKit, otherwise it will be enabled by default if the system supports CallKit (i.e iOS >= 10.0).
-        config.isCallKitEnabled = false
+        //On iOS 10 and above this statement is not needed, the default configuration object
+        //enables CallKit by default, it is here for completeness sake
+        config.isCallKitEnabled = true
 
+        //The following statement is going to change the name of the app that is going to be shown by the system call UI.
+        //If you don't set this value during the configuration, the SDK will look for to the value of the
+        //CFBundleDisplayName key (or the CFBundleName, if the former is not available) found in your App Info.plist
+
+        if #available(iOS 10.0, *) {
+            config.nativeUILocalizedName = "My wonderful app"
+        }
+
+        //The following statement is going to change the ringtone used by the system call UI when an incoming call
+        //is received. You should provide the name of the sound resource in the app bundle that is going to be used as
+        //ringtone. If you don't set this value, the SDK will use the default system ringtone.
+
+        //config.nativeUIRingToneSound = "MyRingtoneSound"
+
+        //The following statements are going to change the app icon shown in the system call UI. When the user answers
+        //a call from the lock screen or when the app is not in foreground and a call is in progress, the system
+        //presents the system call UI to the end user. One of the buttons gives the user the ability to get back into your
+        //app. The following statements allows you to change that icon.
+        //Beware, the configuration object property expects the image as an NSData object. You must provide a side
+        //length 40 points square png image.
+        //It is highly recommended to set this property, otherwise a "question mark" icon placeholder is used instead.
+
+        if #available(iOS 10.0, *) {
+            let callKitIcon = UIImage(named: "callkit-icon")
+            config.nativeUITemplateIconImageData = callKitIcon?.pngData()
+        }
+
+        //The following statements will tell the BandyerSDK to use the app custom BCXHandleProvider. When any call is performed this
+        //object will tell CallKit which is the name of the call opponent it should show on the system call UI.
+        if #available(iOS 10.0, *) {
+            config.supportedHandleTypes = Set(arrayLiteral: NSNumber(integerLiteral: CXHandle.HandleType.generic.rawValue))
+            config.handleProvider = HandleProvider(addressBook: AddressBook.instance)
+        }
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
         
