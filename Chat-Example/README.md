@@ -15,7 +15,7 @@ This example is only related to let users make and receive messages from the cha
 
 ## Caveats
 
-This app uses fake users fetched from our backend system. We provide access to those user through a REST api which requires another set of access keys. Once obtained, replace "REST API KEY" and "REST URL" placeholders inside `UserRepository` class.
+This app uses fake users fetched from our backend system. We provide access to those users through a REST API which requires another set of access keys. Once obtained, replace "REST API KEY" and "REST URL" placeholders inside `UserRepository` class.
 
 If your backend system already provides Bandyer "user alias" for your users, then you should modify the app in order to fetch users information from you backend system instead of ours.
 

@@ -2,7 +2,7 @@
 
 This sample application shows you how it's easy and simple to integrate CallKit and VoIP notifications capabilities with Bandyer in your app.
 
-This example is only related to manage CallKit and VoIP notifications. For other examples, please visit the [Sample apps index page](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift).
+This example shows you how your app should be configured in order for the BandyerSDK to handle CallKit and VoIP notifications. For other examples, please visit the [Sample apps index page](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift).
 
 ## Quickstart
 
@@ -16,7 +16,7 @@ This example is only related to manage CallKit and VoIP notifications. For other
 
 ## Caveats
 
-This app uses fake users fetched from our backend system. We provide access to those user through a REST api which requires another set of access keys. Once obtained, replace "REST API KEY" and "REST URL" placeholders inside `UserRepository` class.
+This app uses fake users fetched from our backend system. We provide access to those users through a REST API which requires another set of access keys. Once obtained, replace "REST API KEY" and "REST URL" placeholders inside `UserRepository` class.
 
 Bandyer back-end system does not deliver notifications to APNS directly, you must setup your own delivery service or use an online service like [OneSignal](https://onesignal.com/). 
 

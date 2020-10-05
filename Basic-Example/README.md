@@ -2,7 +2,7 @@
 
 This sample app is going to show you how the Bandyer SDK should be configured, initialized, and how you can interact with it.
 
-This example is only related to let users make and receive a call. For other examples, please visit the [Sample apps index page](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift).
+This example shows only how you can make and receive calls. For other examples, please visit the [Sample apps index page](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift).
 
 ## Quickstart
 
@@ -15,7 +15,7 @@ This example is only related to let users make and receive a call. For other exa
 
 ## Caveats
 
-This app uses fake users fetched from our backend system. We provide access to those user through a REST api which requires another set of access keys. Once obtained, replace "REST API KEY" and "REST URL" placeholders inside `UserRepository` class.
+This app uses fake users fetched from our backend system. We provide access to those users through a REST API which requires another set of access keys. Once obtained, replace "REST API KEY" and "REST URL" placeholders inside `UserRepository` class.
 
 If your backend system already provides Bandyer "user alias" for your users, then you should modify the app in order to fetch users information from you backend system instead of ours.
 
