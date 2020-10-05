@@ -27,7 +27,7 @@ In this demo app, all the integration work is already done for you. In this sect
 
 To let you build on physical devices, you should set *No* to  *Enable Bitcode* on **Build Settings** tab under **Build Options** section of your target settings.
 
-For initialize our SDK, start the call and chat modules and push the Bandyer View Controllers please refer to related [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki) pages. 
+To initialize our SDK, start the call and chat modules and push the Bandyer View Controllers please refer to related [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki) pages. 
 
 ### Global UI theme
 
@@ -63,7 +63,7 @@ We strongly recommend you to read the [UI-customization](https://github.com/Band
 
 ### Call related UI theme
 
-You can also customize every Bandyer view controller using the appropriate configuration object. For the call related view controllers you have to set the BDKTheme kind properties of [BDKCallViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKCallViewControllerConfiguration.html):
+You can also customize every Bandyer view controller using the appropriate configuration object. For the call related view controllers you have to set the BDKTheme kind properties of [CallViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKCallViewControllerConfiguration.html):
 
 ```swift
 let config = CallViewControllerConfiguration()
@@ -98,7 +98,7 @@ config.fileSharingTheme = fileSharingTheme
 
 ### Chat channel UI theme
 
-It's also easy to customize the [ChannelViewController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/ChannelViewController.html) using the [ChannelViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/ChannelViewControllerConfiguration.html) class. You yust have to init the class passing the BDKTheme object as initialization parameter.
+It's also easy to customize the [ChannelViewController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/ChannelViewController.html) using the [ChannelViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/ChannelViewControllerConfiguration.html) class. You just have to init the class passing the BDKTheme object as initialization parameter.
 
 ```swift
 //Let's suppose that you want to change the tertiaryBackgroundColor only inside the ChannelViewController.
@@ -125,7 +125,7 @@ BandyerSDK.instance().notificationsCoordinator?.theme = theme
 ```
 ### Formatters
 
-With our SDK you can decide how the user information are displayed on the screen. Yuo just need to subclass the [Formatter](https://developer.apple.com/documentation/foundation/formatter) class and implement the `func string(for: Any?) -> String?` casting the Any object to an array of 
+With our SDK you can decide how the user information are displayed on the screen. You just need to subclass the [Formatter](https://developer.apple.com/documentation/foundation/formatter) class and implement the `func string(for: Any?) -> String?` casting the Any object to an array of 
 [BDKUserInfoDisplayItem](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKUserInfoDisplayItem.html).
 
 In the next code snippets you will see how to use your custom formatters. 
