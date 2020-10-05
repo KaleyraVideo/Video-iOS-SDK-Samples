@@ -1340,6 +1340,7 @@
 				CODE_SIGN_ENTITLEMENTS = "UI-Customization-Example/UI-Customization-Example.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "UI-Customization-Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
