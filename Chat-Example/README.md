@@ -72,7 +72,7 @@ In order to make a call, we provide you a custom `UIViewController`: the [Channe
 
 Inside the `ContactsViewController` class you can find some code snippet on how to manage initialization of a ChannelViewController instance. 
 
-When you want to start a new chat session, you need to configure the ChannelViewController instance with a [ChannelViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/ChannelViewControllerConfiguration.html), passing to it your implementation of [BDKUserInfoFetcher](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BDKUserInfoFetcher.html) protocol. This protocol is intended to manage your custom formatting of an user instance. The ChannelViewController will use this fetcher to properly present contact information in its views. For further information on how it works, please have a look to our [sample app](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UserInfoFetcher-Example) related to this argument. 
+When you want to start a new chat session, you need to configure the ChannelViewController instance with a [ChannelViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/ChannelViewControllerConfiguration.html): 
 
 ```swift
 let channelViewController = ChannelViewController()
@@ -81,17 +81,13 @@ channelViewController.delegate = self
 //Here we are configuring the channel view controller:
 // if audioButton is true, the channel view controller will show audio button on nav bar;
 // if videoButton is true, the channel view controller will show video button on nav bar;
-// if userInfoFetcher is set, the global userInfoFetcher will be overridden. WARNING!!!
 
-let userInfoFetcher = UserInfoFetcher(addressBook!)
-
-//Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one. The same result is achieved without setting the configuration property.
-let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: userInfoFetcher)
+let configuration = ChannelViewControllerConfiguration(audioButton: true, videoButton: true)
 
 //Otherwise you can use other initializer.
-//let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false, userInfoFetcher: nil)
+//let configuration = ChannelViewControllerConfiguration() //Equivalent to ChannelViewControllerConfiguration(audioButton: false, videoButton: false)
 
-//If no configuration is provided, the default one will be used, the one with nil user info fetcher and showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true, userInfoFetcher: nil)
+//If no configuration is provided, the default one will be used, the one showing both of the buttons -> ChannelViewControllerConfiguration(audioButton: true, videoButton: true)
 channelViewController.configuration = configuration
 ```
 
@@ -120,54 +116,27 @@ controller.present(channelViewController, animated: true)
 
 When your logged user receives a chat message, your view controller can show a custom `UIView` at the top of the screen. This view acts like a in-app notification, so user can click it to open the chat or can dismiss it just swiping to the top.
 
-You don't have to manage by yourself the behaviour of the notification view, inside the SDK you can find the [MessageNotificationController](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/MessageNotificationController.html) that does the job for you.
+You don't have to manage by yourself the behaviour of the notification view, inside the SDK you can find the [InAppNotificationsCoordinator](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BDKInAppNotificationsCoordinator.html) that does the job for you.
 
-You can easily init the controller using this code snippet:
+To enable view the chat In-app notifications, you have to start the coordinator. 
+You can start it only after the BandyerSDK is initialized, otherwise the notificationsCoordinator will be nil, 
+
+You can easily start the coordinator using this code snippet:
 
 ```swift
-let messageNotificationController = MessageNotificationController()
+BandyerSDK.instance().notificationsCoordinator?.start()
 ```
 
-Once inited, you have to setup the controller, attaching the delegate and the view controller. If you don't pass the parentViewController an exception will be thrown, since the  notification controller needs it to add the notification view to your view hierarchy.
+Once started, if you want to be notified of the touch events on the notification view, you have to attach the chat listener.
 
 ```swift
-//WARNING!!! If userInfoFetcher is set, the global userInfoFetcher will be overridden.
-let userInfoFetcher = UserInfoFetcher(addressBook!)
-
-//Here if we pass a nil userInfoFetcher, the Bandyer SDK will use the global one if set at initialization time, otherwise a default one. The same result is achieved without setting the configuration property.
-let configuration = MessageNotificationControllerConfiguration(userInfoFetcher: userInfoFetcher)
-messageNotificationController.configuration = configuration
-
-messageNotificationController.delegate = self
-messageNotificationController.parentViewController = self
+BandyerSDK.instance().notificationsCoordinator?.chatListener = self
 ```
 
-When your view controller is hidden you have to tell the notification controller to stop work on your view controller. You can achieve this result using the `show` and `hide` methods:
+Please remember to stop the notificationsCoordinator when your view controller will disappear, so the view controller will dispaly no more the In-app notification view.
 
 ```swift
-override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-        
-    messageNotificationController.show()
-}
- 
-override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-        
-    messageNotificationController.hide()
-} 
-```
-
-Since the size of the notification view changes with orientation, you have to update the UI of the view:
-
-```swift
-override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-
-    //Remember to call viewWillTransitionTo on custom view controller to update UI while rotating.
-    messageNotificationController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
-        
-    super.viewWillTransition(to: size, with: coordinator)
-}
+BandyerSDK.instance().notificationsCoordinator?.stop()
 ```
 
 On `ContactsViewController` class you can find all this code snippets working and commented, plus more (like the management of transition between `ChatNotification` and `ChannelViewController`).

@@ -93,7 +93,7 @@ window.callDelegate = self
 callWindow = window
 ```
 
-When you want to start a new call, you need to configure the CallWindow instance with a [BDKCallViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKCallViewControllerConfiguration.html), passing to it your implementation of [BDKUserInfoFetcher](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BDKUserInfoFetcher.html) protocol. This protocol is intended to manage your custom formatting of an user instance. The CallViewController will use this fetcher to properly present contact information in its views. For further information on how it works, please have a look to our [sample app](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UserInfoFetcher-Example) related to this argument. 
+When you want to start a new call, you need to configure the CallWindow instance with a [BDKCallViewControllerConfiguration](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Classes/BDKCallViewControllerConfiguration.html): 
 
 ```swift
 //Here we are configuring the CallViewController instance.
@@ -110,13 +110,6 @@ guard let path = filePath else {
 let url = URL(fileURLWithPath:path)
 config.fakeCapturerFileURL = url
         
-//This statement tells the view controller which object, conforming to `UserInfoFetcher` protocol, should use to present contact
-//information in its views.
-//The backend system does not send any user information to its clients, the SDK and the backend system identify the users in a call
-//using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
-//and provide those information to the view controller
- config.userInfoFetcher = UserInfoFetcher(addressBook!)
-
 //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
 //view is loaded, otherwise an exception is thrown.
 callWindow?.setConfiguration(config)
@@ -213,6 +206,35 @@ override func viewWillTransition(to size: CGSize, with coordinator: UIViewContro
 ```
 
 On `ContactsViewController` class you can find all this code snippets working and commented, plus more (like the management of transition between `CallBannerView` and `CallViewController`).
+
+### File share Notification View
+
+When your logged user receives a file to download, your view controller can show a custom `UIView` at the top of the screen. This view acts like a in-app notification, so user can click it to open the File share download view controller or can dismiss it just swiping to the top.
+
+You don't have to manage by yourself the behaviour of the notification view, inside the SDK you can find the [InAppNotificationsCoordinator](https://docs.bandyer.com/Bandyer-iOS-SDK/BandyerSDK/latest/Protocols/BDKInAppNotificationsCoordinator.html) that does the job for you.
+
+To enable view the chat In-app notifications, you have to start the coordinator. 
+You can start it only after the BandyerSDK is initialized, otherwise the notificationsCoordinator will be nil, 
+
+You can easily start the coordinator using this code snippet:
+
+```swift
+BandyerSDK.instance().notificationsCoordinator?.start()
+```
+
+Once started, if you want to be notified of the touch events on the notification view, you have to attach the fileShare listener.
+
+```swift
+BandyerSDK.instance().notificationsCoordinator?.fileShareListener = self
+```
+
+Please remember to stop the notificationsCoordinator when your view controller will disappear, so the view controller will display no more the In-app notification view.
+
+```swift
+BandyerSDK.instance().notificationsCoordinator?.stop()
+```
+
+On `ContactsViewController` class you can find all this code snippets working and commented, plus more.
 
 ## Support
 
