@@ -54,7 +54,6 @@ class LoginViewController: UITableViewController {
     private func cleanUp() {
         selectedUserId = nil
         addressBook = nil
-        AddressBook.instance.cleanUp()
     }
 
     //MARK: Refreshing users
