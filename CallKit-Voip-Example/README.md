@@ -90,53 +90,47 @@ In the demo project, we did it inside `AppDelegate` class, but you can do everyw
 
 #### Notification Payload
 
-The client SDK expects a payload in the following format:
+The client SDK expects a VoIP notification in the following format:
 
-```JSON
+```json
 {
-    "initiator": "usr_e39b045f215f",
+  "aps": {
+    "alert": {
+      "title": ""
+    },
+    "content-available": 1
+  },
+  "data": {
+    "initiator": "usr_123456789",
+    "options": {
+      "callType": "audio_video",
+      "creationDate": "2020-06-26T10:59:04.315Z",
+      "duration": 0,
+      "live": 1,
+      "record": 0
+    },
+    "roomAlias": "room_58fee601fcef",
     "users": [
       {
+        "status": "invited",
         "user": {
-          "companyId": "4bf3fe3d-7775-422a-9463-93554a60d2c2",
-          "userAlias": "usr_a12f412g31c9",
-          "firstName": "",
-          "lastName": "",
-          "email": null,
-          "image": "",
-          "role": 80,
-          "status": "online",
-          "canVideo": true
-        },
-        "status": "invited"
+          "userAlias": "usr_987654321"
+        }
       },
       {
+        "status": "invited",
         "user": {
-          "companyId": "4bf3fe3d-7775-422a-9463-93554a60d2c2",
-          "userAlias": "usr_e39b045f215f",
-          "firstName": "",
-          "lastName": "",
-          "email": "",
-          "image": "",
-          "role": 80,
-          "status": "online",
-          "canVideo": true
-        },
-        "status": "invited"
+          "userAlias": "usr_123456789"
+        }
       }
-    ],
-    "roomAlias": "room_d86dc2065fd5",
-    "options": {
-      "duration": 0,
-      "record": false,
-      "creationDate": "2019-01-14T15:49:38.752Z",
-      "callType": "audio_video"
-    }
+    ]
+  },
+  "event": "on_call_incoming",
+  "room_id": "room_58fee601fcef"
 }
-
 ```
 
-For further usage guideline, you can visit our dedicated [Wiki page](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki/VOIP-notifications).
+For further usage guidelines, you can visit our dedicated [Wiki page](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki/VOIP-notifications).
 
 ## Support
 
