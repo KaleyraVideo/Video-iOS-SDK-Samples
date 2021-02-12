@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //Here we are going to initialize the Bandyer SDK
         //The sdk needs a configuration object where it is specified which environment the sdk should work in.
-        let config = BDKConfig()
+        let config = Config()
 
         //Here we are telling the SDK we want to work in a sandbox environment.
         //Beware the default environment is production, we strongly recommend to test your app in a sandbox environment.
@@ -76,11 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let callKitIcon = UIImage(named: "callkit-icon")
         config.nativeUITemplateIconImageData = callKitIcon?.pngData()
 
-        //The following statements will tell the BandyerSDK to use the app custom BCXHandleProvider. When any call is performed this
-        //object will tell CallKit which is the name of the call opponent it should show on the system call UI.
+        //The following statements will tell the BandyerSDK which type of handle the SDK should use with CallKit
         config.supportedHandleTypes = Set(arrayLiteral: NSNumber(integerLiteral: CXHandle.HandleType.generic.rawValue))
-        config.handleProvider = HandleProvider(addressBook: AddressBook.instance)
-
         //The following statement is going to tell the BandyerSDK which object it must forward device push tokens to when one is received.
         config.pushRegistryDelegate = self
 

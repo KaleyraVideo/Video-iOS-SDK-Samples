@@ -94,28 +94,30 @@ class LoginViewController: UITableViewController {
         }
 
         //Once the end user has selected which user wants to impersonate, we start the SDK client.
-
+        //We are opening a session with the selected user id by telling the BandyerSDK to open a new session.
+        BandyerSDK.instance().openSession(userId: selectedUserId)
+        
         //We are registering as a call client observer in order to be notified when the client changes its state.
         //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
         //otherwise the SDK will notify the observer onto its background internal queue.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 
-        //Then we start the call client providing the "user alias" of the user selected.
-        BandyerSDK.instance().callClient.start(selectedUserId)
+        //Then we start the call client for the user selected.
+        BandyerSDK.instance().callClient.start()
 
-        //Here we start the chat client, providing the "user alias" of the user selected.
-        BandyerSDK.instance().chatClient.start(userId: selectedUserId)
+        //Here we start the chat client for the user selected.
+        BandyerSDK.instance().chatClient.start()
 
         AddressBook.instance.update(withAliases: userIds, currentUser: selectedUserId)
 
         let addressBook = AddressBook.instance
 
-        //This statement tells the Bandyer SDK which object, conforming to `UserInfoFetcher` protocol, should use to present contact
-        //information in its views.
+        //This statement tells the Bandyer SDK which object, conforming to `UserDetailsProvider` protocol
+        //should use to present contact information in its views.
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
         //and provide those information to the Bandyer SDK.
-        BandyerSDK.instance().userInfoFetcher = UserInfoFetcher(addressBook)
+        BandyerSDK.instance().userDetailsProvider = UserInfoFetcher(addressBook)
 
         self.addressBook = addressBook
     }
@@ -137,14 +139,14 @@ class LoginViewController: UITableViewController {
     }
 }
 
-extension LoginViewController: BCXCallClientObserver {
-    public func callClientWillStart(_ client: BCXCallClient) {
+extension LoginViewController: CallClientObserver {
+    public func callClientWillStart(_ client: CallClient) {
         view.isUserInteractionEnabled = false
 
         showActivityIndicatorInNavigationBar()
     }
 
-    public func callClientDidStart(_ client: BCXCallClient) {
+    public func callClientDidStart(_ client: CallClient) {
         guard presentedViewController == nil else {
             return
         }
@@ -156,7 +158,7 @@ extension LoginViewController: BCXCallClientObserver {
         view.isUserInteractionEnabled = true
     }
 
-    public func callClient(_ client: BCXCallClient, didFailWithError error: Error) {
+    public func callClient(_ client: CallClient, didFailWithError error: Error) {
         hideActivityIndicatorFromNavigationBar()
         view.isUserInteractionEnabled = true
     }
