@@ -29,7 +29,7 @@ class ContactsViewController: UIViewController {
 
     private var selectedContacts: [IndexPath] = []
     private var options: CallOptionsItem = CallOptionsItem()
-    private var intent: BDKIntent?
+    private var intent: Intent?
 
     private let callBannerController = CallBannerController()
 
@@ -89,7 +89,7 @@ class ContactsViewController: UIViewController {
 
     private func startOutgoingCall() {
 
-        //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
+        //To start an outgoing call we must create a `StartOutgoingCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
 
         //Here we create the array containing the "user aliases" we want to contact.
         let aliases = selectedContacts.compactMap { (contactIndex) -> String? in
@@ -101,17 +101,22 @@ class ContactsViewController: UIViewController {
         //The maximumDuration parameter specifies how long the call can last.
         //If you provide 0, the call will be created without a maximum duration value.
         //We store the intent for later use, because we can present again the CallViewController with the same call.
-        intent = BDKMakeCallIntent(callee: aliases, type: options.type, record: options.record, maximumDuration: options.maximumDuration)
+       
+        intent = StartOutgoingCallIntent(callee: aliases,
+                                         options: CallOptions(callType: options.type,
+                                                              recorded: options.record,
+                                                              duration: options.maximumDuration))
 
         //Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
     }
 
-    private func receiveIncomingCall() {
+    private func receiveIncomingCall(call: Call) {
 
         //When the client detects an incoming call it will notify its observers through this method.
-        //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use.
-        intent = BDKIncomingCallHandlingIntent()
+        //Here we are creating an `HandleIncomingCallIntent` object, storing it for later use.
+        intent = HandleIncomingCallIntent(call: call)
+        
         //Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
     }
@@ -155,12 +160,12 @@ class ContactsViewController: UIViewController {
 
     @IBAction func logoutBarButtonTouched(sender: UIBarButtonItem) {
         //When the user sign off, we also stop the client.
-        //We highly recommend to stop the client when the end user signs off
+        //We highly recommend to close the session when the end user signs off
         //Failing to do so, will result in incoming calls being processed by the SDK.
         //Moreover the previously logged user will appear to the Bandyer platform as she/he is available and ready to receive calls.
 
         UserSession.currentUser = nil
-        BandyerSDK.instance().callClient.stop()
+        BandyerSDK.instance().closeSession()
 
         dismiss(animated: true, completion: nil)
     }
@@ -340,31 +345,31 @@ extension ContactsViewController: UITableViewDelegate {
 }
 
 //MARK: Call client observer
-extension ContactsViewController: BCXCallClientObserver {
+extension ContactsViewController: CallClientObserver {
 
-    public func callClient(_ client: BCXCallClient, didReceiveIncomingCall call: BCXCall) {
-        receiveIncomingCall()
+    public func callClient(_ client: CallClient, didReceiveIncomingCall call: Call) {
+        receiveIncomingCall(call: call)
     }
 
-    public func callClientDidStart(_ client: BCXCallClient) {
+    public func callClientDidStart(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         hideActivityIndicatorFromNavigationBar(animated: true)
         hideToast()
     }
 
-    public func callClientDidStartReconnecting(_ client: BCXCallClient) {
+    public func callClientDidStartReconnecting(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
         showToast(message: "Client is reconnecting, please wait...", color: UIColor.orange)
     }
 
-    public func callClientWillResume(_ client: BCXCallClient) {
+    public func callClientWillResume(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
         showToast(message: "Client is resuming, please wait...", color: UIColor.orange)
     }
 
-    public func callClientDidResume(_ client: BCXCallClient) {
+    public func callClientDidResume(_ client: CallClient) {
         view.isUserInteractionEnabled = true
         hideActivityIndicatorFromNavigationBar(animated: true)
         hideToast()
@@ -461,17 +466,17 @@ extension ContactsViewController: CallWindowDelegate {
 
 //MARK: Call Banner Controller delegate
 extension ContactsViewController: CallBannerControllerDelegate {
-    func callBannerController(_ controller: CallBannerController, didTouch banner: CallBannerView) {
+    func callBannerControllerDidTouchBanner(_ controller: CallBannerController) {
         //Please remember to override the current call intent with the one saved inside call window.
         intent = callWindow?.intent
         performCallViewControllerPresentation()
     }
-
-    func callBannerController(_ controller: CallBannerController, willShow banner: CallBannerView) {
+    
+    func callBannerControllerWillShowBanner(_ controller: CallBannerController) {
         setStatusBarAppearanceToLight()
     }
-
-    func callBannerController(_ controller: CallBannerController, willHide banner: CallBannerView) {
+    
+    func callBannerControllerWillHideBanner(_ controller: CallBannerController) {
         restoreStatusBarAppearance()
     }
 }
