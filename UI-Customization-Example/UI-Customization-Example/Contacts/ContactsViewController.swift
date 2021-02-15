@@ -109,7 +109,7 @@ class ContactsViewController: UIViewController {
                                                               recorded: options.record,
                                                               duration: options.maximumDuration))
         
-        //Then we trigger a presentation of BDKCallViewController.
+        //Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
     }
     
@@ -117,7 +117,7 @@ class ContactsViewController: UIViewController {
         
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `HandleIncomingCallIntent` object, storing it for later use,
-        //then we trigger a presentation of BDKCallViewController.
+        //then we trigger a presentation of CallViewController.
         intent = HandleIncomingCallIntent(call: call)
         performCallViewControllerPresentation()
     }
@@ -290,7 +290,7 @@ class ContactsViewController: UIViewController {
     private func prepareForCallViewControllerPresentation() {
         initCallWindowIfNeeded()
         
-        //Here we are configuring the BDKCallViewController instance created from the storyboard.
+        //Here we are configuring the CallViewController instance created from the storyboard.
         //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
         
@@ -304,7 +304,7 @@ class ContactsViewController: UIViewController {
         let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
 
-        //Let's suppose that you want to change the navBarTitleFont only inside the BDKCallViewController.
+        //Let's suppose that you want to change the navBarTitleFont only inside the CallViewController.
         //You can achieve this result by allocate a new instance of the theme and set the navBarTitleFont property whit the wanted value.
         let callTheme = Theme()
         callTheme.navBarTitleFont = UIFont.robotoBold.withSize(30)
@@ -340,7 +340,7 @@ class ContactsViewController: UIViewController {
     }
     
     private func initCallWindowIfNeeded() {
-        //Please remember to reference the call window only once in order to avoid the reset of BDKCallViewController.
+        //Please remember to reference the call window only once in order to avoid the reset of CallViewController.
         guard callWindow == nil else { return }
         
         //Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
@@ -349,7 +349,7 @@ class ContactsViewController: UIViewController {
         if let instance = CallWindow.instance {
             window = instance
         } else {
-            //This will automatically save the new instance inside BDKCallWindow.instance.
+            //This will automatically save the new instance inside CallWindow.instance.
             window = CallWindow()
         }
         
