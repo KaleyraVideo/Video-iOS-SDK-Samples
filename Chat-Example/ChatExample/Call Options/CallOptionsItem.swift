@@ -5,7 +5,7 @@ import Bandyer
 
 class CallOptionsItem: NSCopying {
 
-    var type: BDKCallType
+    var type: CallType
     var record: Bool
     var maximumDuration: UInt
 

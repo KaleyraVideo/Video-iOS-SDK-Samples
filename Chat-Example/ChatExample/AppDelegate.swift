@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //Here we are going to initialize the Bandyer SDK.
         //The sdk needs a configuration object where it is specified which environment the sdk should work in.
-        let config = BDKConfig()
+        let config = Config()
 
         //Here we are telling the SDK we want to work in a sandbox environment.
         //Beware the default environment is production, we strongly recommend to test your app in a sandbox environment.

@@ -88,14 +88,14 @@ class LoginViewController: UITableViewController {
             return
         }
         //Once the end user has selected which user wants to impersonate, we start the SDK client.
-
+        BandyerSDK.instance().openSession(userId: selectedUserId)
         //We are registering as a call client observer in order to be notified when the client changes its state.
         //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
         //otherwise the SDK will notify the observer onto its background internal queue.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 
         //Then we start the call client providing the "user alias" of the user selected.
-        BandyerSDK.instance().callClient.start(selectedUserId)
+        BandyerSDK.instance().callClient.start()
 
         //We are registering as a chat client observer in order to be notified when the client changes its state.
         //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
@@ -103,7 +103,7 @@ class LoginViewController: UITableViewController {
         BandyerSDK.instance().chatClient.add(observer: self, queue: .main)
 
         //Here we start the chat client, providing the "user alias" of the user selected.
-        BandyerSDK.instance().chatClient.start(userId: selectedUserId)
+        BandyerSDK.instance().chatClient.start()
 
         let addressBook = AddressBook(userIds, currentUser: selectedUserId)
 
@@ -112,7 +112,7 @@ class LoginViewController: UITableViewController {
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
         //and provide those information to the Bandyer SDK.
-        BandyerSDK.instance().userInfoFetcher = UserInfoFetcher(addressBook)
+        BandyerSDK.instance().userDetailsProvider = UserInfoFetcher(addressBook)
 
         self.addressBook = addressBook
     }
@@ -134,31 +134,31 @@ class LoginViewController: UITableViewController {
     }
 }
 
-extension LoginViewController: BCXCallClientObserver {
-    public func callClientWillStart(_ client: BCXCallClient) {
+extension LoginViewController: CallClientObserver {
+    public func callClientWillStart(_ client: CallClient) {
         clientsWillStart(chatClient: BandyerSDK.instance().chatClient, callClient: client)
     }
 
-    public func callClientDidStart(_ client: BCXCallClient) {
+    public func callClientDidStart(_ client: CallClient) {
         clientsDidStart(chatClient: BandyerSDK.instance().chatClient, callClient: client)
     }
 
-    public func callClient(_ client: BCXCallClient, didFailWithError error: Error) {
+    public func callClient(_ client: CallClient, didFailWithError error: Error) {
         clients(chatClient: BandyerSDK.instance().chatClient, callClient: client, didFailWithError: error)
     }
 }
 
-extension LoginViewController: BCHChatClientObserver {
+extension LoginViewController: ChatClientObserver {
 
-    public func chatClientWillStart(_ client: BCHChatClient) {
+    public func chatClientWillStart(_ client: ChatClient) {
         clientsWillStart(chatClient: client, callClient: BandyerSDK.instance().callClient)
     }
 
-    public func chatClientDidStart(_ client: BCHChatClient) {
+    public func chatClientDidStart(_ client: ChatClient) {
         clientsDidStart(chatClient: client, callClient: BandyerSDK.instance().callClient)
     }
 
-    public func chatClient(_ client: BCHChatClient, didFailWithError error: Error) {
+    public func chatClient(_ client: ChatClient, didFailWithError error: Error) {
         clients(chatClient: client, callClient: BandyerSDK.instance().callClient, didFailWithError: error)
     }
 }
@@ -188,7 +188,7 @@ extension LoginViewController {
 //MARK:  Clients observer wrapper
 extension LoginViewController {
 
-    private func clientsWillStart(chatClient: BCHChatClient, callClient: BCXCallClient) {
+    private func clientsWillStart(chatClient: ChatClient, callClient: CallClient) {
         if callClient.state == .starting ||
                    chatClient.state == .starting {
             view.isUserInteractionEnabled = false
@@ -196,7 +196,7 @@ extension LoginViewController {
         }
     }
 
-    private func clientsDidStart(chatClient: BCHChatClient, callClient: BCXCallClient) {
+    private func clientsDidStart(chatClient: ChatClient, callClient: CallClient) {
 
         if callClient.state == .running &&
                    chatClient.state == .running {
@@ -213,7 +213,7 @@ extension LoginViewController {
         }
     }
 
-    private func clients(chatClient: BCHChatClient, callClient: BCXCallClient, didFailWithError error: Error) {
+    private func clients(chatClient: ChatClient, callClient: CallClient, didFailWithError error: Error) {
 
         if callClient.state == .stopped ||
                    chatClient.state == .failed {

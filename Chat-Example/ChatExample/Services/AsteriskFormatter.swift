@@ -7,10 +7,10 @@ import Bandyer
 class AsteriskFormatter: Formatter {
 
     override func string(for obj: Any?) -> String? {
-        guard let items = obj as? [BDKUserInfoDisplayItem], let item = items.first else {
+        guard let items = obj as? [UserDetails], let item = items.first else {
             return nil
         }
 
-        return (item.firstName ?? "") + " * " + (item.lastName ?? "")
+        return (item.firstname ?? "") + " * " + (item.lastname ?? "")
     }
 }
