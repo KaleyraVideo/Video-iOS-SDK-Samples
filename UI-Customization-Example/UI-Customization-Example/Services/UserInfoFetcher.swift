@@ -5,8 +5,9 @@
 
 import Foundation
 import Bandyer
+import CallKit
 
-class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
+class UserInfoFetcher: NSObject, UserDetailsProvider {
     private let addressBook: AddressBook
     private let aliasMap: [String: Contact]
 
@@ -25,21 +26,26 @@ class UserInfoFetcher: NSObject, BDKUserInfoFetcher {
         self.aliasMap = aliasMap
     }
 
-    func fetchUsers(_ aliases: [String], completion: @escaping ([BDKUserInfoDisplayItem]?) -> Void) {
-
-        let items = aliases.map { alias -> BDKUserInfoDisplayItem in
+    func provideDetails(_ aliases: [String], completion: @escaping ([UserDetails]) -> Void) {
+        let items = aliases.map { alias -> UserDetails in
             let contact = aliasMap[alias]
 
-            let item = BDKUserInfoDisplayItem(alias: alias)
-            item.firstName = contact?.firstName
-            item.lastName = contact?.lastName
-            item.email = contact?.email
-            item.imageURL = contact?.profileImageURL
-
+            let item = UserDetails(alias: alias,
+                                   firstname: contact?.firstName,
+                                   lastname: contact?.lastName,
+                                   email: contact?.email,
+                                   imageURL: contact?.profileImageURL)
+            
             return item
         }
-
+        
         completion(items)
+    }
+    
+    func provideHandle(_ aliases: [String], completion: @escaping (CXHandle) -> Void) {
+        let names = aliasMap.filter({ aliases.contains($0.key) }).map({ $0.value.fullName ?? $0.key })
+        let handle = CXHandle(type: .generic, value: names.joined(separator: ", "))
+        completion(handle)
     }
 
     func copy(with zone: NSZone?) -> Any {

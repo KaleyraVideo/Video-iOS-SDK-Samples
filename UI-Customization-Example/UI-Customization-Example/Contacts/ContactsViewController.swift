@@ -29,7 +29,7 @@ class ContactsViewController: UIViewController {
     
     private var selectedContacts: [IndexPath] = []
     private var options: CallOptionsItem = CallOptionsItem()
-    private var intent: BDKIntent?
+    private var intent: Intent?
     
     private let callBannerController = CallBannerController()
     
@@ -92,7 +92,7 @@ class ContactsViewController: UIViewController {
     
     private func startOutgoingCall() {
         
-        //To start an outgoing call we must create a `BDKMakeCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
+        //To start an outgoing call we must create a `StartOutgoingCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
         
         //Here we create the array containing the "user aliases" we want to contact.
         let aliases = selectedContacts.compactMap { (contactIndex) -> String? in
@@ -104,18 +104,21 @@ class ContactsViewController: UIViewController {
         //The maximumDuration parameter specifies how long the call can last.
         //If you provide 0, the call will be created without a maximum duration value.
         //We store the intent for later use, because we can present again the CallViewController with the same call.
-        intent = BDKMakeCallIntent(callee: aliases, type: options.type, record: options.record, maximumDuration: options.maximumDuration)
+        intent = StartOutgoingCallIntent(callee: aliases,
+                                         options: CallOptions(callType: options.type,
+                                                              recorded: options.record,
+                                                              duration: options.maximumDuration))
         
         //Then we trigger a presentation of BDKCallViewController.
         performCallViewControllerPresentation()
     }
     
-    private func receiveIncomingCall() {
+    private func receiveIncomingCall(call: Call) {
         
         //When the client detects an incoming call it will notify its observers through this method.
-        //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use,
+        //Here we are creating an `HandleIncomingCallIntent` object, storing it for later use,
         //then we trigger a presentation of BDKCallViewController.
-        intent = BDKIncomingCallHandlingIntent()
+        intent = HandleIncomingCallIntent(call: call)
         performCallViewControllerPresentation()
     }
     
@@ -231,7 +234,7 @@ class ContactsViewController: UIViewController {
 
         //Let's suppose that you want to change the tertiaryBackgroundColor only inside the ChannelViewController.
         //You can achieve this result by allocate a new instance of the theme and set the tertiaryBackgroundColor property whit the wanted value.
-        let theme = BDKTheme()
+        let theme = Theme()
         theme.tertiaryBackgroundColor = UIColor(red: 204/255, green: 210/255, blue: 226/255, alpha: 1)
 
         //You can also format the way our SDK displays the user information inside the chat channel page. In this example, the user info will be preceded by an asterisk.
@@ -303,25 +306,25 @@ class ContactsViewController: UIViewController {
 
         //Let's suppose that you want to change the navBarTitleFont only inside the BDKCallViewController.
         //You can achieve this result by allocate a new instance of the theme and set the navBarTitleFont property whit the wanted value.
-        let callTheme = BDKTheme()
+        let callTheme = Theme()
         callTheme.navBarTitleFont = UIFont.robotoBold.withSize(30)
 
         config.callTheme = callTheme
 
         //The same reasoning will let you change the accentColor only inside the Whiteboard view controller.
-        let whiteboardTheme = BDKTheme()
+        let whiteboardTheme = Theme()
         whiteboardTheme.accentColor = UIColor.systemBlue
 
         config.whiteboardTheme = whiteboardTheme
 
         //You can also customize the theme only of the Whiteboard text editor view controller.
-        let whiteboardTextEditorTheme = BDKTheme()
+        let whiteboardTextEditorTheme = Theme()
         whiteboardTextEditorTheme.bodyFont = UIFont.robotoThin.withSize(30)
 
         config.whiteboardTextEditorTheme = whiteboardTextEditorTheme
 
         //In the next lines you can see how it's possible to customize the File Sharing view controller theme.
-        let fileSharingTheme = BDKTheme()
+        let fileSharingTheme = Theme()
         //By setting a point size property of the theme you can change the point size of all the medium/large labels.
         fileSharingTheme.mediumFontPointSize = 20
         fileSharingTheme.largeFontPointSize = 40
@@ -450,31 +453,31 @@ extension ContactsViewController: UITableViewDelegate {
 }
 
 //MARK: Call client observer
-extension ContactsViewController: BCXCallClientObserver {
+extension ContactsViewController: CallClientObserver {
     
-    public func callClient(_ client: BCXCallClient, didReceiveIncomingCall call: BCXCall) {
-        receiveIncomingCall()
+    public func callClient(_ client: CallClient, didReceiveIncomingCall call: Call) {
+        receiveIncomingCall(call: call)
     }
     
-    public func callClientDidStart(_ client: BCXCallClient) {
+    public func callClientDidStart(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         hideActivityIndicatorFromNavigationBar(animated: true)
         hideToast()
     }
     
-    public func callClientDidStartReconnecting(_ client: BCXCallClient) {
+    public func callClientDidStartReconnecting(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
         showToast(message: "Client is reconnecting, please wait...", color: UIColor.orange)
     }
     
-    public func callClientWillResume(_ client: BCXCallClient) {
+    public func callClientWillResume(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
         showToast(message: "Client is resuming, please wait...", color: UIColor.orange)
     }
     
-    public func callClientDidResume(_ client: BCXCallClient) {
+    public func callClientDidResume(_ client: CallClient) {
         view.isUserInteractionEnabled = true
         hideActivityIndicatorFromNavigationBar(animated: true)
         hideToast()
@@ -588,22 +591,6 @@ extension ContactsViewController: ChannelViewControllerDelegate {
         }
     }
     
-    func channelViewController(_ controller: ChannelViewController, didTouch banner: CallBannerView) {
-        //Please remember to override the current call intent with the one saved inside call window.
-        intent = callWindow?.intent
-        controller.dismiss(animated: true) { [weak self] in
-            self?.performCallViewControllerPresentation()
-        }
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, willHide banner: CallBannerView) {
-        restoreStatusBarAppearance()
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, willShow banner: CallBannerView) {
-        setStatusBarAppearanceToLight()
-    }
-    
     func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {
         dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioUpgradable)
     }
@@ -612,37 +599,36 @@ extension ContactsViewController: ChannelViewControllerDelegate {
         dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioVideo)
     }
     
-    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callee: [String], type: BDKCallType) {
+    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callee: [String], type: CallType) {
         let presentedChannelVC = presentedViewController as? ChannelViewController
         
         if presentedChannelVC != nil {
             channelViewController.dismiss(animated: true) { [weak self] in
-                self?.intent = BDKMakeCallIntent(callee: callee, type: type)
+                self?.intent = StartOutgoingCallIntent(callee: callee, options: CallOptions(callType: type))
                 self?.performCallViewControllerPresentation()
             }
             return
         }
         
-        intent = BDKMakeCallIntent(callee: callee, type: type)
+        intent = StartOutgoingCallIntent(callee: callee, options: CallOptions(callType: type))
         performCallViewControllerPresentation()
     }
 }
 
 //MARK: Call Banner Controller delegate
 extension ContactsViewController: CallBannerControllerDelegate {
-    
-    func callBannerController(_ controller: CallBannerController, didTouch banner: CallBannerView) {
+    func callBannerControllerDidTouchBanner(_ controller: CallBannerController) {
         //Please remember to override the current call intent with the one saved inside call window.
         intent = callWindow?.intent
         performCallViewControllerPresentation()
     }
     
-    func callBannerController(_ controller: CallBannerController, willShow banner: CallBannerView) {
-        setStatusBarAppearanceToLight()
+    func callBannerControllerWillHideBanner(_ controller: CallBannerController) {
+        restoreStatusBarAppearance()
     }
     
-    func callBannerController(_ controller: CallBannerController, willHide banner: CallBannerView) {
-        restoreStatusBarAppearance()
+    func callBannerControllerWillShowBanner(_ controller: CallBannerController) {
+        setStatusBarAppearanceToLight()
     }
 }
 

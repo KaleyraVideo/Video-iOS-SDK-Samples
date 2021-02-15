@@ -10,10 +10,10 @@ class PercentageFormatter: MyFormatter {
 
     override func string(for obj: Any?) -> String? {
         let symbol = "%"
-        if let items = obj as? [BDKUserInfoDisplayItem] {
+        if let items = obj as? [UserDetails] {
             return string(for: items, eachItemPrecededBy: symbol)
         }
-        if let item = obj as? BDKUserInfoDisplayItem {
+        if let item = obj as? UserDetails {
             return string(for: item, precededBy: symbol)
         }
 

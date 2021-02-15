@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //Here we are going to initialize the Bandyer SDK.
         //The sdk needs a configuration object where it is specified which environment the sdk should work in.
-        let config = BDKConfig()
+        let config = Config()
 
         //Here we are telling the SDK we want to work in a sandbox environment.
         //Beware the default environment is production, we strongly recommend to test your app in a sandbox environment.
@@ -70,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //object will tell CallKit which is the name of the call opponent it should show on the system call UI.
         if #available(iOS 10.0, *) {
             config.supportedHandleTypes = Set(arrayLiteral: NSNumber(integerLiteral: CXHandle.HandleType.generic.rawValue))
-            config.handleProvider = HandleProvider(addressBook: AddressBook.instance)
         }
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
 #error("Please initialize the Bandyer SDK with your App Id")
@@ -95,24 +94,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Let's suppose that your app is highly customised. Setting the following properties will let you to apply your colors, bar properties and fonts to all Bandyer's view controllers.
         
         //Colors
-        BDKTheme.default().accentColor = accentColor
-        BDKTheme.default().primaryBackgroundColor = UIColor.customBackground
-        BDKTheme.default().secondaryBackgroundColor = UIColor.customSecondary
-        BDKTheme.default().tertiaryBackgroundColor = UIColor.customTertiary
+        Theme.default().accentColor = accentColor
+        Theme.default().primaryBackgroundColor = UIColor.customBackground
+        Theme.default().secondaryBackgroundColor = UIColor.customSecondary
+        Theme.default().tertiaryBackgroundColor = UIColor.customTertiary
         
         //Bars
-        BDKTheme.default().barTranslucent = false
-        BDKTheme.default().barStyle = .black
-        BDKTheme.default().keyboardAppearance = .dark
-        BDKTheme.default().barTintColor = UIColor.customBarTintColor
+        Theme.default().barTranslucent = false
+        Theme.default().barStyle = .black
+        Theme.default().keyboardAppearance = .dark
+        Theme.default().barTintColor = UIColor.customBarTintColor
 
         //Fonts
-        BDKTheme.default().navBarTitleFont = UIFont.robotoMedium
-        BDKTheme.default().secondaryFont = UIFont.robotoLight
-        BDKTheme.default().bodyFont = UIFont.robotoThin
-        BDKTheme.default().font = UIFont.robotoRegular
-        BDKTheme.default().emphasisFont = UIFont.robotoBold
-        BDKTheme.default().mediumFontPointSize = 15
+        Theme.default().navBarTitleFont = UIFont.robotoMedium
+        Theme.default().secondaryFont = UIFont.robotoLight
+        Theme.default().bodyFont = UIFont.robotoThin
+        Theme.default().font = UIFont.robotoRegular
+        Theme.default().emphasisFont = UIFont.robotoBold
+        Theme.default().mediumFontPointSize = 15
     }
 
     private func customizeInAppNotification() {
@@ -120,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //If you try to set the theme or the formatter before SDK initialization, the notificationsCoordinator will be nil and sets will not be applied.
         //The formatter will be used to display the user information on the In-app notification heading.
 
-        let theme = BDKTheme()
+        let theme = Theme()
         theme.secondaryFont = UIFont.robotoRegular.withSize(5)
 
         BandyerSDK.instance().notificationsCoordinator?.theme = theme
