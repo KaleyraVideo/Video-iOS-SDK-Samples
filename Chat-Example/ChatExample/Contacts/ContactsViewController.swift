@@ -114,8 +114,8 @@ class ContactsViewController: UIViewController {
     private func receiveIncomingCall(call: Call) {
         
         //When the client detects an incoming call it will notify its observers through this method.
-        //Here we are creating an `BDKIncomingCallHandlingIntent` object, storing it for later use,
-        //then we trigger a presentation of BDKCallViewController.
+        //Here we are creating an `HandleIncomingCallIntent` object, storing it for later use,
+        //then we trigger a presentation of CallViewController.
         intent = HandleIncomingCallIntent(call: call)
         performCallViewControllerPresentation()
     }
@@ -185,14 +185,13 @@ class ContactsViewController: UIViewController {
     }
     
     @IBAction func logoutBarButtonTouched(sender: UIBarButtonItem) {
-        //When the user sign off, we also stop the clients.
-        //We highly recommend to stop the clients when the end user signs off
+        //When the user sign off, we also stop the session.
+        //We highly recommend to stop the session when the end user signs off
         //Failing to do so, will result in incoming calls and chat messages being processed by the SDK.
         //Moreover the previously logged user will appear to the Bandyer platform as she/he is available and ready to receive calls and chat messages.
 
         UserSession.currentUser = nil
-        BandyerSDK.instance().callClient.stop()
-        BandyerSDK.instance().chatClient.stop()
+        BandyerSDK.instance().closeSession()
 
         dismiss(animated: true, completion: nil)
     }

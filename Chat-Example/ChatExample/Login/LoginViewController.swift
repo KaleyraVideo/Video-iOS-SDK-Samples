@@ -94,7 +94,7 @@ class LoginViewController: UITableViewController {
         //otherwise the SDK will notify the observer onto its background internal queue.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 
-        //Then we start the call client providing the "user alias" of the user selected.
+        //Then we start the call client of the user selected.
         BandyerSDK.instance().callClient.start()
 
         //We are registering as a chat client observer in order to be notified when the client changes its state.
@@ -102,7 +102,7 @@ class LoginViewController: UITableViewController {
         //otherwise the SDK will notify the observer onto its background internal queue.
         BandyerSDK.instance().chatClient.add(observer: self, queue: .main)
 
-        //Here we start the chat client, providing the "user alias" of the user selected.
+        //Here we start the chat client of the user selected.
         BandyerSDK.instance().chatClient.start()
 
         let addressBook = AddressBook(userIds, currentUser: selectedUserId)
