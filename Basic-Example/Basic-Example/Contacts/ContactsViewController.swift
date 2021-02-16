@@ -237,9 +237,7 @@ class ContactsViewController: UIViewController {
 
     private func initCallWindowIfNeeded() {
         //Please remember to reference the call window only once in order to avoid the reset of CallViewController.
-        guard callWindow == nil else {
-            return
-        }
+        guard callWindow == nil else { return }
 
         //Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
         let window: CallWindow

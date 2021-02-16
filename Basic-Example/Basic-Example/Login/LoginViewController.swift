@@ -108,7 +108,7 @@ class LoginViewController: UITableViewController {
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
         //and provide those information to the Bandyer SDK.
-        BandyerSDK.instance().userDetailsProvider = UserInfoFetcher(addressBook)
+        BandyerSDK.instance().userDetailsProvider = UserDetailsProvider(addressBook)
         
         self.addressBook = addressBook
     }

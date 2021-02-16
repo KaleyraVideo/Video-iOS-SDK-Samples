@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		62DD202670553350AA1E2434 /* CallOptionsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2FEBCF6B7716B797A9AF /* CallOptionsItem.swift */; };
-		62DD22B8D013873A63CA228F /* UserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD222FA2C8CA841F25CBB6 /* UserInfoFetcher.swift */; };
+		62DD22B8D013873A63CA228F /* UserDetailsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD222FA2C8CA841F25CBB6 /* UserDetailsProvider.swift */; };
 		62DD2515D11B00C87A28F96A /* CallOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD24EAE4D9151CD5E7B33C /* CallOptionsTableViewController.swift */; };
 		62DD267E96B283400ED5C90A /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2CD0F8D5D0D883830624 /* Contact.swift */; };
 		62DD2816B4E6DA7CFB6EAEC1 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2BC1A38D46FF18451FA2 /* ContactsViewController.swift */; };
@@ -231,7 +231,7 @@
 		2F91CB51246588F000927CD1 /* Basic-Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Basic-Example.entitlements"; sourceTree = "<group>"; };
 		4E88ECBF1481FAF8C9C662FC /* Pods-Basic-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Basic-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Basic-Example/Pods-Basic-Example.release.xcconfig"; sourceTree = "<group>"; };
 		62DD218D7B408938E27BB4D3 /* ContactsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
-		62DD222FA2C8CA841F25CBB6 /* UserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoFetcher.swift; sourceTree = "<group>"; };
+		62DD222FA2C8CA841F25CBB6 /* UserDetailsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsProvider.swift; sourceTree = "<group>"; };
 		62DD24EAE4D9151CD5E7B33C /* CallOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallOptionsTableViewController.swift; sourceTree = "<group>"; };
 		62DD258FD15874C6F8BE984D /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		62DD282C67A3D929D301D76C /* AddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBook.swift; sourceTree = "<group>"; };
@@ -495,7 +495,7 @@
 				62DD2B3F76C397824929A041 /* UserSession.swift */,
 				62DD218D7B408938E27BB4D3 /* ContactsGenerator.swift */,
 				62DD258FD15874C6F8BE984D /* UserRepository.swift */,
-				62DD222FA2C8CA841F25CBB6 /* UserInfoFetcher.swift */,
+				62DD222FA2C8CA841F25CBB6 /* UserDetailsProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1115,7 +1115,7 @@
 				62DD294F3623AC342298F1C3 /* UserRepository.swift in Sources */,
 				62DD2D20EBD41B5D615602FD /* AddressBook.swift in Sources */,
 				62DD2816B4E6DA7CFB6EAEC1 /* ContactsViewController.swift in Sources */,
-				62DD22B8D013873A63CA228F /* UserInfoFetcher.swift in Sources */,
+				62DD22B8D013873A63CA228F /* UserDetailsProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

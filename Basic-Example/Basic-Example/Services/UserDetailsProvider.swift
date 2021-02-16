@@ -6,7 +6,7 @@
 import Bandyer
 import CallKit
 
-class UserInfoFetcher: NSObject, UserDetailsProvider {
+class UserDetailsProvider: Bandyer.UserDetailsProvider {
     
     private let addressBook: AddressBook
     private let aliasMap: [String: Contact]
@@ -47,9 +47,5 @@ class UserInfoFetcher: NSObject, UserDetailsProvider {
         let names = aliasMap.filter({ aliases.contains($0.key) }).map({ $0.value.fullName ?? $0.key })
         let handle = CXHandle(type: .generic, value: names.joined(separator: ", "))
         completion(handle)
-    }
-
-    func copy(with zone: NSZone?) -> Any {
-        UserInfoFetcher(addressBook)
     }
 }
