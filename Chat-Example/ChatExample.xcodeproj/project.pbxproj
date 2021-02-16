@@ -15,7 +15,7 @@
 		A1126A48234260B100A3FFBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1126A47234260B100A3FFBA /* Assets.xcassets */; };
 		A1126B372342618400A3FFBA /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126A592342618400A3FFBA /* UserRepository.swift */; };
 		A1126B382342618400A3FFBA /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126A5A2342618400A3FFBA /* UserSession.swift */; };
-		A1126B392342618400A3FFBA /* UserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126A5B2342618400A3FFBA /* UserInfoFetcher.swift */; };
+		A1126B392342618400A3FFBA /* UserDetailsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126A5B2342618400A3FFBA /* UserDetailsProvider.swift */; };
 		A1126B3A2342618400A3FFBA /* ContactsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126A5C2342618400A3FFBA /* ContactsGenerator.swift */; };
 		A1126B3B2342618400A3FFBA /* AddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126A5E2342618400A3FFBA /* AddressBook.swift */; };
 		A1126B3C2342618400A3FFBA /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126A5F2342618400A3FFBA /* Contact.swift */; };
@@ -240,7 +240,7 @@
 		A1126A4C234260B100A3FFBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1126A592342618400A3FFBA /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		A1126A5A2342618400A3FFBA /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
-		A1126A5B2342618400A3FFBA /* UserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoFetcher.swift; sourceTree = "<group>"; };
+		A1126A5B2342618400A3FFBA /* UserDetailsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsProvider.swift; sourceTree = "<group>"; };
 		A1126A5C2342618400A3FFBA /* ContactsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
 		A1126A5E2342618400A3FFBA /* AddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBook.swift; sourceTree = "<group>"; };
 		A1126A5F2342618400A3FFBA /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
@@ -517,7 +517,7 @@
 			children = (
 				A1126A592342618400A3FFBA /* UserRepository.swift */,
 				A1126A5A2342618400A3FFBA /* UserSession.swift */,
-				A1126A5B2342618400A3FFBA /* UserInfoFetcher.swift */,
+				A1126A5B2342618400A3FFBA /* UserDetailsProvider.swift */,
 				A1126A5C2342618400A3FFBA /* ContactsGenerator.swift */,
 				32DC9EA86D411EF0F74920FB /* AsteriskFormatter.swift */,
 			);
@@ -1112,7 +1112,7 @@
 				A1126C0A2342618500A3FFBA /* ContactsNavigationController.swift in Sources */,
 				A1126B3A2342618400A3FFBA /* ContactsGenerator.swift in Sources */,
 				A1126C092342618500A3FFBA /* ContactsViewController.swift in Sources */,
-				A1126B392342618400A3FFBA /* UserInfoFetcher.swift in Sources */,
+				A1126B392342618400A3FFBA /* UserDetailsProvider.swift in Sources */,
 				A1126B382342618400A3FFBA /* UserSession.swift in Sources */,
 				A1126B3B2342618400A3FFBA /* AddressBook.swift in Sources */,
 				A1126B3D2342618400A3FFBA /* LoginViewController.swift in Sources */,

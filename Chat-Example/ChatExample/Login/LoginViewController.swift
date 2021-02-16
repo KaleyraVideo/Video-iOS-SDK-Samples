@@ -107,12 +107,12 @@ class LoginViewController: UITableViewController {
 
         let addressBook = AddressBook(userIds, currentUser: selectedUserId)
 
-        //This statement tells the Bandyer SDK which object, conforming to `UserInfoFetcher` protocol, should use to present contact
+        //This statement tells the Bandyer SDK which object, conforming to `UserDetailsProvider` protocol, should use to present contact
         //information in its views.
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
         //and provide those information to the Bandyer SDK.
-        BandyerSDK.instance().userDetailsProvider = UserInfoFetcher(addressBook)
+        BandyerSDK.instance().userDetailsProvider = UserDetailsProvider(addressBook)
 
         self.addressBook = addressBook
     }
@@ -197,13 +197,8 @@ extension LoginViewController {
     }
 
     private func clientsDidStart(chatClient: ChatClient, callClient: CallClient) {
-
-        if callClient.state == .running &&
-                   chatClient.state == .running {
-
-            guard presentedViewController == nil else {
-                return
-            }
+        if callClient.state == .running && chatClient.state == .running {
+            guard presentedViewController == nil else { return }
 
             UserSession.currentUser = selectedUserId
 
@@ -214,9 +209,7 @@ extension LoginViewController {
     }
 
     private func clients(chatClient: ChatClient, callClient: CallClient, didFailWithError error: Error) {
-
-        if callClient.state == .stopped ||
-                   chatClient.state == .failed {
+        if callClient.state == .stopped || chatClient.state == .failed {
             hideActivityIndicatorFromNavigationBar()
             view.isUserInteractionEnabled = true
         }

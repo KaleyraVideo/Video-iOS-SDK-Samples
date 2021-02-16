@@ -67,7 +67,6 @@ class ContactsViewController: UIViewController {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
         //Remember to call viewWillTransitionTo on custom view controller to update UI while rotating.
         callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
         
@@ -530,20 +529,9 @@ extension ContactsViewController: CallWindowDelegate {
 
 //MARK: Channel view controller delegate
 extension ContactsViewController: ChannelViewControllerDelegate {
+    
     func channelViewControllerDidFinish(_ controller: ChannelViewController) {
         controller.dismiss(animated: true)
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, didTouch notification: ChatNotification) {
-        let presentedChannelVC = presentedViewController as? ChannelViewController
-        
-        if presentedChannelVC != nil {
-            controller.dismiss(animated: true) { [weak self] in
-                self?.presentChat(from: notification)
-            }
-        } else {
-            presentChat(from: notification)
-        }
     }
     
     func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {
@@ -572,6 +560,7 @@ extension ContactsViewController: ChannelViewControllerDelegate {
 
 //MARK: Call Banner Controller delegate
 extension ContactsViewController: CallBannerControllerDelegate {
+
     func callBannerControllerDidTouchBanner(_ controller: CallBannerController) {
         //Please remember to override the current call intent with the one saved inside call window.
         intent = callWindow?.intent
@@ -599,6 +588,7 @@ extension ContactsViewController: ContactTableViewCellDelegate {
 
 //MARK: In App file share notification touch listener delegate
 extension ContactsViewController: InAppChatNotificationTouchListener {
+
     func onTouch(_ notification: ChatNotification) {
         if let callWindow = self.callWindow, !callWindow.isHidden {
             callWindow.isHidden = true
@@ -616,6 +606,7 @@ extension ContactsViewController: InAppChatNotificationTouchListener {
 
 //MARK: In App file share notification touch listener delegate
 extension ContactsViewController: InAppFileShareNotificationTouchListener {
+
     func onTouch(_ notification: FileShareNotification) {
         callWindow?.presentCallViewController(for: OpenDownloadsIntent())
     }
