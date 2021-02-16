@@ -95,9 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: PKPushRegistryDelegate {
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
-        let token = pushCredentials.token.map {
-            String(format: "%02.2hhx", $0)
-        }.joined()
+        let token = pushCredentials.tokenAsString
         debugPrint("Push credentials updated \(token), you should send them to your backend system")
     }
 }
