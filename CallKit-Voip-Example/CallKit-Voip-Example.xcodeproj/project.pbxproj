@@ -20,7 +20,7 @@
 		A9B7270F2225905C00D421D1 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B726362225905B00D421D1 /* ContactsViewController.swift */; };
 		A9B727102225905C00D421D1 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B726382225905B00D421D1 /* UserRepository.swift */; };
 		A9B727112225905C00D421D1 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B726392225905B00D421D1 /* UserSession.swift */; };
-		A9B727122225905C00D421D1 /* UserInfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B7263A2225905B00D421D1 /* UserInfoFetcher.swift */; };
+		A9B727122225905C00D421D1 /* UserDetailsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B7263A2225905B00D421D1 /* UserDetailsProvider.swift */; };
 		A9B727132225905C00D421D1 /* ContactsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B7263B2225905B00D421D1 /* ContactsGenerator.swift */; };
 		A9B727142225905C00D421D1 /* SampleVideo_640x360_10mb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A9B7263D2225905B00D421D1 /* SampleVideo_640x360_10mb.mp4 */; };
 		A9B727152225905C00D421D1 /* man_24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9B7263F2225905B00D421D1 /* man_24.jpg */; };
@@ -247,7 +247,7 @@
 		A9B726362225905B00D421D1 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		A9B726382225905B00D421D1 /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		A9B726392225905B00D421D1 /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
-		A9B7263A2225905B00D421D1 /* UserInfoFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoFetcher.swift; sourceTree = "<group>"; };
+		A9B7263A2225905B00D421D1 /* UserDetailsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsProvider.swift; sourceTree = "<group>"; };
 		A9B7263B2225905B00D421D1 /* ContactsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
 		A9B7263D2225905B00D421D1 /* SampleVideo_640x360_10mb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleVideo_640x360_10mb.mp4; sourceTree = "<group>"; };
 		A9B7263F2225905B00D421D1 /* man_24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_24.jpg; sourceTree = "<group>"; };
@@ -562,7 +562,7 @@
 			isa = PBXGroup;
 			children = (
 				A9B7263B2225905B00D421D1 /* ContactsGenerator.swift */,
-				A9B7263A2225905B00D421D1 /* UserInfoFetcher.swift */,
+				A9B7263A2225905B00D421D1 /* UserDetailsProvider.swift */,
 				A9B726382225905B00D421D1 /* UserRepository.swift */,
 				A9B726392225905B00D421D1 /* UserSession.swift */,
 			);
@@ -1129,7 +1129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9B727132225905C00D421D1 /* ContactsGenerator.swift in Sources */,
-				A9B727122225905C00D421D1 /* UserInfoFetcher.swift in Sources */,
+				A9B727122225905C00D421D1 /* UserDetailsProvider.swift in Sources */,
 				A9B727DE2225905C00D421D1 /* Contact.swift in Sources */,
 				A9B7270E2225905C00D421D1 /* CallOptionsItem.swift in Sources */,
 				A9B727DD2225905C00D421D1 /* AddressBook.swift in Sources */,

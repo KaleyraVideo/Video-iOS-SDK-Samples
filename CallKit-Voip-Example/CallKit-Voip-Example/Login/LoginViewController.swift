@@ -89,9 +89,7 @@ class LoginViewController: UITableViewController {
     //MARK: Login
 
     func loginUsers() {
-        guard let selectedUserId = self.selectedUserId else {
-            return
-        }
+        guard let selectedUserId = self.selectedUserId else { return }
 
         //Once the end user has selected which user wants to impersonate, we start the SDK client.
         //We are opening a session with the selected user id by telling the BandyerSDK to open a new session.
@@ -117,7 +115,7 @@ class LoginViewController: UITableViewController {
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
         //and provide those information to the Bandyer SDK.
-        BandyerSDK.instance().userDetailsProvider = UserInfoFetcher(addressBook)
+        BandyerSDK.instance().userDetailsProvider = UserDetailsProvider(addressBook)
 
         self.addressBook = addressBook
     }
