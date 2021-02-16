@@ -91,7 +91,6 @@ class ContactsViewController: UIViewController {
     //MARK: Calls
     
     private func startOutgoingCall() {
-        
         //To start an outgoing call we must create a `StartOutgoingCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
         
         //Here we create the array containing the "user aliases" we want to contact.
@@ -114,7 +113,6 @@ class ContactsViewController: UIViewController {
     }
     
     private func receiveIncomingCall(call: Call) {
-        
         //When the client detects an incoming call it will notify its observers through this method.
         //Here we are creating an `HandleIncomingCallIntent` object, storing it for later use,
         //then we trigger a presentation of CallViewController.
@@ -187,14 +185,13 @@ class ContactsViewController: UIViewController {
     }
     
     @IBAction func logoutBarButtonTouched(sender: UIBarButtonItem) {
-        //When the user sign off, we also stop the clients.
-        //We highly recommend to stop the clients when the end user signs off
+        //When the user sign off, we also close the user session.
+        //We highly recommend to close the user session when the end user signs off.
         //Failing to do so, will result in incoming calls being processed by the SDK and wrong user logged in inside our chat sdk.
         //Moreover the previously logged user will appear to the Bandyer platform as she/he is available and ready to receive calls and that user will still receive chat messages.
         
         UserSession.currentUser = nil
-        BandyerSDK.instance().callClient.stop()
-        BandyerSDK.instance().chatClient.stop()
+        BandyerSDK.instance().closeSession()
         
         dismiss(animated: true, completion: nil)
     }
@@ -577,18 +574,6 @@ extension ContactsViewController: CallWindowDelegate {
 extension ContactsViewController: ChannelViewControllerDelegate {
     func channelViewControllerDidFinish(_ controller: ChannelViewController) {
         controller.dismiss(animated: true)
-    }
-    
-    func channelViewController(_ controller: ChannelViewController, didTouch notification: ChatNotification) {
-        let presentedChannelVC = presentedViewController as? ChannelViewController
-        
-        if presentedChannelVC != nil {
-            controller.dismiss(animated: true) { [weak self] in
-                self?.presentChat(from: notification)
-            }
-        } else {
-            presentChat(from: notification)
-        }
     }
     
     func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {

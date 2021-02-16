@@ -113,12 +113,12 @@ class LoginViewController: UITableViewController {
 
         let addressBook = AddressBook.instance
 
-        //This statement tells the Bandyer SDK which object, conforming to `UserInfoFetcher` protocol, should use to present contact
+        //This statement tells the Bandyer SDK which object, conforming to the `UserDetailsProvider` protocol, should use to present contact
         //information in its views.
         //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
         //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
         //and provide those information to the Bandyer SDK.
-        BandyerSDK.instance().userDetailsProvider = UserInfoFetcher(addressBook)
+        BandyerSDK.instance().userDetailsProvider = UserDetailsProvider(addressBook)
 
         self.addressBook = addressBook
     }

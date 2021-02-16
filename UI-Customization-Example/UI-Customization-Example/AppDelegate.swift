@@ -43,9 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //If you don't set this value during the configuration, the SDK will look for to the value of the
         //CFBundleDisplayName key (or the CFBundleName, if the former is not available) found in your App Info.plist
 
-        if #available(iOS 10.0, *) {
-            config.nativeUILocalizedName = "My wonderful app"
-        }
+        config.nativeUILocalizedName = "My wonderful app"
 
         //The following statement is going to change the ringtone used by the system call UI when an incoming call
         //is received. You should provide the name of the sound resource in the app bundle that is going to be used as
@@ -61,16 +59,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //length 40 points square png image.
         //It is highly recommended to set this property, otherwise a "question mark" icon placeholder is used instead.
 
-        if #available(iOS 10.0, *) {
-            let callKitIcon = UIImage(named: "callkit-icon")
-            config.nativeUITemplateIconImageData = callKitIcon?.pngData()
-        }
+        let callKitIcon = UIImage(named: "callkit-icon")
+        config.nativeUITemplateIconImageData = callKitIcon?.pngData()
 
         //The following statements will tell the BandyerSDK to use the app custom BCXHandleProvider. When any call is performed this
         //object will tell CallKit which is the name of the call opponent it should show on the system call UI.
-        if #available(iOS 10.0, *) {
-            config.supportedHandleTypes = Set(arrayLiteral: NSNumber(integerLiteral: CXHandle.HandleType.generic.rawValue))
-        }
+
+        config.supportedHandleTypes = Set(arrayLiteral: NSNumber(integerLiteral: CXHandle.HandleType.generic.rawValue))
+        
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
 #error("Please initialize the Bandyer SDK with your App Id")
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
