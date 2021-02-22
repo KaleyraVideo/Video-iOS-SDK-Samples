@@ -101,7 +101,7 @@ class ContactsViewController: UIViewController {
         //The maximumDuration parameter specifies how long the call can last.
         //If you provide 0, the call will be created without a maximum duration value.
         //We store the intent for later use, because we can present again the CallViewController with the same call.
-        intent = StartOutgoingCallIntent(callee: aliases,
+        intent = StartOutgoingCallIntent(callees: aliases,
                                          options: CallOptions(callType: options.type,
                                                               recorded: options.record,
                                                               duration: options.maximumDuration))
@@ -542,18 +542,18 @@ extension ContactsViewController: ChannelViewControllerDelegate {
         dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioVideo)
     }
     
-    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callee: [String], type: CallType) {
+    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callees: [String], type: CallType) {
         let presentedChannelVC = presentedViewController as? ChannelViewController
         
         if presentedChannelVC != nil {
             channelViewController.dismiss(animated: true) { [weak self] in
-                self?.intent = StartOutgoingCallIntent(callee: callee, options: CallOptions(callType: type))
+                self?.intent = StartOutgoingCallIntent(callees: callees, options: CallOptions(callType: type))
                 self?.performCallViewControllerPresentation()
             }
             return
         }
         
-        intent = StartOutgoingCallIntent(callee: callee, options: CallOptions(callType: type))
+        intent = StartOutgoingCallIntent(callees: callees, options: CallOptions(callType: type))
         performCallViewControllerPresentation()
     }
 }
