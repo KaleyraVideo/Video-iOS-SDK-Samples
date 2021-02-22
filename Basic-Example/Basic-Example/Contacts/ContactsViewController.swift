@@ -1,6 +1,5 @@
 //
-// Created by Marco Brescianini on 2019-02-26.
-// Copyright (c) 2019 Bandyer. All rights reserved.
+//  Copyright © 2018-2021 Bandyer. All rights reserved.
 //
 
 import UIKit
@@ -102,7 +101,7 @@ class ContactsViewController: UIViewController {
         //If you provide 0, the call will be created without a maximum duration value.
         //We store the intent for later use, because we can present again the CallViewController with the same call.
        
-        intent = StartOutgoingCallIntent(callee: aliases,
+        intent = StartOutgoingCallIntent(callees: aliases,
                                          options: CallOptions(callType: options.type,
                                                               recorded: options.record,
                                                               duration: options.maximumDuration))
