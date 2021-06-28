@@ -1,0 +1,13 @@
+target 'BroadcastExample' do
+  use_frameworks!
+  platform :ios, '10.0'
+  
+  pod 'Bandyer'
+end
+
+target 'UploadExtension' do
+  use_frameworks!
+  platform :ios, '12.0'
+
+  pod 'BandyerBroadcastExtension'
+end
