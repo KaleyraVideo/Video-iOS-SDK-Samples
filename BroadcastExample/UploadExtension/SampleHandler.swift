@@ -8,7 +8,7 @@ import BandyerBroadcastExtension
 class SampleHandler: RPBroadcastSampleHandler {
 
     override func broadcastStarted(withSetupInfo setupInfo: [String : NSObject]?) {
-        #error("Replace APP_GROUP_IDENTIFIER_GOES_HERE placeholder with your app group identifier")
+        #error("Please replace APP_GROUP_IDENTIFIER_GOES_HERE placeholder with your app group identifier")
         BroadcastExtension.instance.start(appGroupIdentifier: "APP_GROUP_IDENTIFIER_GOES_HERE", setupInfo: setupInfo) { [weak self] error in
             self?.finishBroadcastWithError(error)
         }

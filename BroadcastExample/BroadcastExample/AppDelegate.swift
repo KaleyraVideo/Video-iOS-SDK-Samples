@@ -81,13 +81,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //The following statement is going to tell the BandyerSDK which object it must forward device push tokens to when one is received.
         config.pushRegistryDelegate = self
 
+        if #available(iOS 12.0, *) {
+            // This configuration object enable the sdk to talk with the broadcast extension
+            // You must provide the app group identifier used by your app and the upload extension bundle identifier
+
+            #error("Please replace APP_GROUP_IDENTIFIER_GOES_HERE with your app group identifier")
+            #error("Please replace UPLOAD_EXTENSION_BUNDLE_IDENTIFIER_GOES_HERE with your upload extension bundle identifier")
+            config.broadcastScreensharingConfiguration = BroadcastScreensharingToolConfiguration.enabled(appGroupIdentifier: "APP_GROUP_IDENTIFIER_GOES_HERE",
+                                                                                                         broadcastExtensionBundleIdentifier: "UPLOAD_EXTENSION_BUNDLE_IDENTIFIER_GOES_HERE")
+        }
+
         #error("Please set the payload keypath here")
         //This statement is going to tell the BandyerSDK where to look for incoming call information within the VoIP push notifications it receives
-        config.notificationPayloadKeyPath = "SET YOUR PAYLOAD KEY PATH HERE"
+        config.notificationPayloadKeyPath = "SET_YOUR_PAYLOAD_KEY_PATH_HERE"
 
         #error("Please initialize the Bandyer SDK with your App Id")
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
-        BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
+        BandyerSDK.instance().initialize(withApplicationId: "PUT_YOUR_APP_ID_HERE", config: config)
 
         return true
     }
