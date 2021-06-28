@@ -223,7 +223,34 @@
 		A9D11BEC268A0E3600C13F49 /* UserDetailsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B15268A0E3600C13F49 /* UserDetailsProvider.swift */; };
 		A9D11BED268A0E3600C13F49 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B16268A0E3600C13F49 /* UserSession.swift */; };
 		A9D11BEE268A0E3600C13F49 /* ContactsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B17268A0E3600C13F49 /* ContactsGenerator.swift */; };
+		A9D11BF6268A0EDD00C13F49 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9D11BF5268A0EDD00C13F49 /* ReplayKit.framework */; };
+		A9D11BF9268A0EDD00C13F49 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11BF8268A0EDD00C13F49 /* SampleHandler.swift */; };
+		A9D11BFD268A0EDD00C13F49 /* UploadExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A9D11BF3268A0EDD00C13F49 /* UploadExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A9D11BFB268A0EDD00C13F49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9D11A17268A0DCF00C13F49 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9D11BF2268A0EDD00C13F49;
+			remoteInfo = UploadExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A9D11C01268A0EDD00C13F49 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A9D11BFD268A0EDD00C13F49 /* UploadExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A9D11A1F268A0DCF00C13F49 /* BroadcastExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BroadcastExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -444,6 +471,10 @@
 		A9D11B15268A0E3600C13F49 /* UserDetailsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsProvider.swift; sourceTree = "<group>"; };
 		A9D11B16268A0E3600C13F49 /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		A9D11B17268A0E3600C13F49 /* ContactsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
+		A9D11BF3268A0EDD00C13F49 /* UploadExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = UploadExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9D11BF5268A0EDD00C13F49 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		A9D11BF8268A0EDD00C13F49 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHandler.swift; sourceTree = "<group>"; };
+		A9D11BFA268A0EDD00C13F49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,6 +485,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9D11BF0268A0EDD00C13F49 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9D11BF6268A0EDD00C13F49 /* ReplayKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -461,6 +500,8 @@
 			isa = PBXGroup;
 			children = (
 				A9D11A21268A0DCF00C13F49 /* BroadcastExample */,
+				A9D11BF7268A0EDD00C13F49 /* UploadExtension */,
+				A9D11BF4268A0EDD00C13F49 /* Frameworks */,
 				A9D11A20268A0DCF00C13F49 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -469,6 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				A9D11A1F268A0DCF00C13F49 /* BroadcastExample.app */,
+				A9D11BF3268A0EDD00C13F49 /* UploadExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -769,6 +811,23 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		A9D11BF4268A0EDD00C13F49 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9D11BF5268A0EDD00C13F49 /* ReplayKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A9D11BF7268A0EDD00C13F49 /* UploadExtension */ = {
+			isa = PBXGroup;
+			children = (
+				A9D11BF8268A0EDD00C13F49 /* SampleHandler.swift */,
+				A9D11BFA268A0EDD00C13F49 /* Info.plist */,
+			);
+			path = UploadExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -779,15 +838,34 @@
 				A9D11A1B268A0DCF00C13F49 /* Sources */,
 				A9D11A1C268A0DCF00C13F49 /* Frameworks */,
 				A9D11A1D268A0DCF00C13F49 /* Resources */,
+				A9D11C01268A0EDD00C13F49 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A9D11BFC268A0EDD00C13F49 /* PBXTargetDependency */,
 			);
 			name = BroadcastExample;
 			productName = BroadcastExample;
 			productReference = A9D11A1F268A0DCF00C13F49 /* BroadcastExample.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A9D11BF2268A0EDD00C13F49 /* UploadExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9D11BFE268A0EDD00C13F49 /* Build configuration list for PBXNativeTarget "UploadExtension" */;
+			buildPhases = (
+				A9D11BEF268A0EDD00C13F49 /* Sources */,
+				A9D11BF0268A0EDD00C13F49 /* Frameworks */,
+				A9D11BF1268A0EDD00C13F49 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UploadExtension;
+			productName = UploadExtension;
+			productReference = A9D11BF3268A0EDD00C13F49 /* UploadExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -799,6 +877,9 @@
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					A9D11A1E268A0DCF00C13F49 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+					A9D11BF2268A0EDD00C13F49 = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
 				};
@@ -817,6 +898,7 @@
 			projectRoot = "";
 			targets = (
 				A9D11A1E268A0DCF00C13F49 /* BroadcastExample */,
+				A9D11BF2268A0EDD00C13F49 /* UploadExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1033,6 +1115,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9D11BF1268A0EDD00C13F49 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1055,7 +1144,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A9D11BEF268A0EDD00C13F49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9D11BF9268A0EDD00C13F49 /* SampleHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A9D11BFC268A0EDD00C13F49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9D11BF2268A0EDD00C13F49 /* UploadExtension */;
+			targetProxy = A9D11BFB268A0EDD00C13F49 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A9D11B0A268A0E3500C13F49 /* LaunchScreen.storyboard */ = {
@@ -1196,6 +1301,7 @@
 		A9D11A34268A0DD100C13F49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -1214,6 +1320,7 @@
 		A9D11A35268A0DD100C13F49 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -1224,6 +1331,44 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.acme.BroadcastExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A9D11BFF268A0EDD00C13F49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = UploadExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.acme.BroadcastExample.UploadExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A9D11C00268A0EDD00C13F49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = UploadExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.acme.BroadcastExample.UploadExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1246,6 +1391,15 @@
 			buildConfigurations = (
 				A9D11A34268A0DD100C13F49 /* Debug */,
 				A9D11A35268A0DD100C13F49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9D11BFE268A0EDD00C13F49 /* Build configuration list for PBXNativeTarget "UploadExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9D11BFF268A0EDD00C13F49 /* Debug */,
+				A9D11C00268A0EDD00C13F49 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
