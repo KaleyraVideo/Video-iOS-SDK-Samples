@@ -6,8 +6,8 @@ import Foundation
 
 class AddressBook {
 
-    private (set) var me: Contact?
-    private (set) var contacts: [Contact]
+    private(set) var me: Contact?
+    private(set) var contacts: [Contact]
     static private (set) var instance: AddressBook = AddressBook()
 
     private init() {
