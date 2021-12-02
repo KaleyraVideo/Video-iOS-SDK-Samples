@@ -489,7 +489,6 @@ extension ContactsViewController: CallWindowDelegate {
     }
 
     func callWindow(_ window: CallWindow, openChatWith intent: OpenChatIntent) {
-        hideCallViewController()
         presentChat(from: self, intent: intent)
     }
 }
@@ -527,10 +526,6 @@ extension ContactsViewController: ChannelViewControllerDelegate {
 //MARK: In App file share notification touch listener delegate
 extension ContactsViewController: InAppChatNotificationTouchListener {
     func onTouch(_ notification: ChatNotification) {
-        if let callWindow = self.callWindow, !callWindow.isHidden {
-            callWindow.isHidden = true
-        }
-
         if presentedViewController is ChannelViewController {
             presentedViewController?.dismiss(animated: true) { [weak self] in
                 self?.presentChat(from: notification)
