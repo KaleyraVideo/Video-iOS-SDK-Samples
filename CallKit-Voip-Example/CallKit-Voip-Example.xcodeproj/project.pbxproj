@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		32DC9EAF604C76C6845E8463 /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC9E4F96E5416BC7F4345E /* ContactsNavigationController.swift */; };
 		670F9E436ECD4728C2CB6413 /* Pods_CallKit_Voip_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9623817767E677256F468091 /* Pods_CallKit_Voip_Example.framework */; };
 		A9B7246E22255FAB00D421D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B7246D22255FAB00D421D1 /* AppDelegate.swift */; };
 		A9B7247322255FAB00D421D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9B7247122255FAB00D421D1 /* Main.storyboard */; };
@@ -230,7 +229,6 @@
 
 /* Begin PBXFileReference section */
 		18948756C3DF79871FE23329 /* Pods-CallKit-Voip-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CallKit-Voip-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CallKit-Voip-Example/Pods-CallKit-Voip-Example.debug.xcconfig"; sourceTree = "<group>"; };
-		32DC9E4F96E5416BC7F4345E /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
 		3DA579B5A6A8A0D7EC5CC2D3 /* Pods-CallKit-Voip-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CallKit-Voip-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-CallKit-Voip-Example/Pods-CallKit-Voip-Example.release.xcconfig"; sourceTree = "<group>"; };
 		9623817767E677256F468091 /* Pods_CallKit_Voip_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CallKit_Voip_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A14C11C223478E6500AA97B7 /* CallKit-Voip-Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CallKit-Voip-Example.entitlements"; sourceTree = "<group>"; };
@@ -552,7 +550,6 @@
 		A9B726352225905B00D421D1 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				32DC9E4F96E5416BC7F4345E /* ContactsNavigationController.swift */,
 				A9B726362225905B00D421D1 /* ContactsViewController.swift */,
 			);
 			path = Contacts;
@@ -1139,7 +1136,6 @@
 				A9B727102225905C00D421D1 /* UserRepository.swift in Sources */,
 				A9B7246E22255FAB00D421D1 /* AppDelegate.swift in Sources */,
 				A9B727DF2225905C00D421D1 /* LoginViewController.swift in Sources */,
-				32DC9EAF604C76C6845E8463 /* ContactsNavigationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

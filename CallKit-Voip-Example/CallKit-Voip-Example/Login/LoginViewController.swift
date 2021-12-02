@@ -7,16 +7,16 @@ import Bandyer
 
 class LoginViewController: UITableViewController {
 
-    //This view controller acts as the root view controller of your app.
-    //In order for the SDK to receive or make calls we must start it specifying which user is connecting to Bandyer platform.
-    //Bandyer SDK uses an "user alias" to identify a user, you can think of it as an alphanumeric unique "slug" which identifies
-    //a user in your company. The SDK needs this "user alias" to connect, so you must retrieve it in some way from your back-end system.
-    //Let's pretend this is the login screen of your app where the user enters hers/his credentials.
-    //Once your app has been able to authenticate her/him, hers/his "user alias" should be available to you and it should be ready
-    //to be used to start the Bandyer SDK.
-    //In this sample app, we simulate those steps retrieving from our backend system all the users belonging to a company of our own.
-    //Then when the end user selects the user she/he wants to sign-in as, we start the SDK client and if everything went fine we let her/him
-    //proceed to the next screen.
+    // This view controller acts as the root view controller of your app.
+    // In order for the SDK to receive or make calls we must start it specifying which user is connecting to Bandyer platform.
+    // Bandyer SDK uses an "user alias" to identify a user, you can think of it as an alphanumeric unique "slug" which identifies
+    // a user in your company. The SDK needs this "user alias" to connect, so you must retrieve it in some way from your back-end system.
+    // Let's pretend this is the login screen of your app where the user enters hers/his credentials.
+    // Once your app has been able to authenticate her/him, hers/his "user alias" should be available to you and it should be ready
+    // to be used to start the Bandyer SDK.
+    // In this sample app, we simulate those steps retrieving from our backend system all the users belonging to a company of our own.
+    // Then when the end user selects the user she/he wants to sign-in as, we start the SDK client and if everything went fine we let her/him
+    // proceed to the next screen.
 
     private let cellIdentifier = "userCellId"
     private let segueIdentifier = "showContactsSegue"
@@ -31,7 +31,7 @@ class LoginViewController: UITableViewController {
 
     private var addressBook: AddressBook?
 
-    //MARK: View
+    // MARK: - View
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +56,7 @@ class LoginViewController: UITableViewController {
         addressBook = nil
     }
 
-    //MARK: Refreshing users
+    // MARK: - Refreshing users list
 
     func refreshUsers() {
         refreshControl?.beginRefreshing()
@@ -78,17 +78,18 @@ class LoginViewController: UITableViewController {
 
             self.userIds = users
 
-            self.loginUsers()
+            self.loginUser()
         }
     }
 
-    @objc func refreshControlDidRefresh(_ sender: UIRefreshControl) {
+    @objc
+    func refreshControlDidRefresh(_ sender: UIRefreshControl) {
         refreshUsers()
     }
 
-    //MARK: Login
+    // MARK: - Login
 
-    func loginUsers() {
+    func loginUser() {
         guard let selectedUserId = self.selectedUserId else { return }
 
         //Once the end user has selected which user wants to impersonate, we start the SDK client.
@@ -120,34 +121,27 @@ class LoginViewController: UITableViewController {
         self.addressBook = addressBook
     }
 
-    //MARK: Navigating to contacts
+    // MARK: - Navigating to contacts
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == segueIdentifier else {
-            return
-        }
-        guard let navController = segue.destination as? UINavigationController else {
-            return
-        }
-        guard let controller = navController.topViewController as? ContactsViewController else {
-            return
-        }
+        guard segue.identifier == segueIdentifier else { return }
+        guard let navController = segue.destination as? UINavigationController else { return }
+        guard let controller = navController.topViewController as? ContactsViewController else { return }
 
         controller.addressBook = addressBook
     }
 }
 
 extension LoginViewController: CallClientObserver {
-    public func callClientWillStart(_ client: CallClient) {
+
+    func callClientWillStart(_ client: CallClient) {
         view.isUserInteractionEnabled = false
 
         showActivityIndicatorInNavigationBar()
     }
 
-    public func callClientDidStart(_ client: CallClient) {
-        guard presentedViewController == nil else {
-            return
-        }
+    func callClientDidStart(_ client: CallClient) {
+        guard presentedViewController == nil else { return }
 
         UserSession.currentUser = selectedUserId
 
@@ -156,13 +150,14 @@ extension LoginViewController: CallClientObserver {
         view.isUserInteractionEnabled = true
     }
 
-    public func callClient(_ client: CallClient, didFailWithError error: Error) {
+    func callClient(_ client: CallClient, didFailWithError error: Error) {
         hideActivityIndicatorFromNavigationBar()
         view.isUserInteractionEnabled = true
     }
 }
 
-//MARK: Activity indicator
+// MARK: - Activity indicator
+
 extension LoginViewController {
 
     func showActivityIndicatorInNavigationBar() {
@@ -183,18 +178,19 @@ extension LoginViewController {
     }
 }
 
-//MARK: Table view data source
+// MARK: - Table view data source
+
 extension LoginViewController {
 
-    public override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
 
-    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         userIds.count
     }
 
-    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         if #available(iOS 14.0, *) {
             var config = cell.defaultContentConfiguration()
@@ -207,10 +203,12 @@ extension LoginViewController {
     }
 }
 
-//MARK: Table view delegate
+// MARK: - Table view delegate
+
 extension LoginViewController {
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedUserId = userIds[indexPath.row]
-        loginUsers()
+        loginUser()
     }
 }
