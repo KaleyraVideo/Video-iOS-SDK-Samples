@@ -30,8 +30,6 @@ class ContactsViewController: UIViewController {
     private var options: CallOptionsItem = CallOptionsItem()
     private var intent: Intent?
 
-    private let callBannerController = CallBannerController()
-
     //MARK: View
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,31 +41,18 @@ class ContactsViewController: UIViewController {
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
 
         //When view loads we have to setup custom view controllers.
-
-        callBannerController.delegate = self
-        callBannerController.parentViewController = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        callBannerController.show()
         setupNotificationsCoordinator()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        callBannerController.hide()
         disableNotificationsCoordinator()
-    }
-
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-
-        //Remember to call viewWillTransitionTo on custom view controllers to update UI while rotating.
-        callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
-        
-        super.viewWillTransition(to: size, with: coordinator)
     }
 
     //MARK: In-app Notification
@@ -536,23 +521,6 @@ extension ContactsViewController: ChannelViewControllerDelegate {
 
         intent = StartOutgoingCallIntent(callees: callees, options: CallOptions(callType: type))
         performCallViewControllerPresentation()
-    }
-}
-
-//MARK: Call Banner Controller delegate
-extension ContactsViewController: CallBannerControllerDelegate {
-    func callBannerControllerDidTouchBanner(_ controller: CallBannerController) {
-        //Please remember to override the current call intent with the one saved inside call window.
-        intent = callWindow?.intent
-        performCallViewControllerPresentation()
-    }
-    
-    func callBannerControllerWillShowBanner(_ controller: CallBannerController) {
-        setStatusBarAppearanceToLight()
-    }
-    
-    func callBannerControllerWillHideBanner(_ controller: CallBannerController) {
-        restoreStatusBarAppearance()
     }
 }
 
