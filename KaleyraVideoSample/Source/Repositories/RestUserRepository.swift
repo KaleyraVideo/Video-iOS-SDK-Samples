@@ -4,7 +4,7 @@
 
 import Foundation
 
-class UserRepository {
+class RestUserRepository {
 
     private let apiKey: String
     private let url: URL?

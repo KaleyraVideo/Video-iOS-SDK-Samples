@@ -22,7 +22,7 @@ class LoginViewController: UITableViewController {
     private let segueIdentifier = "showContactsSegue"
 
     private (set) var selectedUserId = UserSession.currentUser
-    private (set) var repository = UserRepository()
+    private (set) var repository = RestUserRepository()
     private (set) var userIds: [String] = [] {
         didSet {
             tableView.reloadData()

@@ -42,6 +42,7 @@
 		A9E3C9A9275A751600EC3798 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9A8275A751600EC3798 /* Constants.swift */; };
 		A9E3C9AA275A751600EC3798 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9A8275A751600EC3798 /* Constants.swift */; };
 		A9E3C9AC275A781600EC3798 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AB275A781600EC3798 /* AppConfig.swift */; };
+		A9E3C9AF275A7C4E00EC3798 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AE275A7C4E00EC3798 /* UserRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		A90152C0275A728500FB1020 /* KaleyraVideoSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KaleyraVideoSample.entitlements; sourceTree = "<group>"; };
 		A9E3C9A8275A751600EC3798 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A9E3C9AB275A781600EC3798 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		A9E3C9AE275A7C4E00EC3798 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		AD1FD2F04CD450CA1B3E693F /* Pods-KaleyraVideoSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaleyraVideoSample.debug.xcconfig"; path = "Target Support Files/Pods-KaleyraVideoSample/Pods-KaleyraVideoSample.debug.xcconfig"; sourceTree = "<group>"; };
 		B11F1168131AF56352CBCD09 /* Pods_BroadcastExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BroadcastExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9D7F82F6A6D1B4E28C5749C /* Pods_KaleyraVideoSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KaleyraVideoSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				A9014E04275A1EC700FB1020 /* RestUserRepository.swift */,
+				A9E3C9AE275A7C4E00EC3798 /* UserRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				A90152A5275A6F2B00FB1020 /* Contact.swift in Sources */,
 				A90152A9275A6F3700FB1020 /* MyFormatter.swift in Sources */,
 				A90152AA275A6F3700FB1020 /* AsteriskFormatter.swift in Sources */,
+				A9E3C9AF275A7C4E00EC3798 /* UserRepository.swift in Sources */,
 				A90152A4275A6F2200FB1020 /* AppDelegate.swift in Sources */,
 				A90152AB275A6F3700FB1020 /* UserSession.swift in Sources */,
 				A90152B2275A6F4D00FB1020 /* ContactsViewController.swift in Sources */,
