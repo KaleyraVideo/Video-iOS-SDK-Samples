@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1EFA6D216FF6E06242295393 /* Pods_KaleyraVideoSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9D7F82F6A6D1B4E28C5749C /* Pods_KaleyraVideoSample.framework */; };
+		A5E6ABB8DE38E342DF867C7D /* Pods_BroadcastExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B11F1168131AF56352CBCD09 /* Pods_BroadcastExtension.framework */; };
 		A9015297275A6E4900FB1020 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9015296275A6E4900FB1020 /* ReplayKit.framework */; platformFilter = maccatalyst; };
 		A901529E275A6E4900FB1020 /* BroadcastExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A9015294275A6E4900FB1020 /* BroadcastExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A90152A4275A6F2200FB1020 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014DFF275A1EC700FB1020 /* AppDelegate.swift */; };
@@ -17,7 +19,7 @@
 		A90152A9275A6F3700FB1020 /* MyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014FF6275A1EC800FB1020 /* MyFormatter.swift */; };
 		A90152AA275A6F3700FB1020 /* AsteriskFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90151D9275A1EC800FB1020 /* AsteriskFormatter.swift */; };
 		A90152AB275A6F3700FB1020 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014E06275A1EC700FB1020 /* UserSession.swift */; };
-		A90152AC275A6F3700FB1020 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014E04275A1EC700FB1020 /* UserRepository.swift */; };
+		A90152AC275A6F3700FB1020 /* RestUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014E04275A1EC700FB1020 /* RestUserRepository.swift */; };
 		A90152AD275A6F3700FB1020 /* UserDetailsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014E05275A1EC700FB1020 /* UserDetailsProvider.swift */; };
 		A90152AE275A6F3700FB1020 /* ContactsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014E07275A1EC700FB1020 /* ContactsGenerator.swift */; };
 		A90152AF275A6F4600FB1020 /* CallOptionsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014D24275A1EC600FB1020 /* CallOptionsItem.swift */; };
@@ -37,6 +39,9 @@
 		A90152BD275A70C600FB1020 /* SampleVideo_640x360_10mb.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A9014D2E275A1EC600FB1020 /* SampleVideo_640x360_10mb.mp4 */; };
 		A90152BE275A70D000FB1020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9014D26275A1EC600FB1020 /* LaunchScreen.storyboard */; };
 		A90152BF275A70D000FB1020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9014D28275A1EC600FB1020 /* Main.storyboard */; };
+		A9E3C9A9275A751600EC3798 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9A8275A751600EC3798 /* Constants.swift */; };
+		A9E3C9AA275A751600EC3798 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9A8275A751600EC3798 /* Constants.swift */; };
+		A9E3C9AC275A781600EC3798 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AB275A781600EC3798 /* AppConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +69,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6438FFE61495208EF18FA7C3 /* Pods-BroadcastExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BroadcastExtension.release.xcconfig"; path = "Target Support Files/Pods-BroadcastExtension/Pods-BroadcastExtension.release.xcconfig"; sourceTree = "<group>"; };
+		76812E577E18822356ED1C96 /* Pods-KaleyraVideoSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaleyraVideoSample.release.xcconfig"; path = "Target Support Files/Pods-KaleyraVideoSample/Pods-KaleyraVideoSample.release.xcconfig"; sourceTree = "<group>"; };
 		A9014D1F275A1EA400FB1020 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A9014D20275A1EA400FB1020 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A9014D23275A1EC600FB1020 /* CallOptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallOptionsTableViewController.swift; sourceTree = "<group>"; };
@@ -73,17 +80,15 @@
 		A9014D2C275A1EC600FB1020 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		A9014D2E275A1EC600FB1020 /* SampleVideo_640x360_10mb.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = SampleVideo_640x360_10mb.mp4; sourceTree = "<group>"; };
 		A9014D2F275A1EC600FB1020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A9014DFB275A1EC700FB1020 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A9014DFD275A1EC700FB1020 /* AddressBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBook.swift; sourceTree = "<group>"; };
 		A9014DFE275A1EC700FB1020 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		A9014DFF275A1EC700FB1020 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9014E01275A1EC700FB1020 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A9014E02275A1EC700FB1020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A9014E04275A1EC700FB1020 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		A9014E04275A1EC700FB1020 /* RestUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestUserRepository.swift; sourceTree = "<group>"; };
 		A9014E05275A1EC700FB1020 /* UserDetailsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsProvider.swift; sourceTree = "<group>"; };
 		A9014E06275A1EC700FB1020 /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		A9014E07275A1EC700FB1020 /* ContactsGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
-		A9014EE6275A1EC700FB1020 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A9014F06275A1EC700FB1020 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		A9014F07275A1EC700FB1020 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		A9014FDD275A1EC800FB1020 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -101,12 +106,18 @@
 		A9015006275A1EC800FB1020 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SampleHandler.swift; path = ../KaleyraVideoSample/Source/UploadExtension/SampleHandler.swift; sourceTree = "<group>"; };
 		A9015007275A1EC800FB1020 /* UploadExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UploadExtension.entitlements; sourceTree = "<group>"; };
 		A9015008275A1EC800FB1020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A90151CB275A1EC800FB1020 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A90151D9275A1EC800FB1020 /* AsteriskFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteriskFormatter.swift; sourceTree = "<group>"; };
 		A901527C275A6E1900FB1020 /* KaleyraVideoSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KaleyraVideoSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9015294275A6E4900FB1020 /* BroadcastExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BroadcastExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9015296275A6E4900FB1020 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		A901529B275A6E4900FB1020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A90152C0275A728500FB1020 /* KaleyraVideoSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KaleyraVideoSample.entitlements; sourceTree = "<group>"; };
+		A9E3C9A8275A751600EC3798 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A9E3C9AB275A781600EC3798 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		AD1FD2F04CD450CA1B3E693F /* Pods-KaleyraVideoSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaleyraVideoSample.debug.xcconfig"; path = "Target Support Files/Pods-KaleyraVideoSample/Pods-KaleyraVideoSample.debug.xcconfig"; sourceTree = "<group>"; };
+		B11F1168131AF56352CBCD09 /* Pods_BroadcastExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BroadcastExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9D7F82F6A6D1B4E28C5749C /* Pods_KaleyraVideoSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KaleyraVideoSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4A6C7736A1A56DF219D82AA /* Pods-BroadcastExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BroadcastExtension.debug.xcconfig"; path = "Target Support Files/Pods-BroadcastExtension/Pods-BroadcastExtension.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EFA6D216FF6E06242295393 /* Pods_KaleyraVideoSample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,18 +134,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9015297275A6E4900FB1020 /* ReplayKit.framework in Frameworks */,
+				A5E6ABB8DE38E342DF867C7D /* Pods_BroadcastExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A9014D21275A1EC600FB1020 /* CallKit-Voip-Example */ = {
+		95FDB6554EE59B7BBC019CFD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A9014DFB275A1EC700FB1020 /* README.md */,
+				D4A6C7736A1A56DF219D82AA /* Pods-BroadcastExtension.debug.xcconfig */,
+				6438FFE61495208EF18FA7C3 /* Pods-BroadcastExtension.release.xcconfig */,
+				AD1FD2F04CD450CA1B3E693F /* Pods-KaleyraVideoSample.debug.xcconfig */,
+				76812E577E18822356ED1C96 /* Pods-KaleyraVideoSample.release.xcconfig */,
 			);
-			path = "CallKit-Voip-Example";
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		A9014D22275A1EC600FB1020 /* Call Options */ = {
@@ -195,20 +211,11 @@
 			isa = PBXGroup;
 			children = (
 				A9014FF3275A1EC800FB1020 /* Formatters */,
-				A9014E04275A1EC700FB1020 /* UserRepository.swift */,
 				A9014E05275A1EC700FB1020 /* UserDetailsProvider.swift */,
 				A9014E06275A1EC700FB1020 /* UserSession.swift */,
 				A9014E07275A1EC700FB1020 /* ContactsGenerator.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		A9014E0E275A1EC700FB1020 /* Basic-Example */ = {
-			isa = PBXGroup;
-			children = (
-				A9014EE6275A1EC700FB1020 /* README.md */,
-			);
-			path = "Basic-Example";
 			sourceTree = "<group>";
 		};
 		A9014F01275A1EC700FB1020 /* UI-Customization-Example */ = {
@@ -270,14 +277,6 @@
 			path = UploadExtension;
 			sourceTree = "<group>";
 		};
-		A90150EF275A1EC800FB1020 /* Chat-Example */ = {
-			isa = PBXGroup;
-			children = (
-				A90151CB275A1EC800FB1020 /* README.md */,
-			);
-			path = "Chat-Example";
-			sourceTree = "<group>";
-		};
 		A90151DF275A233100FB1020 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,6 +300,7 @@
 		A901527D275A6E1A00FB1020 /* KaleyraVideoSample */ = {
 			isa = PBXGroup;
 			children = (
+				A90152C0275A728500FB1020 /* KaleyraVideoSample.entitlements */,
 				A9014E02275A1EC700FB1020 /* Info.plist */,
 				A9014D2D275A1EC600FB1020 /* Resources */,
 				A90152A3275A6E6500FB1020 /* Source */,
@@ -312,6 +312,8 @@
 			isa = PBXGroup;
 			children = (
 				A9015296275A6E4900FB1020 /* ReplayKit.framework */,
+				B11F1168131AF56352CBCD09 /* Pods_BroadcastExtension.framework */,
+				B9D7F82F6A6D1B4E28C5749C /* Pods_KaleyraVideoSample.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -328,8 +330,10 @@
 		A90152A3275A6E6500FB1020 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				A9E3C9AB275A781600EC3798 /* AppConfig.swift */,
 				A9014DFF275A1EC700FB1020 /* AppDelegate.swift */,
 				A9014DFC275A1EC700FB1020 /* Models */,
+				A9E3C9AD275A7BFF00EC3798 /* Repositories */,
 				A9014E03275A1EC700FB1020 /* Services */,
 				A90151DF275A233100FB1020 /* UI */,
 				A9015005275A1EC800FB1020 /* UploadExtension */,
@@ -340,17 +344,32 @@
 		A92525D9275A1DA500048D45 = {
 			isa = PBXGroup;
 			children = (
-				A9014E0E275A1EC700FB1020 /* Basic-Example */,
 				A9015298275A6E4900FB1020 /* BroadcastExtension */,
-				A9014D21275A1EC600FB1020 /* CallKit-Voip-Example */,
-				A90150EF275A1EC800FB1020 /* Chat-Example */,
 				A9015295275A6E4900FB1020 /* Frameworks */,
 				A901527D275A6E1A00FB1020 /* KaleyraVideoSample */,
 				A9014D1F275A1EA400FB1020 /* LICENSE */,
+				95FDB6554EE59B7BBC019CFD /* Pods */,
 				A90151E5275A269000FB1020 /* Products */,
 				A9014D20275A1EA400FB1020 /* README.md */,
+				A9E3C9A7275A74F500EC3798 /* Shared */,
 				A9014F01275A1EC700FB1020 /* UI-Customization-Example */,
 			);
+			sourceTree = "<group>";
+		};
+		A9E3C9A7275A74F500EC3798 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A9E3C9A8275A751600EC3798 /* Constants.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		A9E3C9AD275A7BFF00EC3798 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				A9014E04275A1EC700FB1020 /* RestUserRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -360,10 +379,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A901528D275A6E1C00FB1020 /* Build configuration list for PBXNativeTarget "KaleyraVideoSample" */;
 			buildPhases = (
+				8739C68DC3A47810342CE869 /* [CP] Check Pods Manifest.lock */,
 				A9015278275A6E1900FB1020 /* Sources */,
 				A9015279275A6E1900FB1020 /* Frameworks */,
 				A901527A275A6E1900FB1020 /* Resources */,
 				A90152A2275A6E4900FB1020 /* Embed App Extensions */,
+				EF08C51FB76EDF72CBC6919A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -379,6 +400,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A901529F275A6E4900FB1020 /* Build configuration list for PBXNativeTarget "BroadcastExtension" */;
 			buildPhases = (
+				66A847933DFFE5D97F070063 /* [CP] Check Pods Manifest.lock */,
 				A9015290275A6E4900FB1020 /* Sources */,
 				A9015291275A6E4900FB1020 /* Frameworks */,
 				A9015292275A6E4900FB1020 /* Resources */,
@@ -455,19 +477,85 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		66A847933DFFE5D97F070063 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BroadcastExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8739C68DC3A47810342CE869 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KaleyraVideoSample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF08C51FB76EDF72CBC6919A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KaleyraVideoSample/Pods-KaleyraVideoSample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KaleyraVideoSample/Pods-KaleyraVideoSample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KaleyraVideoSample/Pods-KaleyraVideoSample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A9015278275A6E1900FB1020 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A90152B5275A6F5900FB1020 /* LoginViewController.swift in Sources */,
+				A9E3C9AC275A781600EC3798 /* AppConfig.swift in Sources */,
+				A9E3C9A9275A751600EC3798 /* Constants.swift in Sources */,
 				A90152AD275A6F3700FB1020 /* UserDetailsProvider.swift in Sources */,
 				A90152A6275A6F2B00FB1020 /* AddressBook.swift in Sources */,
 				A90152A7275A6F3700FB1020 /* HashtagFormatter.swift in Sources */,
 				A90152AF275A6F4600FB1020 /* CallOptionsItem.swift in Sources */,
 				A90152B1275A6F4D00FB1020 /* ContactTableViewCell.swift in Sources */,
 				A90152B0275A6F4600FB1020 /* CallOptionsTableViewController.swift in Sources */,
-				A90152AC275A6F3700FB1020 /* UserRepository.swift in Sources */,
+				A90152AC275A6F3700FB1020 /* RestUserRepository.swift in Sources */,
 				A90152AE275A6F3700FB1020 /* ContactsGenerator.swift in Sources */,
 				A90152B4275A6F5400FB1020 /* UIColor+Custom.swift in Sources */,
 				A90152A8275A6F3700FB1020 /* PercentageFormatter.swift in Sources */,
@@ -486,6 +574,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A90152B6275A6F6000FB1020 /* SampleHandler.swift in Sources */,
+				A9E3C9AA275A751600EC3798 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,6 +610,7 @@
 /* Begin XCBuildConfiguration section */
 		A901528E275A6E1C00FB1020 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD1FD2F04CD450CA1B3E693F /* Pods-KaleyraVideoSample.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -555,6 +645,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = KaleyraVideoSample/KaleyraVideoSample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -577,9 +668,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KaleyraVideoSample/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera usage description goes here";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage description goes here";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -604,6 +698,7 @@
 		};
 		A901528F275A6E1C00FB1020 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 76812E577E18822356ED1C96 /* Pods-KaleyraVideoSample.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -638,6 +733,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = KaleyraVideoSample/KaleyraVideoSample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -654,9 +750,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KaleyraVideoSample/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera usage description goes here";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage description goes here";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -681,6 +780,7 @@
 		};
 		A90152A0275A6E4900FB1020 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4A6C7736A1A56DF219D82AA /* Pods-BroadcastExtension.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -760,6 +860,7 @@
 		};
 		A90152A1275A6E4900FB1020 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6438FFE61495208EF18FA7C3 /* Pods-BroadcastExtension.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

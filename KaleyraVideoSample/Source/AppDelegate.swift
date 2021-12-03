@@ -31,22 +31,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Here we are going to initialize the Bandyer SDK
         // The sdk needs a configuration object where it is specified which environment the sdk should work in.
-        let config = createConfigWithCallKitSupport()
-        setupTools(config)
+        let config = createSDKConfig()
 
-        #error("You must replace \"PUT YOUR APP ID HERE\" with the APP id of your company")
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
-        BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
+        BandyerSDK.instance().initialize(withApplicationId: Constants.AppId,
+                                         config: config)
 
         return true
+    }
+
+    private func createSDKConfig() -> Config {
+        let sdkConfig = createSDKConfigFor(appConfig: .default)
+        setupTools(appConfig: .default, sdkConfig: sdkConfig)
+        return sdkConfig
+    }
+
+    private func createSDKConfigFor(appConfig: AppConfig) -> Config {
+        if appConfig.isCallkitEnabled {
+            return createConfigWithCallKitSupport(appConfig)
+        } else {
+            return createConfigWithoutCallKitSupport(appConfig)
+        }
     }
 
     // If you don't want to support CallKit
     // you can set the isCallKitEnabled flag to false
     // Beware though, if CallKit is disabled the call will end if the user leaves the app while a call is in progress
-    private func createConfigWithoutCallKitSupport() -> Config {
+    private func createConfigWithoutCallKitSupport(_ appConfig: AppConfig) -> Config {
         let config = Config()
-        config.environment = .sandbox
+        config.environment = appConfig.environment
 
         // Here we are disabling CallKit support.
         // Make sure to disable CallKit, otherwise it will be enable by default
@@ -59,12 +72,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // otherwise the app will have a weird behaviour when it is launched upon receiving a VoIP notification.
     // Please check the project "Build Settings" tab under the "Other Linker Flags" directive that the CallKit
     // framework is linked as required framework
-    private func createConfigWithCallKitSupport() -> Config {
+    private func createConfigWithCallKitSupport(_ appConfig: AppConfig) -> Config {
         let config = Config()
 
         //Here we are telling the SDK we want to work in a sandbox environment.
         //Beware the default environment is production, we strongly recommend to test your app in a sandbox environment.
-        config.environment = .sandbox
+        config.environment = appConfig.environment
 
         //On iOS 10 and above this statement is not needed, the default configuration object
         //enables CallKit by default, it is here for completeness sake
@@ -101,26 +114,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return config
     }
 
-    private func setupTools(_ config: Config) {
-        setupBroadcastScreensharing(config)
-        setupInAppScreensharing(textInputContextIdentifier)
+    private func setupTools(appConfig: AppConfig, sdkConfig: Config) {
+        setupBroadcastScreensharing(appConfig: appConfig, sdkConfig: sdkConfig)
+        setupInAppScreensharing(appConfig: appConfig, sdkConfig: sdkConfig)
     }
 
-    private func setupInAppScreensharing(_ config: Config) {
-
+    private func setupInAppScreensharing(appConfig: AppConfig, sdkConfig: Config) {
+        if appConfig.isInAppScreensharingEnabled {
+            sdkConfig.inAppScreensharingConfiguration = .enabled()
+        } else {
+            sdkConfig.inAppScreensharingConfiguration = .disabled()
+        }
     }
 
     // If you don't want to support the broadcast screen sharing feature
     // Comment the body of this method
-    private func setupBroadcastScreensharing(_ config: Config) {
+    private func setupBroadcastScreensharing(appConfig: AppConfig, sdkConfig: Config) {
         if #available(iOS 12.0, *) {
-            // This configuration object enable the sdk to talk with the broadcast extension
-            // You must provide the app group identifier used by your app and the upload extension bundle identifier
+            if appConfig.isBroadcastScreensharingEnabled {
+                // This configuration object enable the sdk to talk with the broadcast extension
+                // You must provide the app group identifier used by your app and the upload extension bundle identifier
 
-#error("Please replace APP_GROUP_IDENTIFIER_GOES_HERE with your app group identifier")
-#error("Please replace UPLOAD_EXTENSION_BUNDLE_IDENTIFIER_GOES_HERE with your upload extension bundle identifier")
-            config.broadcastScreensharingConfiguration = BroadcastScreensharingToolConfiguration.enabled(appGroupIdentifier: "APP_GROUP_IDENTIFIER_GOES_HERE",
-                                                                                                         broadcastExtensionBundleIdentifier: "UPLOAD_EXTENSION_BUNDLE_IDENTIFIER_GOES_HERE")
+                sdkConfig.broadcastScreensharingConfiguration = BroadcastScreensharingToolConfiguration.enabled(appGroupIdentifier: Constants.AppGroupIdentifier,
+                                                                                                             broadcastExtensionBundleIdentifier: Constants.BroadcastExtensionBundleId)
+            } else {
+                sdkConfig.broadcastScreensharingConfiguration = .disabled()
+            }
         }
     }
 }

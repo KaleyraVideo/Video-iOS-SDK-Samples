@@ -1,10 +1,7 @@
-platform :ios, '10.0'
-
-warn_for_unused_master_specs_repo => false
-
 use_frameworks!
 
 target 'KaleyraVideoSample' do
+  platform :ios, '10.0'
 
   pod 'Bandyer'
 end
