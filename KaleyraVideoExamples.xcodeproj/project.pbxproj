@@ -105,8 +105,6 @@
 		A9014FF5275A1EC800FB1020 /* PercentageFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentageFormatter.swift; sourceTree = "<group>"; };
 		A9014FF6275A1EC800FB1020 /* MyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFormatter.swift; sourceTree = "<group>"; };
 		A9015006275A1EC800FB1020 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SampleHandler.swift; path = ../KaleyraVideoSample/Source/UploadExtension/SampleHandler.swift; sourceTree = "<group>"; };
-		A9015007275A1EC800FB1020 /* UploadExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UploadExtension.entitlements; sourceTree = "<group>"; };
-		A9015008275A1EC800FB1020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A90151D9275A1EC800FB1020 /* AsteriskFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsteriskFormatter.swift; sourceTree = "<group>"; };
 		A901527C275A6E1900FB1020 /* KaleyraVideoSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KaleyraVideoSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9015294275A6E4900FB1020 /* BroadcastExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BroadcastExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -270,15 +268,6 @@
 			path = Formatters;
 			sourceTree = "<group>";
 		};
-		A9015005275A1EC800FB1020 /* UploadExtension */ = {
-			isa = PBXGroup;
-			children = (
-				A9015007275A1EC800FB1020 /* UploadExtension.entitlements */,
-				A9015008275A1EC800FB1020 /* Info.plist */,
-			);
-			path = UploadExtension;
-			sourceTree = "<group>";
-		};
 		A90151DF275A233100FB1020 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,7 +327,6 @@
 				A9E3C9AD275A7BFF00EC3798 /* Repositories */,
 				A9014E03275A1EC700FB1020 /* Services */,
 				A90151DF275A233100FB1020 /* UI */,
-				A9015005275A1EC800FB1020 /* UploadExtension */,
 			);
 			path = Source;
 			sourceTree = "<group>";

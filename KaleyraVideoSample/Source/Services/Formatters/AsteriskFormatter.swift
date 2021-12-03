@@ -1,5 +1,6 @@
-// Copyright © 2020 Acme. All rights reserved.
-// See LICENSE.txt for licensing information
+//
+// Copyright © 2019-Present. Kaleyra S.p.a. All rights reserved.
+//
 
 import Bandyer
 
