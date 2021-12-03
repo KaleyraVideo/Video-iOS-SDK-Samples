@@ -18,7 +18,6 @@
 		62DD2DADE34897C56920F1FA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2C3446AE3CF2B6FD8874 /* LoginViewController.swift */; };
 		62DD2E6ED8FB132BC22A9AC5 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62DD2B3F76C397824929A041 /* UserSession.swift */; };
 		A1DD897F233BB9F7001769DC /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DD897E233BB9F7001769DC /* ContactsNavigationController.swift */; };
-		A8D1B3A022504BB04B688201 /* Pods_Basic_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03E8EC3071AFD69BC51FBEAD /* Pods_Basic_Example.framework */; };
 		A9AB7E7322244512001FADA6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AB7E7222244512001FADA6 /* AppDelegate.swift */; };
 		A9AB7E7822244512001FADA6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9AB7E7622244512001FADA6 /* Main.storyboard */; };
 		A9AB7E7A22244513001FADA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9AB7E7922244513001FADA6 /* Assets.xcassets */; };
@@ -227,9 +226,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		03E8EC3071AFD69BC51FBEAD /* Pods_Basic_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Basic_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F91CB51246588F000927CD1 /* Basic-Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Basic-Example.entitlements"; sourceTree = "<group>"; };
-		4E88ECBF1481FAF8C9C662FC /* Pods-Basic-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Basic-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Basic-Example/Pods-Basic-Example.release.xcconfig"; sourceTree = "<group>"; };
 		62DD218D7B408938E27BB4D3 /* ContactsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
 		62DD222FA2C8CA841F25CBB6 /* UserDetailsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsProvider.swift; sourceTree = "<group>"; };
 		62DD24EAE4D9151CD5E7B33C /* CallOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallOptionsTableViewController.swift; sourceTree = "<group>"; };
@@ -241,7 +238,7 @@
 		62DD2CD0F8D5D0D883830624 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		62DD2FEBCF6B7716B797A9AF /* CallOptionsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallOptionsItem.swift; sourceTree = "<group>"; };
 		A1DD897E233BB9F7001769DC /* ContactsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
-		A9AB7E6F22244512001FADA6 /* Basic-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Basic-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9AB7E6F22244512001FADA6 /* Basic-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "Basic-Example.app"; path = "/Users/marco/Workspace/Bandyer-iOS-SDK-Samples-Swift/Basic-Example/build/Debug-iphoneos/Basic-Example.app"; sourceTree = "<absolute>"; };
 		A9AB7E7222244512001FADA6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9AB7E7722244512001FADA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A9AB7E7922244513001FADA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -448,7 +445,6 @@
 		A9B7239522254F5E00D421D1 /* woman_58.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_58.jpg; sourceTree = "<group>"; };
 		A9B7239622254F5E00D421D1 /* woman_64.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_64.jpg; sourceTree = "<group>"; };
 		A9B7239722254F5E00D421D1 /* woman_70.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_70.jpg; sourceTree = "<group>"; };
-		F7FF82837068C9B2ECB22BE7 /* Pods-Basic-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Basic-Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Basic-Example/Pods-Basic-Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -456,21 +452,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8D1B3A022504BB04B688201 /* Pods_Basic_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5C13554C2DBEA008373B5E56 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				03E8EC3071AFD69BC51FBEAD /* Pods_Basic_Example.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		62DD26AF141BC2467443F448 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -521,18 +508,7 @@
 			isa = PBXGroup;
 			children = (
 				A9AB7E7122244512001FADA6 /* Basic-Example */,
-				A9AB7E7022244512001FADA6 /* Products */,
-				B77E380E042526D85A315941 /* Pods */,
-				5C13554C2DBEA008373B5E56 /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		A9AB7E7022244512001FADA6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A9AB7E6F22244512001FADA6 /* Basic-Example.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		A9AB7E7122244512001FADA6 /* Basic-Example */ = {
@@ -778,15 +754,6 @@
 			path = Women;
 			sourceTree = "<group>";
 		};
-		B77E380E042526D85A315941 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F7FF82837068C9B2ECB22BE7 /* Pods-Basic-Example.debug.xcconfig */,
-				4E88ECBF1481FAF8C9C662FC /* Pods-Basic-Example.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -834,7 +801,7 @@
 				Base,
 			);
 			mainGroup = A9AB7E6622244512001FADA6;
-			productRefGroup = A9AB7E7022244512001FADA6 /* Products */;
+			productRefGroup = A9AB7E6622244512001FADA6;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1261,7 +1228,6 @@
 		};
 		A9AB7E8222244513001FADA6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7FF82837068C9B2ECB22BE7 /* Pods-Basic-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Basic-Example/Basic-Example.entitlements";
@@ -1282,7 +1248,6 @@
 		};
 		A9AB7E8322244513001FADA6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E88ECBF1481FAF8C9C662FC /* Pods-Basic-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Basic-Example/Basic-Example.entitlements";
