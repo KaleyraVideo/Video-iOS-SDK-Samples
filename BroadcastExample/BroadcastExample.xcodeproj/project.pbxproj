@@ -220,7 +220,6 @@
 		A9D11BE7268A0E3600C13F49 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D11B0C268A0E3500C13F49 /* Main.storyboard */; };
 		A9D11BE8268A0E3600C13F49 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B0F268A0E3500C13F49 /* LoginViewController.swift */; };
 		A9D11BE9268A0E3600C13F49 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B11268A0E3500C13F49 /* ContactsViewController.swift */; };
-		A9D11BEA268A0E3600C13F49 /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B12268A0E3500C13F49 /* ContactsNavigationController.swift */; };
 		A9D11BEB268A0E3600C13F49 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B14268A0E3600C13F49 /* UserRepository.swift */; };
 		A9D11BEC268A0E3600C13F49 /* UserDetailsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B15268A0E3600C13F49 /* UserDetailsProvider.swift */; };
 		A9D11BED268A0E3600C13F49 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D11B16268A0E3600C13F49 /* UserSession.swift */; };
@@ -474,7 +473,6 @@
 		A9D11B0D268A0E3500C13F49 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A9D11B0F268A0E3500C13F49 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A9D11B11268A0E3500C13F49 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
-		A9D11B12268A0E3500C13F49 /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
 		A9D11B14268A0E3600C13F49 /* UserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		A9D11B15268A0E3600C13F49 /* UserDetailsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsProvider.swift; sourceTree = "<group>"; };
 		A9D11B16268A0E3600C13F49 /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
@@ -809,7 +807,6 @@
 			isa = PBXGroup;
 			children = (
 				A9D11B11268A0E3500C13F49 /* ContactsViewController.swift */,
-				A9D11B12268A0E3500C13F49 /* ContactsNavigationController.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -1225,7 +1222,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9D11BEC268A0E3600C13F49 /* UserDetailsProvider.swift in Sources */,
-				A9D11BEA268A0E3600C13F49 /* ContactsNavigationController.swift in Sources */,
 				A9D11BE8268A0E3600C13F49 /* LoginViewController.swift in Sources */,
 				A9D11BEB268A0E3600C13F49 /* UserRepository.swift in Sources */,
 				A9D11BE9268A0E3600C13F49 /* ContactsViewController.swift in Sources */,
