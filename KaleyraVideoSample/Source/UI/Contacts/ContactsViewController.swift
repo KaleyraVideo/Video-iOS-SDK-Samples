@@ -38,10 +38,8 @@ class ContactsViewController: UIViewController {
         userBarButtonItem.title = UserSession.currentUser
         disableMultipleSelection(false)
 
-        //When view loads we register as a client observer, in order to receive notifications about incoming calls received and client state changes.
+        // When view loads we register as a client observer, in order to receive notifications about received incoming calls and client state changes.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
-
-        //When view loads we have to setup custom view controllers.
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -71,31 +69,32 @@ class ContactsViewController: UIViewController {
     // MARK: - Starting or receiving a call
 
     private func startOutgoingCall() {
-        //To start an outgoing call we must create a `StartOutgoingCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
+        // To start an outgoing call we must create a `StartOutgoingCallIntent` object specifying who we want to call,
+        // the type of call we want to be performed, along with any call option.
 
-        //Here we create the array containing the "user aliases" we want to contact.
+        // Here we create the array containing the "user aliases" we want to contact.
         let aliases = selectedContacts.compactMap { (contactIndex) -> String? in
             addressBook?.contacts[contactIndex.row].alias
         }
 
-        //Then we create the intent providing the aliases array (which is a required parameter) along with the type of call we want perform.
-        //The record flag specifies whether we want the call to be recorded or not.
-        //The maximumDuration parameter specifies how long the call can last.
-        //If you provide 0, the call will be created without a maximum duration value.
-        //We store the intent for later use, because we can present again the CallViewController with the same call.
+        // Then we create the intent providing the aliases array (which is a required parameter) along with the type of call we want perform.
+        // The record flag specifies whether we want the call to be recorded or not.
+        // The maximumDuration parameter specifies how long the call can last.
+        // If you provide 0, the call will be created without a maximum duration value.
+        // We store the intent for later use, because we can present again the CallViewController with the same call.
         intent = StartOutgoingCallIntent(callees: aliases,
                                          options: CallOptions(callType: options.type,
                                                               recorded: options.record,
                                                               duration: options.maximumDuration))
 
-        //Then we trigger a presentation of CallViewController.
+        // Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
     }
 
     private func receiveIncomingCall(call: Call) {
-        //When the client detects an incoming call it will notify its observers through this method.
-        //Here we are creating an `HandleIncomingCallIntent` object, storing it for later use,
-        //then we trigger a presentation of CallViewController.
+        // When the client detects an incoming call it will notify its observers through this method.
+        // Here we are creating an `HandleIncomingCallIntent` object, storing it for later use,
+        // then we trigger a presentation of CallViewController.
         intent = HandleIncomingCallIntent(call: call)
         performCallViewControllerPresentation()
     }
@@ -143,10 +142,10 @@ class ContactsViewController: UIViewController {
 
     @IBAction
     func logoutBarButtonTouched(sender: UIBarButtonItem) {
-        //When the user sign off, we also close the user session.
-        //We highly recommend to close the user session when the end user signs off.
-        //Failing to do so, will result in incoming calls and chat messages being processed by the SDK.
-        //Moreover the previously logged user will appear to the Bandyer platform as she/he is available and ready to receive calls and chat messages.
+        // When the user sign off, we also close the user session.
+        // We highly recommend to close the user session when the end user signs off.
+        // Failing to do so, will result in incoming calls and chat messages being processed by the SDK.
+        // Moreover the previously logged user will appear to the Bandyer platform as she/he is available and ready to receive calls and chat messages.
 
         UserSession.currentUser = nil
         BandyerSDK.instance().closeSession()
@@ -194,8 +193,8 @@ class ContactsViewController: UIViewController {
         
         prepareForCallViewControllerPresentation()
         
-        //Here we tell the call window what it should do and we present the CallViewController if there is no another call in progress.
-        //Otherwise you should manage the behaviour, for example with a UIAlert warning.
+        // Here we tell the call window to present the Call UI if there is not another call in progress.
+        // Otherwise you should handle the error notified as the closure argument.
         
         callWindow?.presentCallViewController(for: intent) { [weak self] error in
             guard let error = error else { return }
@@ -222,8 +221,8 @@ class ContactsViewController: UIViewController {
     private func prepareForCallViewControllerPresentation() {
         initCallWindowIfNeeded()
 
-        //Here we are configuring the CallViewController instance.
-        //A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
+        // Here we are configuring the CallViewController instance.
+        // A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
         let config = CallViewControllerConfiguration()
 
         let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
@@ -232,30 +231,30 @@ class ContactsViewController: UIViewController {
             fatalError("The fake file for the file capturer could not be found")
         }
 
-        //This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
+        // This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
         let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
 
-        //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
-        //view is loaded, otherwise an exception is thrown.
+        // Here, we set the configuration object created. You must set the view controller configuration object before the view controller
+        // view is loaded, otherwise an exception is thrown.
         callWindow?.setConfiguration(config)
     }
 
     private func initCallWindowIfNeeded() {
-        //Please remember to reference the call window only once in order to avoid the reset of CallViewController.
+        // Please remember to reference the call window only once in order to avoid the reset of CallViewController.
         guard callWindow == nil else { return }
 
-        //Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
+        // Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
         let window: CallWindow
 
         if let instance = CallWindow.instance {
             window = instance
         } else {
-            //This will automatically save the new instance inside CallWindow.instance.
+            // This will automatically save the new instance inside CallWindow.instance.
             window = CallWindow()
         }
 
-        //Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its job.
+        // Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its job.
         window.callDelegate = self
 
         callWindow = window
@@ -394,9 +393,7 @@ extension ContactsViewController {
     }
 
     func hideActivityIndicatorFromNavigationBar(animated: Bool) {
-        guard let item = activityBarButtonItem else {
-            return
-        }
+        guard let item = activityBarButtonItem else { return }
 
         remove(item: item, animated: animated)
     }
@@ -409,7 +406,10 @@ extension ContactsViewController {
     func showCallButtonInNavigationBar(animated: Bool) {
         guard callBarButtonItem == nil else { return }
 
-        let item = UIBarButtonItem(image: UIImage(named: "phone"), style: .plain, target: self, action: #selector(callBarButtonItemTouched(sender:)))
+        let item = UIBarButtonItem(image: UIImage(named: "phone"),
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(callBarButtonItemTouched(sender:)))
 
         var items = navigationItem.rightBarButtonItems ?? []
         items.append(item)
@@ -419,9 +419,7 @@ extension ContactsViewController {
     }
 
     func hideCallButtonFromNavigationBar(animated: Bool) {
-        guard let item = callBarButtonItem else {
-            return
-        }
+        guard let item = callBarButtonItem else { return }
 
         remove(item: item, animated: animated)
     }

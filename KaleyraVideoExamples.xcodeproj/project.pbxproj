@@ -210,10 +210,10 @@
 		A9014E03275A1EC700FB1020 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A9014E07275A1EC700FB1020 /* ContactsGenerator.swift */,
 				A9014FF3275A1EC800FB1020 /* Formatters */,
 				A9014E05275A1EC700FB1020 /* UserDetailsProvider.swift */,
 				A9014E06275A1EC700FB1020 /* UserSession.swift */,
-				A9014E07275A1EC700FB1020 /* ContactsGenerator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
