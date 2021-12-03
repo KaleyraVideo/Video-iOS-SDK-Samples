@@ -1,0 +1,69 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXGroup section */
+		A92525D9275A1DA500048D45 = {
+			isa = PBXGroup;
+			children = (
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		A92525DA275A1DA500048D45 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1310;
+			};
+			buildConfigurationList = A92525DD275A1DA500048D45 /* Build configuration list for PBXProject "KaleyraVideoExamples" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A92525D9275A1DA500048D45;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		A92525DE275A1DA500048D45 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		A92525DF275A1DA500048D45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A92525DD275A1DA500048D45 /* Build configuration list for PBXProject "KaleyraVideoExamples" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A92525DE275A1DA500048D45 /* Debug */,
+				A92525DF275A1DA500048D45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A92525DA275A1DA500048D45 /* Project object */;
+}
