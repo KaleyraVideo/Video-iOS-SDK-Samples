@@ -43,6 +43,7 @@
 		A9E3C9AA275A751600EC3798 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9A8275A751600EC3798 /* Constants.swift */; };
 		A9E3C9AC275A781600EC3798 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AB275A781600EC3798 /* AppConfig.swift */; };
 		A9E3C9AF275A7C4E00EC3798 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AE275A7C4E00EC3798 /* UserRepository.swift */; };
+		A9E3C9BE275A92BF00EC3798 /* UIView+AutoresizingMasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9BD275A92BF00EC3798 /* UIView+AutoresizingMasks.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		A9E3C9A8275A751600EC3798 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A9E3C9AB275A781600EC3798 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		A9E3C9AE275A7C4E00EC3798 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		A9E3C9BD275A92BF00EC3798 /* UIView+AutoresizingMasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AutoresizingMasks.swift"; sourceTree = "<group>"; };
 		AD1FD2F04CD450CA1B3E693F /* Pods-KaleyraVideoSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaleyraVideoSample.debug.xcconfig"; path = "Target Support Files/Pods-KaleyraVideoSample/Pods-KaleyraVideoSample.debug.xcconfig"; sourceTree = "<group>"; };
 		B11F1168131AF56352CBCD09 /* Pods_BroadcastExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BroadcastExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9D7F82F6A6D1B4E28C5749C /* Pods_KaleyraVideoSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KaleyraVideoSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -271,6 +273,7 @@
 		A90151DF275A233100FB1020 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				A9E3C9BC275A92AE00EC3798 /* Extensions */,
 				A9014D22275A1EC600FB1020 /* Call Options */,
 				A9014D2B275A1EC600FB1020 /* Contacts */,
 				A9014FDE275A1EC800FB1020 /* Custom Theme */,
@@ -361,6 +364,14 @@
 				A9E3C9AE275A7C4E00EC3798 /* UserRepository.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		A9E3C9BC275A92AE00EC3798 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A9E3C9BD275A92BF00EC3798 /* UIView+AutoresizingMasks.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -550,6 +561,7 @@
 				A90152AC275A6F3700FB1020 /* RestUserRepository.swift in Sources */,
 				A90152AE275A6F3700FB1020 /* ContactsGenerator.swift in Sources */,
 				A90152B4275A6F5400FB1020 /* UIColor+Custom.swift in Sources */,
+				A9E3C9BE275A92BF00EC3798 /* UIView+AutoresizingMasks.swift in Sources */,
 				A90152A8275A6F3700FB1020 /* PercentageFormatter.swift in Sources */,
 				A90152B3275A6F5400FB1020 /* UIFont+Custom.swift in Sources */,
 				A90152A5275A6F2B00FB1020 /* Contact.swift in Sources */,
