@@ -224,7 +224,6 @@
 		A1126C072342618500A3FFBA /* CallOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126B2F2342618400A3FFBA /* CallOptionsTableViewController.swift */; };
 		A1126C082342618500A3FFBA /* CallOptionsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126B302342618400A3FFBA /* CallOptionsItem.swift */; };
 		A1126C092342618500A3FFBA /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126B322342618400A3FFBA /* ContactsViewController.swift */; };
-		A1126C0A2342618500A3FFBA /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1126B332342618400A3FFBA /* ContactsNavigationController.swift */; };
 		A9EAEBEC2372ECB4007346F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1126A49234260B100A3FFBA /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -449,7 +448,6 @@
 		A1126B2F2342618400A3FFBA /* CallOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallOptionsTableViewController.swift; sourceTree = "<group>"; };
 		A1126B302342618400A3FFBA /* CallOptionsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallOptionsItem.swift; sourceTree = "<group>"; };
 		A1126B322342618400A3FFBA /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
-		A1126B332342618400A3FFBA /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
 		C0323BAA8804BD7E9346A0BB /* Pods_ChatExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5E0D91649F74518F2FFB85F /* Pods-ChatExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatExample.release.xcconfig"; path = "Target Support Files/Pods-ChatExample/Pods-ChatExample.release.xcconfig"; sourceTree = "<group>"; };
 		E900D2F0F4E4052521129907 /* Pods-ChatExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatExample.debug.xcconfig"; path = "Target Support Files/Pods-ChatExample/Pods-ChatExample.debug.xcconfig"; sourceTree = "<group>"; };
@@ -778,7 +776,6 @@
 			isa = PBXGroup;
 			children = (
 				A1126B322342618400A3FFBA /* ContactsViewController.swift */,
-				A1126B332342618400A3FFBA /* ContactsNavigationController.swift */,
 				32DC9A22E88822AFD9566805 /* ContactTableViewCell.swift */,
 			);
 			path = Contacts;
@@ -1109,7 +1106,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1126C0A2342618500A3FFBA /* ContactsNavigationController.swift in Sources */,
 				A1126B3A2342618400A3FFBA /* ContactsGenerator.swift in Sources */,
 				A1126C092342618500A3FFBA /* ContactsViewController.swift in Sources */,
 				A1126B392342618400A3FFBA /* UserDetailsProvider.swift in Sources */,
