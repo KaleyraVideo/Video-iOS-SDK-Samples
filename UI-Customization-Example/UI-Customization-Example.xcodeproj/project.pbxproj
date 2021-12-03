@@ -19,7 +19,6 @@
 		2F9A8B61251CA991000FAF1E /* UserDetailsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B48251CA7E1000FAF1E /* UserDetailsProvider.swift */; };
 		2F9A8B67251CAAA6000FAF1E /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B64251CAAA6000FAF1E /* ContactsViewController.swift */; };
 		2F9A8B68251CAAA6000FAF1E /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B65251CAAA6000FAF1E /* ContactTableViewCell.swift */; };
-		2F9A8B69251CAAA6000FAF1E /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B66251CAAA6000FAF1E /* ContactsNavigationController.swift */; };
 		2F9A8B6B251CAAD3000FAF1E /* ContactsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B49251CA7E1000FAF1E /* ContactsGenerator.swift */; };
 		2F9A8B70251CAC61000FAF1E /* CallOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B6E251CAC61000FAF1E /* CallOptionsTableViewController.swift */; };
 		2F9A8B71251CAC61000FAF1E /* CallOptionsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9A8B6F251CAC61000FAF1E /* CallOptionsItem.swift */; };
@@ -254,7 +253,6 @@
 		2F9A8B58251CA96C000FAF1E /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		2F9A8B64251CAAA6000FAF1E /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		2F9A8B65251CAAA6000FAF1E /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
-		2F9A8B66251CAAA6000FAF1E /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsNavigationController.swift; sourceTree = "<group>"; };
 		2F9A8B6E251CAC61000FAF1E /* CallOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallOptionsTableViewController.swift; sourceTree = "<group>"; };
 		2F9A8B6F251CAC61000FAF1E /* CallOptionsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallOptionsItem.swift; sourceTree = "<group>"; };
 		2F9A8B75251CB073000FAF1E /* UI-Customization-Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "UI-Customization-Example.entitlements"; sourceTree = "<group>"; };
@@ -560,7 +558,6 @@
 			children = (
 				2F9A8B64251CAAA6000FAF1E /* ContactsViewController.swift */,
 				2F9A8B65251CAAA6000FAF1E /* ContactTableViewCell.swift */,
-				2F9A8B66251CAAA6000FAF1E /* ContactsNavigationController.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -1169,7 +1166,6 @@
 			files = (
 				2F9A8B61251CA991000FAF1E /* UserDetailsProvider.swift in Sources */,
 				2F9A8B5A251CA96C000FAF1E /* Contact.swift in Sources */,
-				2F9A8B69251CAAA6000FAF1E /* ContactsNavigationController.swift in Sources */,
 				2F9A8B3B251CA6A0000FAF1E /* LoginViewController.swift in Sources */,
 				2F9A8B6B251CAAD3000FAF1E /* ContactsGenerator.swift in Sources */,
 				2F9A8B1B251C9D2B000FAF1E /* AppDelegate.swift in Sources */,

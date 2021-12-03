@@ -8,11 +8,12 @@ import Bandyer
 
 class ContactsViewController: UIViewController {
     
-    //MARK: Constants
+    // MARK: - Constants
+
     private let cellIdentifier = "userCellId"
     private let optionsSegueIdentifier = "showOptionsSegue"
     
-    //MARK: Outlets and subviews
+    // MARK: - Outlets and subviews
     
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var callTypeControl: UISegmentedControl!
@@ -31,9 +32,8 @@ class ContactsViewController: UIViewController {
     private var options: CallOptionsItem = CallOptionsItem()
     private var intent: Intent?
     
-    private let callBannerController = CallBannerController()
-    
-    //MARK: View
+    // MARK: - View
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,20 +42,11 @@ class ContactsViewController: UIViewController {
         
         //When view loads we register as a client observer, in order to receive notifications about incoming calls received and client state changes.
         BandyerSDK.instance().callClient.add(observer: self, queue: .main)
-        
-        //When view loads we have to setup custom view controller.
-        setupBannerView()
-    }
-    
-    private func setupBannerView() {
-        callBannerController.delegate = self
-        callBannerController.parentViewController = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        callBannerController.show()
+
         setupNotificationsCoordinator()
 
         tableView.backgroundColor = UIColor.customBackground
@@ -63,20 +54,11 @@ class ContactsViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        callBannerController.hide()
+
         disableNotificationsCoordinator()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
-        //Remember to call viewWillTransitionTo on custom view controller to update UI while rotating.
-        callBannerController.viewWillTransition(to: size, withTransitionCoordinator: coordinator)
-        
-        super.viewWillTransition(to: size, with: coordinator)
-    }
-    
-    //MARK: In-app Notification
+    // MARK: - In-app Notification
 
     private func setupNotificationsCoordinator() {
         BandyerSDK.instance().notificationsCoordinator?.chatListener = self
@@ -88,7 +70,7 @@ class ContactsViewController: UIViewController {
         BandyerSDK.instance().notificationsCoordinator?.stop()
     }
 
-    //MARK: Calls
+    // MARK: - Calls
     
     private func startOutgoingCall() {
         //To start an outgoing call we must create a `StartOutgoingCallIntent` object specifying who we want to call, the type of call we want to be performed, along with any call option.
@@ -120,7 +102,7 @@ class ContactsViewController: UIViewController {
         performCallViewControllerPresentation()
     }
     
-    //MARK: Enabling / Disabling multiple selection
+    // MARK: - Enabling / Disabling multiple selection
     
     private func enableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = true
@@ -136,7 +118,7 @@ class ContactsViewController: UIViewController {
         tableView.setEditing(false, animated: animated)
     }
     
-    //MARK: Enabling / Disabling chat button
+    // MARK: - Enabling / Disabling chat button
     
     private func enableChatButtonOnVisibleCells() {
         let cells = tableView.visibleCells as? [ContactTableViewCell]
@@ -161,7 +143,8 @@ class ContactsViewController: UIViewController {
         }
     }
     
-    //MARK: Actions
+    // MARK: - Actions
+
     @IBAction func callTypeValueChanged(sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             selectedContacts.removeAll()
@@ -196,7 +179,8 @@ class ContactsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    //MARK: Navigation to other screens
+    // MARK: - Navigation to other screens
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == optionsSegueIdentifier {
             let controller = segue.destination as? CallOptionsTableViewController
@@ -205,7 +189,8 @@ class ContactsViewController: UIViewController {
         }
     }
     
-    //MARK: Present Chat ViewController
+    // MARK: - Present Chat ViewController
+
     private func presentChat(from notification: ChatNotification) {
         if presentedViewController == nil {
             presentChat(from: self, notification: notification)
@@ -250,7 +235,7 @@ class ContactsViewController: UIViewController {
         controller.present(channelViewController, animated: true)
     }
     
-    //MARK: Present Call ViewController
+    // MARK: - Present Call ViewController
     
     private func performCallViewControllerPresentation() {
         guard let intent = self.intent else {
@@ -356,38 +341,26 @@ class ContactsViewController: UIViewController {
         callWindow = window
     }
     
-    //MARK: Hide Call ViewController
+    // MARK: - Hide Call ViewController
     
     private func hideCallViewController() {
         callWindow?.isHidden = true
     }
-    
-    //MARK: StatusBar appearance
-    
-    private func restoreStatusBarAppearance() {
-        let rootNavigationController = navigationController as? ContactsNavigationController
-        rootNavigationController?.restoreStatusBarAppearance()
-    }
-    
-    private func setStatusBarAppearanceToLight() {
-        let rootNavigationController = navigationController as? ContactsNavigationController
-        rootNavigationController?.setStatusBarAppearance(.lightContent)
-    }
 }
 
-//MARK: Table view data source
+// MARK: - Table view data source
+
 extension ContactsViewController: UITableViewDataSource {
     
-    public func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         addressBook?.contacts.count ?? 0
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ContactTableViewCell else {
             fatalError("Only ContactTableViewCell type is supported")
         }
@@ -411,9 +384,11 @@ extension ContactsViewController: UITableViewDataSource {
     }
 }
 
-//MARK: Table view delegate
+// MARK: - Table view delegate
+
 extension ContactsViewController: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         bindSelectionOfContact(fromRowAt: indexPath)
         
@@ -424,7 +399,7 @@ extension ContactsViewController: UITableViewDelegate {
         }
     }
 
-    public func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
+    func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
         guard tableView.allowsMultipleSelection else {
             return indexPath
         }
@@ -434,7 +409,7 @@ extension ContactsViewController: UITableViewDelegate {
         return indexPath
     }
 
-    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.customBackground
     }
 
@@ -449,39 +424,41 @@ extension ContactsViewController: UITableViewDelegate {
     }
 }
 
-//MARK: Call client observer
+// MARK: - Call client observer
+
 extension ContactsViewController: CallClientObserver {
     
-    public func callClient(_ client: CallClient, didReceiveIncomingCall call: Call) {
+    func callClient(_ client: CallClient, didReceiveIncomingCall call: Call) {
         receiveIncomingCall(call: call)
     }
     
-    public func callClientDidStart(_ client: CallClient) {
+    func callClientDidStart(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         hideActivityIndicatorFromNavigationBar(animated: true)
         hideToast()
     }
     
-    public func callClientDidStartReconnecting(_ client: CallClient) {
+    func callClientDidStartReconnecting(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
         showToast(message: "Client is reconnecting, please wait...", color: UIColor.orange)
     }
     
-    public func callClientWillResume(_ client: CallClient) {
+    func callClientWillResume(_ client: CallClient) {
         view.isUserInteractionEnabled = false
         showActivityIndicatorInNavigationBar(animated: true)
         showToast(message: "Client is resuming, please wait...", color: UIColor.orange)
     }
     
-    public func callClientDidResume(_ client: CallClient) {
+    func callClientDidResume(_ client: CallClient) {
         view.isUserInteractionEnabled = true
         hideActivityIndicatorFromNavigationBar(animated: true)
         hideToast()
     }
 }
 
-//MARK: Activity indicator nav bar
+// MARK: - Activity indicator nav bar
+
 extension ContactsViewController {
     
     func showActivityIndicatorInNavigationBar(animated: Bool) {
@@ -502,7 +479,7 @@ extension ContactsViewController {
     }
 }
 
-//MARK: Call button nav bar
+// MARK: - Call button nav bar
 extension ContactsViewController {
     
     func showCallButtonInNavigationBar(animated: Bool) {
@@ -516,7 +493,8 @@ extension ContactsViewController {
     }
 }
 
-//MARK: Toast
+// MARK: - Toast
+
 extension ContactsViewController {
     
     func showToast(message: String, color: UIColor) {
@@ -551,26 +529,28 @@ extension ContactsViewController {
     }
 }
 
-//MARK: Call options controller delegate
+// MARK: - Call options controller delegate
+
 extension ContactsViewController: CallOptionsTableViewControllerDelegate {
     func controllerDidUpdateOptions(_ controller: CallOptionsTableViewController) {
         options = controller.options
     }
 }
 
-//MARK: Call window delegate
+// MARK: - Call window delegate
+
 extension ContactsViewController: CallWindowDelegate {
     func callWindowDidFinish(_ window: CallWindow) {
         hideCallViewController()
     }
     
     func callWindow(_ window: CallWindow, openChatWith intent: OpenChatIntent) {
-        hideCallViewController()
         presentChat(from: self, intent: intent)
     }
 }
 
-//MARK: Channel view controller delegate
+// MARK: - Channel view controller delegate
+
 extension ContactsViewController: ChannelViewControllerDelegate {
     func channelViewControllerDidFinish(_ controller: ChannelViewController) {
         controller.dismiss(animated: true)
@@ -600,24 +580,8 @@ extension ContactsViewController: ChannelViewControllerDelegate {
     }
 }
 
-//MARK: Call Banner Controller delegate
-extension ContactsViewController: CallBannerControllerDelegate {
-    func callBannerControllerDidTouchBanner(_ controller: CallBannerController) {
-        //Please remember to override the current call intent with the one saved inside call window.
-        intent = callWindow?.intent
-        performCallViewControllerPresentation()
-    }
-    
-    func callBannerControllerWillHideBanner(_ controller: CallBannerController) {
-        restoreStatusBarAppearance()
-    }
-    
-    func callBannerControllerWillShowBanner(_ controller: CallBannerController) {
-        setStatusBarAppearanceToLight()
-    }
-}
+// MARK: - Contact table view cell delegate
 
-//MARK: Contact table view cell delegate
 extension ContactsViewController: ContactTableViewCellDelegate {
     
     func contactTableViewCell(_ cell: ContactTableViewCell, didTouch chatButton: UIButton, withCounterpart aliasId: String) {
@@ -627,13 +591,11 @@ extension ContactsViewController: ContactTableViewCellDelegate {
 }
 
 
-//MARK: In App file share notification touch listener delegate
-extension ContactsViewController: InAppChatNotificationTouchListener {
-    func onTouch(_ notification: ChatNotification) {
-        if let callWindow = self.callWindow, !callWindow.isHidden {
-            callWindow.isHidden = true
-        }
+// MARK: - In App file share notification touch listener delegate
 
+extension ContactsViewController: InAppChatNotificationTouchListener {
+
+    func onTouch(_ notification: ChatNotification) {
         if presentedViewController is ChannelViewController {
             presentedViewController?.dismiss(animated: true) { [weak self] in
                 self?.presentChat(from: notification)
@@ -644,8 +606,10 @@ extension ContactsViewController: InAppChatNotificationTouchListener {
     }
 }
 
-//MARK: In App file share notification touch listener delegate
+// MARK: - In App file share notification touch listener delegate
+
 extension ContactsViewController: InAppFileShareNotificationTouchListener {
+    
     func onTouch(_ notification: FileShareNotification) {
         callWindow?.presentCallViewController(for: OpenDownloadsIntent())
     }
