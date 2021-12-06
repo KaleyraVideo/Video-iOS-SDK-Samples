@@ -104,58 +104,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: PKPushRegistryDelegate {
+
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
-        let token = pushCredentials.tokenAsString
+        guard let token = pushCredentials.tokenAsString else { return }
+
         debugPrint("Push credentials updated \(token), you should send them to your backend system")
     }
 }
 
 extension AppDelegate {
+
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         //When System call ui is shown to the user, it will show a "video" button if the call supports it.
         //The code below will handle the siri intent received from the system and it will hand it to the call view controller
         //if the controller is presented
 
+        guard let siriIntent = userActivity.interaction?.intent else {
+            return false
+        }
+
+        guard let window = CallWindow.instance else {
+            return false
+        }
+
         if #available(iOS 13.0, *) {
-            guard let callIntent = userActivity.interaction?.intent as? INStartCallIntent else {
-                return false
-            }
-            guard let callController = visibleController(window?.rootViewController) as? CallViewController else {
-                return false
-            }
-
-            callController.handle(startCallIntent: callIntent)
-            return true
-        } else {
-            if #available(iOS 10.0, *) {
-                guard let videoCallIntent = userActivity.interaction?.intent as? INStartVideoCallIntent else {
-                    return false
-                }
-                guard let callController = visibleController(window?.rootViewController) as? CallViewController else {
-                    return false
-                }
-
-                callController.handle(startVideoCallIntent: videoCallIntent)
+            if let startCallIntent = siriIntent as? INStartCallIntent {
+                window.handle(startCallIntent: startCallIntent)
                 return true
             }
         }
 
+        if let videoCallIntent = siriIntent as? INStartVideoCallIntent {
+            window.handle(startVideoCallIntent: videoCallIntent)
+            return true
+        }
+
         return false
-    }
-
-    func visibleController(_ controller: UIViewController?) -> UIViewController? {
-        guard let visibleVC = controller else {
-            return nil
-        }
-
-        if visibleVC.presentedViewController != nil {
-            if let navController = visibleVC.presentedViewController as? UINavigationController {
-                return visibleController(navController.viewControllers.last)
-            }
-
-            return visibleController(visibleVC.presentedViewController)
-        }
-
-        return visibleVC
     }
 }
