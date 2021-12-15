@@ -1,6 +1,10 @@
-# Bandyer iOS SDK Samples
+<p align="center">
+	<img src="img/kaleyra-video.png" alt="Kaleyra Logo" title="Kaleyra Video" />
+</p>
 
-This repository is meant to provide some examples for you to better understand how the Bandyer SDK can be integrated into your App. 
+# Kaleyra Video iOS SDK Samples
+
+This repository is meant to provide some examples for you to better understand how the Kaleyra Video iOS SDK can be integrated into your App. 
 
 ## What's inside
 
@@ -8,7 +12,6 @@ This repository is meant to provide some examples for you to better understand h
 - [**CallKit-Voip-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/CallKit-Voip-Example): This application shows you how it's easy and simple to integrate CallKit and VoIP notifications capabilities with Bandyer in your app.
 - [**Chat-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/Chat-Example): This application show you how it's easy integrate chat capability in your app using Bandyer.
 - [**UI-Customization-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UI-Customization-Example): This application show you how to customise the appearance of  Bandyer's UIViewControllers.
-- **More coming soon**
 
 ## General Quick Start
 
@@ -24,7 +27,7 @@ From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/B
 
 To get basic support please submit an Issue. We will help you as soon as possible.
 
-If you prefer commercial support, please contact bandyer.com sending an email at: [info@bandyer.com](mailto:info@bandyer.com).
+If you prefer commercial support, please contact bandyer.com sending an email at: [video@kaleyra.com](mailto:video@kaleyra.com).
 
 ## License
 
