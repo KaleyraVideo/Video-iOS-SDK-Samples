@@ -1,5 +1,5 @@
 //
-//  Copyright © 2018-2021 Bandyer. All rights reserved.
+// Copyright © 2018-Present. Kaleyra S.p.a. All rights reserved.
 //
 
 import Bandyer

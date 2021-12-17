@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2019 Bandyer. All rights reserved.
+// Copyright © 2018-Present. Kaleyra S.p.a. All rights reserved.
 //
 
 import UIKit

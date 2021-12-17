@@ -814,7 +814,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1200;
-				ORGANIZATIONNAME = Bandyer;
+				ORGANIZATIONNAME = "Kaleyra S.p.a.";
 				TargetAttributes = {
 					A9AB7E6E22244512001FADA6 = {
 						CreatedOnToolsVersion = 10.1;
