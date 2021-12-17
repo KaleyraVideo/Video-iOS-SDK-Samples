@@ -1,6 +1,5 @@
 //
-//  Copyright © 2020 Bandyer. All rights reserved.
-//  See LICENSE for licensing information.
+// Copyright © 2018-Present. Kaleyra S.p.a. All rights reserved.
 //
 
 import UIKit
