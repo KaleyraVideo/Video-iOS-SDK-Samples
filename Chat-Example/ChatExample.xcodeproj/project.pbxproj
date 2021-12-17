@@ -494,18 +494,18 @@
 		A1126A3D234260B000A3FFBA /* ChatExample */ = {
 			isa = PBXGroup;
 			children = (
-				2F99751B2467354D0049F14B /* ChatExample.entitlements */,
+				A1126A3E234260B000A3FFBA /* AppDelegate.swift */,
+				A1126A47234260B100A3FFBA /* Assets.xcassets */,
 				A1126B2E2342618400A3FFBA /* Call Options */,
+				2F99751B2467354D0049F14B /* ChatExample.entitlements */,
 				A1126B312342618400A3FFBA /* Contacts */,
+				A1126A4C234260B100A3FFBA /* Info.plist */,
+				A1126A49234260B100A3FFBA /* LaunchScreen.storyboard */,
 				A1126A602342618400A3FFBA /* Login */,
+				A1126A44234260B000A3FFBA /* Main.storyboard */,
 				A1126A5D2342618400A3FFBA /* Model */,
 				A1126A622342618400A3FFBA /* Resources */,
 				A1126A582342618400A3FFBA /* Services */,
-				A1126A3E234260B000A3FFBA /* AppDelegate.swift */,
-				A1126A44234260B000A3FFBA /* Main.storyboard */,
-				A1126A47234260B100A3FFBA /* Assets.xcassets */,
-				A1126A49234260B100A3FFBA /* LaunchScreen.storyboard */,
-				A1126A4C234260B100A3FFBA /* Info.plist */,
 			);
 			path = ChatExample;
 			sourceTree = "<group>";
@@ -1268,7 +1268,6 @@
 				CODE_SIGN_ENTITLEMENTS = ChatExample/ChatExample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ChatExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1289,7 +1288,6 @@
 				CODE_SIGN_ENTITLEMENTS = ChatExample/ChatExample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ChatExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
