@@ -515,15 +515,15 @@
 		A9B7246C22255FAB00D421D1 /* CallKit-Voip-Example */ = {
 			isa = PBXGroup;
 			children = (
-				A977E3EE24740E0E0000A0C2 /* Support */,
-				A977E3ED24740DFA0000A0C2 /* Storyboards */,
+				A9B7246D22255FAB00D421D1 /* AppDelegate.swift */,
 				A9B726322225905B00D421D1 /* Call Options */,
 				A9B726352225905B00D421D1 /* Contacts */,
 				A9B7270B2225905C00D421D1 /* Login */,
 				A9B727082225905C00D421D1 /* Model */,
 				A9B7263C2225905B00D421D1 /* Resources */,
 				A9B726372225905B00D421D1 /* Services */,
-				A9B7246D22255FAB00D421D1 /* AppDelegate.swift */,
+				A977E3ED24740DFA0000A0C2 /* Storyboards */,
+				A977E3EE24740E0E0000A0C2 /* Support */,
 			);
 			path = "CallKit-Voip-Example";
 			sourceTree = "<group>";
@@ -838,7 +838,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1200;
-				ORGANIZATIONNAME = Bandyer;
+				ORGANIZATIONNAME = "Kaleyra S.p.a.";
 				TargetAttributes = {
 					A9B7246922255FAB00D421D1 = {
 						CreatedOnToolsVersion = 10.1;
