@@ -535,18 +535,18 @@
 		A9AB7E7122244512001FADA6 /* Basic-Example */ = {
 			isa = PBXGroup;
 			children = (
-				2F91CB51246588F000927CD1 /* Basic-Example.entitlements */,
-				A9B722CC22254F5E00D421D1 /* Resources */,
 				A9AB7E7222244512001FADA6 /* AppDelegate.swift */,
-				A9AB7E7622244512001FADA6 /* Main.storyboard */,
 				A9AB7E7922244513001FADA6 /* Assets.xcassets */,
-				A9AB7E7B22244513001FADA6 /* LaunchScreen.storyboard */,
-				A9AB7E7E22244513001FADA6 /* Info.plist */,
+				2F91CB51246588F000927CD1 /* Basic-Example.entitlements */,
 				62DD2DCE5AFB4EE0896E8F55 /* Call Options */,
-				62DD2B8396D0CC4FACE82880 /* Login */,
-				62DD2B6431E3FEF3D40D1C62 /* Services */,
-				62DD26AF141BC2467443F448 /* Model */,
 				62DD293D2E341D8A583D9105 /* Contacts */,
+				A9AB7E7E22244513001FADA6 /* Info.plist */,
+				A9AB7E7B22244513001FADA6 /* LaunchScreen.storyboard */,
+				62DD2B8396D0CC4FACE82880 /* Login */,
+				A9AB7E7622244512001FADA6 /* Main.storyboard */,
+				62DD26AF141BC2467443F448 /* Model */,
+				A9B722CC22254F5E00D421D1 /* Resources */,
+				62DD2B6431E3FEF3D40D1C62 /* Services */,
 			);
 			path = "Basic-Example";
 			sourceTree = "<group>";
@@ -1263,7 +1263,6 @@
 				CODE_SIGN_ENTITLEMENTS = "Basic-Example/Basic-Example.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Basic-Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1284,7 +1283,6 @@
 				CODE_SIGN_ENTITLEMENTS = "Basic-Example/Basic-Example.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Basic-Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
