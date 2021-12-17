@@ -1,6 +1,5 @@
 //
-// Created by Luca Tagliabue on 2019-10-11.
-// Copyright (c) 2019 Bandyer. All rights reserved.
+// Copyright © 2018-Present. Kaleyra S.p.a. All rights reserved.
 //
 
 import UIKit

@@ -1,6 +1,5 @@
 //
-// Created by Marco Brescianini on 2019-02-25.
-// Copyright (c) 2019 Bandyer. All rights reserved.
+// Copyright © 2018-Present. Kaleyra S.p.a. All rights reserved.
 //
 
 import Foundation
