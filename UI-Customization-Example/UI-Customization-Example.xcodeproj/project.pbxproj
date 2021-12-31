@@ -235,6 +235,7 @@
 		A1597A73252606EE0026BCD7 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A72252606EE0026BCD7 /* Roboto-Thin.ttf */; };
 		A1597A76252609DD0026BCD7 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A75252609DC0026BCD7 /* Roboto-Regular.ttf */; };
 		A1597A79252615A50026BCD7 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1597A78252615A50026BCD7 /* Roboto-Bold.ttf */; };
+		F91F607C277F0CED00FE3F45 /* ExampleLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F91F607E277F0CED00FE3F45 /* ExampleLocalizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -471,6 +472,7 @@
 		A1597A78252615A50026BCD7 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		E22395C47C7C29D8A0AC72C7 /* Pods_UI_Customization_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UI_Customization_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8EF8DF0D81D5D01F6446720 /* Pods-UI-Customization-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UI-Customization-Example.debug.xcconfig"; path = "Target Support Files/Pods-UI-Customization-Example/Pods-UI-Customization-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		F91F607D277F0CED00FE3F45 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ExampleLocalizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -520,6 +522,7 @@
 				2F9A8B79251CB5B8000FAF1E /* Resources */,
 				2F9A8B45251CA7E1000FAF1E /* Services */,
 				2F9A8B75251CB073000FAF1E /* UI-Customization-Example.entitlements */,
+				F91F607E277F0CED00FE3F45 /* ExampleLocalizable.strings */,
 			);
 			path = "UI-Customization-Example";
 			sourceTree = "<group>";
@@ -1072,6 +1075,7 @@
 				2F9A8CC1251CB5B8000FAF1E /* woman_90.jpg in Resources */,
 				2F9A8C83251CB5B8000FAF1E /* man_43.jpg in Resources */,
 				2F9A8C58251CB5B8000FAF1E /* man_47.jpg in Resources */,
+				F91F607C277F0CED00FE3F45 /* ExampleLocalizable.strings in Resources */,
 				2F9A8C64251CB5B8000FAF1E /* man_78.jpg in Resources */,
 				2F9A8CBC251CB5B8000FAF1E /* woman_57.jpg in Resources */,
 				2F9A8CB0251CB5B8000FAF1E /* woman_7.jpg in Resources */,
@@ -1203,6 +1207,14 @@
 				2F9A8B26251C9D2B000FAF1E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F91F607E277F0CED00FE3F45 /* ExampleLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F91F607D277F0CED00FE3F45 /* en */,
+			);
+			name = ExampleLocalizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

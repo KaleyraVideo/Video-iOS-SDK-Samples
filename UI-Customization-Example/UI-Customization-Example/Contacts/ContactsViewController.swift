@@ -285,6 +285,9 @@ class ContactsViewController: UIViewController {
         let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
 
+        //Comment this line or set the value to false to disable the call rating popup
+        config.callRatingEnabled = true
+
         //Let's suppose that you want to change the navBarTitleFont only inside the CallViewController.
         //You can achieve this result by allocate a new instance of the theme and set the navBarTitleFont property whit the wanted value.
         let callTheme = Theme()
@@ -311,6 +314,22 @@ class ContactsViewController: UIViewController {
         fileSharingTheme.largeFontPointSize = 40
 
         config.fileSharingTheme = fileSharingTheme
+
+        // In the same way as other themes, you can customize the appearance of the call rating popup by creating a new instance of Theme
+        let ratingTheme = Theme()
+        // Setting the accentColor property with the desired value will modify the color of the stars and the background color of the submit button
+        ratingTheme.accentColor = UIColor.systemGreen
+        // You can also customize the font and emphasisFont properties 
+        ratingTheme.font = UIFont.robotoThin
+        ratingTheme.emphasisFont = UIFont.robotoBold
+        
+        config.callRatingPopupTheme = ratingTheme
+        
+        // Every single string in the rating popup is customizable.
+        // To make this customization just pass the bundle containing the localization with the right keys valorized, as in this example.
+        config.assetsBundle = Bundle.main
+        // If your file is named 'Localizable' you don't need to set this value, otherwise provide the filename
+        config.localizationTableName = "ExampleLocalizable"
 
         //You can also format the way our SDK displays the user information inside the call page. In this example, the user info will be preceded by a percentage.
         config.callInfoTitleFormatter = PercentageFormatter()
