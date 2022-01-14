@@ -236,8 +236,8 @@ class ContactsViewController: UIViewController {
         let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
 
-        //Comment this line or set the value to false to disable the call rating popup
-        config.callRatingEnabled = true
+        //Comment this line or set the value to false to disable the call feedback popup
+        config.isFeedbackEnabled = true
 
         //Here, we set the configuration object created. You must set the view controller configuration object before the view controller
         //view is loaded, otherwise an exception is thrown.

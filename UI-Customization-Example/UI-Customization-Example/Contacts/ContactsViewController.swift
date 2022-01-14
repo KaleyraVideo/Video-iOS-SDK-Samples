@@ -285,8 +285,8 @@ class ContactsViewController: UIViewController {
         let url = URL(fileURLWithPath: path)
         config.fakeCapturerFileURL = url
 
-        //Comment this line or set the value to false to disable the call rating popup
-        config.callRatingEnabled = true
+        //Comment this line or set the value to false to disable the call feedback popup
+        config.isFeedbackEnabled = true
 
         //Let's suppose that you want to change the navBarTitleFont only inside the CallViewController.
         //You can achieve this result by allocate a new instance of the theme and set the navBarTitleFont property whit the wanted value.
@@ -315,17 +315,20 @@ class ContactsViewController: UIViewController {
 
         config.fileSharingTheme = fileSharingTheme
 
-        // In the same way as other themes, you can customize the appearance of the call rating popup by creating a new instance of Theme
-        let ratingTheme = Theme()
+        // In the same way as other themes, you can customize the appearance of the call feedback popup by creating a new instance of Theme
+        let feedbackTheme = Theme()
         // Setting the accentColor property with the desired value will modify the color of the stars and the background color of the submit button
-        ratingTheme.accentColor = UIColor.systemGreen
+        feedbackTheme.accentColor = UIColor.systemGreen
         // You can also customize the font and emphasisFont properties 
-        ratingTheme.font = UIFont.robotoThin
-        ratingTheme.emphasisFont = UIFont.robotoBold
+        feedbackTheme.font = UIFont.robotoThin
+        feedbackTheme.emphasisFont = UIFont.robotoBold
         
-        config.callRatingPopupTheme = ratingTheme
+        config.feedbackTheme = feedbackTheme
         
-        // Every single string in the rating popup is customizable.
+        // The delay in seconds after which the feedback popup is automatically dismissed when the user leaves a feedback.
+        config.feedbackAutoDismissDelay = 5
+        
+        // Every single string in the feedback popup is customizable.
         // To make this customization just pass the bundle containing the localization with the right keys valorized, as in this example.
         config.assetsBundle = Bundle.main
         // If your file is named 'Localizable' you don't need to set this value, otherwise provide the filename
