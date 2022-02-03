@@ -148,6 +148,9 @@ extension LoginViewController: CallClientObserver {
         performSegue(withIdentifier: segueIdentifier, sender: self)
         hideActivityIndicatorFromNavigationBar()
         view.isUserInteractionEnabled = true
+
+        // After the call client has started we can also start our custom callDetector, if we decided to turn off the automatic management of the VoIP push notifications by the sdk.
+        (UIApplication.shared.delegate as? AppDelegate)?.startCallDetectorIfNeeded()
     }
 
     func callClient(_ client: CallClient, didFailWithError error: Error) {

@@ -225,6 +225,9 @@
 		A9B727DD2225905C00D421D1 /* AddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B727092225905C00D421D1 /* AddressBook.swift */; };
 		A9B727DE2225905C00D421D1 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B7270A2225905C00D421D1 /* Contact.swift */; };
 		A9B727DF2225905C00D421D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B7270C2225905C00D421D1 /* LoginViewController.swift */; };
+		F9BC0ACD27AA82FB00ACAE43 /* VoIPCallDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BC0ACB27AA82FB00ACAE43 /* VoIPCallDetector.swift */; };
+		F9BC0ACE27AA82FB00ACAE43 /* VoIPPushTokenHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BC0ACC27AA82FB00ACAE43 /* VoIPPushTokenHandler.swift */; };
+		F9BC0AD127AA835300ACAE43 /* ApplicationStateChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BC0AD027AA835300ACAE43 /* ApplicationStateChangeObserver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -451,6 +454,9 @@
 		A9B727092225905C00D421D1 /* AddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBook.swift; sourceTree = "<group>"; };
 		A9B7270A2225905C00D421D1 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		A9B7270C2225905C00D421D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		F9BC0ACB27AA82FB00ACAE43 /* VoIPCallDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoIPCallDetector.swift; sourceTree = "<group>"; };
+		F9BC0ACC27AA82FB00ACAE43 /* VoIPPushTokenHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoIPPushTokenHandler.swift; sourceTree = "<group>"; };
+		F9BC0AD027AA835300ACAE43 /* ApplicationStateChangeObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationStateChangeObserver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -524,6 +530,7 @@
 				A9B726372225905B00D421D1 /* Services */,
 				A977E3ED24740DFA0000A0C2 /* Storyboards */,
 				A977E3EE24740E0E0000A0C2 /* Support */,
+				F9BC0ACA27AA82FB00ACAE43 /* VoIPNotifications */,
 			);
 			path = "CallKit-Voip-Example";
 			sourceTree = "<group>";
@@ -806,6 +813,24 @@
 				A9B7270C2225905C00D421D1 /* LoginViewController.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		F9BC0ACA27AA82FB00ACAE43 /* VoIPNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				F9BC0ACF27AA835300ACAE43 /* Components */,
+				F9BC0ACB27AA82FB00ACAE43 /* VoIPCallDetector.swift */,
+				F9BC0ACC27AA82FB00ACAE43 /* VoIPPushTokenHandler.swift */,
+			);
+			path = VoIPNotifications;
+			sourceTree = "<group>";
+		};
+		F9BC0ACF27AA835300ACAE43 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F9BC0AD027AA835300ACAE43 /* ApplicationStateChangeObserver.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1134,7 +1159,10 @@
 				A9B7270D2225905C00D421D1 /* CallOptionsTableViewController.swift in Sources */,
 				A9B727112225905C00D421D1 /* UserSession.swift in Sources */,
 				A9B727102225905C00D421D1 /* UserRepository.swift in Sources */,
+				F9BC0ACE27AA82FB00ACAE43 /* VoIPPushTokenHandler.swift in Sources */,
+				F9BC0ACD27AA82FB00ACAE43 /* VoIPCallDetector.swift in Sources */,
 				A9B7246E22255FAB00D421D1 /* AppDelegate.swift in Sources */,
+				F9BC0AD127AA835300ACAE43 /* ApplicationStateChangeObserver.swift in Sources */,
 				A9B727DF2225905C00D421D1 /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

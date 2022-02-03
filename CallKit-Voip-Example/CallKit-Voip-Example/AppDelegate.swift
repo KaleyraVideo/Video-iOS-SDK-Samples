@@ -12,6 +12,7 @@ import Bandyer
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    private(set) var callDetector: VoIPCallDetector?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //Before we can get started, you must review your project configuration, and enable the required
@@ -81,15 +82,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //The following statement is going to tell the BandyerSDK which object it must forward device push tokens to when one is received.
         config.pushRegistryDelegate = self
 
-        #error("Please set the payload keypath here")
-        //This statement is going to tell the BandyerSDK where to look for incoming call information within the VoIP push notifications it receives
-        config.notificationPayloadKeyPath = "SET YOUR PAYLOAD KEY PATH HERE"
+        //Set this flag to false if you want to manually handle VoIP notifications. This flag is ignored unless the `isCallKitEnabled` flag is set to `true`.
+        config.automaticallyHandleVoIPNotifications = true
+
+        if !config.automaticallyHandleVoIPNotifications {
+            // If you have set the config `automaticallyHandleVoIPNotifications` to false you have to register to VoIP notifications manually.
+            // This is an example of the required implementation.
+            callDetector = VoIPCallDetector(registryDelegate: self)
+            callDetector?.delegate = self
+        }
 
         #error("Please initialize the Bandyer SDK with your App Id")
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: "PUT YOUR APP ID HERE", config: config)
 
         return true
+    }
+
+    func startCallDetectorIfNeeded() {
+        callDetector?.start()
     }
 }
 
@@ -130,5 +141,13 @@ extension AppDelegate {
         }
 
         return false
+    }
+}
+
+// This protocol conformance is required for the manually managed VoIP notification configuration, ignore it otherwise.
+extension AppDelegate: VoIPCallDetectorDelegate {
+    func handle(payload: PKPushPayload) {
+        // Once you received a VoIP notification and you want the sdk to handle it, call `handleNotification(_)` method on the sdk instance.
+        BandyerSDK.instance().handleNotification(payload)
     }
 }
