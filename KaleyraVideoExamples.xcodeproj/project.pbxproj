@@ -73,6 +73,7 @@
 		F99412802812AE23003D3CB6 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AB275A781600EC3798 /* AppConfig.swift */; };
 		F99412862812B885003D3CB6 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99412852812B885003D3CB6 /* ContactsView.swift */; };
 		F9B010042812E801000564B8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B010032812E801000564B8 /* LoginViewModel.swift */; };
+		F9D57FF42813032800828524 /* ContactRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D57FF32813032800828524 /* ContactRow.swift */; };
 		F9D57FF728130AFC00828524 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D57FF628130AFC00828524 /* View+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -161,6 +162,7 @@
 		F934210E2811AE89001110BF /* UserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRow.swift; sourceTree = "<group>"; };
 		F99412852812B885003D3CB6 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		F9B010032812E801000564B8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F9D57FF32813032800828524 /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
 		F9D57FF628130AFC00828524 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -503,6 +505,7 @@
 		F99412842812B6B6003D3CB6 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
+				F9D57FF32813032800828524 /* ContactRow.swift */,
 				F99412852812B885003D3CB6 /* ContactsView.swift */,
 			);
 			path = Contacts;
@@ -840,6 +843,7 @@
 				F93420F92811A569001110BF /* MyFormatter.swift in Sources */,
 				F93420F02811A540001110BF /* AddressBook.swift in Sources */,
 				F93420F42811A554001110BF /* UserRepository.swift in Sources */,
+				F9D57FF42813032800828524 /* ContactRow.swift in Sources */,
 				F99412862812B885003D3CB6 /* ContactsView.swift in Sources */,
 				F93420E328118D3C001110BF /* SwiftUI_ExampleApp.swift in Sources */,
 				F934210F2811AE89001110BF /* UserRow.swift in Sources */,

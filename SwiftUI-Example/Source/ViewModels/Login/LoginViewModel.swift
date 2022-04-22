@@ -12,7 +12,7 @@ class LoginViewModel: NSObject, ObservableObject {
     @Published private(set) var userInteractionEnabled = true
 
     private (set) var selectedUserId = UserSession.currentUser
-    private var addressBook: AddressBook?
+    private (set) var addressBook: AddressBook?
 
     private let repository = RestUserRepository()
 
