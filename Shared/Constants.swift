@@ -16,6 +16,9 @@ struct Constants {
     // for simplicity and demonstration purpose only
     static let ApiKey = "PUT YOUR API KEY HERE"
 
+    // A URL pointing to a REST API on your backend where retrieve users informations.
+    static let RestURL = "REST URL"
+
     // The App group identifier is needed by the SDK and the BroadcastExtension in order to communicate
     // If you plan to not opt-in for the Broadcast screen sharing feature you can leave this field as is
     static let AppGroupIdentifier = "PUT THE APP GROUP IDENTIFIER HERE"

@@ -6,6 +6,12 @@ target 'KaleyraVideoSample' do
   pod 'Bandyer'
 end
 
+target 'SwiftUI-Example' do
+  platform :ios, '13.0'
+
+  pod 'Bandyer'
+end
+
 target 'BroadcastExtension' do
   platform :ios, '12.0'
 

@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Here we are going to initialize the Bandyer SDK
         // The sdk needs a configuration object where it is specified which environment the sdk should work in.
         let config = AppConfig.default.makeSDKConfig(pushRegistryDelegate: self)
-
+        
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: Constants.AppId,
                                          config: config)
