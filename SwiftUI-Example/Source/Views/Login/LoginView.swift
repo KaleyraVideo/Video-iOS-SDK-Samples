@@ -24,6 +24,11 @@ struct LoginView: View {
                     viewModel.select(userID: userId)
                 }
             }
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ProgressView().isHidden(!viewModel.userInteractionEnabled)
+                }
+            })
             .refreshable {
                 viewModel.refreshUsers()
             }
