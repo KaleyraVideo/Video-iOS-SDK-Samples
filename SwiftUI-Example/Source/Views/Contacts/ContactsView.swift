@@ -3,10 +3,12 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContactsView: View {
 
     @ObservedObject private var viewModel: ContactsViewModel
+    @Environment(\.dismiss) private var dismiss
 
     init(viewModel: ContactsViewModel) {
         self.viewModel = viewModel
@@ -15,14 +17,21 @@ struct ContactsView: View {
     var body: some View {
         NavigationView {
             List(viewModel.contacts, id: \.self, selection: $viewModel.selectedContacts) { contact in
-                ContactRow(contact: contact, multipleSelection: viewModel.multipleSelectionEnabled)
+                Button {
+                    viewModel.call(user: contact)
+                } label: {
+                    ContactRow(contact: contact, multipleSelection: viewModel.multipleSelectionEnabled)
+                }
+
             }
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-
+                        viewModel.logout()
+                        dismiss()
                     } label: {
                         Image("logout")
+                            .renderingMode(.template)
                     }
                 }
 
@@ -42,6 +51,7 @@ struct ContactsView: View {
                         viewModel.callSelectedUsers()
                     }, label: {
                         Image("phone")
+                            .renderingMode(.template)
                     })
                     .disabled(!viewModel.canCallManyToMany)
                     .isHidden(!viewModel.multipleSelectionEnabled)
@@ -50,14 +60,15 @@ struct ContactsView: View {
                 ToolbarItem(placement: .bottomBar) {
                     HStack {
                         Spacer()
-                        Button(viewModel.loggedUserAlias) {
-                            
-                        }
+                        Text(viewModel.loggedUserAlias)
+                            .foregroundColor(.accentColor)
+                            .padding(.leading, 34)
                         Spacer()
                         Button {
-                            
+                            // TODO: implement
                         } label: {
                             Image("settings")
+                                .renderingMode(.template)
                         }
                     }
                 }
@@ -69,6 +80,12 @@ struct ContactsView: View {
             }, set: { newVal in
                 viewModel.multipleSelectionEnabled = newVal.isEditing
             }))
+            .alert(isPresented: $viewModel.alertPresenter.showingAlert) {
+                Alert(title: Text(viewModel.alertPresenter.alertTitle), message: Text(viewModel.alertPresenter.alertMessage), dismissButton: .default(Text("Ok")))
+            }
+            .sheet(isPresented: $viewModel.chatPresenter.showingChat) {
+                viewModel.chatPresenter.chatViewToPresent
+            }
         }
     }
 }

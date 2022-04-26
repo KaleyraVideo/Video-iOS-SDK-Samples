@@ -18,7 +18,10 @@ struct ContactRow: View {
                     .font(.subheadline)
             }
             Spacer()
-            Image("phone").isHidden(multipleSelection)
+            Image("phone")
+                .renderingMode(.template)
+                .foregroundColor(.accentColor)
+                .isHidden(multipleSelection)
         }
     }
 }
