@@ -10,6 +10,7 @@ class LoginViewModel: NSObject, ObservableObject {
     @Published private(set) var userIds: [String] = []
     @Published var loggedIn = false
     @Published private(set) var userInteractionEnabled = true
+    @Published private(set) var isLoading = false
 
     private (set) var selectedUserId = UserSession.currentUser
     private (set) var addressBook: AddressBook?
@@ -76,15 +77,18 @@ extension LoginViewModel: CallClientObserver {
 
     func callClientWillStart(_ client: CallClient) {
         userInteractionEnabled = false
+        isLoading = true
     }
 
     func callClientDidStart(_ client: CallClient) {
         UserSession.currentUser = selectedUserId
         loggedIn = true
         userInteractionEnabled = true
+        isLoading = false
     }
 
     func callClient(_ client: CallClient, didFailWithError error: Error) {
         userInteractionEnabled = true
+        isLoading = false
     }
 }

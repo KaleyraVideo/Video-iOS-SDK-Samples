@@ -20,13 +20,15 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             List(viewModel.userIds, id: \.hashValue) { userId in
-                UserRow(userID: userId).onTapGesture {
+                Button {
                     viewModel.select(userID: userId)
+                } label: {
+                    UserRow(userID: userId)
                 }
             }
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ProgressView().isHidden(!viewModel.userInteractionEnabled)
+                    ProgressView().isHidden(!viewModel.isLoading)
                 }
             })
             .refreshable {
