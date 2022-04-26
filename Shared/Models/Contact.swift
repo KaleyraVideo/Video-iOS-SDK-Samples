@@ -10,7 +10,7 @@ enum Gender {
     case female
 }
 
-struct Contact {
+struct Contact: Hashable {
 
     var alias: String
     var firstName: String?

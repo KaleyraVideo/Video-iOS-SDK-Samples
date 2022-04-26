@@ -7,6 +7,7 @@ import SwiftUI
 struct ContactRow: View {
     
     var contact: Contact
+    var multipleSelection: Bool
     
     var body: some View {
         HStack {
@@ -17,7 +18,7 @@ struct ContactRow: View {
                     .font(.subheadline)
             }
             Spacer()
-            Image("phone")
+            Image("phone").isHidden(multipleSelection)
         }
     }
 }
@@ -27,6 +28,6 @@ struct ContactRow_Previews: PreviewProvider {
         var contact = Contact("user_123")
         contact.firstName = "John"
         contact.lastName = "Appleseed"
-        return ContactRow(contact: contact)
+        return ContactRow(contact: contact, multipleSelection: false)
     }
 }

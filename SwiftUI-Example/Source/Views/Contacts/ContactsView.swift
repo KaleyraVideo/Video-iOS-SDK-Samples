@@ -5,23 +5,22 @@
 import SwiftUI
 
 struct ContactsView: View {
-    
-    init(addressBook: AddressBook?) {
-        self.addressBook = addressBook
-    }
 
-    var addressBook: AddressBook?
-    @State private var favoriteColor = 0
+    @ObservedObject private var viewModel: ContactsViewModel
+
+    init(viewModel: ContactsViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         NavigationView {
-            List(addressBook?.contacts ?? [], id: \.alias.hashValue) { contact in
-                ContactRow(contact: contact)
+            List(viewModel.contacts, id: \.self, selection: $viewModel.selectedContacts) { contact in
+                ContactRow(contact: contact, multipleSelection: viewModel.multipleSelectionEnabled)
             }
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        
+
                     } label: {
                         Image("logout")
                     }
@@ -29,19 +28,29 @@ struct ContactsView: View {
 
                 ToolbarItem(placement: .principal) {
                     HStack {
-                        Picker("What is your favorite color?", selection: $favoriteColor) {
-                            Text("Call").tag(0)
-                            Text("Conference").tag(1)
+                        Picker("What is your favorite color?", selection: $viewModel.desiredCallType.animation(.linear)) {
+                            Text("Call").tag(ContactsViewModel.CallType.call)
+                            Text("Conference").tag(ContactsViewModel.CallType.conference)
                         }
                         .pickerStyle(.segmented)
                         .frame(width: 200, height: nil, alignment: .center)
                     }
                 }
 
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        viewModel.callSelectedUsers()
+                    }, label: {
+                        Image("phone")
+                    })
+                    .disabled(!viewModel.canCallManyToMany)
+                    .isHidden(!viewModel.multipleSelectionEnabled)
+                }
+
                 ToolbarItem(placement: .bottomBar) {
                     HStack {
                         Spacer()
-                        Button(addressBook?.me?.alias ?? "") {
+                        Button(viewModel.loggedUserAlias) {
                             
                         }
                         Spacer()
@@ -55,6 +64,11 @@ struct ContactsView: View {
             })
             .listStyle(.plain)
             .navigationBarTitleDisplayMode(.inline)
+            .environment(\.editMode, Binding(get: {
+                viewModel.multipleSelectionEnabled ? EditMode.active : EditMode.inactive
+            }, set: { newVal in
+                viewModel.multipleSelectionEnabled = newVal.isEditing
+            }))
         }
     }
 }
@@ -62,6 +76,7 @@ struct ContactsView: View {
 struct ContactsView_Previews: PreviewProvider {
     static var previews: some View {
         AddressBook.instance.update(withAliases: ["user_1", "user_2", "user_3", "user_4"], currentUser: "user_5")
-        return ContactsView(addressBook: AddressBook.instance)
+        let viewModel = ContactsViewModel(addressBook: AddressBook.instance)
+        return ContactsView(viewModel: viewModel)
     }
 }

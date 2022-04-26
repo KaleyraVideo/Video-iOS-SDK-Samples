@@ -45,6 +45,7 @@
 		A9E3C9AC275A781600EC3798 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AB275A781600EC3798 /* AppConfig.swift */; };
 		A9E3C9AF275A7C4E00EC3798 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AE275A7C4E00EC3798 /* UserRepository.swift */; };
 		A9E3C9BE275A92BF00EC3798 /* UIView+AutoresizingMasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9BD275A92BF00EC3798 /* UIView+AutoresizingMasks.swift */; };
+		F92372AB2817D92A00836DC1 /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92372AA2817D92A00836DC1 /* ContactsViewModel.swift */; };
 		F93420E328118D3C001110BF /* SwiftUI_ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93420E228118D3C001110BF /* SwiftUI_ExampleApp.swift */; };
 		F93420E728118D3E001110BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F93420E628118D3E001110BF /* Assets.xcassets */; };
 		F93420EA28118D3E001110BF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F93420E928118D3E001110BF /* Preview Assets.xcassets */; };
@@ -154,6 +155,7 @@
 		B9D7F82F6A6D1B4E28C5749C /* Pods_KaleyraVideoSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KaleyraVideoSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4A6C7736A1A56DF219D82AA /* Pods-BroadcastExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BroadcastExtension.debug.xcconfig"; path = "Target Support Files/Pods-BroadcastExtension/Pods-BroadcastExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		F4367701C7CBAE37D71B9094 /* Pods_SwiftUI_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUI_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F92372AA2817D92A00836DC1 /* ContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewModel.swift; sourceTree = "<group>"; };
 		F93420E028118D3C001110BF /* SwiftUI-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93420E228118D3C001110BF /* SwiftUI_ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_ExampleApp.swift; sourceTree = "<group>"; };
 		F93420E628118D3E001110BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -431,6 +433,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		F92372A92817D90D00836DC1 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				F92372AA2817D92A00836DC1 /* ContactsViewModel.swift */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
 		F93420E128118D3C001110BF /* SwiftUI-Example */ = {
 			isa = PBXGroup;
 			children = (
@@ -514,6 +524,7 @@
 		F9B010012812E7E3000564B8 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				F92372A92817D90D00836DC1 /* Contacts */,
 				F9B010022812E7F2000564B8 /* Login */,
 			);
 			path = ViewModels;
@@ -837,6 +848,7 @@
 				F93420F62811A55E001110BF /* AsteriskFormatter.swift in Sources */,
 				F93420F72811A562001110BF /* HashtagFormatter.swift in Sources */,
 				F9B010042812E801000564B8 /* LoginViewModel.swift in Sources */,
+				F92372AB2817D92A00836DC1 /* ContactsViewModel.swift in Sources */,
 				F93420FB2811A570001110BF /* UserSession.swift in Sources */,
 				F93420F52811A558001110BF /* ContactsGenerator.swift in Sources */,
 				F93420F12811A543001110BF /* Constants.swift in Sources */,

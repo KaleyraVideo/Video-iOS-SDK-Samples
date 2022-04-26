@@ -41,7 +41,8 @@ struct LoginView: View {
             viewModel.refreshUsers()
         }
         .fullScreenCover(isPresented: $viewModel.loggedIn, content: {
-            ContactsView(addressBook: viewModel.addressBook)
+            let contactsViewModel = ContactsViewModel(addressBook: viewModel.addressBook)
+            ContactsView(viewModel: contactsViewModel)
         })
         .allowsHitTesting(viewModel.userInteractionEnabled)
     }
