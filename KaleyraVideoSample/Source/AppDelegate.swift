@@ -12,6 +12,7 @@ import Bandyer
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    private(set) var callDetector: VoIPCallDetector?
 
     // Before we can get started, if you want to enable CallKit and VoIP notifications you
     // must review your project configuration, and enable the required app capabilities .
@@ -33,7 +34,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Here we are going to initialize the Bandyer SDK
         // The sdk needs a configuration object where it is specified which environment the sdk should work in.
         let config = AppConfig.default.makeSDKConfig(pushRegistryDelegate: self)
-        
+
+        if !config.automaticallyHandleVoIPNotifications {
+            // If you have set the config `automaticallyHandleVoIPNotifications` to false you have to register to VoIP notifications manually.
+            // This is an example of the required implementation.
+            callDetector = VoIPCallDetector(registryDelegate: self)
+            callDetector?.delegate = self
+        }
+
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
         BandyerSDK.instance().initialize(withApplicationId: Constants.AppId,
                                          config: config)
@@ -128,5 +136,13 @@ extension AppDelegate {
 
         BandyerSDK.instance().notificationsCoordinator?.theme = theme
         BandyerSDK.instance().notificationsCoordinator?.formatter = HashtagFormatter()
+    }
+}
+
+// This protocol conformance is required for the manually managed VoIP notification configuration, ignore it otherwise.
+extension AppDelegate: VoIPCallDetectorDelegate {
+    func handle(payload: PKPushPayload) {
+        // Once you received a VoIP notification and you want the sdk to handle it, call `handleNotification(_)` method on the sdk instance.
+        BandyerSDK.instance().handleNotification(payload)
     }
 }

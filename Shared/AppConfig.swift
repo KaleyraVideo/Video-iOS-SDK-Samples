@@ -95,6 +95,9 @@ extension AppConfig {
             // The following statement is going to tell the BandyerSDK which object it must forward device push tokens to when one is received.
             config.pushRegistryDelegate = registryDelegate
         }
+
+        //Set this flag to false if you want to manually handle VoIP notifications. This flag is ignored unless the `isCallKitEnabled` flag is set to `true`.
+        config.automaticallyHandleVoIPNotifications = true
     }
 
     private func setupTools(_ config: Config) {

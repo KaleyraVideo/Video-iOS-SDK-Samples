@@ -77,6 +77,12 @@
 		F993BDC7281967C8003821DF /* CallTypeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDC6281967C8003821DF /* CallTypeRow.swift */; };
 		F993BDC928196D67003821DF /* RecordRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDC828196D67003821DF /* RecordRow.swift */; };
 		F993BDCD28196E39003821DF /* DurationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDCC28196E39003821DF /* DurationRow.swift */; };
+		F993BDDB2819A504003821DF /* ApplicationStateChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDDA2819A504003821DF /* ApplicationStateChangeObserver.swift */; };
+		F993BDDC2819A504003821DF /* ApplicationStateChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDDA2819A504003821DF /* ApplicationStateChangeObserver.swift */; };
+		F993BDDF2819A533003821DF /* VoIPCallDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDDE2819A533003821DF /* VoIPCallDetector.swift */; };
+		F993BDE02819A533003821DF /* VoIPCallDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDDE2819A533003821DF /* VoIPCallDetector.swift */; };
+		F993BDE22819A551003821DF /* VoIPPushTokenHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDE12819A551003821DF /* VoIPPushTokenHandler.swift */; };
+		F993BDE32819A551003821DF /* VoIPPushTokenHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDE12819A551003821DF /* VoIPPushTokenHandler.swift */; };
 		F99412802812AE23003D3CB6 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AB275A781600EC3798 /* AppConfig.swift */; };
 		F99412862812B885003D3CB6 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99412852812B885003D3CB6 /* ContactsView.swift */; };
 		F9B010042812E801000564B8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B010032812E801000564B8 /* LoginViewModel.swift */; };
@@ -173,6 +179,9 @@
 		F993BDCC28196E39003821DF /* DurationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationRow.swift; sourceTree = "<group>"; };
 		F993BDCE281999FE003821DF /* SwiftUI-Example.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "SwiftUI-Example.entitlements"; sourceTree = "<group>"; };
 		F993BDCF281999FE003821DF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F993BDDA2819A504003821DF /* ApplicationStateChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationStateChangeObserver.swift; sourceTree = "<group>"; };
+		F993BDDE2819A533003821DF /* VoIPCallDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoIPCallDetector.swift; sourceTree = "<group>"; };
+		F993BDE12819A551003821DF /* VoIPPushTokenHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoIPPushTokenHandler.swift; sourceTree = "<group>"; };
 		F99412852812B885003D3CB6 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		F9B010032812E801000564B8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F9D57FF32813032800828524 /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
@@ -404,6 +413,7 @@
 				A9E3C9AD275A7BFF00EC3798 /* Repositories */,
 				A9014D2D275A1EC600FB1020 /* Resources */,
 				A9014E03275A1EC700FB1020 /* Services */,
+				F993BDD72819A4C3003821DF /* VoIPNotifications */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -534,6 +544,24 @@
 				F993BDC828196D67003821DF /* RecordRow.swift */,
 			);
 			path = Rows;
+			sourceTree = "<group>";
+		};
+		F993BDD72819A4C3003821DF /* VoIPNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				F993BDD92819A4EA003821DF /* Components */,
+				F993BDDE2819A533003821DF /* VoIPCallDetector.swift */,
+				F993BDE12819A551003821DF /* VoIPPushTokenHandler.swift */,
+			);
+			path = VoIPNotifications;
+			sourceTree = "<group>";
+		};
+		F993BDD92819A4EA003821DF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F993BDDA2819A504003821DF /* ApplicationStateChangeObserver.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		F99412842812B6B6003D3CB6 /* Contacts */ = {
@@ -825,6 +853,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A90152B5275A6F5900FB1020 /* LoginViewController.swift in Sources */,
+				F993BDDB2819A504003821DF /* ApplicationStateChangeObserver.swift in Sources */,
 				A9E3C9AC275A781600EC3798 /* AppConfig.swift in Sources */,
 				A9E3C9A9275A751600EC3798 /* Constants.swift in Sources */,
 				A90152AD275A6F3700FB1020 /* UserDetailsProvider.swift in Sources */,
@@ -844,7 +873,9 @@
 				A90152AA275A6F3700FB1020 /* AsteriskFormatter.swift in Sources */,
 				A9E3C9AF275A7C4E00EC3798 /* UserRepository.swift in Sources */,
 				A90152A4275A6F2200FB1020 /* AppDelegate.swift in Sources */,
+				F993BDDF2819A533003821DF /* VoIPCallDetector.swift in Sources */,
 				A90152AB275A6F3700FB1020 /* UserSession.swift in Sources */,
+				F993BDE22819A551003821DF /* VoIPPushTokenHandler.swift in Sources */,
 				A90152B2275A6F4D00FB1020 /* ContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -864,6 +895,7 @@
 			files = (
 				F93420F32811A54B001110BF /* RestUserRepository.swift in Sources */,
 				F993BDC928196D67003821DF /* RecordRow.swift in Sources */,
+				F993BDE02819A533003821DF /* VoIPCallDetector.swift in Sources */,
 				F99412802812AE23003D3CB6 /* AppConfig.swift in Sources */,
 				F9D57FF728130AFC00828524 /* View+Extension.swift in Sources */,
 				F93420F22811A546001110BF /* Contact.swift in Sources */,
@@ -879,6 +911,7 @@
 				F92372AB2817D92A00836DC1 /* ContactsViewModel.swift in Sources */,
 				F93420FB2811A570001110BF /* UserSession.swift in Sources */,
 				F93420F52811A558001110BF /* ContactsGenerator.swift in Sources */,
+				F993BDE32819A551003821DF /* VoIPPushTokenHandler.swift in Sources */,
 				F993BDCD28196E39003821DF /* DurationRow.swift in Sources */,
 				F993BDC5281954E8003821DF /* CallOptionsItem.swift in Sources */,
 				F93420F12811A543001110BF /* Constants.swift in Sources */,
@@ -888,6 +921,7 @@
 				F9D57FF42813032800828524 /* ContactRow.swift in Sources */,
 				F99412862812B885003D3CB6 /* ContactsView.swift in Sources */,
 				F93420E328118D3C001110BF /* SwiftUI_ExampleApp.swift in Sources */,
+				F993BDDC2819A504003821DF /* ApplicationStateChangeObserver.swift in Sources */,
 				F934210F2811AE89001110BF /* UserRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
