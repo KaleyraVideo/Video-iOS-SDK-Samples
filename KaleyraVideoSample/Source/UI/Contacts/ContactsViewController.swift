@@ -114,6 +114,33 @@ class ContactsViewController: UIViewController {
 
         tableView.setEditing(false, animated: animated)
     }
+    
+    // MARK: - Enabling / Disabling chat-phone button
+    
+    private func enableChatAndPhoneButtonsOnVisibleCells() {
+        let cells = tableView.visibleCells as? [ContactTableViewCell]
+        
+        cells?.forEach { cell in
+            UIView.animate(withDuration: 0.3, animations: {
+                cell.chatButton.alpha = 1
+                cell.phoneImg.alpha = 1
+            }, completion: { _ in
+                cell.chatButton.isEnabled = true
+            })
+        }
+    }
+    
+    private func disableChatAndPhoneButtonsOnVisibleCells() {
+        let cells = tableView.visibleCells as? [ContactTableViewCell]
+        
+        cells?.forEach { cell in
+            cell.chatButton.isEnabled = false
+            UIView.animate(withDuration: 0.3, animations: {
+                cell.chatButton.alpha = 0
+                cell.phoneImg.alpha = 0
+            })
+        }
+    }
 
     // MARK: - Actions
 
@@ -123,10 +150,12 @@ class ContactsViewController: UIViewController {
             selectedContacts.removeAll()
             disableMultipleSelection(true)
             hideCallButtonFromNavigationBar(animated: true)
+            enableChatAndPhoneButtonsOnVisibleCells()
         } else {
             enableMultipleSelection(true)
             showCallButtonInNavigationBar(animated: true)
             callBarButtonItem?.isEnabled = false
+            disableChatAndPhoneButtonsOnVisibleCells()
         }
     }
 
@@ -288,22 +317,26 @@ extension ContactsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        let contact = addressBook?.contacts[indexPath.row]
-        if #available(iOS 14.0, *) {
-            var config = cell.defaultContentConfiguration()
-            config.text = contact?.fullName
-            config.secondaryText = contact?.alias
-            cell.contentConfiguration = config
-        } else {
-            cell.textLabel?.text = contact?.fullName
-            cell.detailTextLabel?.text = contact?.alias
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ContactTableViewCell else {
+            fatalError("Only ContactTableViewCell type is supported")
         }
 
-        let image = UIImage(named: "phone")?.withRenderingMode(.alwaysTemplate)
-        let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
-        cell.accessoryView = imageView
+        cell.delegate = self
+
+        let contact = addressBook?.contacts[indexPath.row]
+
+        cell.titleLabel.text = contact?.fullName
+        cell.subtitleLabel.text = contact?.alias
+
+        if tableView.allowsMultipleSelection {
+            cell.chatButton.isEnabled = false
+            cell.chatButton.alpha = 0
+            cell.phoneImg.alpha = 0
+        } else {
+            cell.chatButton.isEnabled = true
+            cell.chatButton.alpha = 1
+            cell.phoneImg.alpha = 1
+        }
 
         return cell
     }
@@ -513,6 +546,16 @@ extension ContactsViewController: ChannelViewControllerDelegate {
 
         intent = StartOutgoingCallIntent(callees: callees, options: CallOptions(callType: type))
         performCallViewControllerPresentation()
+    }
+}
+
+// MARK: - Contact table view cell delegate
+
+extension ContactsViewController: ContactTableViewCellDelegate {
+
+    func contactTableViewCell(_ cell: ContactTableViewCell, didTouch chatButton: UIButton, withCounterpart aliasId: String) {
+        let intent = OpenChatIntent.openChat(with: aliasId)
+        presentChat(from: self, intent: intent)
     }
 }
 

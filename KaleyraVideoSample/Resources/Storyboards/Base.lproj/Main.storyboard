@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bQ6-Zp-LzD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bQ6-Zp-LzD">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Contacts View Controller-->
         <scene sceneID="Oir-cy-md2">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="2EO-Jf-SLg" customClass="ContactsViewController" customModule="CallKit_Voip_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="2EO-Jf-SLg" customClass="ContactsViewController" customModule="KaleyraVideoSample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xmK-Gz-whV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -20,29 +21,71 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCellId" textLabel="mhd-bx-3Ru" detailTextLabel="1kt-h2-EG7" rowHeight="60" style="IBUITableViewCellStyleSubtitle" id="T4o-jv-JXS">
-                                        <rect key="frame" x="0.0" y="44.5" width="375" height="60"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCellId" rowHeight="50" id="T4o-jv-JXS" customClass="ContactTableViewCell" customModule="KaleyraVideoSample" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="T4o-jv-JXS" id="Hz2-yI-xb9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mhd-bx-3Ru">
-                                                    <rect key="frame" x="16" y="10" width="33" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1kt-h2-EG7">
-                                                    <rect key="frame" x="16" y="33.5" width="44" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" misplaced="YES" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h3T-aX-3VV" userLabel="Subtitle">
+                                                    <rect key="frame" x="16" y="30.5" width="259" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXp-z6-NqL" userLabel="Title">
+                                                    <rect key="frame" x="16" y="11" width="259" height="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone" translatesAutoresizingMaskIntoConstraints="NO" id="WEd-Ym-zko">
+                                                    <rect key="frame" x="335" y="12.5" width="24" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="24" id="N0O-mL-nwo"/>
+                                                        <constraint firstAttribute="height" constant="25" id="NWx-Rx-34n"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tdZ-sm-SaR" userLabel="Chat">
+                                                    <rect key="frame" x="283" y="3" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="44" id="IFB-RD-o4F"/>
+                                                        <constraint firstAttribute="height" constant="44" id="Irh-VY-xcH"/>
+                                                    </constraints>
+                                                    <color key="tintColor" systemColor="linkColor"/>
+                                                    <inset key="imageEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                                    <state key="normal" image="chat">
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="didTouchChatButton:" destination="T4o-jv-JXS" eventType="touchUpInside" id="BUx-t1-B0w"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="UXp-z6-NqL" firstAttribute="leading" secondItem="Hz2-yI-xb9" secondAttribute="leadingMargin" id="5LZ-Lc-2Lx"/>
+                                                <constraint firstItem="WEd-Ym-zko" firstAttribute="centerY" secondItem="Hz2-yI-xb9" secondAttribute="centerY" id="Hwb-sn-WKQ"/>
+                                                <constraint firstItem="WEd-Ym-zko" firstAttribute="trailing" secondItem="Hz2-yI-xb9" secondAttribute="trailingMargin" id="Jp8-fo-ozy"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="h3T-aX-3VV" secondAttribute="bottom" id="NGV-b6-VM2"/>
+                                                <constraint firstItem="tdZ-sm-SaR" firstAttribute="centerY" secondItem="Hz2-yI-xb9" secondAttribute="centerY" id="O4X-OI-2dL"/>
+                                                <constraint firstItem="tdZ-sm-SaR" firstAttribute="leading" secondItem="h3T-aX-3VV" secondAttribute="trailing" constant="8" symbolic="YES" id="Ouc-wR-AQS"/>
+                                                <constraint firstItem="UXp-z6-NqL" firstAttribute="top" secondItem="Hz2-yI-xb9" secondAttribute="topMargin" id="P7L-7y-FdK"/>
+                                                <constraint firstItem="h3T-aX-3VV" firstAttribute="width" secondItem="UXp-z6-NqL" secondAttribute="width" id="Ull-bw-Ke3"/>
+                                                <constraint firstItem="tdZ-sm-SaR" firstAttribute="leading" secondItem="UXp-z6-NqL" secondAttribute="trailing" constant="8" symbolic="YES" id="idz-Se-Xoz"/>
+                                                <constraint firstItem="h3T-aX-3VV" firstAttribute="top" secondItem="Hz2-yI-xb9" secondAttribute="topMargin" constant="19" id="lZL-uu-FcK"/>
+                                                <constraint firstItem="WEd-Ym-zko" firstAttribute="leading" secondItem="tdZ-sm-SaR" secondAttribute="trailing" constant="8" symbolic="YES" id="oAC-SK-vyz"/>
+                                                <constraint firstItem="WEd-Ym-zko" firstAttribute="leading" secondItem="tdZ-sm-SaR" secondAttribute="trailing" constant="8" symbolic="YES" id="tLm-Tv-zgF"/>
+                                                <constraint firstItem="h3T-aX-3VV" firstAttribute="leading" secondItem="Hz2-yI-xb9" secondAttribute="leadingMargin" id="vD1-kQ-m8m"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="UXp-z6-NqL" secondAttribute="bottom" constant="14" id="xrL-Yw-DJ2"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="chatButton" destination="tdZ-sm-SaR" id="qdc-o9-84T"/>
+                                            <outlet property="phoneImg" destination="WEd-Ym-zko" id="hRk-Y9-8NV"/>
+                                            <outlet property="subtitleLabel" destination="h3T-aX-3VV" id="4P0-L7-7rw"/>
+                                            <outlet property="titleLabel" destination="UXp-z6-NqL" id="HQ0-qr-c6d"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -101,12 +144,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aWu-l5-ETg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2187" y="132"/>
+            <point key="canvasLocation" x="2186.4000000000001" y="131.78410794602701"/>
         </scene>
         <!--Select Options-->
         <scene sceneID="syD-A4-ATT">
             <objects>
-                <tableViewController id="tQg-DO-1tc" customClass="CallOptionsTableViewController" customModule="CallKit_Voip_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="tQg-DO-1tc" customClass="CallOptionsTableViewController" customModule="KaleyraVideoSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="x4n-NY-0iL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -241,7 +284,7 @@
         <!--Choose a user-->
         <scene sceneID="LdF-JU-rVE">
             <objects>
-                <tableViewController id="yRu-nz-1yH" customClass="LoginViewController" customModule="CallKit_Voip_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="yRu-nz-1yH" customClass="LoginViewController" customModule="KaleyraVideoSample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gMp-VD-Yt5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -325,7 +368,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chat" width="24" height="24"/>
         <image name="logout" width="24" height="24"/>
+        <image name="phone" width="24" height="24"/>
         <image name="settings" width="24" height="24"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

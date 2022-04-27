@@ -20,9 +20,10 @@ struct ContactsView: View {
                 Button {
                     viewModel.call(user: contact)
                 } label: {
-                    ContactRow(contact: contact, multipleSelection: viewModel.multipleSelectionEnabled)
+                    ContactRow(contact: contact, multipleSelection: viewModel.multipleSelectionEnabled) {
+                        viewModel.openChat(with: contact)
+                    }
                 }
-
             }
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarLeading) {

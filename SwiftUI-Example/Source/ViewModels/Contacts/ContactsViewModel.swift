@@ -119,6 +119,11 @@ class ContactsViewModel: NSObject, ObservableObject {
 
     // MARK: - Chat ViewController
 
+    func openChat(with contact: Contact) {
+        let chatIntent = OpenChatIntent.openChat(with: contact.alias)
+        presentChat(from: chatIntent)
+    }
+
     private func presentChat(from notification: ChatNotification) {
         guard let intent = OpenChatIntent.openChat(from: notification) else {
             return
