@@ -72,6 +72,11 @@
 		F934210D2811ACFE001110BF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F934210C2811ACFE001110BF /* LoginView.swift */; };
 		F934210F2811AE89001110BF /* UserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F934210E2811AE89001110BF /* UserRow.swift */; };
 		F993BDC028194477003821DF /* ChatViewControllerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDBF28194477003821DF /* ChatViewControllerWrapper.swift */; };
+		F993BDC328195454003821DF /* CallOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDC228195454003821DF /* CallOptionsView.swift */; };
+		F993BDC5281954E8003821DF /* CallOptionsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDC4281954E8003821DF /* CallOptionsItem.swift */; };
+		F993BDC7281967C8003821DF /* CallTypeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDC6281967C8003821DF /* CallTypeRow.swift */; };
+		F993BDC928196D67003821DF /* RecordRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDC828196D67003821DF /* RecordRow.swift */; };
+		F993BDCD28196E39003821DF /* DurationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F993BDCC28196E39003821DF /* DurationRow.swift */; };
 		F99412802812AE23003D3CB6 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AB275A781600EC3798 /* AppConfig.swift */; };
 		F99412862812B885003D3CB6 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F99412852812B885003D3CB6 /* ContactsView.swift */; };
 		F9B010042812E801000564B8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B010032812E801000564B8 /* LoginViewModel.swift */; };
@@ -164,6 +169,11 @@
 		F934210C2811ACFE001110BF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F934210E2811AE89001110BF /* UserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRow.swift; sourceTree = "<group>"; };
 		F993BDBF28194477003821DF /* ChatViewControllerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewControllerWrapper.swift; sourceTree = "<group>"; };
+		F993BDC228195454003821DF /* CallOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallOptionsView.swift; sourceTree = "<group>"; };
+		F993BDC4281954E8003821DF /* CallOptionsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallOptionsItem.swift; sourceTree = "<group>"; };
+		F993BDC6281967C8003821DF /* CallTypeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTypeRow.swift; sourceTree = "<group>"; };
+		F993BDC828196D67003821DF /* RecordRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRow.swift; sourceTree = "<group>"; };
+		F993BDCC28196E39003821DF /* DurationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationRow.swift; sourceTree = "<group>"; };
 		F99412852812B885003D3CB6 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		F9B010032812E801000564B8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F9D57FF32813032800828524 /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
@@ -527,8 +537,21 @@
 		F993BDC128194855003821DF /* Call Options */ = {
 			isa = PBXGroup;
 			children = (
+				F993BDCA28196D6C003821DF /* Rows */,
+				F993BDC4281954E8003821DF /* CallOptionsItem.swift */,
+				F993BDC228195454003821DF /* CallOptionsView.swift */,
 			);
 			path = "Call Options";
+			sourceTree = "<group>";
+		};
+		F993BDCA28196D6C003821DF /* Rows */ = {
+			isa = PBXGroup;
+			children = (
+				F993BDC6281967C8003821DF /* CallTypeRow.swift */,
+				F993BDCC28196E39003821DF /* DurationRow.swift */,
+				F993BDC828196D67003821DF /* RecordRow.swift */,
+			);
+			path = Rows;
 			sourceTree = "<group>";
 		};
 		F99412842812B6B6003D3CB6 /* Contacts */ = {
@@ -858,9 +881,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F93420F32811A54B001110BF /* RestUserRepository.swift in Sources */,
+				F993BDC928196D67003821DF /* RecordRow.swift in Sources */,
 				F99412802812AE23003D3CB6 /* AppConfig.swift in Sources */,
 				F9D57FF728130AFC00828524 /* View+Extension.swift in Sources */,
 				F93420F22811A546001110BF /* Contact.swift in Sources */,
+				F993BDC7281967C8003821DF /* CallTypeRow.swift in Sources */,
 				F93420FA2811A56E001110BF /* UserDetailsProvider.swift in Sources */,
 				F934210D2811ACFE001110BF /* LoginView.swift in Sources */,
 				F993BDC028194477003821DF /* ChatViewControllerWrapper.swift in Sources */,
@@ -868,9 +893,12 @@
 				F93420F62811A55E001110BF /* AsteriskFormatter.swift in Sources */,
 				F93420F72811A562001110BF /* HashtagFormatter.swift in Sources */,
 				F9B010042812E801000564B8 /* LoginViewModel.swift in Sources */,
+				F993BDC328195454003821DF /* CallOptionsView.swift in Sources */,
 				F92372AB2817D92A00836DC1 /* ContactsViewModel.swift in Sources */,
 				F93420FB2811A570001110BF /* UserSession.swift in Sources */,
 				F93420F52811A558001110BF /* ContactsGenerator.swift in Sources */,
+				F993BDCD28196E39003821DF /* DurationRow.swift in Sources */,
+				F993BDC5281954E8003821DF /* CallOptionsItem.swift in Sources */,
 				F93420F12811A543001110BF /* Constants.swift in Sources */,
 				F93420F92811A569001110BF /* MyFormatter.swift in Sources */,
 				F93420F02811A540001110BF /* AddressBook.swift in Sources */,

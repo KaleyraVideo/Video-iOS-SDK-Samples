@@ -65,8 +65,7 @@ struct ContactsView: View {
                             .padding(.leading, 34)
                         Spacer()
                         NavigationLink {
-                            // TODO: implement
-                            Text("Settings")
+                            CallOptionsView(options: viewModel.options)
                         } label: {
                             Image("settings")
                                 .renderingMode(.template)

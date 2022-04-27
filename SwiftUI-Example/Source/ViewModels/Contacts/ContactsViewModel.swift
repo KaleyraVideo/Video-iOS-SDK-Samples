@@ -25,6 +25,8 @@ class ContactsViewModel: NSObject, ObservableObject {
     @Published var showingAlert: Bool = false
     @Published var showingChat: Bool = false
 
+    private(set) var options = CallOptionsItem()
+
     private(set) var alertToPresent: (title: String, message: String)? {
         didSet {
             showingAlert = alertToPresent != nil
@@ -49,7 +51,7 @@ class ContactsViewModel: NSObject, ObservableObject {
     }
 
     // MARK: - Initialization
-    
+
     init(addressBook: AddressBook?) {
         self.addressBook = addressBook
 
@@ -107,9 +109,9 @@ class ContactsViewModel: NSObject, ObservableObject {
         // If you provide 0, the call will be created without a maximum duration value.
         // We store the intent for later use, because we can present again the CallViewController with the same call.
         intent = StartOutgoingCallIntent(callees: aliases,
-                                         options: CallOptions(callType: .audioVideo,
-                                                              recorded: false,
-                                                              duration: 0))
+                                         options: CallOptions(callType: options.type,
+                                                              recorded: options.record,
+                                                              duration: options.maximumDuration))
 
         // Then we trigger a presentation of CallViewController.
         performCallViewControllerPresentation()
