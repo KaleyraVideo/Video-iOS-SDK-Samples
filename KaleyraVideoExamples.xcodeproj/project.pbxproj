@@ -174,6 +174,8 @@
 		F993BDC6281967C8003821DF /* CallTypeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTypeRow.swift; sourceTree = "<group>"; };
 		F993BDC828196D67003821DF /* RecordRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRow.swift; sourceTree = "<group>"; };
 		F993BDCC28196E39003821DF /* DurationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationRow.swift; sourceTree = "<group>"; };
+		F993BDCE281999FE003821DF /* SwiftUI-Example.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "SwiftUI-Example.entitlements"; sourceTree = "<group>"; };
+		F993BDCF281999FE003821DF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F99412852812B885003D3CB6 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		F9B010032812E801000564B8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F9D57FF32813032800828524 /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
@@ -456,6 +458,8 @@
 		F93420E128118D3C001110BF /* SwiftUI-Example */ = {
 			isa = PBXGroup;
 			children = (
+				F993BDCF281999FE003821DF /* Info.plist */,
+				F993BDCE281999FE003821DF /* SwiftUI-Example.entitlements */,
 				F93420E828118D3E001110BF /* Preview Content */,
 				F93421082811AADB001110BF /* Resources */,
 				F93421092811ABB5001110BF /* Source */,
@@ -1311,12 +1315,13 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "SwiftUI-Example/SwiftUI-Example.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftUI-Example/Preview Content\"";
-				DEVELOPMENT_TEAM = TQ49746752;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1335,6 +1340,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SwiftUI-Example/info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera usage description goes here";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage description goes here";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1396,12 +1404,13 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "SwiftUI-Example/SwiftUI-Example.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftUI-Example/Preview Content\"";
-				DEVELOPMENT_TEAM = TQ49746752;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1414,6 +1423,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SwiftUI-Example/info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera usage description goes here";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage description goes here";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
