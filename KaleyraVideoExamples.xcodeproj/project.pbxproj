@@ -131,12 +131,9 @@
 		A9014E05275A1EC700FB1020 /* UserDetailsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsProvider.swift; sourceTree = "<group>"; };
 		A9014E06275A1EC700FB1020 /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		A9014E07275A1EC700FB1020 /* ContactsGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsGenerator.swift; sourceTree = "<group>"; };
-		A9014F06275A1EC700FB1020 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		A9014F07275A1EC700FB1020 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
-		A9014FDD275A1EC800FB1020 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A9014FDF275A1EC800FB1020 /* UIColor+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Custom.swift"; sourceTree = "<group>"; };
 		A9014FE0275A1EC800FB1020 /* UIFont+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Custom.swift"; sourceTree = "<group>"; };
-		A9014FE4275A1EC800FB1020 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9014FE6275A1EC800FB1020 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		A9014FE7275A1EC800FB1020 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		A9014FE8275A1EC800FB1020 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
@@ -289,24 +286,6 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		A9014F01275A1EC700FB1020 /* UI-Customization-Example */ = {
-			isa = PBXGroup;
-			children = (
-				A9014F05275A1EC700FB1020 /* Contacts */,
-				A9014FDD275A1EC800FB1020 /* README.md */,
-				A9014FE4275A1EC800FB1020 /* AppDelegate.swift */,
-			);
-			path = "UI-Customization-Example";
-			sourceTree = "<group>";
-		};
-		A9014F05275A1EC700FB1020 /* Contacts */ = {
-			isa = PBXGroup;
-			children = (
-				A9014F06275A1EC700FB1020 /* ContactsViewController.swift */,
-			);
-			path = Contacts;
-			sourceTree = "<group>";
-		};
 		A9014FDE275A1EC800FB1020 /* Custom Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,7 +392,6 @@
 				A90151E5275A269000FB1020 /* Products */,
 				A9014D20275A1EA400FB1020 /* README.md */,
 				A9E3C9A7275A74F500EC3798 /* Shared */,
-				A9014F01275A1EC700FB1020 /* UI-Customization-Example */,
 			);
 			sourceTree = "<group>";
 		};
