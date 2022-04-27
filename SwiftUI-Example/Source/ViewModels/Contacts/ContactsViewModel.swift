@@ -22,8 +22,20 @@ class ContactsViewModel: NSObject, ObservableObject {
     private var callTypeObserver: AnyCancellable?
     private var selectedUsersObserver: AnyCancellable?
 
-    @Published var alertPresenter = AlertPresenter()
-    @Published var chatPresenter = ChatPresenter()
+    @Published var showingAlert: Bool = false
+    @Published var showingChat: Bool = false
+
+    private(set) var alertToPresent: (title: String, message: String)? {
+        didSet {
+            showingAlert = alertToPresent != nil
+        }
+    }
+
+    private(set) var chatViewToPresent: ChatViewControllerWrapper? {
+        didSet {
+            showingChat = chatViewToPresent != nil
+        }
+    }
 
     private var intent: Intent?
     private var callWindow: CallWindow?
@@ -36,6 +48,8 @@ class ContactsViewModel: NSObject, ObservableObject {
         addressBook?.me?.alias ?? ""
     }
 
+    // MARK: - Initialization
+    
     init(addressBook: AddressBook?) {
         self.addressBook = addressBook
 
@@ -43,6 +57,8 @@ class ContactsViewModel: NSObject, ObservableObject {
 
         attachCallTypeChangeObservers()
     }
+    
+    // MARK: - Setup
 
     private func attachCallTypeChangeObservers() {
         callTypeObserver = $desiredCallType.sink { [weak self] newVal in
@@ -52,6 +68,10 @@ class ContactsViewModel: NSObject, ObservableObject {
         selectedUsersObserver = $selectedContacts.sink(receiveValue: { [weak self] contacts in
             self?.canCallManyToMany = contacts.count >= 2
         })
+    }
+
+    private func presentAlert(title: String, message: String) {
+        alertToPresent = (title: title, message: message)
     }
 
     func logout() {
@@ -109,7 +129,11 @@ class ContactsViewModel: NSObject, ObservableObject {
         chatViewControllerWrapper.delegate = self
         chatViewControllerWrapper.intent = intent
 
-        chatPresenter.presentChatView(chatViewControllerWrapper)
+        chatViewToPresent = chatViewControllerWrapper
+    }
+
+    private func dismissChat() {
+        chatViewToPresent = nil
     }
 
     // MARK: - Call ViewController
@@ -133,10 +157,6 @@ class ContactsViewModel: NSObject, ObservableObject {
                 self.presentAlert(title: "Error", message: "Impossible to start a call now. Try again later.")
             }
         }
-    }
-
-    private func presentAlert(title: String, message: String) {
-        alertPresenter.presentAlert(title: title, message: message)
     }
 
     private func prepareForCallViewControllerPresentation() {
@@ -184,31 +204,6 @@ class ContactsViewModel: NSObject, ObservableObject {
     private func hideCallViewController() {
         callWindow?.isHidden = true
     }
-
-    // MARK: - Presenters
-
-    class AlertPresenter: ObservableObject {
-
-        @Published var showingAlert: Bool = false
-        var alertTitle = ""
-        var alertMessage = ""
-
-        fileprivate func presentAlert(title: String, message: String) {
-            alertTitle = title
-            alertMessage = message
-            showingAlert = true
-        }
-    }
-
-    class ChatPresenter: ObservableObject {
-        @Published var showingChat: Bool = false
-        var chatViewToPresent = ChatViewControllerWrapper()
-
-        fileprivate func presentChatView(_ view: ChatViewControllerWrapper) {
-            chatViewToPresent = view
-            showingChat = true
-        }
-    }
 }
 
 // MARK: - Call window delegate
@@ -229,7 +224,7 @@ extension ContactsViewModel: CallWindowDelegate {
 extension ContactsViewModel: ChannelViewControllerDelegate {
 
     func channelViewControllerDidFinish(_ controller: ChannelViewController) {
-        chatPresenter.showingChat = false
+        dismissChat()
     }
 
     func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {
@@ -241,7 +236,7 @@ extension ContactsViewModel: ChannelViewControllerDelegate {
     }
 
     private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callees: [String], type: Bandyer.CallType) {
-        chatPresenter.showingChat = false
+        dismissChat()
 
         intent = StartOutgoingCallIntent(callees: callees, options: CallOptions(callType: type))
         performCallViewControllerPresentation()
@@ -253,7 +248,7 @@ extension ContactsViewModel: ChannelViewControllerDelegate {
 extension ContactsViewModel: InAppChatNotificationTouchListener {
     
     func onTouch(_ notification: ChatNotification) {
-        chatPresenter.showingChat = false
+        dismissChat()
         presentChat(from: notification)
     }
 }
@@ -265,33 +260,4 @@ extension ContactsViewModel: InAppFileShareNotificationTouchListener {
     func onTouch(_ notification: FileShareNotification) {
         callWindow?.presentCallViewController(for: OpenDownloadsIntent())
     }
-}
-
-struct ChatViewControllerWrapper: UIViewControllerRepresentable {
-
-    private var channelViewController = ChannelViewController()
-
-    var delegate: ChannelViewControllerDelegate? {
-        get {
-            channelViewController.delegate
-        }
-        set {
-            channelViewController.delegate = newValue
-        }
-    }
-
-    var intent: OpenChatIntent? {
-        get {
-            channelViewController.intent
-        }
-        set {
-            channelViewController.intent = newValue
-        }
-    }
-
-    func makeUIViewController(context: Context) -> ChannelViewController {
-        channelViewController
-    }
-
-    func updateUIViewController(_ uiViewController: ChannelViewController, context: Context) { }
 }

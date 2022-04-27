@@ -64,8 +64,9 @@ struct ContactsView: View {
                             .foregroundColor(.accentColor)
                             .padding(.leading, 34)
                         Spacer()
-                        Button {
+                        NavigationLink {
                             // TODO: implement
+                            Text("Settings")
                         } label: {
                             Image("settings")
                                 .renderingMode(.template)
@@ -80,11 +81,11 @@ struct ContactsView: View {
             }, set: { newVal in
                 viewModel.multipleSelectionEnabled = newVal.isEditing
             }))
-            .alert(isPresented: $viewModel.alertPresenter.showingAlert) {
-                Alert(title: Text(viewModel.alertPresenter.alertTitle), message: Text(viewModel.alertPresenter.alertMessage), dismissButton: .default(Text("Ok")))
+            .alert(isPresented: $viewModel.showingAlert) {
+                Alert(title: Text(viewModel.alertToPresent!.title), message: Text(viewModel.alertToPresent!.message), dismissButton: .default(Text("Ok")))
             }
-            .sheet(isPresented: $viewModel.chatPresenter.showingChat) {
-                viewModel.chatPresenter.chatViewToPresent
+            .sheet(isPresented: $viewModel.showingChat) {
+                viewModel.chatViewToPresent!
             }
         }
     }
