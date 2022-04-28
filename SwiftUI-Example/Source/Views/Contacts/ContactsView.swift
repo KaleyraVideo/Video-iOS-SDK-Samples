@@ -70,7 +70,7 @@ struct ContactsView: View {
                 ToolbarItem(placement: .bottomBar) {
                     HStack {
                         Spacer()
-                        Text(viewModel.loggedUserAlias)
+                        Text(viewModel.loggedUserID)
                             .foregroundColor(.accentColor)
                             .padding(.leading, 34)
                         Spacer()
@@ -108,7 +108,7 @@ struct ContactsView: View {
 
 struct ContactsView_Previews: PreviewProvider {
     static var previews: some View {
-        AddressBook.instance.update(withAliases: ["user_1", "user_2", "user_3", "user_4"], currentUser: "user_5")
+        AddressBook.instance.update(withUserIDs: ["user_1", "user_2", "user_3", "user_4"], currentUser: "user_5")
         let viewModel = ContactsViewModel(addressBook: AddressBook.instance)
         return ContactsView(viewModel: viewModel)
     }

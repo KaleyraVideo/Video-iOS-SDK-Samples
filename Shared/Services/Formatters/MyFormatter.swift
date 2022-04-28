@@ -17,7 +17,7 @@ class MyFormatter: Formatter {
     func string(for item: UserDetails, precededBy symbol: String) -> String {
         let value: String
         if item.firstname == nil && item.lastname == nil {
-            value = item.alias
+            value = item.userID
         } else {
             value = (item.firstname ?? "") + " " + (item.lastname ?? "")
         }

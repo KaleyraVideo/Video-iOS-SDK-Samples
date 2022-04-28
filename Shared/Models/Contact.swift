@@ -12,7 +12,7 @@ enum Gender {
 
 struct Contact: Hashable {
 
-    var alias: String
+    var userID: String
     var firstName: String?
     var lastName: String?
     var fullName: String? {
@@ -28,8 +28,8 @@ struct Contact: Hashable {
     var age: UInt?
     var profileImageURL: URL?
 
-    init(_ alias: String) {
-        self.alias = alias
+    init(_ userID: String) {
+        self.userID = userID
         gender = .unknown
     }
 }

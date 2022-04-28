@@ -13,11 +13,11 @@ class UserDetailsProvider: Bandyer.UserDetailsProvider {
         self.addressBook = addressBook
     }
 
-    func provideDetails(_ aliases: [String], completion: @escaping ([UserDetails]) -> Void) {
-        let items = aliases.map { alias -> UserDetails in
-            let contact = addressBook.findContact(alias: alias)
+    func provideDetails(_ userIds: [String], completion: @escaping ([UserDetails]) -> Void) {
+        let items = userIds.map { userID -> UserDetails in
+            let contact = addressBook.findContact(userID: userID)
 
-            return UserDetails(alias: alias,
+            return UserDetails(userID: userID,
                                firstname: contact?.firstName,
                                lastname: contact?.lastName,
                                email: contact?.email,
@@ -27,8 +27,8 @@ class UserDetailsProvider: Bandyer.UserDetailsProvider {
         completion(items)
     }
     
-    func provideHandle(_ aliases: [String], completion: @escaping (CXHandle) -> Void) {
-        let names = aliases.map({ addressBook.findContact(alias: $0)?.fullName ?? $0 })
+    func provideHandle(_ userIds: [String], completion: @escaping (CXHandle) -> Void) {
+        let names = userIds.map({ addressBook.findContact(userID: $0)?.fullName ?? $0 })
         let handle = CXHandle(type: .generic, value: names.joined(separator: ", "))
         completion(handle)
     }

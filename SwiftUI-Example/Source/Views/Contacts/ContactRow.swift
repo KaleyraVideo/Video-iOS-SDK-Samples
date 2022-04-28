@@ -15,7 +15,7 @@ struct ContactRow: View {
             VStack(alignment: .leading) {
                 Text(contact.fullName ?? "")
                     .font(.headline)
-                Text(contact.alias)
+                Text(contact.userID)
                     .font(.subheadline)
             }
 

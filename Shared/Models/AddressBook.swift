@@ -14,15 +14,15 @@ class AddressBook {
         contacts = []
     }
 
-    func findContact(alias: String) -> Contact? {
-        contacts.first { $0.alias == alias }
+    func findContact(userID: String) -> Contact? {
+        contacts.first { $0.userID == userID }
     }
 
-    func update(withAliases aliases: [String], currentUser: String) {
-        for alias in aliases {
-            let contact = ContactsGenerator.contact(alias)
+    func update(withUserIDs userIDs: [String], currentUser: String) {
+        for userID in userIDs {
+            let contact = ContactsGenerator.contact(userID)
 
-            if alias == currentUser {
+            if userID == currentUser {
                 me = contact
             } else {
                 contacts.append(contact)

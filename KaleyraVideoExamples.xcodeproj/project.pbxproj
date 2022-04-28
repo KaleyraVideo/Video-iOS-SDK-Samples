@@ -46,6 +46,12 @@
 		A9E3C9AF275A7C4E00EC3798 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9AE275A7C4E00EC3798 /* UserRepository.swift */; };
 		A9E3C9BE275A92BF00EC3798 /* UIView+AutoresizingMasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E3C9BD275A92BF00EC3798 /* UIView+AutoresizingMasks.swift */; };
 		F92372AB2817D92A00836DC1 /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92372AA2817D92A00836DC1 /* ContactsViewModel.swift */; };
+		F92BB960281AC48300C7B03A /* AccessTokenProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92BB95F281AC48300C7B03A /* AccessTokenProviderMock.swift */; };
+		F92BB961281AC48300C7B03A /* AccessTokenProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92BB95F281AC48300C7B03A /* AccessTokenProviderMock.swift */; };
+		F92BB963281AC6A800C7B03A /* SessionObserverImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92BB962281AC6A800C7B03A /* SessionObserverImplementation.swift */; };
+		F92BB964281AC6A800C7B03A /* SessionObserverImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92BB962281AC6A800C7B03A /* SessionObserverImplementation.swift */; };
+		F92BB966281AC78000C7B03A /* SessionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92BB965281AC78000C7B03A /* SessionFactory.swift */; };
+		F92BB967281AC78000C7B03A /* SessionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92BB965281AC78000C7B03A /* SessionFactory.swift */; };
 		F93420E328118D3C001110BF /* SwiftUI_ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93420E228118D3C001110BF /* SwiftUI_ExampleApp.swift */; };
 		F93420E728118D3E001110BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F93420E628118D3E001110BF /* Assets.xcassets */; };
 		F93420EA28118D3E001110BF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F93420E928118D3E001110BF /* Preview Assets.xcassets */; };
@@ -165,6 +171,9 @@
 		D4A6C7736A1A56DF219D82AA /* Pods-BroadcastExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BroadcastExtension.debug.xcconfig"; path = "Target Support Files/Pods-BroadcastExtension/Pods-BroadcastExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		F4367701C7CBAE37D71B9094 /* Pods_SwiftUI_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUI_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F92372AA2817D92A00836DC1 /* ContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewModel.swift; sourceTree = "<group>"; };
+		F92BB95F281AC48300C7B03A /* AccessTokenProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenProviderMock.swift; sourceTree = "<group>"; };
+		F92BB962281AC6A800C7B03A /* SessionObserverImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionObserverImplementation.swift; sourceTree = "<group>"; };
+		F92BB965281AC78000C7B03A /* SessionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionFactory.swift; sourceTree = "<group>"; };
 		F93420E028118D3C001110BF /* SwiftUI-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93420E228118D3C001110BF /* SwiftUI_ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_ExampleApp.swift; sourceTree = "<group>"; };
 		F93420E628118D3E001110BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -408,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				A9E3C9AB275A781600EC3798 /* AppConfig.swift */,
+				F92BB95E281AC45800C7B03A /* Authentication */,
 				A9E3C9A8275A751600EC3798 /* Constants.swift */,
 				A9014DFC275A1EC700FB1020 /* Models */,
 				A9E3C9AD275A7BFF00EC3798 /* Repositories */,
@@ -441,6 +451,16 @@
 				F92372AA2817D92A00836DC1 /* ContactsViewModel.swift */,
 			);
 			path = Contacts;
+			sourceTree = "<group>";
+		};
+		F92BB95E281AC45800C7B03A /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				F92BB95F281AC48300C7B03A /* AccessTokenProviderMock.swift */,
+				F92BB962281AC6A800C7B03A /* SessionObserverImplementation.swift */,
+				F92BB965281AC78000C7B03A /* SessionFactory.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		F93420E128118D3C001110BF /* SwiftUI-Example */ = {
@@ -856,9 +876,11 @@
 				F993BDDB2819A504003821DF /* ApplicationStateChangeObserver.swift in Sources */,
 				A9E3C9AC275A781600EC3798 /* AppConfig.swift in Sources */,
 				A9E3C9A9275A751600EC3798 /* Constants.swift in Sources */,
+				F92BB960281AC48300C7B03A /* AccessTokenProviderMock.swift in Sources */,
 				A90152AD275A6F3700FB1020 /* UserDetailsProvider.swift in Sources */,
 				A90152A6275A6F2B00FB1020 /* AddressBook.swift in Sources */,
 				A90152A7275A6F3700FB1020 /* HashtagFormatter.swift in Sources */,
+				F92BB963281AC6A800C7B03A /* SessionObserverImplementation.swift in Sources */,
 				A90152AF275A6F4600FB1020 /* CallOptionsItem.swift in Sources */,
 				A90152B1275A6F4D00FB1020 /* ContactTableViewCell.swift in Sources */,
 				A90152B0275A6F4600FB1020 /* CallOptionsTableViewController.swift in Sources */,
@@ -869,6 +891,7 @@
 				A90152A8275A6F3700FB1020 /* PercentageFormatter.swift in Sources */,
 				A90152B3275A6F5400FB1020 /* UIFont+Custom.swift in Sources */,
 				A90152A5275A6F2B00FB1020 /* Contact.swift in Sources */,
+				F92BB966281AC78000C7B03A /* SessionFactory.swift in Sources */,
 				A90152A9275A6F3700FB1020 /* MyFormatter.swift in Sources */,
 				A90152AA275A6F3700FB1020 /* AsteriskFormatter.swift in Sources */,
 				A9E3C9AF275A7C4E00EC3798 /* UserRepository.swift in Sources */,
@@ -907,14 +930,17 @@
 				F93420F62811A55E001110BF /* AsteriskFormatter.swift in Sources */,
 				F93420F72811A562001110BF /* HashtagFormatter.swift in Sources */,
 				F9B010042812E801000564B8 /* LoginViewModel.swift in Sources */,
+				F92BB967281AC78000C7B03A /* SessionFactory.swift in Sources */,
 				F993BDC328195454003821DF /* CallOptionsView.swift in Sources */,
 				F92372AB2817D92A00836DC1 /* ContactsViewModel.swift in Sources */,
 				F93420FB2811A570001110BF /* UserSession.swift in Sources */,
 				F93420F52811A558001110BF /* ContactsGenerator.swift in Sources */,
 				F993BDE32819A551003821DF /* VoIPPushTokenHandler.swift in Sources */,
+				F92BB964281AC6A800C7B03A /* SessionObserverImplementation.swift in Sources */,
 				F993BDCD28196E39003821DF /* DurationRow.swift in Sources */,
 				F993BDC5281954E8003821DF /* CallOptionsItem.swift in Sources */,
 				F93420F12811A543001110BF /* Constants.swift in Sources */,
+				F92BB961281AC48300C7B03A /* AccessTokenProviderMock.swift in Sources */,
 				F93420F92811A569001110BF /* MyFormatter.swift in Sources */,
 				F93420F02811A540001110BF /* AddressBook.swift in Sources */,
 				F93420F42811A554001110BF /* UserRepository.swift in Sources */,
@@ -1024,7 +1050,7 @@
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1106,7 +1132,7 @@
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

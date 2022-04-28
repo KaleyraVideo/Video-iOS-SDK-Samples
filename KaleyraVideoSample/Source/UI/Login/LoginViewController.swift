@@ -9,10 +9,10 @@ class LoginViewController: UITableViewController {
 
     // This view controller acts as the root view controller of your app.
     // In order for the SDK to receive or make calls we must start it specifying which user is connecting to Bandyer platform.
-    // Bandyer SDK uses an "user alias" to identify a user, you can think of it as an alphanumeric unique "slug" which identifies
-    // a user in your company. The SDK needs this "user alias" to connect, so you must retrieve it in some way from your back-end system.
+    // Bandyer SDK uses an "user ID" to identify a user, you can think of it as an alphanumeric unique "slug" which identifies
+    // a user in your company. The SDK needs this "user ID" to connect, so you must retrieve it in some way from your back-end system.
     // Let's pretend this is the login screen of your app where the user enters hers/his credentials.
-    // Once your app has been able to authenticate her/him, hers/his "user alias" should be available to you and it should be ready
+    // Once your app has been able to authenticate her/him, hers/his "user ID" should be available to you and it should be ready
     // to be used to start the Bandyer SDK.
     // In this sample app, we simulate those steps retrieving from our backend system all the users belonging to a company of our own.
     // Then when the end user selects the user she/he wants to sign-in as, we start the SDK client and if everything went fine we let her/him
@@ -63,7 +63,7 @@ class LoginViewController: UITableViewController {
 
         //Here we are fetching user information from our backend system.
         //We are doing this in order to have the list of available users we can impersonate.
-        repository.fetchAllUsers { [weak self] aliases, error in
+        repository.fetchAllUsers { [weak self] fetchedUserIDs, error in
             guard let self = self else { return }
 
             self.refreshControl?.endRefreshing()
@@ -72,7 +72,7 @@ class LoginViewController: UITableViewController {
                 return
             }
 
-            guard let users = aliases else {
+            guard let users = fetchedUserIDs else {
                 return
             }
 
@@ -91,32 +91,28 @@ class LoginViewController: UITableViewController {
 
     func loginUser() {
         guard let selectedUserId = self.selectedUserId else { return }
-
-        //Once the end user has selected which user wants to impersonate, we start the SDK client.
-        //We are opening a session with the selected user id by telling the BandyerSDK to open a new session.
-        BandyerSDK.instance().openSession(userId: selectedUserId)
         
-        //We are registering as a call client observer in order to be notified when the client changes its state.
-        //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
-        //otherwise the SDK will notify the observer onto its background internal queue.
-        BandyerSDK.instance().callClient.add(observer: self, queue: .main)
+        // Once the end user has selected which user wants to impersonate, we create a Session object for that user.
+        let session = SessionFactory.makeSession(for: selectedUserId)
 
-        //Then we start the call client for the user selected.
-        BandyerSDK.instance().callClient.start()
+        // Here we connect the BandyerSDK with the created Session object
+        BandyerSDK.instance.connect(session)
 
-        //Here we start the chat client for the user selected.
-        BandyerSDK.instance().chatClient.start()
+        // We are registering as a call client observer in order to be notified when the client changes its state.
+        // We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
+        // otherwise the SDK will notify the observer onto its background internal queue.
+        BandyerSDK.instance.callClient.add(observer: self, queue: .main)
 
-        AddressBook.instance.update(withAliases: userIds, currentUser: selectedUserId)
+        AddressBook.instance.update(withUserIDs: userIds, currentUser: selectedUserId)
 
         let addressBook = AddressBook.instance
 
-        //This statement tells the Bandyer SDK which object, conforming to `UserDetailsProvider` protocol
-        //should use to present contact information in its views.
-        //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
-        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
-        //and provide those information to the Bandyer SDK.
-        BandyerSDK.instance().userDetailsProvider = UserDetailsProvider(addressBook)
+        // This statement tells the Bandyer SDK which object, conforming to `UserDetailsProvider` protocol
+        // should use to present contact information in its views.
+        // The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
+        // using their user IDs, it is your responsibility to match "user IDs" with the corresponding user object in your system
+        // and provide those information to the Bandyer SDK.
+        BandyerSDK.instance.userDetailsProvider = UserDetailsProvider(addressBook)
 
         self.addressBook = addressBook
     }
@@ -134,13 +130,25 @@ class LoginViewController: UITableViewController {
 
 extension LoginViewController: CallClientObserver {
 
-    func callClientWillStart(_ client: CallClient) {
+    func callClientDidChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
+        if newState == .running {
+            callClientDidStart()
+        }
+    }
+
+    func callClientWillChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
+        if newState == .starting {
+            callClientWillStart()
+        }
+    }
+
+    private func callClientWillStart() {
         view.isUserInteractionEnabled = false
 
         showActivityIndicatorInNavigationBar()
     }
 
-    func callClientDidStart(_ client: CallClient) {
+    private func callClientDidStart() {
         guard presentedViewController == nil else { return }
 
         UserSession.currentUser = selectedUserId

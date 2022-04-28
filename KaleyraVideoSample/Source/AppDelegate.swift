@@ -35,16 +35,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // The sdk needs a configuration object where it is specified which environment the sdk should work in.
         let config = AppConfig.default.makeSDKConfig(pushRegistryDelegate: self)
 
-        if !config.automaticallyHandleVoIPNotifications {
+        if !config.voip.automaticallyHandleVoIPNotifications {
             // If you have set the config `automaticallyHandleVoIPNotifications` to false you have to register to VoIP notifications manually.
             // This is an example of the required implementation.
             callDetector = VoIPCallDetector(registryDelegate: self)
             callDetector?.delegate = self
         }
 
-        //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
-        BandyerSDK.instance().initialize(withApplicationId: Constants.AppId,
-                                         config: config)
+        //Now we are ready to configure the SDK providing the configuration object previously created.
+        BandyerSDK.instance.configure(config)
 
         return true
     }
@@ -61,8 +60,7 @@ extension AppDelegate: PKPushRegistryDelegate {
     // The SDK will call this method (if set this instance as pushRegistryDelegate in the config object)
     // Providing you the push token. You should send the token received to your back-end system
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
-        guard let token = pushCredentials.tokenAsString else { return }
-        
+        let token = pushCredentials.tokenAsString
         debugPrint("Push credentials updated \(token), you should send them to your backend system")
     }
 }
@@ -139,8 +137,8 @@ extension AppDelegate {
         let theme = Theme()
         theme.secondaryFont = UIFont.robotoRegular.withSize(5)
 
-        BandyerSDK.instance().notificationsCoordinator?.theme = theme
-        BandyerSDK.instance().notificationsCoordinator?.formatter = HashtagFormatter()
+        BandyerSDK.instance.notificationsCoordinator?.theme = theme
+        BandyerSDK.instance.notificationsCoordinator?.formatter = HashtagFormatter()
     }
 }
 
@@ -148,6 +146,6 @@ extension AppDelegate {
 extension AppDelegate: VoIPCallDetectorDelegate {
     func handle(payload: PKPushPayload) {
         // Once you received a VoIP notification and you want the sdk to handle it, call `handleNotification(_)` method on the sdk instance.
-        BandyerSDK.instance().handleNotification(payload)
+        BandyerSDK.instance.handleNotification(payload)
     }
 }

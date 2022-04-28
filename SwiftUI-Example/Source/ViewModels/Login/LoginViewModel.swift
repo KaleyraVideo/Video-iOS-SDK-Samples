@@ -21,11 +21,11 @@ class LoginViewModel: NSObject, ObservableObject {
 
         //Here we are fetching user information from our backend system.
         //We are doing this in order to have the list of available users we can impersonate.
-        repository.fetchAllUsers { [weak self] aliases, error in
+        repository.fetchAllUsers { [weak self] fetchedUserIDs, error in
 
             guard let self = self else { return }
             guard error == nil else { return }
-            guard let users = aliases else { return }
+            guard let users = fetchedUserIDs else { return }
 
             self.userIds = users
 
@@ -43,31 +43,27 @@ class LoginViewModel: NSObject, ObservableObject {
     private func loginUser() {
         guard let selectedUserId = self.selectedUserId else { return }
 
-        //Once the end user has selected which user wants to impersonate, we start the SDK client.
-        //We are opening a session with the selected user id by telling the BandyerSDK to open a new session.
-        BandyerSDK.instance().openSession(userId: selectedUserId)
-        
-        //We are registering as a call client observer in order to be notified when the client changes its state.
-        //We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
-        //otherwise the SDK will notify the observer onto its background internal queue.
-        BandyerSDK.instance().callClient.add(observer: self, queue: .main)
+        // Once the end user has selected which user wants to impersonate, we create a Session object for that user.
+        let session = SessionFactory.makeSession(for: selectedUserId)
 
-        //Then we start the call client for the user selected.
-        BandyerSDK.instance().callClient.start()
+        // Here we connect the BandyerSDK with the created Session object
+        BandyerSDK.instance.connect(session)
 
-        //Here we start the chat client for the user selected.
-        BandyerSDK.instance().chatClient.start()
+        // We are registering as a call client observer in order to be notified when the client changes its state.
+        // We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
+        // otherwise the SDK will notify the observer onto its background internal queue.
+        BandyerSDK.instance.callClient.add(observer: self, queue: .main)
 
-        AddressBook.instance.update(withAliases: userIds, currentUser: selectedUserId)
+        AddressBook.instance.update(withUserIDs: userIds, currentUser: selectedUserId)
 
         let addressBook = AddressBook.instance
 
-        //This statement tells the Bandyer SDK which object, conforming to `UserDetailsProvider` protocol
-        //should use to present contact information in its views.
-        //The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
-        //using their user aliases, it is your responsibility to match "user aliases" with the corresponding user object in your system
-        //and provide those information to the Bandyer SDK.
-        BandyerSDK.instance().userDetailsProvider = UserDetailsProvider(addressBook)
+        // This statement tells the Bandyer SDK which object, conforming to `UserDetailsProvider` protocol
+        // should use to present contact information in its views.
+        // The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
+        // using their user IDs, it is your responsibility to match "user IDs" with the corresponding user object in your system
+        // and provide those information to the Bandyer SDK.
+        BandyerSDK.instance.userDetailsProvider = UserDetailsProvider(addressBook)
 
         self.addressBook = addressBook
     }
@@ -75,12 +71,29 @@ class LoginViewModel: NSObject, ObservableObject {
 
 extension LoginViewModel: CallClientObserver {
 
-    func callClientWillStart(_ client: CallClient) {
+    func callClientDidChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
+        if newState == .running {
+            callClientDidStart()
+        }
+    }
+
+    func callClientWillChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
+        if newState == .starting {
+            callClientWillStart()
+        }
+    }
+
+    func callClient(_ client: CallClient, didFailWithError error: Error) {
+        userInteractionEnabled = true
+        isLoading = false
+    }
+
+    private func callClientWillStart() {
         userInteractionEnabled = false
         isLoading = true
     }
 
-    func callClientDidStart(_ client: CallClient) {
+    private func callClientDidStart() {
         UserSession.currentUser = selectedUserId
         loggedIn = true
         userInteractionEnabled = true
@@ -88,10 +101,5 @@ extension LoginViewModel: CallClientObserver {
 
         // After the call client has started we can also start our custom callDetector, if we decided to turn off the automatic management of the VoIP push notifications by the sdk.
         SwiftUI_ExampleApp.appDelegate.startCallDetectorIfNeeded()
-    }
-
-    func callClient(_ client: CallClient, didFailWithError error: Error) {
-        userInteractionEnabled = true
-        isLoading = false
     }
 }

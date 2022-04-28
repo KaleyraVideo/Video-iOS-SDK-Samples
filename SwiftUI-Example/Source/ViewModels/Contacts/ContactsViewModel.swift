@@ -55,8 +55,8 @@ class ContactsViewModel: NSObject, ObservableObject {
         addressBook?.contacts ?? []
     }
 
-    var loggedUserAlias: String {
-        addressBook?.me?.alias ?? ""
+    var loggedUserID: String {
+        addressBook?.me?.userID ?? ""
     }
 
     // MARK: - Initialization
@@ -85,7 +85,8 @@ class ContactsViewModel: NSObject, ObservableObject {
 
     private func setupCallClientObserver() {
         // When view loads we register as a client observer, in order to receive notifications about received incoming calls and client state changes.
-        BandyerSDK.instance().callClient.add(observer: self, queue: .main)
+        BandyerSDK.instance.callClient.add(observer: self, queue: .main)
+        BandyerSDK.instance.callClient.addIncomingCall(observer: self, queue: .main)
     }
 
     // MARK: - View appearing events
@@ -101,13 +102,13 @@ class ContactsViewModel: NSObject, ObservableObject {
     // MARK: - In-app Notifications
 
     private func setupNotificationsCoordinator() {
-        BandyerSDK.instance().notificationsCoordinator?.chatListener = self
-        BandyerSDK.instance().notificationsCoordinator?.fileShareListener = self
-        BandyerSDK.instance().notificationsCoordinator?.start()
+        BandyerSDK.instance.notificationsCoordinator?.chatListener = self
+        BandyerSDK.instance.notificationsCoordinator?.fileShareListener = self
+        BandyerSDK.instance.notificationsCoordinator?.start()
     }
 
     private func disableNotificationsCoordinator() {
-        BandyerSDK.instance().notificationsCoordinator?.stop()
+        BandyerSDK.instance.notificationsCoordinator?.stop()
     }
 
     private func presentAlert(title: String, message: String) {
@@ -116,7 +117,7 @@ class ContactsViewModel: NSObject, ObservableObject {
 
     func logout() {
         UserSession.currentUser = nil
-        BandyerSDK.instance().closeSession()
+        BandyerSDK.instance.disconnect()
     }
 
     // MARK: - Call
@@ -146,15 +147,15 @@ class ContactsViewModel: NSObject, ObservableObject {
         // To start an outgoing call we must create a `StartOutgoingCallIntent` object specifying who we want to call,
         // the type of call we want to be performed, along with any call option.
 
-        // Here we create the array containing the "user aliases" we want to contact.
-        let aliases = selectedContacts.compactMap({ $0.alias })
+        // Here we create the array containing the "user IDs" we want to contact.
+        let userIDs = selectedContacts.compactMap({ $0.userID })
 
-        // Then we create the intent providing the aliases array (which is a required parameter) along with the type of call we want perform.
+        // Then we create the intent providing the user IDs array (which is a required parameter) along with the type of call we want perform.
         // The record flag specifies whether we want the call to be recorded or not.
         // The maximumDuration parameter specifies how long the call can last.
         // If you provide 0, the call will be created without a maximum duration value.
         // We store the intent for later use, because we can present again the CallViewController with the same call.
-        intent = StartOutgoingCallIntent(callees: aliases,
+        intent = StartOutgoingCallIntent(callees: userIDs,
                                          options: CallOptions(callType: options.type,
                                                               recorded: options.record,
                                                               duration: options.maximumDuration))
@@ -166,7 +167,7 @@ class ContactsViewModel: NSObject, ObservableObject {
     // MARK: - Chat ViewController
 
     func openChat(with contact: Contact) {
-        let chatIntent = OpenChatIntent.openChat(with: contact.alias)
+        let chatIntent = OpenChatIntent.openChat(with: contact.userID)
         presentChat(from: chatIntent)
     }
 
@@ -200,24 +201,15 @@ class ContactsViewModel: NSObject, ObservableObject {
         // Otherwise you should handle the error notified as the closure argument.
 
         callWindow?.presentCallViewController(for: intent) { [weak self] error in
-            guard let error = error else { return }
+            guard let _ = error else { return }
             guard let self = self else { return }
 
-            switch error {
-            case let presentationError as CallPresentationError where presentationError.errorCode == CallPresentationErrorCode.anotherCallOnGoing.rawValue:
-                self.presentAlert(title: "Warning", message: "Another call ongoing.")
-            default:
-                self.presentAlert(title: "Error", message: "Impossible to start a call now. Try again later.")
-            }
+            self.presentAlert(title: "Error", message: "Impossible to start a call now. Try again later.")
         }
     }
 
     private func prepareForCallViewControllerPresentation() {
         initCallWindowIfNeeded()
-
-        // Here we are configuring the CallViewController instance.
-        // A `CallViewControllerConfiguration` object instance is needed to customize the behaviour and appearance of the view controller.
-        let config = CallViewControllerConfiguration()
 
         let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
 
@@ -227,7 +219,13 @@ class ContactsViewModel: NSObject, ObservableObject {
 
         // This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
         let url = URL(fileURLWithPath: path)
-        config.fakeCapturerFileURL = url
+
+        // Here we are configuring the CallViewController instance.
+        // A `CallViewControllerConfiguration` object instance is needed to customize the behavior and appearance of the view controller.
+        // You can create an instance of CallViewControllerConfiguration class through a CallViewControllerConfigurationBuilder object as below.
+        let config = CallViewControllerConfigurationBuilder()
+            .withFakeCapturerFileURL(url)
+            .build()
 
         // Here, we set the configuration object created. You must set the view controller configuration object before the view controller
         // view is loaded, otherwise an exception is thrown.
@@ -273,28 +271,43 @@ class ContactsViewModel: NSObject, ObservableObject {
 
 extension ContactsViewModel: CallClientObserver {
 
-    func callClient(_ client: CallClient, didReceiveIncomingCall call: Call) {
-        receiveIncomingCall(call: call)
+    func callClientWillChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
+        if newState == .resuming {
+            callClientWillResume()
+        }
     }
 
-    func callClientDidStart(_ client: CallClient) {
+    func callClientDidChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
+        if newState == .running {
+            callClientDidStart()
+        }
+        else if newState == .reconnecting {
+            callClientDidStartReconnecting()
+        }
+    }
+
+    private func callClientDidStart() {
         userInteractionEnabled = true
         hideToast()
     }
 
-    func callClientDidStartReconnecting(_ client: CallClient) {
+    private func callClientDidStartReconnecting() {
         userInteractionEnabled = false
         showToast(message: "Client is reconnecting, please wait...")
     }
 
-    func callClientWillResume(_ client: CallClient) {
+    private func callClientWillResume() {
         userInteractionEnabled = false
         showToast(message: "Client is resuming, please wait...")
     }
+}
 
-    func callClientDidResume(_ client: CallClient) {
-        userInteractionEnabled = true
-        hideToast()
+// MARK: - IncomingCallObserver
+
+extension ContactsViewModel: IncomingCallObserver {
+
+    func callClient(_ client: CallClient, didReceiveIncomingCall call: Call) {
+        receiveIncomingCall(call: call)
     }
 }
 
