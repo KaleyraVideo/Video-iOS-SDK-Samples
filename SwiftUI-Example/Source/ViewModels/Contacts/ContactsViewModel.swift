@@ -14,6 +14,8 @@ class ContactsViewModel: NSObject, ObservableObject {
         case conference
     }
 
+    @Published private(set) var userInteractionEnabled = true
+
     private var addressBook: AddressBook?
     @Published var desiredCallType = CallType.call
     @Published var selectedContacts = Set<Contact>()
@@ -24,6 +26,7 @@ class ContactsViewModel: NSObject, ObservableObject {
 
     @Published var showingAlert: Bool = false
     @Published var showingChat: Bool = false
+    @Published var hideToastView: Bool = true
 
     private(set) var options = CallOptionsItem()
 
@@ -36,6 +39,12 @@ class ContactsViewModel: NSObject, ObservableObject {
     private(set) var chatViewToPresent: ChatViewControllerWrapper? {
         didSet {
             showingChat = chatViewToPresent != nil
+        }
+    }
+
+    @Published private(set) var toastToPresent: String = "" {
+        didSet {
+            hideToastView = toastToPresent.isEmpty
         }
     }
 
@@ -58,6 +67,8 @@ class ContactsViewModel: NSObject, ObservableObject {
         super.init()
 
         attachCallTypeChangeObservers()
+
+        setupCallClientObserver()
     }
     
     // MARK: - Setup
@@ -70,6 +81,33 @@ class ContactsViewModel: NSObject, ObservableObject {
         selectedUsersObserver = $selectedContacts.sink(receiveValue: { [weak self] contacts in
             self?.canCallManyToMany = contacts.count >= 2
         })
+    }
+
+    private func setupCallClientObserver() {
+        // When view loads we register as a client observer, in order to receive notifications about received incoming calls and client state changes.
+        BandyerSDK.instance().callClient.add(observer: self, queue: .main)
+    }
+
+    // MARK: - View appearing events
+
+    func viewAppeared() {
+        setupNotificationsCoordinator()
+    }
+
+    func viewDisappeared() {
+        disableNotificationsCoordinator()
+    }
+
+    // MARK: - In-app Notifications
+
+    private func setupNotificationsCoordinator() {
+        BandyerSDK.instance().notificationsCoordinator?.chatListener = self
+        BandyerSDK.instance().notificationsCoordinator?.fileShareListener = self
+        BandyerSDK.instance().notificationsCoordinator?.start()
+    }
+
+    private func disableNotificationsCoordinator() {
+        BandyerSDK.instance().notificationsCoordinator?.stop()
     }
 
     private func presentAlert(title: String, message: String) {
@@ -94,6 +132,14 @@ class ContactsViewModel: NSObject, ObservableObject {
         guard canCallManyToMany else { return }
 
         startOutgoingCall()
+    }
+
+    private func receiveIncomingCall(call: Call) {
+        // When the client detects an incoming call it will notify its observers through this method.
+        // Here we are creating an `HandleIncomingCallIntent` object, storing it for later use,
+        // then we trigger a presentation of CallViewController.
+        intent = HandleIncomingCallIntent(call: call)
+        performCallViewControllerPresentation()
     }
 
     private func startOutgoingCall() {
@@ -210,6 +256,45 @@ class ContactsViewModel: NSObject, ObservableObject {
 
     private func hideCallViewController() {
         callWindow?.isHidden = true
+    }
+
+    // MARK: - Toast
+
+    func showToast(message: String) {
+        toastToPresent = message
+    }
+
+    func hideToast() {
+        toastToPresent = ""
+    }
+}
+
+// MARK: - Call client observer
+
+extension ContactsViewModel: CallClientObserver {
+
+    func callClient(_ client: CallClient, didReceiveIncomingCall call: Call) {
+        receiveIncomingCall(call: call)
+    }
+
+    func callClientDidStart(_ client: CallClient) {
+        userInteractionEnabled = true
+        hideToast()
+    }
+
+    func callClientDidStartReconnecting(_ client: CallClient) {
+        userInteractionEnabled = false
+        showToast(message: "Client is reconnecting, please wait...")
+    }
+
+    func callClientWillResume(_ client: CallClient) {
+        userInteractionEnabled = false
+        showToast(message: "Client is resuming, please wait...")
+    }
+
+    func callClientDidResume(_ client: CallClient) {
+        userInteractionEnabled = true
+        hideToast()
     }
 }
 

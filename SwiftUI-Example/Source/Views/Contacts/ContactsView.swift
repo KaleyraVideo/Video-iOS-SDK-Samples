@@ -16,12 +16,21 @@ struct ContactsView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.contacts, id: \.self, selection: $viewModel.selectedContacts) { contact in
-                Button {
-                    viewModel.call(user: contact)
-                } label: {
-                    ContactRow(contact: contact, multipleSelection: viewModel.multipleSelectionEnabled) {
-                        viewModel.openChat(with: contact)
+            VStack {
+                Spacer()
+                Text(viewModel.toastToPresent)
+                    .frame(maxWidth: .infinity)
+                    .background(.orange)
+                    .foregroundColor(.white)
+                    .font(.system(size: 13).bold())
+                    .isHidden(viewModel.hideToastView)
+                List(viewModel.contacts, id: \.self, selection: $viewModel.selectedContacts) { contact in
+                    Button {
+                        viewModel.call(user: contact)
+                    } label: {
+                        ContactRow(contact: contact, multipleSelection: viewModel.multipleSelectionEnabled) {
+                            viewModel.openChat(with: contact)
+                        }
                     }
                 }
             }
@@ -87,6 +96,12 @@ struct ContactsView: View {
             .sheet(isPresented: $viewModel.showingChat) {
                 viewModel.chatViewToPresent!
             }
+        }
+        .onAppear {
+            viewModel.viewAppeared()
+        }
+        .onDisappear {
+            viewModel.viewDisappeared()
         }
     }
 }
