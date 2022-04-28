@@ -5,15 +5,12 @@
 import SwiftUI
 import Bandyer
 
-
-
 @main
 struct SwiftUI_ExampleApp: App {
 
-    private(set) var notificationHandler: PushNotificationHandler
+    @UIApplicationDelegateAdaptor static var appDelegate: AppDelegate
 
     init() {
-        notificationHandler = PushNotificationHandler()
         setupBandyerSDK()
     }
 
@@ -44,12 +41,12 @@ struct SwiftUI_ExampleApp: App {
 
         // Here we are going to initialize the Bandyer SDK
         // The sdk needs a configuration object where it is specified which environment the sdk should work in.
-        let config = AppConfig.default.makeSDKConfig(pushRegistryDelegate: notificationHandler)
-        
+        let config = AppConfig.default.makeSDKConfig(pushRegistryDelegate: SwiftUI_ExampleApp.appDelegate)
+
         if !config.automaticallyHandleVoIPNotifications {
             // If you have set the config `automaticallyHandleVoIPNotifications` to false you have to register to VoIP notifications manually.
             // This is an example of the required implementation.
-            notificationHandler.setupCallDetector()
+            SwiftUI_ExampleApp.appDelegate.setupCallDetector()
         }
 
         //Now we are ready to initialize the SDK providing the app id token identifying your app in Bandyer platform.
@@ -81,9 +78,16 @@ struct SwiftUI_ExampleApp: App {
     }
 }
 
-class PushNotificationHandler: NSObject, PKPushRegistryDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, PKPushRegistryDelegate {
 
-    fileprivate(set) var callDetector: VoIPCallDetector?
+    private(set) var callDetector: VoIPCallDetector?
+
+    func setupCallDetector() {
+        // If you have set the config `automaticallyHandleVoIPNotifications` to false you have to register to VoIP notifications manually.
+        // This is an example of the required implementation.
+        callDetector = VoIPCallDetector(registryDelegate: self)
+        callDetector?.delegate = self
+    }
 
     // When the system notifies the SDK of the new VoIP push token
     // The SDK will call this method (if set this instance as pushRegistryDelegate in the config object)
@@ -94,16 +98,13 @@ class PushNotificationHandler: NSObject, PKPushRegistryDelegate {
         debugPrint("Push credentials updated \(token), you should send them to your backend system")
     }
 
-    func setupCallDetector() {
-        // If you have set the config `automaticallyHandleVoIPNotifications` to false you have to register to VoIP notifications manually.
-        // This is an example of the required implementation.
-        callDetector = VoIPCallDetector(registryDelegate: self)
-        callDetector?.delegate = self
+    func startCallDetectorIfNeeded() {
+        callDetector?.start()
     }
 }
 
 // This protocol conformance is required for the manually managed VoIP notification configuration, ignore it otherwise.
-extension PushNotificationHandler: VoIPCallDetectorDelegate {
+extension AppDelegate: VoIPCallDetectorDelegate {
     func handle(payload: PKPushPayload) {
         // Once you received a VoIP notification and you want the sdk to handle it, call `handleNotification(_)` method on the sdk instance.
         BandyerSDK.instance().handleNotification(payload)

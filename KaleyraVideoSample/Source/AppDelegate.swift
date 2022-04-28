@@ -48,6 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
+
+    func startCallDetectorIfNeeded() {
+        callDetector?.start()
+    }
+
 }
 
 extension AppDelegate: PKPushRegistryDelegate {
