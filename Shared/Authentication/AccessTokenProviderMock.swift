@@ -13,6 +13,7 @@ class AccessTokenProviderMock: AccessTokenProvider {
     // every time it needs an access token.
     func provideAccessToken(userId: String, completion: @escaping (Result<String, Error>) -> Void) {
 
+        #error("Please change this token with a valid one")
         // Here you are supposed to request a new access token to your backend system
         let newAccessToken = "FRESH NEW TOKEN"
 

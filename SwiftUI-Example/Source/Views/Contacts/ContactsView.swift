@@ -47,7 +47,7 @@ struct ContactsView: View {
 
                 ToolbarItem(placement: .principal) {
                     HStack {
-                        Picker("What is your favorite color?", selection: $viewModel.desiredCallType.animation(.linear)) {
+                        Picker("", selection: $viewModel.desiredCallType.animation(.linear)) {
                             Text("Call").tag(ContactsViewModel.CallType.call)
                             Text("Conference").tag(ContactsViewModel.CallType.conference)
                         }
