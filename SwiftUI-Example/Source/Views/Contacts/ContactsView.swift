@@ -16,7 +16,7 @@ struct ContactsView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing:0) {
                 Spacer()
                 Text(viewModel.toastToPresent)
                     .frame(maxWidth: .infinity)

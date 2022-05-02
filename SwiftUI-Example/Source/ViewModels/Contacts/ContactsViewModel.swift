@@ -223,13 +223,65 @@ class ContactsViewModel: NSObject, ObservableObject {
         // Here we are configuring the CallViewController instance.
         // A `CallViewControllerConfiguration` object instance is needed to customize the behavior and appearance of the view controller.
         // You can create an instance of CallViewControllerConfiguration class through a CallViewControllerConfigurationBuilder object as below.
-        let config = CallViewControllerConfigurationBuilder()
+        let builder = CallViewControllerConfigurationBuilder()
             .withFakeCapturerFileURL(url)
-            .build()
+        
+        let customizeUI = false
+
+        if customizeUI {
+            //Comment this line to disable the call feedback popup
+            _ = builder.withFeedbackEnabled()
+
+            //Let's suppose that you want to change the navBarTitleFont only inside the BDKCallViewController.
+            //You can achieve this result by allocate a new instance of the theme and set the navBarTitleFont property whit the wanted value.
+            let callTheme = Theme()
+            callTheme.navBarTitleFont = .robotoBold.withSize(30)
+
+            _ = builder.withCallTheme(callTheme)
+
+            //The same reasoning will let you change the accentColor only inside the Whiteboard view controller.
+            let whiteboardTheme = Theme()
+            whiteboardTheme.accentColor = .systemBlue
+
+            _ = builder.withWhiteboardTheme(whiteboardTheme)
+
+            //You can also customize the theme only of the Whiteboard text editor view controller.
+            let whiteboardTextEditorTheme = Theme()
+            whiteboardTextEditorTheme.bodyFont = .robotoThin.withSize(30)
+
+            _ = builder.withWhiteboardTextEditorTheme(whiteboardTextEditorTheme)
+
+            //In the next lines you can see how it's possible to customize the File Sharing view controller theme.
+            let fileSharingTheme = Theme()
+            //By setting a point size property of the theme you can change the point size of all the medium/large labels.
+            fileSharingTheme.mediumFontPointSize = 20
+            fileSharingTheme.largeFontPointSize = 40
+
+            _ = builder.withFileSharingTheme(fileSharingTheme)
+
+            // In the same way as other themes, you can customize the appearance of the call feedback popup by creating a new instance of Theme
+            let feedbackTheme = Theme()
+            // Setting the accentColor property with the desired value will modify the color of the stars and the background color of the submit button
+            feedbackTheme.accentColor = .systemGreen
+            // You can also customize the font and emphasisFont properties
+            feedbackTheme.font = .robotoThin
+            feedbackTheme.emphasisFont = .robotoBold
+
+            // The delay in seconds after which the feedback popup is automatically dismissed when the user leaves a feedback.
+            _ = builder.withFeedbackEnabled(theme: feedbackTheme, autoDismissDelay: 5)
+
+            // Every single string in the feedback popup is customizable.
+            // To make this customization just pass the bundle containing the localization with the right keys valorized, as in this example.
+            // If your file is named 'Localizable' you don't need to set the TableName value, otherwise provide the filename
+            _ = builder.withCustomLocalizations(bundle: .main, tableName: "ExampleLocalizable")
+
+            //You can also format the way our SDK displays the user information inside the call page. In this example, the user info will be preceded by a percentage.
+            _ = builder.withCallInfoTitleFormatter(PercentageFormatter())
+        }
 
         // Here, we set the configuration object created. You must set the view controller configuration object before the view controller
         // view is loaded, otherwise an exception is thrown.
-        callWindow?.setConfiguration(config)
+        callWindow?.setConfiguration(builder.build())
     }
 
     private func initCallWindowIfNeeded() {

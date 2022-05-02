@@ -94,6 +94,10 @@
 		F9B010042812E801000564B8 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B010032812E801000564B8 /* LoginViewModel.swift */; };
 		F9D57FF42813032800828524 /* ContactRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D57FF32813032800828524 /* ContactRow.swift */; };
 		F9D57FF728130AFC00828524 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D57FF628130AFC00828524 /* View+Extension.swift */; };
+		F9DFA676281FD4470098B067 /* UIColor+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014FDF275A1EC800FB1020 /* UIColor+Custom.swift */; };
+		F9DFA677281FD44A0098B067 /* UIFont+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9014FE0275A1EC800FB1020 /* UIFont+Custom.swift */; };
+		F9DFA679281FD6E20098B067 /* ExampleLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F9DFA678281FD6E20098B067 /* ExampleLocalizable.strings */; };
+		F9DFA67A281FD6E20098B067 /* ExampleLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F9DFA678281FD6E20098B067 /* ExampleLocalizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -195,6 +199,7 @@
 		F9B010032812E801000564B8 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F9D57FF32813032800828524 /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
 		F9D57FF628130AFC00828524 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		F9DFA678281FD6E20098B067 /* ExampleLocalizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = ExampleLocalizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,10 +273,11 @@
 		A9014D2D275A1EC600FB1020 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F93421062811A9EC001110BF /* Storyboards */,
 				A9014D2F275A1EC600FB1020 /* Assets.xcassets */,
+				F9DFA678281FD6E20098B067 /* ExampleLocalizable.strings */,
 				A9014FE5275A1EC800FB1020 /* Fonts */,
 				A9014D2E275A1EC600FB1020 /* SampleVideo_640x360_10mb.mp4 */,
+				F93421062811A9EC001110BF /* Storyboards */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -342,7 +348,6 @@
 				A9E3C9BC275A92AE00EC3798 /* Extensions */,
 				A9014D22275A1EC600FB1020 /* Call Options */,
 				A9014D2B275A1EC600FB1020 /* Contacts */,
-				A9014FDE275A1EC800FB1020 /* Custom Theme */,
 				A9014E00275A1EC700FB1020 /* Login */,
 			);
 			path = UI;
@@ -419,6 +424,7 @@
 				A9E3C9AB275A781600EC3798 /* AppConfig.swift */,
 				F92BB95E281AC45800C7B03A /* Authentication */,
 				A9E3C9A8275A751600EC3798 /* Constants.swift */,
+				A9014FDE275A1EC800FB1020 /* Custom Theme */,
 				A9014DFC275A1EC700FB1020 /* Models */,
 				A9E3C9AD275A7BFF00EC3798 /* Repositories */,
 				A9014D2D275A1EC600FB1020 /* Resources */,
@@ -734,6 +740,7 @@
 				A90152BB275A70BF00FB1020 /* Roboto-Regular.ttf in Resources */,
 				A90152BF275A70D000FB1020 /* Main.storyboard in Resources */,
 				A90152BA275A70BF00FB1020 /* Roboto-Bold.ttf in Resources */,
+				F9DFA679281FD6E20098B067 /* ExampleLocalizable.strings in Resources */,
 				A90152B9275A70BF00FB1020 /* Roboto-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -752,6 +759,7 @@
 				F93420FE2811A63B001110BF /* Roboto-Medium.ttf in Resources */,
 				F93421002811A640001110BF /* Roboto-Regular.ttf in Resources */,
 				F93420EA28118D3E001110BF /* Preview Assets.xcassets in Resources */,
+				F9DFA67A281FD6E20098B067 /* ExampleLocalizable.strings in Resources */,
 				F93421072811AA0C001110BF /* LaunchScreen.storyboard in Resources */,
 				F93420FF2811A63D001110BF /* Roboto-Light.ttf in Resources */,
 				F93420FD2811A634001110BF /* SampleVideo_640x360_10mb.mp4 in Resources */,
@@ -924,6 +932,8 @@
 				F93420F22811A546001110BF /* Contact.swift in Sources */,
 				F993BDC7281967C8003821DF /* CallTypeRow.swift in Sources */,
 				F93420FA2811A56E001110BF /* UserDetailsProvider.swift in Sources */,
+				F9DFA677281FD44A0098B067 /* UIFont+Custom.swift in Sources */,
+				F9DFA676281FD4470098B067 /* UIColor+Custom.swift in Sources */,
 				F934210D2811ACFE001110BF /* LoginView.swift in Sources */,
 				F993BDC028194477003821DF /* ChatViewControllerWrapper.swift in Sources */,
 				F93420F82811A565001110BF /* PercentageFormatter.swift in Sources */,
