@@ -8,10 +8,8 @@ This repository is meant to provide some examples for you to better understand h
 
 ## What's inside
 
-- [**Basic-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/Basic-Example):  This application is a basic example demonstrating the SDK capabilities and the features it provides.
-- [**CallKit-Voip-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/CallKit-Voip-Example): This application shows you how it's easy and simple to integrate CallKit and VoIP notifications capabilities with Bandyer in your app.
-- [**Chat-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/Chat-Example): This application show you how it's easy integrate chat capability in your app using Bandyer.
-- [**UI-Customization-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/UI-Customization-Example): This application show you how to customise the appearance of  Bandyer's UIViewControllers.
+- [**KaleyraVideoSample**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/KaleyraVideoSample):  This application is an integration example demonstrating the SDK capabilities and the features it provides.
+- [**SwiftUI-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/SwiftUI-Example): This application is a similar integration example realized using SwiftUI framework instead of UIKit.
 
 ## General Quick Start
 
