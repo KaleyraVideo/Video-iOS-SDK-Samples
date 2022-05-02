@@ -1,0 +1,20 @@
+/* 
+  ExampleLocalizable.strings
+  KaleyraVideoExamples
+
+  Created by Alessandro Limardo on 02/05/22.
+  Copyright © 2022 Kaleyra S.p.a. All rights reserved.
+*/
+
+"sdk.rating.rating_popup_title" = "Customize this title with your desired value";
+
+"sdk.rating.quality_very_bad" = "The lowest value";
+"sdk.rating.quality_poor" = "A low value";
+"sdk.rating.quality_neutral" = "The middle value";
+"sdk.rating.quality_good" = "A high value";
+"sdk.rating.quality_excellent" = "The highest value";
+
+"sdk.rating.vote" = "Send rating";
+"sdk.rating.leave_a_comment" = "Customize the placeholder of this textview";
+"sdk.rating.thank_you_popup_title" = "Customize this title with your desired value!";
+"sdk.rating.thank_you_popup_body" = "Customize this message with your desired value";

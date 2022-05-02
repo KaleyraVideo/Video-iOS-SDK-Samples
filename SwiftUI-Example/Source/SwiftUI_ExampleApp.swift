@@ -76,6 +76,45 @@ struct SwiftUI_ExampleApp: App {
             return
         }
     }
+    
+    func applyTheme() {
+        let accentColor = UIColor.accentColor
+
+        //This is the core of your customisation possibility using Bandyer SDK theme.
+        //Let's suppose that your app is highly customised. Setting the following properties will let you to apply your colors, bar properties and fonts to all Bandyer's view controllers.
+
+        //Colors
+        Theme.default().accentColor = accentColor
+        Theme.default().primaryBackgroundColor = UIColor.customBackground
+        Theme.default().secondaryBackgroundColor = UIColor.customSecondary
+        Theme.default().tertiaryBackgroundColor = UIColor.customTertiary
+
+        //Bars
+        Theme.default().barTranslucent = false
+        Theme.default().barStyle = .black
+        Theme.default().keyboardAppearance = .dark
+        Theme.default().barTintColor = UIColor.customBarTintColor
+
+        //Fonts
+        Theme.default().navBarTitleFont = UIFont.robotoMedium
+        Theme.default().secondaryFont = UIFont.robotoLight
+        Theme.default().bodyFont = UIFont.robotoThin
+        Theme.default().font = UIFont.robotoRegular
+        Theme.default().emphasisFont = UIFont.robotoBold
+        Theme.default().mediumFontPointSize = 15
+    }
+
+    func customizeInAppNotification() {
+        //Only after the SDK is initialized, you can change the In-app notification theme and set a custom formatter.
+        //If you try to set the theme or the formatter before SDK initialization, the notificationsCoordinator will be nil and sets will not be applied.
+        //The formatter will be used to display the user information on the In-app notification heading.
+
+        let theme = Theme()
+        theme.secondaryFont = UIFont.robotoRegular.withSize(5)
+
+        BandyerSDK.instance().notificationsCoordinator?.theme = theme
+        BandyerSDK.instance().notificationsCoordinator?.formatter = HashtagFormatter()
+    }
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate, PKPushRegistryDelegate {
