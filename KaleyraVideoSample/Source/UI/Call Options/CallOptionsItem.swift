@@ -7,19 +7,19 @@ import Bandyer
 class CallOptionsItem: NSCopying {
 
     var type: CallType
-    var record: Bool
+    var recordingType: CallRecordingType
     var maximumDuration: UInt
 
     init() {
         type = .audioVideo
-        record = false
+        recordingType = .none
         maximumDuration = 0
     }
 
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = CallOptionsItem()
         copy.type = type
-        copy.record = record
+        copy.recordingType = recordingType
         copy.maximumDuration = maximumDuration
         return copy
     }

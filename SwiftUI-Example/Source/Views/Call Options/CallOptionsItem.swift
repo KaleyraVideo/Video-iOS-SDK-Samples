@@ -8,12 +8,12 @@ import Bandyer
 class CallOptionsItem: ObservableObject {
 
     @Published var type: CallType
-    @Published var record: Bool
+    @Published var recordingType: CallRecordingType
     @Published var maximumDuration: UInt
 
     init() {
         type = .audioVideo
-        record = false
+        recordingType = .none
         maximumDuration = 0
     }
 }

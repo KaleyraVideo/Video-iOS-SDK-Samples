@@ -19,14 +19,11 @@ class CallOptionsTableViewController: UITableViewController {
 
         if indexPath.section == 0 {
             cell.accessoryType = indexPath.row == self.options.type.rawValue ? .checkmark : .none
-        } else if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                let recordingSwitch = cell.accessoryView as? UISwitch
-                recordingSwitch?.isOn = self.options.record
-            } else if indexPath.row == 1 {
-                let textField = cell.accessoryView as? UITextField
-                textField?.text = String(self.options.maximumDuration)
-            }
+        } else if indexPath.section  == 1 {
+            cell.accessoryType = indexPath.row == self.options.recordingType.rawValue ? .checkmark : .none
+        } else if indexPath.section == 2 {
+            let textField = cell.accessoryView as? UITextField
+            textField?.text = String(self.options.maximumDuration)
         }
 
         return cell
@@ -34,27 +31,28 @@ class CallOptionsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        if indexPath.section == 0 {
-            switch indexPath.row {
-            case 0: options.type = .audioVideo
-            case 1: options.type = .audioUpgradable
-            case 2: options.type = .audioOnly
-            default: options.type = .audioVideo
+        if indexPath.section == 0 || indexPath.section == 1 {
+            if indexPath.section == 0 {
+                switch indexPath.row {
+                    case 0: options.type = .audioVideo
+                    case 1: options.type = .audioUpgradable
+                    case 2: options.type = .audioOnly
+                    default: options.type = .audioVideo
+                }
+            } else if indexPath.section == 1 {
+                switch indexPath.row {
+                    case 0: options.recordingType = .none
+                    case 1: options.recordingType = .automatic
+                    case 2: options.recordingType = .manual
+                    default: options.recordingType = .none
+                }
             }
 
             tableView.reloadData()
             delegate?.controllerDidUpdateOptions(self)
         }
     }
-
-    @IBAction func recordingSwitchValueChanged(sender: AnyObject) {
-        guard let `switch` = sender as? UISwitch else {
-            return
-        }
-        options.record = `switch`.isOn
-        tableView.reloadData()
-        delegate?.controllerDidUpdateOptions(self)
-    }
+    
 }
 
 extension CallOptionsTableViewController: UITextFieldDelegate {

@@ -85,7 +85,7 @@ class ContactsViewController: UIViewController {
         // We store the intent for later use, because we can present again the CallViewController with the same call.
         intent = StartOutgoingCallIntent(callees: userIDs,
                                          options: CallOptions(callType: options.type,
-                                                              recorded: options.record,
+                                                              recordingType: options.recordingType,
                                                               duration: options.maximumDuration))
 
         // Then we trigger a presentation of CallViewController.

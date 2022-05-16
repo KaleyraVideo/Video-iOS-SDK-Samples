@@ -20,8 +20,13 @@ struct CallOptionsView: View {
                 CallTypeRow(callType: .audioOnly, options: options)
             }
 
+            Section("Recording") {
+                RecordRow(recordingType: .none, options: options)
+                RecordRow(recordingType: .automatic, options: options)
+                RecordRow(recordingType: .manual, options: options)
+            }
+
             Section("Other Settings") {
-                RecordRow(options: options)
                 DurationRow(options: options)
             }
         }
