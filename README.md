@@ -8,8 +8,8 @@ This repository is meant to provide some examples for you to better understand h
 
 ## What's inside
 
-- [**KaleyraVideoSample**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/KaleyraVideoSample):  This application is an integration example demonstrating the SDK capabilities and the features it provides.
-- [**SwiftUI-Example**](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/tree/master/SwiftUI-Example): This application is a similar integration example realized using SwiftUI framework instead of UIKit.
+- [**KaleyraVideoSample**](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples-Swift/tree/master/KaleyraVideoSample):  This application is an integration example demonstrating the SDK capabilities and the features it provides.
+- [**SwiftUI-Example**](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples-Swift/tree/master/SwiftUI-Example): This application is a similar integration example realized using SwiftUI framework instead of UIKit.
 
 ## General Quick Start
 
@@ -21,7 +21,7 @@ This repository is meant to provide some examples for you to better understand h
 
 ## Support
 
-From here, please have a look to [Bandyer SDK Wiki](https://github.com/Bandyer/Bandyer-iOS-SDK/wiki). You will easily find guides to all the Bandyer world! 
+From here, please have a look to the [SDK Wiki](https://github.com/KaleyraVideo/VideoiOSSDK/wiki). You will easily find guides to all the Bandyer world! 
 
 To get basic support please submit an Issue. We will help you as soon as possible.
 
@@ -29,5 +29,5 @@ If you prefer commercial support, please contact bandyer.com sending an email at
 
 ## License
 
-Using this software, you agree to our license. For more details, see [LICENSE](https://github.com/Bandyer/Bandyer-iOS-SDK-Samples-Swift/blob/master/LICENSE) file.
+Using this software, you agree to our license. For more details, see [LICENSE](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples-Swift/blob/master/LICENSE) file.
 
