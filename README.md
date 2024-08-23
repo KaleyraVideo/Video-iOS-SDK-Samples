@@ -8,8 +8,8 @@ This repository is meant to provide some examples for you to better understand h
 
 ## What's inside
 
-- [**KaleyraVideoSample**](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples-Swift/tree/master/KaleyraVideoSample):  This application is an integration example demonstrating the SDK capabilities and the features it provides.
-- [**SwiftUI-Example**](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples-Swift/tree/master/SwiftUI-Example): This application is a similar integration example realized using SwiftUI framework instead of UIKit.
+- [**KaleyraVideoSample**](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples/tree/master/KaleyraVideoSample):  This application is an integration example demonstrating the SDK capabilities and the features it provides.
+- [**SwiftUI-Example**](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples/tree/master/SwiftUI-Example): This application is a similar integration example realized using SwiftUI framework instead of UIKit.
 
 ## General Quick Start
 
@@ -29,5 +29,5 @@ If you prefer commercial support, please contact bandyer.com sending an email at
 
 ## License
 
-Using this software, you agree to our license. For more details, see [LICENSE](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples-Swift/blob/master/LICENSE) file.
+Using this software, you agree to our license. For more details, see [LICENSE](https://github.com/KaleyraVideo/Video-iOS-SDK-Samples/blob/master/LICENSE) file.
 
