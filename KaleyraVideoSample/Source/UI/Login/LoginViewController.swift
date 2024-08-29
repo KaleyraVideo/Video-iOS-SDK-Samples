@@ -2,8 +2,10 @@
 // Copyright © 2019-Present. Kaleyra S.p.a. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import Bandyer
+import Combine
+import KaleyraVideoSDK
 
 class LoginViewController: UITableViewController {
 
@@ -30,6 +32,7 @@ class LoginViewController: UITableViewController {
     }
 
     private var addressBook: AddressBook?
+    private lazy var subscriptions = Set<AnyCancellable>()
 
     // MARK: - View
 
@@ -93,15 +96,18 @@ class LoginViewController: UITableViewController {
         guard let selectedUserId = self.selectedUserId else { return }
         
         // Once the end user has selected which user wants to impersonate, we create a Session object for that user.
-        let session = SessionFactory.makeSession(for: selectedUserId)
 
         // Here we connect the BandyerSDK with the created Session object
-        BandyerSDK.instance.connect(session)
+        KaleyraVideo.instance.connect(userId: selectedUserId, provider: AccessTokenProviderMock()) { _ in
+
+        }
 
         // We are registering as a call client observer in order to be notified when the client changes its state.
         // We are also providing the main queue telling the SDK onto which queue should notify the observer provided,
         // otherwise the SDK will notify the observer onto its background internal queue.
-        BandyerSDK.instance.callClient.add(observer: self, queue: .main)
+        KaleyraVideo.instance.conference?.statePublisher.receive(on: RunLoop.main).sink(receiveValue: { [weak self] state in
+            self?.clientStateChanged(state)
+        }).store(in: &subscriptions)
 
         AddressBook.instance.update(withUserIDs: userIds, currentUser: selectedUserId)
 
@@ -112,7 +118,7 @@ class LoginViewController: UITableViewController {
         // The backend system does not send any user information to its clients, the SDK and the backend system identify the users in any view
         // using their user IDs, it is your responsibility to match "user IDs" with the corresponding user object in your system
         // and provide those information to the Bandyer SDK.
-        BandyerSDK.instance.userDetailsProvider = UserDetailsProvider(addressBook)
+        KaleyraVideo.instance.userDetailsProvider = UserDetailsProvider(addressBook)
 
         self.addressBook = addressBook
     }
@@ -128,17 +134,19 @@ class LoginViewController: UITableViewController {
     }
 }
 
-extension LoginViewController: CallClientObserver {
+extension LoginViewController {
 
-    func callClientDidChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
-        if newState == .running {
-            callClientDidStart()
-        }
-    }
-
-    func callClientWillChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
-        if newState == .starting {
-            callClientWillStart()
+    func clientStateChanged(_ state: ClientState) {
+        switch state {
+            case .disconnected(error: let error):
+                guard let error else { return }
+                callClientDidFailWithError(error: error)
+            case .connecting:
+                callClientWillStart()
+            case .connected:
+                callClientDidStart()
+            default:
+                return
         }
     }
 
@@ -161,7 +169,7 @@ extension LoginViewController: CallClientObserver {
         (UIApplication.shared.delegate as? AppDelegate)?.startCallDetectorIfNeeded()
     }
 
-    func callClient(_ client: CallClient, didFailWithError error: Error) {
+    func callClientDidFailWithError(error: Error) {
         hideActivityIndicatorFromNavigationBar()
         view.isUserInteractionEnabled = true
     }

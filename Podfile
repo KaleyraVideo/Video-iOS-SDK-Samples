@@ -1,15 +1,15 @@
 use_frameworks!
 
 target 'KaleyraVideoSample' do
-  platform :ios, '10.0'
+  platform :ios, '15.0'
 
-  pod 'Bandyer'
+  pod 'KaleyraVideoSDK', :podspec => 'https://static.bandyer.com/corporate/iOS/releases/cocoapods/sdk/4.0.0-alpha.1/xcframework/KaleyraVideoSDK.podspec'
 end
 
 target 'SwiftUI-Example' do
-  platform :ios, '13.0'
+  platform :ios, '15.0'
 
-  pod 'Bandyer'
+  pod 'KaleyraVideoSDK', :podspec => 'https://static.bandyer.com/corporate/iOS/releases/cocoapods/sdk/4.0.0-alpha.1/xcframework/KaleyraVideoSDK.podspec'
 end
 
 target 'BroadcastExtension' do

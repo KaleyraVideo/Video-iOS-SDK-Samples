@@ -2,12 +2,12 @@
 // Copyright © 2019-Present. Kaleyra S.p.a. All rights reserved.
 //
 
-import Bandyer
+import KaleyraVideoSDK
 
 class CallOptionsItem: NSCopying {
 
-    var type: CallType
-    var recordingType: CallRecordingType
+    var type: CallOptions.CallType
+    var recordingType: CallOptions.RecordingType?
     var maximumDuration: UInt
 
     init() {

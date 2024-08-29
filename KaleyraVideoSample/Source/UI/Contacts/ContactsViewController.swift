@@ -3,7 +3,9 @@
 //
 
 import UIKit
-import Bandyer
+import Combine
+import Foundation
+import KaleyraVideoSDK
 
 class ContactsViewController: UIViewController {
 
@@ -22,13 +24,16 @@ class ContactsViewController: UIViewController {
     private var activityBarButtonItem: UIBarButtonItem?
     private var toastView: UIView?
 
-    private var callWindow: CallWindow?
-
     var addressBook: AddressBook?
 
     private var selectedContacts: [IndexPath] = []
     private var options: CallOptionsItem = CallOptionsItem()
-    private var intent: Intent?
+    private lazy var subscriptions = Set<AnyCancellable>()
+
+    private lazy var window: CallWindow = {
+        guard let scene = view.window?.windowScene else { fatalError() }
+        return CallWindow(windowScene: scene)
+    }()
 
     // MARK: - View lifecycle
 
@@ -39,8 +44,12 @@ class ContactsViewController: UIViewController {
         disableMultipleSelection(false)
 
         // When view loads we register as a client observer, in order to receive notifications about received incoming calls and client state changes.
-        BandyerSDK.instance.callClient.add(observer: self, queue: .main)
-        BandyerSDK.instance.callClient.addIncomingCall(observer: self, queue: .main)
+        KaleyraVideo.instance.conference?.statePublisher.receive(on: RunLoop.main).sink(receiveValue: { [weak self] state in
+            self?.callClientDidChangeState(state)
+        }).store(in: &subscriptions)
+        KaleyraVideo.instance.conference?.registry.callAddedPublisher.receive(on: RunLoop.main).sink(receiveValue: { [weak self] call in
+            self?.presentCall(call)
+        }).store(in: &subscriptions)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -58,13 +67,12 @@ class ContactsViewController: UIViewController {
     // MARK: - In-app Notifications
 
     private func setupNotificationsCoordinator() {
-        BandyerSDK.instance.notificationsCoordinator?.chatListener = self
-        BandyerSDK.instance.notificationsCoordinator?.fileShareListener = self
-        BandyerSDK.instance.notificationsCoordinator?.start()
+        KaleyraVideo.instance.conversation?.notificationsCoordinator.chatListener = self
+        KaleyraVideo.instance.conversation?.notificationsCoordinator.start()
     }
 
     private func disableNotificationsCoordinator() {
-        BandyerSDK.instance.notificationsCoordinator?.stop()
+        KaleyraVideo.instance.conversation?.notificationsCoordinator.stop()
     }
 
     // MARK: - Starting or receiving a call
@@ -77,27 +85,13 @@ class ContactsViewController: UIViewController {
         let userIDs = selectedContacts.compactMap { (contactIndex) -> String? in
             addressBook?.contacts[contactIndex.row].userID
         }
-
-        // Then we create the intent providing the user IDs array (which is a required parameter) along with the type of call we want perform.
-        // The record flag specifies whether we want the call to be recorded or not.
-        // The maximumDuration parameter specifies how long the call can last.
-        // If you provide 0, the call will be created without a maximum duration value.
-        // We store the intent for later use, because we can present again the CallViewController with the same call.
-        intent = StartOutgoingCallIntent(callees: userIDs,
-                                         options: CallOptions(callType: options.type,
-                                                              recordingType: options.recordingType,
-                                                              duration: options.maximumDuration))
-
-        // Then we trigger a presentation of CallViewController.
-        performCallViewControllerPresentation()
+        startOutgoingCall(callees: userIDs, options: .init(type: options.type,
+                                                           recording: options.recordingType,
+                                                           duration: options.maximumDuration))
     }
 
-    private func receiveIncomingCall(call: Call) {
-        // When the client detects an incoming call it will notify its observers through this method.
-        // Here we are creating an `HandleIncomingCallIntent` object, storing it for later use,
-        // then we trigger a presentation of CallViewController.
-        intent = HandleIncomingCallIntent(call: call)
-        performCallViewControllerPresentation()
+    private func startOutgoingCall(callees: [String], options: CallOptions) {
+        KaleyraVideo.instance.conference?.call(callees: callees, options: options) { _ in }
     }
 
     // MARK: - Enable / Disable multiple selection
@@ -105,22 +99,20 @@ class ContactsViewController: UIViewController {
     private func enableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = true
         tableView.allowsMultipleSelectionDuringEditing = true
-
         tableView.setEditing(true, animated: animated)
     }
 
     private func disableMultipleSelection(_ animated: Bool) {
         tableView.allowsMultipleSelection = false
         tableView.allowsMultipleSelectionDuringEditing = false
-
         tableView.setEditing(false, animated: animated)
     }
-    
+
     // MARK: - Enabling / Disabling chat-phone button
-    
+
     private func enableChatAndPhoneButtonsOnVisibleCells() {
         let cells = tableView.visibleCells as? [ContactTableViewCell]
-        
+
         cells?.forEach { cell in
             UIView.animate(withDuration: 0.3, animations: {
                 cell.chatButton.alpha = 1
@@ -133,7 +125,7 @@ class ContactsViewController: UIViewController {
     
     private func disableChatAndPhoneButtonsOnVisibleCells() {
         let cells = tableView.visibleCells as? [ContactTableViewCell]
-        
+
         cells?.forEach { cell in
             cell.chatButton.isEnabled = false
             UIView.animate(withDuration: 0.3, animations: {
@@ -178,7 +170,7 @@ class ContactsViewController: UIViewController {
         // Moreover the previously logged user will appear to the Bandyer platform as she/he is available and ready to receive calls and chat messages.
 
         UserSession.currentUser = nil
-        BandyerSDK.instance.disconnect()
+        KaleyraVideo.instance.disconnect()
 
         dismiss(animated: true, completion: nil)
     }
@@ -196,44 +188,29 @@ class ContactsViewController: UIViewController {
     // MARK: - Chat ViewController
 
     private func presentChat(from notification: ChatNotification) {
-        if presentedViewController == nil {
-            presentChat(from: self, notification: notification)
-        }
+        guard presentedViewController == nil else { return }
+        presentChat(from: self, notification: notification)
     }
 
     private func presentChat(from controller: UIViewController, notification: ChatNotification) {
-        guard let intent = OpenChatIntent.openChat(from: notification) else {
-            return
-        }
-        presentChat(from: self, intent: intent)
+        presentChat(from: self, intent: .notification(notification))
     }
 
-    private func presentChat(from controller: UIViewController, intent: OpenChatIntent) {
-        let channelViewController = ChannelViewController()
-        channelViewController.delegate = self
-        channelViewController.intent = intent
-
-        controller.present(channelViewController, animated: true)
+    private func presentChat(from controller: UIViewController, intent: ChannelViewController.Intent) {
+        let controller = ChannelViewController(intent: intent, configuration: .init())
+        controller.delegate = self
+        controller.present(controller, animated: true)
     }
 
     // MARK: - Call ViewController
 
-    private func performCallViewControllerPresentation() {
-        guard let intent = self.intent else { return }
-
-        prepareForCallViewControllerPresentation()
-
-        // Here we tell the call window to present the Call UI if there is not another call in progress.
-        // Otherwise you should handle the error notified as the closure argument.
-
-        callWindow?.presentCallViewController(for: intent) { [weak self] error in
-            guard let _ = error else { return }
-            guard let self = self else { return }
-
-            self.presentAlert(title: "Error", message: "Impossible to start a call now. Try again later.")
-        }
+    private func presentCall(_ call: Call) {
+        window.makeKeyAndVisible()
+        let controller = CallViewController(call: call, configuration: .init())
+        controller.delegate = self
+        window.set(rootViewController: controller, animated: true)
     }
-    
+
     private func presentAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Ok", style: .default) { (_) in
@@ -243,104 +220,8 @@ class ContactsViewController: UIViewController {
         self.present(alert, animated: true)
     }
 
-    private func prepareForCallViewControllerPresentation() {
-        initCallWindowIfNeeded()
-
-        let filePath = Bundle.main.path(forResource: "SampleVideo_640x360_10mb", ofType: "mp4")
-
-        guard let path = filePath else {
-            fatalError("The fake file for the file capturer could not be found")
-        }
-
-        // This url points to a sample mp4 video in the app bundle used only if the application is run in the simulator.
-        let url = URL(fileURLWithPath: path)
-
-        // Here we are configuring the CallViewController instance.
-        // A `CallViewControllerConfiguration` object instance is needed to customize the behavior and appearance of the view controller.
-        // You can create an instance of CallViewControllerConfiguration class through a CallViewControllerConfigurationBuilder object as below.
-        let builder = CallViewControllerConfigurationBuilder()
-            .withFakeCapturerFileURL(url)
-        
-        let customizeUI = false
-
-        if customizeUI {
-            //Comment this line to disable the call feedback popup
-            _ = builder.withFeedbackEnabled()
-
-            //Let's suppose that you want to change the navBarTitleFont only inside the BDKCallViewController.
-            //You can achieve this result by allocate a new instance of the theme and set the navBarTitleFont property whit the wanted value.
-            let callTheme = Theme()
-            callTheme.navBarTitleFont = .robotoBold.withSize(30)
-
-            _ = builder.withCallTheme(callTheme)
-
-            //The same reasoning will let you change the accentColor only inside the Whiteboard view controller.
-            let whiteboardTheme = Theme()
-            whiteboardTheme.accentColor = .systemBlue
-
-            _ = builder.withWhiteboardTheme(whiteboardTheme)
-
-            //You can also customize the theme only of the Whiteboard text editor view controller.
-            let whiteboardTextEditorTheme = Theme()
-            whiteboardTextEditorTheme.bodyFont = .robotoThin.withSize(30)
-
-            _ = builder.withWhiteboardTextEditorTheme(whiteboardTextEditorTheme)
-
-            //In the next lines you can see how it's possible to customize the File Sharing view controller theme.
-            let fileSharingTheme = Theme()
-            //By setting a point size property of the theme you can change the point size of all the medium/large labels.
-            fileSharingTheme.mediumFontPointSize = 20
-            fileSharingTheme.largeFontPointSize = 40
-
-            _ = builder.withFileSharingTheme(fileSharingTheme)
-
-            // In the same way as other themes, you can customize the appearance of the call feedback popup by creating a new instance of Theme
-            let feedbackTheme = Theme()
-            // Setting the accentColor property with the desired value will modify the color of the stars and the background color of the submit button
-            feedbackTheme.accentColor = .systemGreen
-            // You can also customize the font and emphasisFont properties
-            feedbackTheme.font = .robotoThin
-            feedbackTheme.emphasisFont = .robotoBold
-
-            // The delay in seconds after which the feedback popup is automatically dismissed when the user leaves a feedback.
-            _ = builder.withFeedbackEnabled(theme: feedbackTheme, autoDismissDelay: 5)
-
-            // Every single string in the feedback popup is customizable.
-            // To make this customization just pass the bundle containing the localization with the right keys valorized, as in this example.
-            // If your file is named 'Localizable' you don't need to set the TableName value, otherwise provide the filename
-            _ = builder.withCustomLocalizations(bundle: .main, tableName: "ExampleLocalizable")
-
-            //You can also format the way our SDK displays the user information inside the call page. In this example, the user info will be preceded by a percentage.
-            _ = builder.withCallInfoTitleFormatter(PercentageFormatter())
-        }
-
-        // Here, we set the configuration object created. You must set the view controller configuration object before the view controller
-        // view is loaded, otherwise an exception is thrown.
-        callWindow?.setConfiguration(builder.build())
-    }
-
-    private func initCallWindowIfNeeded() {
-        // Please remember to reference the call window only once in order to avoid the reset of CallViewController.
-        guard callWindow == nil else { return }
-
-        // Please be sure to have in memory only one instance of CallWindow, otherwise an exception will be thrown.
-        let window: CallWindow
-
-        if let instance = CallWindow.instance {
-            window = instance
-        } else {
-            // This will automatically save the new instance inside CallWindow.instance.
-            window = CallWindow()
-        }
-
-        // Remember to subscribe as the delegate of the window. The window  will notify its delegate when it has finished its job.
-        window.callDelegate = self
-
-        callWindow = window
-    }
-
     private func hideCallViewController() {
-        callWindow?.isHidden = true
+        window.set(rootViewController: nil, animated: true)
     }
 
     // MARK: - Navigation items
@@ -426,20 +307,18 @@ extension ContactsViewController: UITableViewDelegate {
 
 // MARK: - Call client observer
 
-extension ContactsViewController: CallClientObserver {
+extension ContactsViewController {
 
-    func callClientDidChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
-        if newState == .running {
-            callClientDidStart()
-        }
-        else if newState == .reconnecting {
-            callClientDidStartReconnecting()
-        }
-    }
-
-    func callClientWillChangeState(_ client: CallClient, oldState: CallClientState, newState: CallClientState) {
-        if newState == .resuming {
-            callClientWillResume()
+    func callClientDidChangeState(_ state: ClientState) {
+        switch state {
+            case .disconnected:
+                return
+            case .connecting:
+                callClientDidStart()
+            case .connected:
+                view.isUserInteractionEnabled = true
+            case .reconnecting:
+                callClientDidStartReconnecting()
         }
     }
 
@@ -454,21 +333,6 @@ extension ContactsViewController: CallClientObserver {
         showActivityIndicatorInNavigationBar(animated: true)
         showToast(message: "Client is reconnecting, please wait...", color: UIColor.orange)
     }
-
-    func callClientWillResume() {
-        view.isUserInteractionEnabled = false
-        showActivityIndicatorInNavigationBar(animated: true)
-        showToast(message: "Client is resuming, please wait...", color: UIColor.orange)
-    }
-}
-
-// MARK: - IncomingCallObserver
-
-extension ContactsViewController: IncomingCallObserver {
-
-    func callClient(_ client: CallClient, didReceiveIncomingCall call: Call) {
-        receiveIncomingCall(call: call)
-    }
 }
 
 // MARK: - Activity indicator nav bar
@@ -478,7 +342,7 @@ extension ContactsViewController {
     func showActivityIndicatorInNavigationBar(animated: Bool) {
         guard activityBarButtonItem == nil else { return }
 
-        let indicator = UIActivityIndicatorView(style: .gray)
+        let indicator = UIActivityIndicatorView(style: .medium)
         indicator.startAnimating()
         let item = UIBarButtonItem(customView: indicator)
 
@@ -570,14 +434,10 @@ extension ContactsViewController: CallOptionsTableViewControllerDelegate {
 
 // MARK: - Call window delegate
 
-extension ContactsViewController: CallWindowDelegate {
+extension ContactsViewController: CallViewControllerDelegate {
 
-    func callWindowDidFinish(_ window: CallWindow) {
+    func callViewControllerDidFinish(_ controller: CallViewController) {
         hideCallViewController()
-    }
-
-    func callWindow(_ window: CallWindow, openChatWith intent: OpenChatIntent) {
-        presentChat(from: self, intent: intent)
     }
 }
 
@@ -597,19 +457,17 @@ extension ContactsViewController: ChannelViewControllerDelegate {
         dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioVideo)
     }
 
-    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callees: [String], type: CallType) {
+    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callees: [String], type: CallOptions.CallType) {
         let presentedChannelVC = presentedViewController as? ChannelViewController
 
         if presentedChannelVC != nil {
             channelViewController.dismiss(animated: true) { [weak self] in
-                self?.intent = StartOutgoingCallIntent(callees: callees, options: CallOptions(callType: type))
-                self?.performCallViewControllerPresentation()
+                self?.startOutgoingCall(callees: callees, options: .init(type: type))
             }
             return
         }
 
-        intent = StartOutgoingCallIntent(callees: callees, options: CallOptions(callType: type))
-        performCallViewControllerPresentation()
+        startOutgoingCall(callees: callees, options: .init(type: type))
     }
 }
 
@@ -618,8 +476,7 @@ extension ContactsViewController: ChannelViewControllerDelegate {
 extension ContactsViewController: ContactTableViewCellDelegate {
 
     func contactTableViewCell(_ cell: ContactTableViewCell, didTouch chatButton: UIButton, withCounterpart aliasId: String) {
-        let intent = OpenChatIntent.openChat(with: aliasId)
-        presentChat(from: self, intent: intent)
+        presentChat(from: self, intent: .participant(id: aliasId))
     }
 }
 
@@ -635,14 +492,5 @@ extension ContactsViewController: InAppChatNotificationTouchListener {
         } else {
             presentChat(from: notification)
         }
-    }
-}
-
-// MARK: - In App file share notification touch listener delegate
-
-extension ContactsViewController: InAppFileShareNotificationTouchListener {
-
-    func onTouch(_ notification: FileShareNotification) {
-        callWindow?.presentCallViewController(for: OpenDownloadsIntent())
     }
 }

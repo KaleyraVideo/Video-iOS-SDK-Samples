@@ -2,7 +2,9 @@
 // Copyright © 2019-Present. Kaleyra S.p.a. All rights reserved.
 //
 
+import Foundation
 import UIKit
+import KaleyraVideoSDK
 
 @objc protocol CallOptionsTableViewControllerDelegate {
     func controllerDidUpdateOptions(_ controller: CallOptionsTableViewController) -> Void
@@ -70,5 +72,36 @@ extension CallOptionsTableViewController: UITextFieldDelegate {
         options.maximumDuration = value
         tableView.reloadData()
         delegate?.controllerDidUpdateOptions(self)
+    }
+}
+
+private extension CallOptions.CallType {
+
+    var rawValue: Int {
+        switch self {
+            case .audioVideo:
+                0
+            case .audioUpgradable:
+                1
+            case .audioOnly:
+                2
+        }
+    }
+}
+
+private extension Optional where Wrapped == CallOptions.RecordingType {
+
+    var rawValue: Int {
+        switch self {
+            case .none:
+                return 0
+            case .some(let wrapped):
+                switch wrapped {
+                    case .automatic:
+                        return 1
+                    case .manual:
+                        return 2
+                }
+        }
     }
 }

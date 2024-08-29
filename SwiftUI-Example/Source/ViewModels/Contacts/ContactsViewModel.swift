@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import Bandyer
+import KaleyraVideoSDK
 import Combine
 import SwiftUI
 

@@ -3,17 +3,17 @@
 //
 
 import Foundation
-import Bandyer
+import KaleyraVideoSDK
 
 class AccessTokenProviderMock: AccessTokenProvider {
+
+    #error("Please change this token with a valid one")
 
     // The Kaleyra Video platform now uses a strong authentication mechanism based on JWT tokens while authenticating
     // its clients. You are required to provide an object conforming to the AccessTokenProvider protocol to the Session
     // object before connecting the SDK. The Kaleyra Video SDK will call the provideAccessToken(userId:completion:) method
     // every time it needs an access token.
     func provideAccessToken(userId: String, completion: @escaping (Result<String, Error>) -> Void) {
-
-        #error("Please change this token with a valid one")
         // Here you are supposed to request a new access token to your backend system
         let newAccessToken = "FRESH NEW TOKEN"
 

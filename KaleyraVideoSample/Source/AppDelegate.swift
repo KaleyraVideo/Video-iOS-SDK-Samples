@@ -6,7 +6,7 @@ import UIKit
 import PushKit
 import Intents
 import CallKit
-import Bandyer
+import KaleyraVideoSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,19 +33,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Here we are going to initialize the Bandyer SDK
         // The sdk needs a configuration object where it is specified which environment the sdk should work in.
-        let config = AppConfig.default.makeSDKConfig(pushRegistryDelegate: self)
+        KaleyraVideo.logLevel = .all
+        do {
+            let config = try AppConfig.default.makeSDKConfig()
 
-        if !config.voip.automaticallyHandleVoIPNotifications {
-            // If you have set the config `automaticallyHandleVoIPNotifications` to false you have to register to VoIP notifications manually.
-            // This is an example of the required implementation.
-            callDetector = VoIPCallDetector(registryDelegate: self)
-            callDetector?.delegate = self
+            if !config.voip.isAutomatic {
+                // If you have set the config `automaticallyHandleVoIPNotifications` to false you have to register to VoIP notifications manually.
+                // This is an example of the required implementation.
+                callDetector = VoIPCallDetector(registryDelegate: self)
+                callDetector?.delegate = self
+            }
+
+            //Now we are ready to configure the SDK providing the configuration object previously created.
+            KaleyraVideo.instance.configure(config) { _ in }
+
+            return true
+        } catch {
+            return true
         }
-
-        //Now we are ready to configure the SDK providing the configuration object previously created.
-        BandyerSDK.instance.configure(config)
-
-        return true
     }
 
     func startCallDetectorIfNeeded() {
@@ -60,8 +65,7 @@ extension AppDelegate: PKPushRegistryDelegate {
     // The SDK will call this method (if set this instance as pushRegistryDelegate in the config object)
     // Providing you the push token. You should send the token received to your back-end system
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
-        let token = pushCredentials.tokenAsString
-        debugPrint("Push credentials updated \(token), you should send them to your backend system")
+        debugPrint("Push credentials updated \(pushCredentials), you should send them to your backend system")
     }
 }
 
@@ -75,19 +79,7 @@ extension AppDelegate {
             return false
         }
 
-        guard let window = CallWindow.instance else {
-            return false
-        }
-
-        if #available(iOS 13.0, *) {
-            if let startCallIntent = siriIntent as? INStartCallIntent {
-                window.handle(startCallIntent: startCallIntent)
-                return true
-            }
-        }
-
-        if let videoCallIntent = siriIntent as? INStartVideoCallIntent {
-            window.handle(startVideoCallIntent: videoCallIntent)
+        guard let startCallIntent = siriIntent as? INStartCallIntent else {
             return true
         }
 
@@ -95,57 +87,10 @@ extension AppDelegate {
     }
 }
 
-extension AppDelegate {
-
-    func applyTheme() {
-        let accentColor = UIColor.accentColor
-
-        if #available(iOS 14.0, *) {
-        } else {
-            window?.tintColor = accentColor
-        }
-
-        //This is the core of your customisation possibility using Bandyer SDK theme.
-        //Let's suppose that your app is highly customised. Setting the following properties will let you to apply your colors, bar properties and fonts to all Bandyer's view controllers.
-
-        //Colors
-        Theme.default().accentColor = accentColor
-        Theme.default().primaryBackgroundColor = UIColor.customBackground
-        Theme.default().secondaryBackgroundColor = UIColor.customSecondary
-        Theme.default().tertiaryBackgroundColor = UIColor.customTertiary
-
-        //Bars
-        Theme.default().barTranslucent = false
-        Theme.default().barStyle = .black
-        Theme.default().keyboardAppearance = .dark
-        Theme.default().barTintColor = UIColor.customBarTintColor
-
-        //Fonts
-        Theme.default().navBarTitleFont = UIFont.robotoMedium
-        Theme.default().secondaryFont = UIFont.robotoLight
-        Theme.default().bodyFont = UIFont.robotoThin
-        Theme.default().font = UIFont.robotoRegular
-        Theme.default().emphasisFont = UIFont.robotoBold
-        Theme.default().mediumFontPointSize = 15
-    }
-
-    func customizeInAppNotification() {
-        //Only after the SDK is initialized, you can change the In-app notification theme and set a custom formatter.
-        //If you try to set the theme or the formatter before SDK initialization, the notificationsCoordinator will be nil and sets will not be applied.
-        //The formatter will be used to display the user information on the In-app notification heading.
-
-        let theme = Theme()
-        theme.secondaryFont = UIFont.robotoRegular.withSize(5)
-
-        BandyerSDK.instance.notificationsCoordinator?.theme = theme
-        BandyerSDK.instance.notificationsCoordinator?.formatter = HashtagFormatter()
-    }
-}
-
 // This protocol conformance is required for the manually managed VoIP notification configuration, ignore it otherwise.
 extension AppDelegate: VoIPCallDetectorDelegate {
     func handle(payload: PKPushPayload) {
         // Once you received a VoIP notification and you want the sdk to handle it, call `handleNotification(_)` method on the sdk instance.
-        BandyerSDK.instance.handleNotification(payload)
+        KaleyraVideo.instance.conference?.handleNotification(payload)
     }
 }

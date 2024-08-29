@@ -3,14 +3,15 @@
 //
 
 import Foundation
-
-enum Gender {
-    case unknown
-    case male
-    case female
-}
+import CallKit
+import KaleyraVideoSDK
 
 struct Contact: Hashable {
+
+    enum Gender {
+        case male
+        case female
+    }
 
     var userID: String
     var firstName: String?
@@ -23,13 +24,21 @@ struct Contact: Hashable {
         return "\(first) \(last)"
     }
 
-    var gender: Gender
+    var gender: Gender?
     var email: String?
     var age: UInt?
     var profileImageURL: URL?
 
+    var handle: CXHandle? {
+        guard let fullName else { return nil }
+        return .init(type: .generic, value: fullName)
+    }
+
+    var userDetails: UserDetails {
+        .init(userID: userID, displayName: fullName, imageURL: profileImageURL, handle: handle)
+    }
+
     init(_ userID: String) {
         self.userID = userID
-        gender = .unknown
     }
 }

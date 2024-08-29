@@ -3,7 +3,7 @@
 //
 
 import SwiftUI
-import Bandyer
+import KaleyraVideoSDK
 
 struct RecordRow: View {
 
