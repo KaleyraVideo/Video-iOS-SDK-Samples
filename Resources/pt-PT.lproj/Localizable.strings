@@ -1,0 +1,159 @@
+/*
+ Copyright © 2018-2022 Kaleyra S.p.a. All Rights Reserved.
+*/
+
+"contacts.loading_title" = "Carregando";
+"contacts.empty_title" = "Aviso";
+"contacts.empty_subtitle" = "Não há contatos disponíveis.";
+"contacts.error_title" = "Ocorreu um erro";
+"contacts.error_action" = "Tentar Novamente";
+"contacts.cell.call_action" = "Chamada";
+"contacts.cell.video_call_action" = "Vídeo";
+"contacts.cell.chat_action" = "Chat";
+"contacts.update.title" = "Atualizar usuário";
+"contacts.search_placeholder" = "Pesquisar";
+"contacts.title" = "Contatos";
+"contacts.tab" = "Contatos";
+"contact_update.first_name" = "Nome";
+"contact_update.last_name" = "Sobrenome";
+"contact_update.image_url" = "URL da imagem de perfil";
+"contact_update.accept_button" = "Aceitar";
+"contact_update.cancel_button" = "Cancelar";
+"login.search_placeholder" = "Pesquisar";
+"login.title" = "Escolha um usuário";
+"login.loading" = "Carregando";
+"login.empty_title" = "Aviso";
+"login.empty_subtitle" = "Usuário não encontrado";
+"login.error_title" = "Ocorreu um erro";
+"login.error_retry_action" = "Tentar Novamente";
+"login.error_cancel" = "OK";
+"login.error_exit" = "Sair";
+"setup.title" = "Configuração";
+"setup.environment_section" = "Ambiente";
+"setup.environment_production" = "Produção";
+"setup.environment_sandbox" = "Sandbox";
+"setup.environment_develop" = "Desenvolvimento";
+"setup.region_title" = "Região";
+"setup.region_europe" = "Europa";
+"setup.region_india" = "Índia";
+"setup.region_us" = "EUA";
+"setup.region_middle_east" = "Médio Oriente";
+"setup.app_id" = "ID do Aplicativo";
+"setup.app_id.footer" = "Ex.: mAppId_7b6c265418d0984bdc3e9e9f32c559f1e3ee25a85ea7105b0223ddf5d782";
+"setup.rest_api_key" = "Chave da API REST";
+"setup.rest_api_key.footer" = "Ex.: ak_live_18ad4c1f9dae593b114b6e3f";
+"setup.user_section" = "Detalhes do usuário";
+"setup.show_user_details" = "Mostrar detalhes do usuário";
+"setup.accept_button" = "Aceitar";
+"setup.cancel_button" = "Cancelar";
+"setup.alert.title" = "Configuração Inválida";
+"setup.alert.message" = "A configuração fornecida não é válida, você deve fornecer um \"ID do Aplicativo\" e uma \"Chave da API\"";
+"setup.alert.cancel-action.title" = "Ok";
+"setup.tools_section" = "Ferramentas";
+"setup.tools-chat" = "Chat";
+"setup.tools-whiteboard" = "Quadro Branco";
+"setup.tools-fileshare" = "Compartilhamento de Arquivos";
+"setup.tools-screenshare" = "Compartilhamento de Tela no Aplicativo";
+"setup.tools-broadcast" = "Transmissão do Compartilhamento de Tela";
+"setup.camera_section" = "Câmera";
+"setup.camera_front" = "Começar com a câmera frontal";
+"setup.camera_back" = "Começar com a câmera traseira";
+"setup.voip_section_title" = "VoIP";
+"setup.voip_automatic" = "Automático";
+"setup.voip_manual" = "Manual";
+"setup.voip_disabled" = "Desabilitado";
+"setup.voip_notifications_in_foreground" = "Gerenciar notificações em primeiro plano";
+"setup.voip_disable_direct_incoming_calls" = "Desativar chamadas diretas recebidas";
+"setup.company.sales" = "Vendas da Kaleyra";
+"setup.company.video" = "Vídeo da Kaleyra";
+"app_setup_type.qr" = "Código QR";
+"app_setup_type.wizard" = "Passo a passo";
+"app_setup_type.advanced" = "Avançado";
+"settings.title" = "Configurações";
+"settings.tab" = "Configurações";
+"settings.feedback" = "Enviar feedback";
+"settings.share" = "Compartilhar";
+"settings.logout" = "Sair";
+"settings.reset" = "Redefinir";
+"settings.restart-alert.title" = "Reinício necessário!";
+"settings.restart-alert.message" = "Você precisa reiniciar o aplicativo para aplicar essas alterações";
+"settings.restart-alert.action" = "OK";
+"call_options.title" = "Opções de Chamada";
+"call_options.call_type_section_title" = "Tipo de Chamada";
+"call_options.recording_section_title" = "Gravação";
+"call_options.recording_none" = "Nenhuma";
+"call_options.recording_automatic" = "Automática";
+"call_options.recording_manual" = "Manual";
+"call_options.group_call_section_title" = "Opções de Grupo";
+"call_options.call_type_group" = "Chamada em Grupo";
+"call_options.call_type_audio_video" = "Áudio Vídeo";
+"call_options.call_type_audio_upgradable" = "Áudio Atualizável";
+"call_options.call_type_audio_only" = "Apenas Áudio";
+"call_options.other_options_section" = "Outras Opções";
+"call_options.call_duration" = "Duração da Chamada";
+"call_options.confirm_button" = "Aceitar";
+"call_options.rating_section_title" = "Avaliação";
+"call_options.rating_enabled" = "Ativar avaliação da chamada";
+"call_options.ringing_ui_title" = "Interface de Chamada";
+"call_options.ringing_ui_invisible" = "Ocultar";
+"call_options.ringing_ui_visible" = "Mostrar";
+"call_options.call_presentation_mode_title" = "Modo de Apresentação da Interface de Chamada";
+"call_options.call_presentation_mode_fullscreen" = "Tela Cheia";
+"call_options.call_presentation_mode_pip" = "Imagem em Imagem";
+"login.alert_title" = "Aviso";
+"login.alert_message" = "Não foi possível salvar as configurações por causa de um erro!";
+"login.alert_action" = "OK";
+
+"qr_reader.alert_title" = "Ocorreu um erro!";
+"qr_reader.alert_message" = "Ocorreu um erro ao ler o código QR! Gostaria de tentar novamente?";
+"qr_reader.retry_action" = "OK";
+"qr_reader.cancel_action" = "Cancelar";
+
+"settings.username" = "Nome de usuário:";
+"settings.environment" = "Ambiente:";
+"settings.region" = "Região:";
+"settings.app_version" = "Versão do aplicativo:";
+"settings.sdk_version" = "Versão do SDK:";
+"settings.logout" = "Sair";
+"settings.change_theme" = "Aparência";
+"settings.choose.theme" = "Escolha o tema que preferir";
+"settings.light.mode" = "Modo Claro";
+"settings.dark.mode" = "Modo Escuro";
+"settings.sand.mode" = "Modo Areia";
+"settings.custom.mode" = "Personalizado...";
+"settings.custom.theme" = "Tema Personalizado";
+"settings.cancel" = "Cancelar";
+"settings.select.font" = "Selecionar fonte";
+
+"color_picker.title" = "Cores";
+"color_picker.grid" = "Grade";
+"color_picker.cursors" = "Cursores";
+"color_picker.red" = "Vermelho";
+"color_picker.green" = "Verde";
+"color_picker.blue" = "Azul";
+"color_picker.opacity" = "Opacidade";
+
+// PUSH NOTIFICATIONS
+
+"MISSED_CALL_TITLE_V1" = "%@ tentou ligar para você";
+"MISSED_CALL_BODY_V1" = "Chamada perdida";
+
+// User verification
+
+"user_verification.reason" = "Autenticação requerida!";
+
+// Access link
+
+"access_link.title" = "Link de Acesso";
+"access_link.message" = "Aqui você pode iniciar uma chamada usando um link de chamada";
+
+// Logs
+
+"debug.logs.share_log_files" = "Compartilhar arquivos de log";
+"debug.logs.share_log_error_title" = "Erro ao compartilhar logs";
+"debug.logs.no_log_file_present_error" = "Não há arquivo de log presente";
+"debug.logs.unable_to_share_log_error" = "Ocorreu um erro ao compartilhar arquivos de log";
+"debug.logs.share_log_error_cancel" = "Fechar";
+
+"debug.logs.share_log_mail_subject" = "Compartilhando arquivos de log";
+"debug.logs.share_log_mail_body" = "Por favor, dê uma olhada nos arquivos de log anexados a este e-mail.";
