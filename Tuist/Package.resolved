@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "videoiosbroadcastextension",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KaleyraVideo/VideoiOSBroadcastExtension",
+      "state" : {
+        "revision" : "f1633b96f881edecac9c4062ddd7ec392f400c78",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "videoiossdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KaleyraVideo/VideoiOSSDK",
+      "state" : {
+        "revision" : "af1dec3f847da40941d8fd91bc7a78a2bc63f736",
+        "version" : "4.0.0-alpha.1"
+      }
+    }
+  ],
+  "version" : 2
+}

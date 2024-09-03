@@ -44,6 +44,6 @@ let project = Project(
             sources: [.glob(.relativeToRoot("Tests/IntegrationTests/**")), .glob(.relativeToRoot("Testing/**"))],
             resources: [],
             dependencies: [.target(name: "KaleyraVideo")]
-        ),
+        )
     ]
 )
