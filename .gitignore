@@ -64,6 +64,7 @@ xcuserdata/
 
 ### Xcode Patch ###
 *.xcodeproj/*
+*.xcworkspace
 *.xcworkspace/*
 /*.gcno
 
