@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "swifthamcrest",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nschum/SwiftHamcrest",
+      "state" : {
+        "revision" : "8c679c859fd5e12b83aea68a51045b0a11dfddef",
+        "version" : "2.2.4"
+      }
+    },
+    {
       "identity" : "videoiosbroadcastextension",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KaleyraVideo/VideoiOSBroadcastExtension",
