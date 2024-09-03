@@ -3,7 +3,7 @@ use_frameworks!
 target 'KaleyraVideo' do
   platform :ios, '15.0'
 
-  pod 'KaleyraVideoSDK', :podspec => 'https://static.bandyer.com/corporate/iOS/releases/cocoapods/sdk/4.0.0-alpha.1/xcframework/KaleyraVideoSDK.podspec'
+  pod 'KaleyraVideoSDK', '4.0.0-alpha.1'
 end
 
 #target 'SwiftUI-Example' do
