@@ -2,7 +2,11 @@
 // See LICENSE.txt for licensing information
 
 import ReplayKit
+#if canImport(KaleyraVideoBroadcastExtension)
 import KaleyraVideoBroadcastExtension
+#elseif canImport(BandyerBroadcastExtension)
+import BandyerBroadcastExtension
+#endif
 
 @available(iOSApplicationExtension 12.0, *)
 class SampleHandler: RPBroadcastSampleHandler {

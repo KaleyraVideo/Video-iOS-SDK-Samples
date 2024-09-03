@@ -51,13 +51,13 @@ extension Config.Environment {
                 return .production
             case .sandbox:
                 return .sandbox
-#if DEBUG
-            case .development:
-                return .develop
-#else
+//#if DEBUG
+//            case .development:
+//                return .develop
+//#else
             case .development:
                 return .init("develop")
-#endif
+//#endif
 
         }
     }
