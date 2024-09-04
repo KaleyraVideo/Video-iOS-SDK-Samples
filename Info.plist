@@ -23,13 +23,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Face ID</string>
+	<string>Access to the camera is required in order to perform a video call</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Microphone</string>
+	<string>Access to the microphone is required in order to perform a call</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Library</string>
+	<string>Access to the photo library is required in order to share photos</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
