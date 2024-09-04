@@ -31,6 +31,15 @@ final class ContactsCoordinator: BaseCoordinator {
         return controller
     }()
 
+    private lazy var searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.obscuresBackgroundDuringPresentation = false
+        controller.searchBar.placeholder = Strings.Contacts.searchPlaceholder
+        controller.searchBar.delegate = self
+        controller.searchBar.searchBarStyle = .default
+        return controller
+    }()
+
     private var contactController: ContactsViewController!
 
     init(config: Config, loggedUser: Contact, services: ServicesFactory) {
@@ -43,23 +52,13 @@ final class ContactsCoordinator: BaseCoordinator {
     func start(onCallOptionsChanged: @escaping (CallOptions) -> Void,
                onUpdateContact: @escaping (Contact) -> Void,
                onCallUser: @escaping (ContactsViewController.Action) -> Void) {
-        let searchController = makeSearchController()
-        contactController = makeContactsViewController(searchController: searchController)
-        setupContactsViewController(searchController: searchController, onUpdateContact: onUpdateContact, onCallUser: onCallUser)
+        contactController = makeContactsViewController()
+        setupContactsViewController(onUpdateContact: onUpdateContact, onCallUser: onCallUser)
         updateMultipleSelection(enabled: isMultipleSelectionEnabled, animated: false)
         self.onCall = onCallUser
         self.onCallOptionsChanged = onCallOptionsChanged
         self.onUpdateContact = onUpdateContact
         navigationController.setViewControllers([contactController], animated: false)
-    }
-
-    private func makeSearchController() -> UISearchController {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = Strings.Contacts.searchPlaceholder
-        searchController.searchBar.delegate = self
-        searchController.searchBar.searchBarStyle = .default
-        return searchController
     }
 
     func updateContact(contact: Contact) {
@@ -68,7 +67,7 @@ final class ContactsCoordinator: BaseCoordinator {
         presentationAdapter.update(contact: contact)
     }
 
-    private func makeContactsViewController(searchController: UISearchController) -> ContactsViewController {
+    private func makeContactsViewController() -> ContactsViewController {
         let controller = ContactsViewController(services: services)
         controller.navigationItem.searchController = searchController
         controller.navigationItem.hidesSearchBarWhenScrolling = false
@@ -78,8 +77,7 @@ final class ContactsCoordinator: BaseCoordinator {
         return controller
     }
 
-    private func setupContactsViewController(searchController: UISearchController,
-                                             onUpdateContact: @escaping (Contact) -> Void,
+    private func setupContactsViewController(onUpdateContact: @escaping (Contact) -> Void,
                                              onCallUser: @escaping (ContactsViewController.Action) -> Void) {
         let presentationAdapter = ContactsLoaderPresentationAdapter(presenter: ContactsPresenter(output: Weak(object: contactController)),
                                                                     store: services.makeContactsStore(config: config),
@@ -115,7 +113,7 @@ final class ContactsCoordinator: BaseCoordinator {
         let controller = coordinator.controller
         controller.modalPresentationStyle = .pageSheet
         controller.isModalInPresentation = true
-        contactController.present(controller, animated: true, completion: nil)
+        contactController.present(controller, animated: true)
     }
 
     @objc
@@ -136,7 +134,7 @@ final class ContactsCoordinator: BaseCoordinator {
         })
         let controller = coordinator.controller
         controller.modalPresentationStyle = .pageSheet
-        contactController.present(controller, animated: true, completion: nil)
+        contactController.present(controller, animated: true)
     }
 
     func onChangeState(isLoading: Bool) {
