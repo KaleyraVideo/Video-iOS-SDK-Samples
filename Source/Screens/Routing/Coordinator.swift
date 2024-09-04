@@ -19,7 +19,6 @@ protocol Coordinator: AnyObject {
 }
 
 enum CoordinatorEvent: Equatable {
-    case shakeMotion
     case chatNotification(channelId: String)
     case pushToken(token: String)
     case startCall(url: URL)

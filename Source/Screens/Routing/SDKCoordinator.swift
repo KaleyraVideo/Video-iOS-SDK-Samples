@@ -185,7 +185,7 @@ final class SDKCoordinator: BaseCoordinator {
 
     override func handle(event: CoordinatorEvent, direction: EventDirection) -> Bool {
         switch event {
-            case .shakeMotion, .shareLogFiles:
+            case .shareLogFiles:
                 return false
             case .pushToken(token: let token):
                 pushManager.pushTokenUpdated(token: token)
