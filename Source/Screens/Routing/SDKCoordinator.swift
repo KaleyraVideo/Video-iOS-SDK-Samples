@@ -239,8 +239,9 @@ extension SDKCoordinator {
     }
 
     private func handleSiriIntent(_ intent: INIntent) {
-        guard let startCallIntent = intent as? INStartCallIntent else { return }
-        
+        guard intent is INStartVideoCallIntent else { return }
+
+        sdk.conference?.registry.calls.last?.upgradeToVideo(completion: { _ in })
     }
 }
 
