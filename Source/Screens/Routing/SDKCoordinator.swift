@@ -19,14 +19,14 @@ final class SDKCoordinator: BaseCoordinator {
         case accessLink
     }
 
-    private let currentViewController: UIViewController
+    private let controller: UIViewController
     private let config: Config
     private let sdk: KaleyraVideo
     private let voipManager: VoIPNotificationsManager
     private let pushManager: PushManager
     private let tokenProvider: AccessTokenProvider
     private lazy var callWindow: CallWindow = {
-        let window = CallWindow(windowScene: currentViewController.view.window!.windowScene!)
+        let window = CallWindow(windowScene: controller.view.window!.windowScene!)
         window.tintColor = Theme.Color.primary
         return window
     }()
@@ -49,11 +49,11 @@ final class SDKCoordinator: BaseCoordinator {
 
     private lazy var cancellables = Set<AnyCancellable>()
 
-    init(currentController: UIViewController,
+    init(controller: UIViewController,
          config: Config,
          services: ServicesFactory,
          delegate: SDKCoordinatorDelegate? = nil) {
-        self.currentViewController = currentController
+        self.controller = controller
         self.config = config
         self.callOptions = services.makeUserDefaultsStore().getCallOptions()
         self.sdk = services.makeSDK()
@@ -250,7 +250,7 @@ extension SDKCoordinator {
 extension SDKCoordinator {
 
     private func presentChat(intent: ChannelViewController.Intent) {
-        if let presentedController = currentViewController.presentedViewController as? ChannelViewController {
+        if let presentedController = controller.presentedViewController as? ChannelViewController {
             presentedController.dismiss(animated: true) { [weak self] in
                 self?.createAndPresentChatController(intent: intent)
             }
@@ -262,7 +262,7 @@ extension SDKCoordinator {
     private func createAndPresentChatController(intent: ChannelViewController.Intent) {
         let controller = ChannelViewController(intent: intent, configuration: .init(audioButton: true, videoButton: true))
         controller.delegate = self
-        currentViewController.present(controller, animated: true)
+        self.controller.present(controller, animated: true)
     }
 }
 
@@ -303,7 +303,7 @@ extension SDKCoordinator: ChannelViewControllerDelegate {
     }
 
     private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callees: [String], type: KaleyraVideoSDK.CallOptions.CallType) {
-        guard let _ = currentViewController.presentedViewController as? ChannelViewController else {
+        guard let _ = controller.presentedViewController as? ChannelViewController else {
             startOutgoingCall(userAliases: callees, type: type)
             return
         }

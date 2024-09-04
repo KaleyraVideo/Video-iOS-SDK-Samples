@@ -19,9 +19,7 @@ final class AccessLinkCoordinator: BaseCoordinator {
     }
 
     func start(onDismiss: @escaping () -> Void) {
-        let coordinator = SDKCoordinator(currentController: accessLinkController,
-                                         config: config,
-                                         services: services)
+        let coordinator = SDKCoordinator(controller: accessLinkController, config: config, services: services)
         addChild(coordinator)
         coordinator.start(authentication: .accessLink)
         accessLinkController.onDismiss = { [weak self] in

@@ -57,22 +57,15 @@ final class MainCoordinator: BaseCoordinator {
     }
 
     private func addBandyerCoordinator() {
-        addChild(SDKCoordinator(currentController: tabBarController,
-                                    config: config,
-                                    services: services,
-                                    delegate: self))
+        addChild(SDKCoordinator(controller: tabBarController, config: config, services: services, delegate: self))
     }
 
     private func addContactsCoordinator() {
-        addChild(ContactsCoordinator(config: config,
-                                     loggedUser: loggedUser,
-                                     services: services))
+        addChild(ContactsCoordinator(config: config, loggedUser: loggedUser, services: services))
     }
 
     private func addSettingsCoordinator() {
-        addChild(SettingsCoordinator(services: services,
-                                     loggedUser: loggedUser,
-                                     config: config, delegate: self))
+        addChild(SettingsCoordinator(services: services, loggedUser: loggedUser, config: config, delegate: self))
     }
 
     // MARK: - Start
