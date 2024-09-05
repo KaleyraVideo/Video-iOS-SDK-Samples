@@ -76,7 +76,6 @@ final class MainCoordinator: BaseCoordinator {
 
             self.sdkCoordinator.callOptions = options
         }),
-                                  onUpdateContact:({ [weak self] in self?.settingsCoordinator.updateContact(contact: $0) }),
                                   onCallUser: ({ [weak self] action in
             guard let self = self else { return }
 

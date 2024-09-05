@@ -58,10 +58,6 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
         super.init(services: services)
     }
 
-    func updateContact(contact: Contact) {
-        settingsController.user = contact
-    }
-
     func start() {
         if logService.areLogFilesPresent {
             settingsController.shareLogsAction = { [weak self] in

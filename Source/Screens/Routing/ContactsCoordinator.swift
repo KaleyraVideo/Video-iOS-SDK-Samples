@@ -12,7 +12,6 @@ final class ContactsCoordinator: BaseCoordinator {
     private var selectedContactsAlias = [String]()
     private var onCall: ((ContactsViewController.Action) -> Void)?
     private var onCallOptionsChanged: ((CallOptions) -> Void)?
-    private var onUpdateContact: ((Contact) -> Void)?
     private var isMultipleSelectionEnabled: Bool
 
     private lazy var settingButton: UIBarButtonItem = {
@@ -50,14 +49,12 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     func start(onCallOptionsChanged: @escaping (CallOptions) -> Void,
-               onUpdateContact: @escaping (Contact) -> Void,
                onCallUser: @escaping (ContactsViewController.Action) -> Void) {
         contactController = makeContactsViewController()
-        setupContactsViewController(onUpdateContact: onUpdateContact, onCallUser: onCallUser)
+        setupContactsViewController(onCallUser: onCallUser)
         updateMultipleSelection(enabled: isMultipleSelectionEnabled, animated: false)
         self.onCall = onCallUser
         self.onCallOptionsChanged = onCallOptionsChanged
-        self.onUpdateContact = onUpdateContact
         navigationController.setViewControllers([contactController], animated: false)
     }
 
@@ -71,8 +68,7 @@ final class ContactsCoordinator: BaseCoordinator {
         return controller
     }
 
-    private func setupContactsViewController(onUpdateContact: @escaping (Contact) -> Void,
-                                             onCallUser: @escaping (ContactsViewController.Action) -> Void) {
+    private func setupContactsViewController(onCallUser: @escaping (ContactsViewController.Action) -> Void) {
         let viewModel = ContactsViewModel(observer: Weak(object: contactController),
                                           store: services.makeContactsStore(config: config),
                                           loggedUser: loggedUser.alias)
@@ -99,7 +95,6 @@ final class ContactsCoordinator: BaseCoordinator {
         coordinator.start(onDismiss: { [weak self] contact in
             guard let self else { return }
 
-            self.onUpdateContact?(contact)
             self.removeChild(coordinator)
         })
         addChild(coordinator)
