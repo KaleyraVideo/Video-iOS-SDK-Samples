@@ -79,7 +79,7 @@ final class ContactsCoordinator: BaseCoordinator {
 
     private func setupContactsViewController(onUpdateContact: @escaping (Contact) -> Void,
                                              onCallUser: @escaping (ContactsViewController.Action) -> Void) {
-        let viewModel = ContactsViewModel(presenter: .init(output: Weak(object: contactController)),
+        let viewModel = ContactsViewModel(observer: Weak(object: contactController),
                                           store: services.makeContactsStore(config: config),
                                           loggedUser: loggedUser.alias)
         contactController.onReady = viewModel.load

@@ -230,7 +230,7 @@ extension ContactsViewController: Themable {
 
 // MARK: - ContactsPresenterOutput
 
-extension ContactsViewController: ContactsPresenterOutput {
+extension ContactsViewController: ContactsViewModelObserver {
 
     func display(_ state: ContactsViewModel.State) {
         switch state {

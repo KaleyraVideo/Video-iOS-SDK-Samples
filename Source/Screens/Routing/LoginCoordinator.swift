@@ -25,7 +25,7 @@ final class LoginCoordinator: BaseCoordinator {
     func start(onDismiss: @escaping (Contact?) -> Void) {
         let searchController = makeSearchController()
 
-        viewModel = ContactsViewModel(presenter: .init(output: Weak(object: loginController)),
+        viewModel = ContactsViewModel(observer: Weak(object: loginController),
                                       store: services.makeContactsStore(config: config))
 
         loginController.navigationItem.searchController = searchController

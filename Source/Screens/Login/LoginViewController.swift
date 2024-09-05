@@ -112,7 +112,7 @@ extension LoginViewController: Themable {
 }
 #endif
 
-extension LoginViewController: ContactsPresenterOutput {
+extension LoginViewController: ContactsViewModelObserver {
 
     func display(_ state: ContactsViewModel.State) {
         switch state {

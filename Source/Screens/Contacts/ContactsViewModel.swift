@@ -27,15 +27,20 @@ final class ContactsViewModel {
     }
 
     private let store: ContactsStore
-    private let presenter: ContactsPresenter
+    private let observer: ContactsViewModelObserver
     private let loggedUser: String?
     private var filter: String?
-    private(set) var state: State = .initial
+
+    private(set) var state: State = .initial {
+        didSet {
+            observer.display(state)
+        }
+    }
 
     var contacts: [Contact] { store.contacts }
 
-    init(presenter: ContactsPresenter, store: ContactsStore, loggedUser: String? = nil) {
-        self.presenter = presenter
+    init(observer: ContactsViewModelObserver, store: ContactsStore, loggedUser: String? = nil) {
+        self.observer = observer
         self.store = store
         self.loggedUser = loggedUser
     }
@@ -44,16 +49,13 @@ final class ContactsViewModel {
         guard !state.isLoading, !state.isLoaded else { return }
 
         state = .loading
-        presenter.didStartLoading()
         store.load { [weak self] result in
             guard let self else { return }
 
             do {
                 _ = try result.get()
-                self.presenter.didFinishLoading(contacts: self.filterLoggedUser(from: self.contacts))
                 self.state = .loaded(self.filterLoggedUser(from: self.contacts))
             } catch {
-                self.presenter.didFinishLoadingWithError(errorDescription: String(describing: error))
                 self.state = .error(description: String(describing: error))
             }
         }
@@ -61,7 +63,6 @@ final class ContactsViewModel {
 
     func update(contact: Contact) {
         store.update(contact: contact)
-        presenter.didFinishLoading(contacts: filterLoggedUser(from: contacts))
     }
 
     func filter(searchFilter: String) {
@@ -69,10 +70,7 @@ final class ContactsViewModel {
 
         guard state.isLoaded else { return }
 
-        let filteredContacts = filter.map({ contacts.filterBy(aliasPattern: $0)}) ?? contacts
-
-        state = .loaded(filterLoggedUser(from: filteredContacts))
-        presenter.didFinishLoading(contacts: filterLoggedUser(from: filteredContacts))
+        state = .loaded(filterLoggedUser(from: filter.map({ contacts.filterBy(aliasPattern: $0)}) ?? contacts))
     }
 
     private func filterLoggedUser(from contacts: [Contact]) -> [Contact] {
