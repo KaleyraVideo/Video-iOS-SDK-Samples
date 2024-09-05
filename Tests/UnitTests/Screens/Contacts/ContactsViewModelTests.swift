@@ -7,9 +7,9 @@ import KaleyraTestKit
 import KaleyraTestHelpers
 @testable import SDK_Sample
 
-final class ContactsLoaderPresentationAdapterTests: UnitTestCase {
+final class ContactsViewModelTests: UnitTestCase {
 
-    private var sut: ContactsLoaderPresentationAdapter!
+    private var sut: ContactsViewModel!
     private var presenter: ContactsPresenterSpy!
     private var repository: UserRepositoryMock!
 
@@ -18,7 +18,7 @@ final class ContactsLoaderPresentationAdapterTests: UnitTestCase {
 
         presenter = .init()
         repository = .init()
-        sut = .init(presenter: presenter, store: .init(repository: repository), loggedUserAlias: .alice)
+        sut = .init(presenter: presenter, store: .init(repository: repository), loggedUser: .alice)
     }
 
     override func tearDown() {

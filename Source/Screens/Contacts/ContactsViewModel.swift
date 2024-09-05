@@ -3,18 +3,18 @@
 
 import Foundation
 
-class ContactsLoaderPresentationAdapter {
+final class ContactsViewModel {
 
-    let store: ContactsStore
-    let presenter: ContactsPresenter
-    let loggedUserAlias: String
+    private let store: ContactsStore
+    private let presenter: ContactsPresenter
+    private let loggedUser: String?
 
     var contacts: [Contact] { store.contacts }
 
-    init(presenter: ContactsPresenter, store: ContactsStore, loggedUserAlias: String) {
+    init(presenter: ContactsPresenter, store: ContactsStore, loggedUser: String? = nil) {
         self.presenter = presenter
         self.store = store
-        self.loggedUserAlias = loggedUserAlias
+        self.loggedUser = loggedUser
     }
 
     func fetchUsers() {
@@ -50,6 +50,7 @@ class ContactsLoaderPresentationAdapter {
     }
 
     private func filterLoggedUser(from contacts: [Contact]) -> [Contact] {
-        contacts.filter { $0.alias != loggedUserAlias }
+        guard let loggedUser else { return contacts }
+        return contacts.filter { $0.alias != loggedUser }
     }
 }

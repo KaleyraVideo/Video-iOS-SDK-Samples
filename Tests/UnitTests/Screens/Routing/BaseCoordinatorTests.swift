@@ -71,7 +71,7 @@ final class BaseCoordinatorTests: UnitTestCase {
         let child = makeCoordinatorSpy()
 
         sut.addChild(child)
-        sut.handle(event: .shakeMotion, direction: .toChildren)
+        sut.handle(event: .shareLogFiles, direction: .toChildren)
 
         assertThat(child.handleCalls, hasCount(1))
     }
@@ -81,7 +81,7 @@ final class BaseCoordinatorTests: UnitTestCase {
         let parent = makeCoordinatorSpy()
 
         sut.parent = parent
-        sut.handle(event: .shakeMotion, direction: .toParent)
+        sut.handle(event: .shareLogFiles, direction: .toParent)
 
         assertThat(parent.handleCalls, hasCount(1))
     }

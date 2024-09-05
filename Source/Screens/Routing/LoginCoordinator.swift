@@ -14,7 +14,7 @@ final class LoginCoordinator: BaseCoordinator {
         loginController
     }
 
-    private var presentationAdapter: LoginLoaderPresentationAdapter?
+    private var viewModel: ContactsViewModel?
     private var searchController: UISearchController?
 
     init(config: Config, services: ServicesFactory) {
@@ -25,14 +25,14 @@ final class LoginCoordinator: BaseCoordinator {
     func start(onDismiss: @escaping (Contact?) -> Void) {
         let searchController = makeSearchController()
 
-        presentationAdapter = LoginLoaderPresentationAdapter(store: services.makeContactsStore(config: config),
-                                                             presenter: ContactsPresenter(output: Weak(object: loginController)))
+        viewModel = ContactsViewModel(presenter: .init(output: Weak(object: loginController)),
+                                      store: services.makeContactsStore(config: config))
 
         loginController.navigationItem.searchController = searchController
         loginController.navigationItem.hidesSearchBarWhenScrolling = false
         loginController.definesPresentationContext = true
         loginController.onSelection = onDismiss
-        loginController.onReady = presentationAdapter?.fetchUsers
+        loginController.onReady = viewModel?.fetchUsers
         loginController.handleErrorTapped = { onDismiss(nil) }
     }
 }
@@ -49,10 +49,10 @@ extension LoginCoordinator: UISearchBarDelegate {
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        presentationAdapter?.filter(searchFilter: searchText)
+        viewModel?.filter(searchFilter: searchText)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        presentationAdapter?.filter(searchFilter: "")
+        viewModel?.filter(searchFilter: "")
     }
 }

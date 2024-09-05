@@ -8,7 +8,7 @@ final class ContactsCoordinator: BaseCoordinator {
 
     private let config: Config
     private let loggedUser: Contact
-    private var presentationAdapter: ContactsLoaderPresentationAdapter?
+    private var viewModel: ContactsViewModel?
     private var selectedContactsAlias = [String]()
     private var onCall: ((ContactsViewController.Action) -> Void)?
     private var onCallOptionsChanged: ((CallOptions) -> Void)?
@@ -62,9 +62,9 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     func updateContact(contact: Contact) {
-        guard let presentationAdapter = presentationAdapter else { return }
+        guard let viewModel else { return }
 
-        presentationAdapter.update(contact: contact)
+        viewModel.update(contact: contact)
     }
 
     private func makeContactsViewController() -> ContactsViewController {
@@ -79,10 +79,10 @@ final class ContactsCoordinator: BaseCoordinator {
 
     private func setupContactsViewController(onUpdateContact: @escaping (Contact) -> Void,
                                              onCallUser: @escaping (ContactsViewController.Action) -> Void) {
-        let presentationAdapter = ContactsLoaderPresentationAdapter(presenter: ContactsPresenter(output: Weak(object: contactController)),
-                                                                    store: services.makeContactsStore(config: config),
-                                                                    loggedUserAlias: loggedUser.alias)
-        contactController.onReady = presentationAdapter.fetchUsers
+        let viewModel = ContactsViewModel(presenter: .init(output: Weak(object: contactController)),
+                                          store: services.makeContactsStore(config: config),
+                                          loggedUser: loggedUser.alias)
+        contactController.onReady = viewModel.fetchUsers
         contactController.onUpdateContact = { [weak self] contact in
             self?.showProfileUpdate(contact)
         }
@@ -97,7 +97,7 @@ final class ContactsCoordinator: BaseCoordinator {
             self.selectedContactsAlias = aliases
             self.callButton.isEnabled = aliases.count > 0 ? true : false
         }
-        self.presentationAdapter = presentationAdapter
+        self.viewModel = viewModel
     }
 
     private func showProfileUpdate(_ contact: Contact) {
@@ -171,10 +171,10 @@ final class ContactsCoordinator: BaseCoordinator {
 extension ContactsCoordinator: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        presentationAdapter?.filter(searchFilter: searchText)
+        viewModel?.filter(searchFilter: searchText)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        presentationAdapter?.filter(searchFilter: "")
+        viewModel?.filter(searchFilter: "")
     }
 }
