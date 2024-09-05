@@ -17,14 +17,14 @@ protocol SettingsViewControllerDelegate: AnyObject {
 
 final class SettingsViewController: UIViewController {
 
-    var onReady: (() -> Void)?
-    var shareLogsAction: (() -> Void)?
-
     weak var delegate: SettingsViewControllerDelegate?
 
     let config: Config
     let versions: Versions
     let store: UserDefaultsStore
+
+    var onReady: (() -> Void)?
+    var shareLogsAction: (() -> Void)?
 
     var user: Contact {
         didSet {
@@ -69,22 +69,22 @@ final class SettingsViewController: UIViewController {
     }()
 
     private lazy var iconImage: CircleMaskedImageView = {
-        let iconImage = CircleMaskedImageView(image: Icons.logo256)
-        iconImage.translatesAutoresizingMaskIntoConstraints = false
-        iconImage.contentMode = .scaleAspectFill
-        iconImage.clipsToBounds = true
-        iconImage.isUserInteractionEnabled = true
-        let recognizer = UILongPressGestureRecognizer(target: self, action:  #selector(longPress))
-        iconImage.addGestureRecognizer(recognizer)
-        return iconImage
+        let imageView = CircleMaskedImageView(image: Icons.logo256)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
+        imageView.addGestureRecognizer(recognizer)
+        return imageView
     }()
 
     // MARK: - Init
 
-    init(user: Contact, config: Config, settingsStore: UserDefaultsStore, versions: Versions = .init()) {
+    init(user: Contact, config: Config, services: ServicesFactory, versions: Versions = .init()) {
         self.user = user
         self.config = config
-        self.store = settingsStore
+        self.store = services.makeUserDefaultsStore()
         self.versions = versions
         super.init(nibName: nil, bundle: nil)
     }
@@ -110,21 +110,26 @@ final class SettingsViewController: UIViewController {
         insertTableView()
     }
 
-    private func insertTableView(){
+    private func insertTableView() {
         view.addSubview(tableView)
-        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
     }
 
     private func makeHeader() -> UIView {
         let headerView = UIView()
         headerView.addSubview(iconImage)
-        iconImage.centerXAnchor.constraint(equalTo: headerView.centerXAnchor).isActive = true
-        iconImage.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-        iconImage.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        iconImage.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        NSLayoutConstraint.activate([
+            iconImage.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            iconImage.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            iconImage.heightAnchor.constraint(equalToConstant: 150),
+            iconImage.widthAnchor.constraint(equalToConstant: 150)
+        ])
+
         return headerView
     }
 
@@ -133,9 +138,9 @@ final class SettingsViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        if let indexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+
+        tableView.deselectRow(at: indexPath, animated: animated)
     }
 
     // MARK: - Long press handler

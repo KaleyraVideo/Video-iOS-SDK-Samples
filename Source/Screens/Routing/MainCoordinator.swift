@@ -110,10 +110,6 @@ extension MainCoordinator: SettingsCoordinatorDelegate {
         sdkCoordinator.stop()
         onLogout?()
     }
-
-    func settingsCoordinatorDidUpdateContact(contact: Contact) {
-        contactsCoordinator.updateContact(contact: contact)
-    }
 }
 
 private extension ContactsViewController.Action {

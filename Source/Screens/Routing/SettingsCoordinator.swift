@@ -8,7 +8,6 @@ protocol SettingsCoordinatorDelegate: AnyObject {
 
     func settingsCoordinatorDidLogout()
     func settingsCoordinatorDidReset()
-    func settingsCoordinatorDidUpdateContact(contact: Contact)
 }
 
 final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate {
@@ -17,10 +16,10 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
     private let config: Config
 
     private lazy var settingsController: SettingsViewController = {
-        let controller = SettingsViewController(user: loggedUser, config: config, settingsStore: services.makeUserDefaultsStore())
+        let controller = SettingsViewController(user: loggedUser, config: config, services: services)
         controller.title = Strings.Settings.title
-        controller.tabBarItem = UITabBarItem(title: Strings.Settings.tabName, image: Icons.settings, selectedImage: nil)
-        controller.tabBarItem.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: 4, right: 3)
+        controller.tabBarItem = .init(title: Strings.Settings.tabName, image: Icons.settings, selectedImage: nil)
+        controller.tabBarItem.imageInsets = .init(top: 3, left: 0, bottom: 4, right: 3)
         controller.delegate = self
 
 #if SAMPLE_CUSTOMIZABLE_THEME
@@ -84,8 +83,6 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
             if contact.alias == self.loggedUser.alias {
                 settingsController.user = contact
             }
-
-            self.delegate?.settingsCoordinatorDidUpdateContact(contact: contact)
 
             self.removeChild(coordinator)
         })

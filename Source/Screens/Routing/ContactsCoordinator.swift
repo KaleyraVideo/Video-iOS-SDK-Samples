@@ -61,12 +61,6 @@ final class ContactsCoordinator: BaseCoordinator {
         navigationController.setViewControllers([contactController], animated: false)
     }
 
-    func updateContact(contact: Contact) {
-        guard let viewModel else { return }
-
-        viewModel.update(contact: contact)
-    }
-
     private func makeContactsViewController() -> ContactsViewController {
         let controller = ContactsViewController(services: services)
         controller.navigationItem.searchController = searchController
@@ -105,7 +99,6 @@ final class ContactsCoordinator: BaseCoordinator {
         coordinator.start(onDismiss: { [weak self] contact in
             guard let self else { return }
 
-            self.updateContact(contact: contact)
             self.onUpdateContact?(contact)
             self.removeChild(coordinator)
         })

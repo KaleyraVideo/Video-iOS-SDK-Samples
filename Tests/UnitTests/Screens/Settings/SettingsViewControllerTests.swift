@@ -120,7 +120,7 @@ final class SettingsViewControllerTests: UnitTestCase {
                          environment: Config.Environment = .sandbox,
                          region: Config.Region = .europe,
                          versions: SDK_Sample.Versions = .init(app: .init(marketing: "21.0.0"), sdk: .init(marketing: "42.0.0"))) -> SettingsViewController {
-        .init(user: user, config: .init(keys: .any, environment: environment, region: region), settingsStore: UserDefaultsStore(), versions: versions)
+        .init(user: user, config: .init(keys: .any, environment: environment, region: region), services: ServicesFactoryStub(), versions: versions)
     }
 
     private func makeDelegateSpy() -> DelegateSpy {
