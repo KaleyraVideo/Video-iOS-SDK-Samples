@@ -8,7 +8,7 @@ final class ContactsCoordinator: BaseCoordinator {
 
     private let config: Config
     private let loggedUser: Contact
-    private var viewModel: ContactsViewModel?
+    private lazy var viewModel: ContactsViewModel = .init(store: services.makeContactsStore(config: config), loggedUser: loggedUser.alias)
     private var selectedContactsAlias = [String]()
     private var onCall: ((ContactsViewController.Action) -> Void)?
     private var onCallOptionsChanged: ((CallOptions) -> Void)?
@@ -59,7 +59,7 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func makeContactsViewController() -> ContactsViewController {
-        let controller = ContactsViewController(services: services)
+        let controller = ContactsViewController(viewModel: viewModel, services: services)
         controller.navigationItem.searchController = searchController
         controller.navigationItem.hidesSearchBarWhenScrolling = false
         controller.tabBarItem = UITabBarItem(title: Strings.Contacts.tabName, image: Icons.contact, selectedImage: nil)
@@ -69,10 +69,6 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func setupContactsViewController(onCallUser: @escaping (ContactsViewController.Action) -> Void) {
-        let viewModel = ContactsViewModel(observer: Weak(object: contactController),
-                                          store: services.makeContactsStore(config: config),
-                                          loggedUser: loggedUser.alias)
-        contactController.onReady = viewModel.load
         contactController.onUpdateContact = { [weak self] contact in
             self?.showProfileUpdate(contact)
         }
@@ -87,7 +83,6 @@ final class ContactsCoordinator: BaseCoordinator {
             self.selectedContactsAlias = aliases
             self.callButton.isEnabled = aliases.count > 0 ? true : false
         }
-        self.viewModel = viewModel
     }
 
     private func showProfileUpdate(_ contact: Contact) {
@@ -159,10 +154,10 @@ final class ContactsCoordinator: BaseCoordinator {
 extension ContactsCoordinator: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel?.filter(searchFilter: searchText)
+        viewModel.filter(searchFilter: searchText)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel?.filter(searchFilter: "")
+        viewModel.filter(searchFilter: "")
     }
 }

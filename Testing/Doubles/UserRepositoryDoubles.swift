@@ -2,6 +2,7 @@
 // See LICENSE for licensing information
 
 import Foundation
+import KaleyraTestHelpers
 @testable import SDK_Sample
 
 final class UserRepositoryDummy: UserRepository {
@@ -16,9 +17,11 @@ final class UserRepositoryMock: UserRepository {
     }
 
     private var completion: ((Result<[String], Error>) -> Void)?
+    private(set) lazy var loadInvocations: [Void] = [Void]()
 
     func loadUsers(completion: @escaping (Result<[String], Error>) -> Void) {
         self.completion = completion
+        loadInvocations.append()
     }
 
     func simulateLoadUsersSuccess(users: [String]) throws {

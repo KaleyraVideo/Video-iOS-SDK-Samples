@@ -14,7 +14,7 @@ final class LoginCoordinator: BaseCoordinator {
         loginController
     }
 
-    private var viewModel: ContactsViewModel?
+    private lazy var viewModel: ContactsViewModel = .init(store: services.makeContactsStore(config: config))
     private var searchController: UISearchController?
 
     init(config: Config, services: ServicesFactory) {
@@ -24,15 +24,12 @@ final class LoginCoordinator: BaseCoordinator {
 
     func start(onDismiss: @escaping (Contact?) -> Void) {
         let searchController = makeSearchController()
-
-        viewModel = ContactsViewModel(observer: Weak(object: loginController),
-                                      store: services.makeContactsStore(config: config))
-
+        viewModel.observer = Weak(object: loginController)
         loginController.navigationItem.searchController = searchController
         loginController.navigationItem.hidesSearchBarWhenScrolling = false
         loginController.definesPresentationContext = true
         loginController.onSelection = onDismiss
-        loginController.onReady = viewModel?.load
+        loginController.onReady = viewModel.load
         loginController.handleErrorTapped = { onDismiss(nil) }
     }
 }
@@ -49,10 +46,10 @@ extension LoginCoordinator: UISearchBarDelegate {
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel?.filter(searchFilter: searchText)
+        viewModel.filter(searchFilter: searchText)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel?.filter(searchFilter: "")
+        viewModel.filter(searchFilter: "")
     }
 }

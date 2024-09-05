@@ -1,7 +1,9 @@
 // Copyright © 2018-2022 Kaleyra S.p.a. All Rights Reserved.
 // See LICENSE.txt for licensing information
 
+import Foundation
 import UIKit
+import Combine
 import KaleyraVideoSDK
 
 final class ContactsViewController: UITableViewController {
@@ -13,16 +15,13 @@ final class ContactsViewController: UITableViewController {
 
     private let services: ServicesFactory
 
-    var onReady: (() -> Void)?
-    var onAction: ((Action) -> Void)?
-    var onUpdateSelectedContacts: (([String]) -> Void)?
-    var onUpdateContact: ((Contact) -> Void)?
-
     private var selectedContactsAlias: [String] = [] {
         didSet {
             onUpdateSelectedContacts?(selectedContactsAlias)
         }
     }
+
+    private let viewModel: ContactsViewModel
 
     private var dataSet: IndexedSections<String, Contact> = .init(sections: []) {
         didSet {
@@ -39,7 +38,14 @@ final class ContactsViewController: UITableViewController {
         }
     }
 
-    init(services: ServicesFactory) {
+    private lazy var subscriptions = Set<AnyCancellable>()
+
+    var onAction: ((Action) -> Void)?
+    var onUpdateSelectedContacts: (([String]) -> Void)?
+    var onUpdateContact: ((Contact) -> Void)?
+
+    init(viewModel: ContactsViewModel, services: ServicesFactory) {
+        self.viewModel = viewModel
         self.services = services
         super.init(nibName: nil, bundle: nil)
     }
@@ -57,7 +63,10 @@ final class ContactsViewController: UITableViewController {
 #if SAMPLE_CUSTOMIZABLE_THEME
         themeChanged(theme: services.makeThemeStorage().getSelectedTheme())
 #endif
-        onReady?()
+        viewModel.$state.sink { [weak self] state in
+            self?.display(state)
+        }.store(in: &subscriptions)
+        viewModel.load()
     }
 
     private func setupTableView() {
@@ -67,6 +76,28 @@ final class ContactsViewController: UITableViewController {
         tableView.tintColor = Theme.Color.secondary
         tableView.registerReusableCell(UserCell.self)
         tableView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPress(sender:))))
+    }
+
+    private func display(_ state: ContactsViewModel.State) {
+        switch state {
+            case .initial:
+                tableView.backgroundView = NoContentView.empty
+            case .loading:
+                tableView.backgroundView = NoContentView.loading
+            case .error(let message):
+                tableView.backgroundView = NoContentView.error(message: message, action: { [weak self] in self?.viewModel.load() })
+            case .loaded(let contacts):
+                if contacts.isEmpty {
+                    tableView.backgroundView = NoContentView.empty
+                    tableView.separatorColor = .clear
+                    self.contacts = []
+                } else {
+                    tableView.isHidden = false
+                    tableView.backgroundView = nil
+                    tableView.separatorColor = .gray
+                    self.contacts = contacts
+                }
+        }
     }
 
     // MARK: - Enable / Disable multiple selection
@@ -227,33 +258,6 @@ extension ContactsViewController: Themable {
     }
 }
 #endif
-
-// MARK: - ContactsPresenterOutput
-
-extension ContactsViewController: ContactsViewModelObserver {
-
-    func display(_ state: ContactsViewModel.State) {
-        switch state {
-            case .initial:
-                tableView.backgroundView = NoContentView.empty
-            case .loading:
-                tableView.backgroundView = NoContentView.loading
-            case .error(let message):
-                tableView.backgroundView = NoContentView.error(message: message, action: { [weak self] in self?.onReady?() })
-            case .loaded(let contacts):
-                if contacts.isEmpty {
-                    tableView.backgroundView = NoContentView.empty
-                    tableView.separatorColor = .clear
-                    self.contacts = []
-                } else {
-                    tableView.isHidden = false
-                    tableView.backgroundView = nil
-                    tableView.separatorColor = .gray
-                    self.contacts = contacts
-                }
-        }
-    }
-}
 
 private extension NoContentView {
 

@@ -83,8 +83,6 @@ final class ContactUpdateTableViewController: UITableViewController {
         guard let section = Section(rawValue: indexPath.section) else { fatalError("Unknown section") }
 
         let cell: TextFieldTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.selectionStyle = .none
-        cell.tintColor = Theme.Color.secondary
 
         switch section {
             case .firstname:

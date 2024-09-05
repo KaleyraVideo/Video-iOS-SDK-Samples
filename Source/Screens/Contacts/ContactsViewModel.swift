@@ -28,20 +28,21 @@ final class ContactsViewModel {
     }
 
     private let store: ContactsStore
-    private let observer: ContactsViewModelObserver
     private let loggedUser: String?
     private var filter: String?
 
+    var observer: ContactsViewModelObserver?
+
+    @Published
     private(set) var state: State = .initial {
         didSet {
-            observer.display(state)
+            observer?.display(state)
         }
     }
 
     private lazy var subscriptions = Set<AnyCancellable>()
 
-    init(observer: ContactsViewModelObserver, store: ContactsStore, loggedUser: String? = nil) {
-        self.observer = observer
+    init(store: ContactsStore, loggedUser: String? = nil) {
         self.store = store
         self.loggedUser = loggedUser
     }

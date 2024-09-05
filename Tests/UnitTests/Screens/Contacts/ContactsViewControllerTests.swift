@@ -10,16 +10,24 @@ import KaleyraTestMatchers
 
 final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
+    private var viewModel: ContactsViewModel!
+    private var repository: UserRepositoryMock!
     private var sut: ContactsViewController!
 
     override func setUp() {
         super.setUp()
 
-        sut = .init(services: ServicesFactoryStub())
+        repository = .init()
+        viewModel = .init(store: .init(repository: repository), loggedUser: .alice)
+        sut = .init(viewModel: viewModel, services: ServicesFactoryStub())
     }
 
     override func tearDown() {
+        weak var weakSut = sut
+        viewModel = nil
+        repository = nil
         sut = nil
+        assertThat(weakSut, nilValue())
 
         super.tearDown()
     }
@@ -30,55 +38,47 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.title, equalTo(Strings.Contacts.title))
     }
 
-    func testContactsViewControllerOnReadyListenerStarts() throws {
-        let readyListener = CompletionSpy<Void>()
-        sut.onReady = readyListener.callAsFunction
-
+    func testLoadViewShouldStartLoading() {
         sut.loadViewIfNeeded()
 
-        assertThat(readyListener.invocations, hasCount(1))
+        assertThat(repository.loadInvocations, hasCount(1))
     }
 
-    func testsDisplayViewModelAndReloadTableView() {
+    func testWhenViewModelIsLoadedShouldReloadData() throws {
         sut.loadViewIfNeeded()
 
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
         assertThat(sut.tableView.numberOfRows(inSection: 0), equalTo(1))
         assertThat(sut.tableView.numberOfRows(inSection: 1), equalTo(1))
         assertThat(sut.tableView.numberOfRows(inSection: 2), equalTo(1))
     }
 
-    func testCheckChangesUIStatesWhileLoadingUsers() {
+    func testWhenViewModelIsLoadedShouldRemovePlaceholderBackgroundView() throws {
         sut.loadViewIfNeeded()
-
-        sut.display(.loading)
         assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.loadingTitle))
 
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
+
         assertThat(sut.tableView.backgroundView, nilValue())
     }
 
-    func testShowPlaceHolderEmptyDatasetWhenPassNoDataToTableView() {
+    func testWhenViewModelIsLoadedWithAnEmptyDataSetShouldShowNoContent() throws {
         sut.loadViewIfNeeded()
-        sut.display(.loaded([]))
+
+        try repository.simulateLoadUsersSuccess(users: [])
 
         assertThat(sut.noContentView?.title, equalTo(Strings.Contacts.emptyTitle))
         assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.emptySubtitle))
-
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
-        assertThat(sut.tableView.backgroundView, nilValue())
     }
 
-    func testShowPlaceHolderErrorWhenReturnUnknownError() {
+    func testWhenViewModelLoadingFailsShouldShowErrorView() throws {
         sut.loadViewIfNeeded()
-        sut.display(.error(description: .foo))
+
+        try repository.simulateLoadUsersFailure(error: anyNSError())
 
         assertThat(sut.noContentView?.title, equalTo(Strings.Contacts.Alert.title))
-        assertThat(sut.noContentView?.subtitle, equalTo(.foo))
-
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
-        assertThat(sut.tableView.backgroundView, nilValue())
+        assertThat(sut.noContentView?.subtitle, equalTo(String(describing: anyNSError())))
     }
 
     func testEnableMultipleSelectionSettings() {
@@ -105,25 +105,25 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.tableView.keyboardDismissMode, equalTo(.onDrag))
     }
 
-    func testSelectionOfUserWhenEnabled() {
+    func testSelectionOfUserWhenEnabled() throws {
         sut.loadViewIfNeeded()
         sut.enableMultipleSelection(false)
 
         let selectionHandler = makeSelectionSpy()
         sut.onUpdateSelectedContacts = selectionHandler.callAsFunction
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
         sut.selectRow(at: .init(row: 0, section: 0))
-        assertThat(selectionHandler.invocations.first, equalTo([.alice]))
+        assertThat(selectionHandler.invocations.first, equalTo([.bob]))
     }
 
-    func testSelectionOfUserWhenDisabled() {
+    func testSelectionOfUserWhenDisabled() throws {
         sut.loadViewIfNeeded()
         sut.disableMultipleSelection(false)
 
         let selectionHandler = makeSelectionSpy()
         sut.onUpdateSelectedContacts = selectionHandler.callAsFunction
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        try repository.simulateLoadUsersSuccess(users: [.alice, .bob, .charlie])
 
         sut.selectRow(at: .init(row: 0, section: 0))
         assertThat(selectionHandler.invocations, empty())
@@ -150,7 +150,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     func testSwipeActionConfigurationsForCellOnSwipe() throws {
         sut.loadViewIfNeeded()
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        try repository.simulateLoadUsersSuccess(users: [.alice, .bob, .charlie])
 
         let configuration = try unwrap(sut.trailingSwipeActions(at: .init(row: 0, section: 0)))
         assertThat(configuration.actions, presentAnd(hasCount(3)))
