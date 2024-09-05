@@ -32,7 +32,7 @@ final class LoginCoordinator: BaseCoordinator {
         loginController.navigationItem.hidesSearchBarWhenScrolling = false
         loginController.definesPresentationContext = true
         loginController.onSelection = onDismiss
-        loginController.onReady = viewModel?.fetchUsers
+        loginController.onReady = viewModel?.load
         loginController.handleErrorTapped = { onDismiss(nil) }
     }
 }

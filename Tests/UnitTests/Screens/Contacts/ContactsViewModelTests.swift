@@ -31,40 +31,69 @@ final class ContactsViewModelTests: UnitTestCase {
         super.tearDown()
     }
 
-    func testCallFetchUserAndCorrectlyShowLoadingOnController() throws {
-        sut.fetchUsers()
+    func testLoadShouldUpdateStateToLoading() throws {
+        sut.load()
 
+        assertThat(sut.state, equalTo(.loading))
         assertThat(presenter.loadingInvocations.count, equalTo(1))
     }
 
-    func testOnLoadUsersSuccessTellsPresenterDidFinishLoadingWithUsers() throws  {
-        sut.fetchUsers()
+    func testOnLoadSuccessShouldUpdateStateToLoaded() throws  {
+        sut.load()
+
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie])
+
+        assertThat(sut.state.contacts.map(\.alias), equalTo([.bob, .charlie]))
+        assertThat(presenter.finishedInvocations, hasCount(1))
+        assertThat(presenter.finishedInvocations[0].map(\.alias), equalTo([.bob, .charlie]))
+    }
+
+    func testOnLoadSuccessShouldFilterLoggedUserFromContacts() throws {
+        sut.load()
+
         try repository.simulateLoadUsersSuccess(users: [.alice, .bob])
 
+        assertThat(sut.state.contacts.map(\.alias), equalTo([.bob]))
         assertThat(presenter.finishedInvocations, hasCount(1))
         assertThat(presenter.finishedInvocations[0].map(\.alias), equalTo([.bob]))
     }
 
-    func testOnLoadUserSuccessTellePresenterDidFinishLoadWithUserAndTestFilteringUser() throws {
-        sut.fetchUsers()
+    func testFilterShouldUpdateContactsFilteringByAlias() throws {
+        sut.load()
         try repository.simulateLoadUsersSuccess(users: [.alice, .bob])
 
-        assertThat(presenter.finishedInvocations, hasCount(1))
-        assertThat(presenter.finishedInvocations[0].map(\.alias), equalTo([.bob]))
-
         sut.filter(searchFilter: .alice)
-
+        assertThat(sut.state.contacts.map(\.alias), equalTo([]))
         assertThat(presenter.finishedInvocations, hasCount(2))
         assertThat(presenter.finishedInvocations[1].map(\.alias), equalTo([]))
 
         sut.filter(searchFilter: "")
-
+        assertThat(sut.state.contacts.map(\.alias), equalTo([.bob]))
         assertThat(presenter.finishedInvocations, hasCount(3))
         assertThat(presenter.finishedInvocations[2].map(\.alias), equalTo([.bob]))
     }
 
+    func testLoadSuccessShouldUpdateStateOrderingResultsAlphabetically() throws  {
+        sut.load()
+
+        try repository.simulateLoadUsersSuccess(users: ["b", "C", "d", "A"])
+
+        assertThat(sut.state.contacts.map(\.alias), equalTo(["A", "b", "C", "d"]))
+        assertThat(presenter.loadingInvocations.count, equalTo(1))
+        assertThat(presenter.finishedInvocations.first?.map(\.alias), equalTo(["A", "b", "C", "d"]))
+    }
+
+    func testoadFailureShouldUpdateStateToError() throws {
+        sut.load()
+
+        try repository.simulateLoadUsersFailure(error: anyNSError())
+
+        assertThat(sut.state, equalTo(.error(description: String(describing: anyNSError()))))
+        assertThat(presenter.errorInvocations.count, equalTo(1))
+    }
+
     func testSimulateLoadUserAndUpdateOneUserValues() throws {
-        sut.fetchUsers()
+        sut.load()
         try repository.simulateLoadUsersSuccess(users: [.charlie, .bob])
 
         var contact = Contact(.charlie)
@@ -81,32 +110,8 @@ final class ContactsViewModelTests: UnitTestCase {
         assertThat(actual.profileImageURL, equalTo(.kaleyra))
     }
 
-    func testOnLoadUsersSuccessTellsPresenterDidFinishLoadingWithUsersAndChechTheyAreAlpabeticallyOrdered() throws  {
-        sut.fetchUsers()
-        try repository.simulateLoadUsersSuccess(users: ["b", "C", "d", "A"])
-
-        assertThat(presenter.loadingInvocations.count, equalTo(1))
-        assertThat(presenter.finishedInvocations.first?.map(\.alias), equalTo(["A", "b", "C", "d"]))
-    }
-
-    func testOnLoadUserSuccessTellePresenterDidFinishLoadWithUserAndFilterLoggedUserAlias() throws {
-        sut.fetchUsers()
-        try repository.simulateLoadUsersSuccess(users: [.alice, .bob])
-
-        assertThat(presenter.finishedInvocations.count, equalTo(1))
-        assertThat(presenter.finishedInvocations.first?.map(\.alias), equalTo([.bob]))
-    }
-
-    func testOnLoadUsersFailureTellsPresenterDidFinishLoadingWithError() throws {
-        sut.fetchUsers()
-
-        try repository.simulateLoadUsersFailure(error: anyNSError())
-
-        assertThat(presenter.errorInvocations.count, equalTo(1))
-    }
-
     func testDoesNotCreateRetainCycleWhenInvokingLoadUsers() {
-        sut.fetchUsers()
+        sut.load()
     }
 }
 

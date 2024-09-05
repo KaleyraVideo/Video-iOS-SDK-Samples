@@ -82,7 +82,7 @@ final class ContactsCoordinator: BaseCoordinator {
         let viewModel = ContactsViewModel(presenter: .init(output: Weak(object: contactController)),
                                           store: services.makeContactsStore(config: config),
                                           loggedUser: loggedUser.alias)
-        contactController.onReady = viewModel.fetchUsers
+        contactController.onReady = viewModel.load
         contactController.onUpdateContact = { [weak self] contact in
             self?.showProfileUpdate(contact)
         }
