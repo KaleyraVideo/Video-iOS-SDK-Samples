@@ -102,7 +102,7 @@ final class ContactsViewModelTests: UnitTestCase {
         var contact = Contact(.charlie)
         contact.firstName = "Charlie"
         contact.lastName = "Appleseed"
-        contact.profileImageURL = .kaleyra
+        contact.imageURL = .kaleyra
         sut.update(contact: contact)
 
         assertThat(observer.displayInvocations, hasCount(3))
@@ -110,7 +110,7 @@ final class ContactsViewModelTests: UnitTestCase {
         let actual = observer.displayInvocations[2].contacts[1]
         assertThat(actual.firstName, equalTo("Charlie"))
         assertThat(actual.lastName, equalTo("Appleseed"))
-        assertThat(actual.profileImageURL, equalTo(.kaleyra))
+        assertThat(actual.imageURL, equalTo(.kaleyra))
     }
 
     func testDoesNotCreateRetainCycleWhenInvokingLoadUsers() {

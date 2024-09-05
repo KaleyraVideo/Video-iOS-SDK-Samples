@@ -64,7 +64,7 @@ final class SettingsViewControllerTests: UnitTestCase {
 
         let resourceURL = Bundle.main.url(forResource: "woman_0", withExtension: "jpg")!
 
-        contact.profileImageURL = resourceURL
+        contact.imageURL = resourceURL
         store.update(contact: contact)
 
         let expectedImage = UIImage(contentsOfFile: Bundle.main.path(forResource: "woman_0", ofType: "jpg")!)

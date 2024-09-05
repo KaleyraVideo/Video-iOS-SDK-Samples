@@ -8,7 +8,7 @@ class UserCell: UITableViewCell {
     var contact: Contact? {
         didSet {
 
-            if let imageName = contact?.profileImage {
+            if let imageName = contact?.imageName {
                 contactImage.image = UIImage(named: imageName)
             }
 

@@ -98,9 +98,9 @@ final class ContactUpdateTableViewController: UITableViewController {
                     self?.contact.lastName = text
                 }
             case .avatar:
-                cell.text = contact.profileImageURL?.absoluteString
+                cell.text = contact.imageURL?.absoluteString
                 cell.onTextChanged = { [weak self] text in
-                    self?.contact.profileImageURL = text.map({ .init(string: $0) }) ?? nil
+                    self?.contact.imageURL = text.map({ .init(string: $0) }) ?? nil
                 }
         }
 

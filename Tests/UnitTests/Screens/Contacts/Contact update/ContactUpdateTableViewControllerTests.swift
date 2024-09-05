@@ -20,7 +20,7 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
         contact = .init(.alice)
         contact.firstName = "Alice"
         contact.lastName = "Appleseed"
-        contact.profileImageURL = URL(string: .foobar)
+        contact.imageURL = URL(string: .foobar)
         store = .init(repository: UserRepositoryDummy())
         sut = .init(contact: contact, store: store)
     }
@@ -70,7 +70,7 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
         sut.loadViewIfNeeded()
 
         let cell = sut.cellForRowAt(.init(row: 0, section: 2))
-        assertThat(cell?.text, presentAnd(equalTo(contact.profileImageURL?.absoluteString)))
+        assertThat(cell?.text, presentAnd(equalTo(contact.imageURL?.absoluteString)))
     }
 
     func testWhenSaveButtonIsTouchedShouldInvokeOnDismissCallback() throws {

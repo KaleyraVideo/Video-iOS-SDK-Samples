@@ -29,7 +29,7 @@ final class SettingsViewController: UIViewController {
 
     var user: Contact {
         didSet {
-            guard let url = user.profileImageURL, url.isFileURL else { return }
+            guard let url = user.imageURL, url.isFileURL else { return }
             iconImage.image = UIImage(contentsOfFile: url.path)
         }
     }

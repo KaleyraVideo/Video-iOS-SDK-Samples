@@ -26,8 +26,8 @@ struct Contact: Equatable {
     var gender: Gender
     var email: String?
     var age: UInt?
-    var profileImage: String?
-    var profileImageURL: URL?
+    var imageName: String?
+    var imageURL: URL?
 
     init(_ alias: String) {
         self.alias = alias
@@ -71,8 +71,8 @@ extension Contact {
         }
         let lastName = lastNames[Int.random(in: 0 ..< lastNames.count, using: &generator)]
 
-        contact.profileImage = resourceName + ".jpg"
-        contact.profileImageURL = Bundle.main.url(forResource: resourceName, withExtension: ".jpg")
+        contact.imageName = resourceName + ".jpg"
+        contact.imageURL = Bundle.main.url(forResource: resourceName, withExtension: ".jpg")
         contact.lastName = lastName
         contact.firstName = firstName
         contact.email = "\(firstName).\(lastName)@example.com"
