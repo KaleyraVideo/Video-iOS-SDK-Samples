@@ -64,11 +64,11 @@ final class AppSetupCoordinator: BaseCoordinator {
         let loginCoordinator = LoginCoordinator(config: config, services: services)
         addChild(loginCoordinator)
         loginCoordinator.start { [weak self] contact in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.removeChild(loginCoordinator)
 
-            guard let contact = contact else { return }
+            guard let contact else { return }
 
             self.onDismiss?(config, contact)
         }
@@ -83,11 +83,11 @@ final class AppSetupCoordinator: BaseCoordinator {
     private func qrScanButtonTapped() {
         let controller = QRReaderViewController()
         controller.onDismiss = { [weak self] qr in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.navigationController.popViewController(animated: true)
 
-            guard let qr = qr else { return }
+            guard let qr else { return }
 
             self.goToUserSelectionStage(config: qr.makeConfig())
         }
@@ -101,7 +101,7 @@ final class AppSetupCoordinator: BaseCoordinator {
         let coordinator = AccessLinkCoordinator(config: config, services: services)
         addChild(coordinator)
         coordinator.start { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.removeChild(coordinator)
         }

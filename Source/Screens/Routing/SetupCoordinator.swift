@@ -21,7 +21,7 @@ final class SetupCoordinator: BaseCoordinator {
 
     private func goToFirstStep() {
         let controller = factory.makeSetupSelectionViewController { [weak self] selection in
-            guard let self = self else { return }
+            guard let self else { return }
 
             switch selection {
                 case .QR:
@@ -38,7 +38,7 @@ final class SetupCoordinator: BaseCoordinator {
 
     private func goToQR() {
         let controller = factory.makeQRViewController { [weak self] config in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if let config = config {
 
@@ -51,7 +51,7 @@ final class SetupCoordinator: BaseCoordinator {
 
     private func goToWizard() {
         let controller = factory.makeRegionSelectionViewController { [weak self] region in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if Config.Environment.environmentsFor(region: region).count > 1 {
                 self.goToEnvironmentSelection(region: region)
@@ -75,7 +75,7 @@ final class SetupCoordinator: BaseCoordinator {
 
     private func goToEnvironmentSelection(region: Config.Region) {
         let controller = factory.makeEnvironmentSelectionViewController { [weak self] environment in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.goToCompanySelection(region: region, environment: environment)
         }
@@ -84,7 +84,7 @@ final class SetupCoordinator: BaseCoordinator {
 
     private func goToCompanySelection(region: Config.Region, environment: Config.Environment) {
         let controller = factory.makeCompanySelectionViewController { [weak self] company in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.goToAdvancedSettings(region: region, environment: environment, company: company)
         }

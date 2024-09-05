@@ -38,8 +38,6 @@ final class ContactsViewModel {
         }
     }
 
-    var contacts: [Contact] { store.contacts }
-
     private lazy var subscriptions = Set<AnyCancellable>()
 
     init(observer: ContactsViewModelObserver, store: ContactsStore, loggedUser: String? = nil) {
@@ -58,9 +56,9 @@ final class ContactsViewModel {
             do {
                 _ = try result.get()
                 self.store.$contacts.dropFirst().sink { [weak self] contacts in
-                    self?.state = .loaded(contacts.filterBy(loggedUser: self?.loggedUser, aliasPattern: self?.filter))
+                    self?.setContacts(contacts: contacts)
                 }.store(in: &self.subscriptions)
-                self.state = .loaded(contacts.filterBy(loggedUser: self.loggedUser, aliasPattern: self.filter))
+                self.setContacts(contacts: store.contacts)
             } catch {
                 self.state = .error(description: String(describing: error))
             }
@@ -76,6 +74,10 @@ final class ContactsViewModel {
 
         guard state.isLoaded else { return }
 
+        setContacts(contacts: store.contacts)
+    }
+
+    private func setContacts(contacts: [Contact]) {
         state = .loaded(contacts.filterBy(loggedUser: loggedUser, aliasPattern: filter))
     }
 }

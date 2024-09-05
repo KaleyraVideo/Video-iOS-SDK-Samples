@@ -4,26 +4,28 @@
 import XCTest
 import SwiftHamcrest
 import KaleyraTestKit
+import KaleyraTestHelpers
+import KaleyraTestMatchers
 @testable import SDK_Sample
 
-final class ContactUpdateTableViewControllerTests: UnitTestCase {
+final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     private var contact: Contact!
-    private var services: ServicesFactoryStub!
+    private var store: ContactsStore!
     private var sut: ContactUpdateTableViewController!
 
     override func setUp() {
         super.setUp()
 
         contact = .init(.alice)
-        services = .init()
-        sut = .init(contact: contact, services: services)
+        store = .init(repository: UserRepositoryDummy())
+        sut = .init(contact: contact, store: store)
     }
 
     override func tearDown() {
         sut = nil
         contact = nil
-        services = nil
+        store = nil
 
         super.tearDown()
     }
@@ -34,8 +36,12 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase {
         assertThat(sut.title, equalTo(Strings.ContactUpdate.title))
     }
 
+    func testTableViewStyle() {
+        assertThat(sut.tableView.style, equalTo(.insetGrouped))
+    }
+
     func testDataSourceForTableViewSectionsAndCells() {
-        let _ = sut.view
+        sut.loadViewIfNeeded()
 
         assertThat(sut.tableView.numberOfSections, equalTo(3))
         assertThat(sut.tableView.numberOfRows(inSection: 0), equalTo(1))
@@ -44,100 +50,121 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase {
     }
 
     func testSetupForFirstNameTextFieldAccessoryView() throws {
-        let _ = sut.view
+        sut.loadViewIfNeeded()
 
-        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
-
-        assertThat(cell, present())
+        let cell = sut.cellForRowAt(.init(row: 0, section: 0))
         assertThat(cell.selectionStyle, equalTo(.none))
         assertThat(cell.tintColor.cgColor, equalTo(Theme.Color.secondary.cgColor))
 
-        let firstNameTextField = try XCTUnwrap(cell.contentView.firstDescendant() as? UITextField)
-
-        try assertTextFieldPropertyValues(textField: firstNameTextField)
+        let firstNameTextField = try unwrap(cell.textField)
+        assertTextFieldPropertyValues(textField: firstNameTextField)
     }
 
     func testSetupForLastNameTextFieldAccessoryView() throws {
-        let _ = sut.view
+        sut.loadViewIfNeeded()
 
-        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 1))
-
-        assertThat(cell, present())
+        let cell = sut.cellForRowAt(.init(row: 0, section: 1))
         assertThat(cell.selectionStyle, equalTo(.none))
         assertThat(cell.tintColor.cgColor, equalTo(Theme.Color.secondary.cgColor))
 
-        let lastNameTextField = try XCTUnwrap(cell.contentView.firstDescendant() as? UITextField)
-
-        try assertTextFieldPropertyValues(textField: lastNameTextField)
+        let lastNameTextField = try unwrap(cell.textField)
+        assertTextFieldPropertyValues(textField: lastNameTextField)
     }
 
     func testSetupForProfileUrlTextFieldAccessoryView() throws {
-        let _ = sut.view
+        sut.loadViewIfNeeded()
 
-        let cell = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 2))
-
-        assertThat(cell, present())
+        let cell = sut.cellForRowAt(.init(row: 0, section: 2))
         assertThat(cell.selectionStyle, equalTo(.none))
         assertThat(cell.tintColor.cgColor, equalTo(Theme.Color.secondary.cgColor))
 
-        let lastNameTextField = try XCTUnwrap(cell.contentView.firstDescendant() as? UITextField)
-
-        try assertTextFieldPropertyValues(textField: lastNameTextField)
+        let lastNameTextField = try unwrap(cell.textField)
+        assertTextFieldPropertyValues(textField: lastNameTextField)
     }
 
-    func testOnDismissFunctionReturnUpdatedContact() throws {
-        let _ = sut.view
+    func testWhenSaveButtonIsTouchedShouldInvokeOnDismissCallback() throws {
+        let callback = CompletionSpy<Contact>()
+        sut.onDismiss = callback.callAsFunction
 
-        var contact = Contact("testAlias")
-        let onDismiss: (Contact) -> Void = { updatedContact in
-            contact = updatedContact
-        }
+        sut.loadViewIfNeeded()
+        sut.simulateFirstnameUpdated("FirstName")
+        sut.simulateLastnameUpdated("LastName")
+        sut.footer?.button?.sendActions(for: .touchUpInside)
 
-        sut.onDismiss = onDismiss
-
-        let cellFirstName = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 0))
-
-        let firstNameTextField = try XCTUnwrap(cellFirstName.contentView.firstDescendant() as? UITextField)
-
-        firstNameTextField.text = "FirstName"
-        firstNameTextField.delegate?.textFieldDidEndEditing?(firstNameTextField)
-
-        let cellLastName = sut.tableView(sut.tableView, cellForRowAt: IndexPath(row: 0, section: 1))
-
-        let lastNameTextField = try XCTUnwrap(cellLastName.contentView.firstDescendant() as? UITextField)
-
-        lastNameTextField.text = "LastName"
-        lastNameTextField.delegate?.textFieldDidEndEditing?(lastNameTextField)
-
-        sut.viewWillDisappear(false)
-
-        let button = try XCTUnwrap(sut.tableView.tableFooterView?.firstDescendant() as? RoundedButton)
-        button.sendActions(for: .touchUpInside)
-
+        assertThat(callback.invocations, hasCount(1))
+        let contact = callback.invocations[0]
         assertThat(contact.firstName, equalTo("FirstName"))
         assertThat(contact.lastName, equalTo("LastName"))
     }
 
-    func testTableViewStyle() {
-        assertThat(sut.tableView.style, equalTo(.insetGrouped))
+    func testWhenSaveButtonIsTouchedShouldUpdateContactInContactsStore() throws {
+        sut.loadViewIfNeeded()
+
+        sut.simulateFirstnameUpdated("John")
+        sut.simulateLastnameUpdated("Appleseed")
+        sut.footer?.button?.sendActions(for: .touchUpInside)
+
+        assertThat(store.contacts, hasCount(1))
+        assertThat(store.contacts[0].alias, equalTo(.alice))
+        assertThat(store.contacts[0].firstName, equalTo("John"))
+        assertThat(store.contacts[0].lastName, equalTo("Appleseed"))
     }
 
-    // MARK: Helpers
+    // MARK: - Helpers
 
-    func assertTextFieldPropertyValues(textField: UITextField, file: StaticString = #filePath, line: UInt = #line ) throws {
+    func assertTextFieldPropertyValues(textField: UITextField, file: StaticString = #filePath, line: UInt = #line ) {
+        assertThat(textField.delegate, present(), file: file, line: line)
+        assertThat(textField.inputAccessoryView, present(), file: file, line: line)
+        assertThat(textField.inputAccessoryView, presentAnd(instanceOf(UIToolbar.self)), file: file, line: line)
+        let toolBar = textField.inputAccessoryView as! UIToolbar
+        assertThat(toolBar.frame, equalTo(.init(x: 0, y: 0, width: 100, height: 44)), file: file, line: line)
+        assertThat(toolBar.barStyle, equalTo(.default), file: file, line: line)
+        assertThat(toolBar.items, presentAnd(hasCount(2)), file: file, line: line)
+        let doneButtonItem = toolBar.items![1]
+        assertThat(doneButtonItem.style, equalTo(.plain), file: file, line: line)
+        assertThat(doneButtonItem.title, equalTo(Strings.Generic.confirm), file: file, line: line)
+    }
+}
 
-        assertThat(textField.delegate, present())
-        assertThat(textField.inputAccessoryView, present())
+private extension ContactUpdateTableViewController {
 
-        let toolBar: UIToolbar = try XCTUnwrap(textField.inputAccessoryView as? UIToolbar)
+    var footer: ButtonTableFooter? {
+        tableView.tableFooterView as? ButtonTableFooter
+    }
 
-        assertThat(toolBar.frame, equalTo(.init(x: 0, y: 0, width: 100, height: 44)))
-        assertThat(toolBar.barStyle, equalTo(.default))
-        assertThat(toolBar.items?.count, equalTo(2))
+    func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell {
+        tableView(tableView, cellForRowAt: indexPath)
+    }
 
-        let doneButtonItem = try XCTUnwrap(toolBar.items?.last)
+    func simulateFirstnameUpdated(_ text: String) {
+        let cell = cellForRowAt(.init(row: 0, section: 0))
+        cell.textField?.simulateTextEditingEnded(text)
+    }
 
-        assertThat(doneButtonItem.style, equalTo(.plain))
-        assertThat(doneButtonItem.title, equalTo(Strings.Generic.confirm))
+    func simulateLastnameUpdated(_ text: String) {
+        let cell = cellForRowAt(.init(row: 0, section: 1))
+        cell.textField?.simulateTextEditingEnded(text)
+    }
+}
+
+private extension UITableViewCell {
+
+    var textField: UITextField? {
+        contentView.firstDescendant()
+    }
+}
+
+private extension ButtonTableFooter {
+
+    var button: UIButton? {
+        firstDescendant()
+    }
+}
+
+private extension UITextField {
+
+    func simulateTextEditingEnded(_ text: String) {
+        self.text = text
+        self.delegate?.textFieldDidEndEditing?(self)
     }
 }

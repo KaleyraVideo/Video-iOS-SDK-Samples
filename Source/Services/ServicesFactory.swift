@@ -58,11 +58,11 @@ final class DefaultServicesFactory: ServicesFactory {
     }
 
     func makeVoIPManager(config: Config) -> VoIPNotificationsManager {
-        VoIPNotificationsManager(config: config, registry: makePushTokenRepository(config: config), sdk: makeSDK())
+        .init(config: config, registry: makePushTokenRepository(config: config), sdk: makeSDK())
     }
 
     func makePushManager(config: Config) -> PushManager {
-        PushManager(registry: makePushTokenRepository(config: config), store: makeUserDefaultsStore())
+        .init(registry: makePushTokenRepository(config: config), store: makeUserDefaultsStore())
     }
 
     func makeSDK() -> KaleyraVideo {

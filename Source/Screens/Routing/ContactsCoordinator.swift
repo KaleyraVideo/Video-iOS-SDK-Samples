@@ -93,7 +93,7 @@ final class ContactsCoordinator: BaseCoordinator {
         }
 
         contactController.onUpdateSelectedContacts = { [weak self] aliases in
-            guard let self = self else { return }
+            guard let self else { return }
             self.selectedContactsAlias = aliases
             self.callButton.isEnabled = aliases.count > 0 ? true : false
         }
@@ -101,9 +101,9 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func showProfileUpdate(_ contact: Contact) {
-        let coordinator = ContactProfileCoordinator(contact: loggedUser, services: services)
+        let coordinator = ContactProfileCoordinator(contact: loggedUser, services: services, config: config)
         coordinator.start(onDismiss: { [weak self] contact in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.updateContact(contact: contact)
             self.onUpdateContact?(contact)

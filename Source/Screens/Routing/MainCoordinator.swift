@@ -121,9 +121,9 @@ private extension ContactsViewController.Action {
     var coordinatorEvent: CoordinatorEvent {
         switch self {
             case .startCall(type: let type, callees: let callees):
-                return .startOutgoingCall(type: type, callees: callees)
+                .startOutgoingCall(type: type, callees: callees)
             case .openChat(user: let user):
-                return .openChat(userId: user)
+                .openChat(userId: user)
         }
     }
 }

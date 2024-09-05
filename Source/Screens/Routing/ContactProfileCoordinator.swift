@@ -6,6 +6,7 @@ import UIKit
 final class ContactProfileCoordinator: BaseCoordinator {
 
     private let contact: Contact
+    private let config: Config
 
     private(set) lazy var controller: UIViewController = {
         let navController = UINavigationController(rootViewController: profileController)
@@ -13,10 +14,11 @@ final class ContactProfileCoordinator: BaseCoordinator {
         return navController
     }()
 
-    private lazy var profileController: ContactUpdateTableViewController = .init(contact: contact, services: services) 
+    private lazy var profileController: ContactUpdateTableViewController = .init(contact: contact, store: services.makeContactsStore(config: config))
 
-    init(contact: Contact, services: ServicesFactory) {
+    init(contact: Contact, services: ServicesFactory, config: Config) {
         self.contact = contact
+        self.config = config
         super.init(services: services)
     }
 

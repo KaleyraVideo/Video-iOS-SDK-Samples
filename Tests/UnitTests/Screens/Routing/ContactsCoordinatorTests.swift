@@ -10,8 +10,6 @@ import KaleyraTestMatchers
 
 final class ContactsCoordinatorTests: UnitTestCase {
 
-    private let arrIndexSection = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
     func testComposeDoesNotCreateRetainCycles() throws {
         let sut = makeSUT()
         sut.start(onCallOptionsChanged: {_ in }, onUpdateContact: {_ in }, onCallUser: {_ in })
@@ -27,7 +25,7 @@ final class ContactsCoordinatorTests: UnitTestCase {
     // MARK: - Helpers
 
     private func makeSUT() -> ContactsCoordinator {
-        .init(config: .init(keys: .any), loggedUser: .init(.alice), services: ServicesFactoryStub(userLoader: UserRepositoryDummy()))
+        .init(config: .init(keys: .any), loggedUser: .init(.alice), services: ServicesFactoryStub())
     }
 }
 

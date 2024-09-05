@@ -7,30 +7,25 @@ import KaleyraVideoSDK
 
 class ServicesFactoryStub: ServicesFactory {
 
-    private let userDefaultsStore: UserDefaultsStore
-    private let userLoader: UserRepository
-    private let tokenProvider: AccessTokenProvider
-
-    init(userDefaultsStore: UserDefaultsStore = .init(), userLoader: UserRepository = UserRepositoryDummy(), tokenProvider: AccessTokenProvider = AccessTokenProviderDummy()) {
-        self.userDefaultsStore = userDefaultsStore
-        self.userLoader = userLoader
-        self.tokenProvider = tokenProvider
-    }
+    var userDefaultsStore: UserDefaultsStore = .init()
+    var userRepository: UserRepository = UserRepositoryDummy()
+    var tokenProvider: AccessTokenProvider = AccessTokenProviderDummy()
+    var store: ContactsStore?
 
     func makeUserDefaultsStore() -> UserDefaultsStore {
         userDefaultsStore
     }
 
     func makeUserRepository(config: SDK_Sample.Config) -> UserRepository {
-        userLoader
+        userRepository
     }
 
     func makeTokenLoader(config: SDK_Sample.Config) -> AccessTokenProvider {
         tokenProvider
     }
 
-    func makeContactsStore(config: SDK_Sample.Config) -> SDK_Sample.ContactsStore {
-        .init(repository: UserRepositoryMock())
+    func makeContactsStore(config: SDK_Sample.Config) -> ContactsStore {
+        store ?? .init(repository: userRepository)
     }
 
     func makeSDK() -> KaleyraVideoSDK.KaleyraVideo {

@@ -83,7 +83,7 @@ final class RootCoordinator: BaseCoordinator {
         let coordinator = AppSetupCoordinator(stage: config.setupStage, allowReconfiguration: allowReconfiguration, services: services)
         addChild(coordinator)
         coordinator.start { [weak self] config, contact in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.removeChild(coordinator)
             do {
@@ -100,7 +100,7 @@ final class RootCoordinator: BaseCoordinator {
     private func goToHome(config: Config, loggedUser: Contact) {
         let coordinator = MainCoordinator(config: config, loggedUser: loggedUser, services: services)
         coordinator.onLogout = { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.removeChild(coordinator)
             self.userDefaultsStore.setLoggedUser(userAlias: nil)
@@ -111,7 +111,7 @@ final class RootCoordinator: BaseCoordinator {
 #endif
         }
         coordinator.onReset = { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.removeChild(coordinator)
             self.userDefaultsStore.resetConfigAndUser()

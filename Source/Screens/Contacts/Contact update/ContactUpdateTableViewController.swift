@@ -7,7 +7,7 @@ import UIKit
 final class ContactUpdateTableViewController: UITableViewController {
 
     private var contact: Contact
-    private let services: ServicesFactory
+    private let store: ContactsStore
     private var tableViewDataSource = [String: [String]]()
     private var textfieldFirstName = UITextField()
     private var textfieldLastName = UITextField()
@@ -15,9 +15,9 @@ final class ContactUpdateTableViewController: UITableViewController {
 
     var onDismiss: ((Contact) -> Void)?
 
-    init(contact: Contact, services: ServicesFactory) {
+    init(contact: Contact, store: ContactsStore) {
         self.contact = contact
-        self.services = services
+        self.store = store
         super.init(style: .insetGrouped)
         initialSetup()
     }
@@ -36,6 +36,7 @@ final class ContactUpdateTableViewController: UITableViewController {
         ]
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -74,6 +75,7 @@ final class ContactUpdateTableViewController: UITableViewController {
         footer.buttonAction = { [weak self] in
             guard let self = self else { return }
 
+            self.saveChanges()
             self.onDismiss?(self.contact)
             self.dismiss(animated: true, completion: nil)
         }
@@ -106,14 +108,18 @@ final class ContactUpdateTableViewController: UITableViewController {
     @objc
     private func onEditingChanged(sender: UITextField) {
         switch sender {
-        case textfieldFirstName:
-            contact.firstName = sender.text ?? ""
-        case textfieldProfileUrl:
-            guard let profileUrl = sender.text, let url = URL(string: profileUrl) else { return }
-            contact.profileImageURL = url
-        default:
-            contact.lastName = sender.text ?? ""
+            case textfieldFirstName:
+                contact.firstName = sender.text ?? ""
+            case textfieldProfileUrl:
+                guard let profileUrl = sender.text, let url = URL(string: profileUrl) else { return }
+                contact.profileImageURL = url
+            default:
+                contact.lastName = sender.text ?? ""
         }
+    }
+
+    private func saveChanges() {
+        store.update(contact: contact)
     }
 }
 
