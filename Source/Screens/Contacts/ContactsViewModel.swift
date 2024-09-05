@@ -2,6 +2,7 @@
 // See LICENSE.txt for licensing information
 
 import Foundation
+import Combine
 
 final class ContactsViewModel {
 
@@ -39,6 +40,8 @@ final class ContactsViewModel {
 
     var contacts: [Contact] { store.contacts }
 
+    private lazy var subscriptions = Set<AnyCancellable>()
+
     init(observer: ContactsViewModelObserver, store: ContactsStore, loggedUser: String? = nil) {
         self.observer = observer
         self.store = store
@@ -54,7 +57,10 @@ final class ContactsViewModel {
 
             do {
                 _ = try result.get()
-                self.state = .loaded(self.filterLoggedUser(from: self.contacts))
+                self.store.$contacts.dropFirst().sink { [weak self] contacts in
+                    self?.state = .loaded(contacts.filterBy(loggedUser: self?.loggedUser, aliasPattern: self?.filter))
+                }.store(in: &self.subscriptions)
+                self.state = .loaded(contacts.filterBy(loggedUser: self.loggedUser, aliasPattern: self.filter))
             } catch {
                 self.state = .error(description: String(describing: error))
             }
@@ -70,20 +76,31 @@ final class ContactsViewModel {
 
         guard state.isLoaded else { return }
 
-        state = .loaded(filterLoggedUser(from: filter.map({ contacts.filterBy(aliasPattern: $0)}) ?? contacts))
-    }
-
-    private func filterLoggedUser(from contacts: [Contact]) -> [Contact] {
-        guard let loggedUser else { return contacts }
-        return contacts.filter { $0.alias != loggedUser }
+        state = .loaded(contacts.filterBy(loggedUser: loggedUser, aliasPattern: filter))
     }
 }
 
 private extension Array where Element == Contact {
 
+    func filterBy(aliasPattern pattern: String?) -> [Contact] {
+        pattern.map { filterBy(aliasPattern: $0) } ?? self
+    }
+
     func filterBy(aliasPattern pattern: String) -> [Contact] {
         filter {
             $0.alias.lowercased().contains(pattern.lowercased()) ? true : false
         }
+    }
+
+    func filterBy(alias: String) -> [Contact] {
+        filter { $0.alias != alias }
+    }
+
+    func filter(loggedUser: String?) -> [Contact] {
+        loggedUser.map({ filterBy(alias: $0) }) ?? self
+    }
+
+    func filterBy(loggedUser: String?, aliasPattern pattern: String?) -> [Contact] {
+        filter(loggedUser: loggedUser).filterBy(aliasPattern: pattern)
     }
 }

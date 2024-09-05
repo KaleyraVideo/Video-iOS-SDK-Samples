@@ -28,7 +28,7 @@ final class ContactsStore {
         }
 
         repository.loadUsers { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
 
             do {
                 let contacts = Contact.makeRandomContacts(aliases: try result.get())
@@ -36,7 +36,6 @@ final class ContactsStore {
                 self.hasLoaded = true
                 completion(.success(contacts))
             } catch {
-                debugPrint("Could not load users \(error)")
                 completion(.failure(error))
             }
         }
@@ -48,8 +47,10 @@ final class ContactsStore {
             return
         }
 
+        var contacts = self.contacts
         contacts.remove(at: index)
         contacts.append(contact)
         contacts = contacts.sorted(by: { $0.alias.lowercased() < $1.alias.lowercased() })
+        self.contacts = contacts
     }
 }

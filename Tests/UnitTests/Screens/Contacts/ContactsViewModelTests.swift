@@ -105,9 +105,9 @@ final class ContactsViewModelTests: UnitTestCase {
         contact.profileImageURL = .kaleyra
         sut.update(contact: contact)
 
-        assertThat(observer.displayInvocations, hasCount(2))
+        assertThat(observer.displayInvocations, hasCount(3))
 
-        let actual = observer.displayInvocations[1].contacts[1]
+        let actual = observer.displayInvocations[2].contacts[1]
         assertThat(actual.firstName, equalTo("Charlie"))
         assertThat(actual.lastName, equalTo("Appleseed"))
         assertThat(actual.profileImageURL, equalTo(.kaleyra))
