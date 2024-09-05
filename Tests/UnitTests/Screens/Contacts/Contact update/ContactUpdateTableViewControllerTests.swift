@@ -18,6 +18,9 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
         super.setUp()
 
         contact = .init(.alice)
+        contact.firstName = "Alice"
+        contact.lastName = "Appleseed"
+        contact.profileImageURL = URL(string: .foobar)
         store = .init(repository: UserRepositoryDummy())
         sut = .init(contact: contact, store: store)
     }
@@ -53,33 +56,21 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
         sut.loadViewIfNeeded()
 
         let cell = sut.cellForRowAt(.init(row: 0, section: 0))
-        assertThat(cell.selectionStyle, equalTo(.none))
-        assertThat(cell.tintColor.cgColor, equalTo(Theme.Color.secondary.cgColor))
-
-        let firstNameTextField = try unwrap(cell.textField)
-        assertTextFieldPropertyValues(textField: firstNameTextField)
+        assertThat(cell?.text, presentAnd(equalTo(contact.firstName)))
     }
 
-    func testSetupForLastNameTextFieldAccessoryView() throws {
+    func testSetupLastNameTextField() {
         sut.loadViewIfNeeded()
 
         let cell = sut.cellForRowAt(.init(row: 0, section: 1))
-        assertThat(cell.selectionStyle, equalTo(.none))
-        assertThat(cell.tintColor.cgColor, equalTo(Theme.Color.secondary.cgColor))
-
-        let lastNameTextField = try unwrap(cell.textField)
-        assertTextFieldPropertyValues(textField: lastNameTextField)
+        assertThat(cell?.text, presentAnd(equalTo(contact.lastName)))
     }
 
-    func testSetupForProfileUrlTextFieldAccessoryView() throws {
+    func testSetupAvatarTextField() {
         sut.loadViewIfNeeded()
 
         let cell = sut.cellForRowAt(.init(row: 0, section: 2))
-        assertThat(cell.selectionStyle, equalTo(.none))
-        assertThat(cell.tintColor.cgColor, equalTo(Theme.Color.secondary.cgColor))
-
-        let lastNameTextField = try unwrap(cell.textField)
-        assertTextFieldPropertyValues(textField: lastNameTextField)
+        assertThat(cell?.text, presentAnd(equalTo(contact.profileImageURL?.absoluteString)))
     }
 
     func testWhenSaveButtonIsTouchedShouldInvokeOnDismissCallback() throws {
@@ -101,28 +92,13 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
         sut.loadViewIfNeeded()
 
         sut.simulateFirstnameUpdated("John")
-        sut.simulateLastnameUpdated("Appleseed")
+        sut.simulateLastnameUpdated("Doe")
         sut.footer?.button?.sendActions(for: .touchUpInside)
 
         assertThat(store.contacts, hasCount(1))
         assertThat(store.contacts[0].alias, equalTo(.alice))
         assertThat(store.contacts[0].firstName, equalTo("John"))
-        assertThat(store.contacts[0].lastName, equalTo("Appleseed"))
-    }
-
-    // MARK: - Helpers
-
-    func assertTextFieldPropertyValues(textField: UITextField, file: StaticString = #filePath, line: UInt = #line ) {
-        assertThat(textField.delegate, present(), file: file, line: line)
-        assertThat(textField.inputAccessoryView, present(), file: file, line: line)
-        assertThat(textField.inputAccessoryView, presentAnd(instanceOf(UIToolbar.self)), file: file, line: line)
-        let toolBar = textField.inputAccessoryView as! UIToolbar
-        assertThat(toolBar.frame, equalTo(.init(x: 0, y: 0, width: 100, height: 44)), file: file, line: line)
-        assertThat(toolBar.barStyle, equalTo(.default), file: file, line: line)
-        assertThat(toolBar.items, presentAnd(hasCount(2)), file: file, line: line)
-        let doneButtonItem = toolBar.items![1]
-        assertThat(doneButtonItem.style, equalTo(.plain), file: file, line: line)
-        assertThat(doneButtonItem.title, equalTo(Strings.Generic.confirm), file: file, line: line)
+        assertThat(store.contacts[0].lastName, equalTo("Doe"))
     }
 }
 
@@ -132,25 +108,18 @@ private extension ContactUpdateTableViewController {
         tableView.tableFooterView as? ButtonTableFooter
     }
 
-    func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell {
-        tableView(tableView, cellForRowAt: indexPath)
+    func cellForRowAt(_ indexPath: IndexPath) -> TextFieldTableViewCell? {
+        tableView(tableView, cellForRowAt: indexPath) as? TextFieldTableViewCell
     }
 
     func simulateFirstnameUpdated(_ text: String) {
         let cell = cellForRowAt(.init(row: 0, section: 0))
-        cell.textField?.simulateTextEditingEnded(text)
+        cell?.simulateTextChanged(text)
     }
 
     func simulateLastnameUpdated(_ text: String) {
         let cell = cellForRowAt(.init(row: 0, section: 1))
-        cell.textField?.simulateTextEditingEnded(text)
-    }
-}
-
-private extension UITableViewCell {
-
-    var textField: UITextField? {
-        contentView.firstDescendant()
+        cell?.simulateTextChanged(text)
     }
 }
 
