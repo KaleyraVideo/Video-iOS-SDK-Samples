@@ -114,8 +114,10 @@ extension LoginViewController: Themable {
 
 extension LoginViewController: ContactsPresenterOutput {
 
-    func display(_ state: OperationState<[Contact]>) {
+    func display(_ state: ContactsViewModel.State) {
         switch state {
+            case .initial:
+                tableView.backgroundView = NoContentView.empty
             case .loading:
                 tableView.backgroundView = NoContentView.loading
             case .error(let message):
@@ -128,7 +130,7 @@ extension LoginViewController: ContactsPresenterOutput {
                                            buttonTitle: Strings.Login.ErrorAlert.cancelAction,
                                            buttonActionTitle: Strings.Login.ErrorAlert.exitAction,
                                            buttonActionHandler: handleErrorTapped)
-            case .finished(let contacts):
+            case .loaded(let contacts):
                 if contacts.isEmpty {
                     tableView.backgroundView = NoContentView.empty
                     tableView.separatorColor = .clear

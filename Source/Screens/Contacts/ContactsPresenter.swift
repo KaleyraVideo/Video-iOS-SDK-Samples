@@ -3,14 +3,8 @@
 
 import Foundation
 
-enum OperationState<T> {
-    case loading
-    case error(message: String)
-    case finished(T)
-}
-
 protocol ContactsPresenterOutput {
-    func display(_ state: OperationState<[Contact]>)
+    func display(_ state: ContactsViewModel.State)
 }
 
 class ContactsPresenter {
@@ -26,19 +20,17 @@ class ContactsPresenter {
     }
 
     func didFinishLoading(contacts: [Contact]) {
-        output.display(.finished(contacts))
+        output.display(.loaded(contacts))
     }
 
     func didFinishLoadingWithError(errorDescription: String) {
-        output.display(.error(message: errorDescription))
+        output.display(.error(description: errorDescription))
     }
 }
 
 extension Weak: ContactsPresenterOutput where Object: ContactsPresenterOutput {
 
-    func display(_ state: OperationState<[Contact]>) {
+    func display(_ state: ContactsViewModel.State) {
         object?.display(state)
     }
 }
-
-extension OperationState: Equatable where T: Equatable {}

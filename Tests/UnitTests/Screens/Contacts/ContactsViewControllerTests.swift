@@ -42,7 +42,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
     func testsDisplayViewModelAndReloadTableView() {
         sut.loadViewIfNeeded()
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
 
         assertThat(sut.tableView.numberOfRows(inSection: 0), equalTo(1))
         assertThat(sut.tableView.numberOfRows(inSection: 1), equalTo(1))
@@ -55,29 +55,29 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         sut.display(.loading)
         assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.loadingTitle))
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
         assertThat(sut.tableView.backgroundView, nilValue())
     }
 
     func testShowPlaceHolderEmptyDatasetWhenPassNoDataToTableView() {
         sut.loadViewIfNeeded()
-        sut.display(.finished([]))
+        sut.display(.loaded([]))
 
         assertThat(sut.noContentView?.title, equalTo(Strings.Contacts.emptyTitle))
         assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.emptySubtitle))
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
         assertThat(sut.tableView.backgroundView, nilValue())
     }
 
     func testShowPlaceHolderErrorWhenReturnUnknownError() {
         sut.loadViewIfNeeded()
-        sut.display(.error(message: .foo))
+        sut.display(.error(description: .foo))
 
         assertThat(sut.noContentView?.title, equalTo(Strings.Contacts.Alert.title))
         assertThat(sut.noContentView?.subtitle, equalTo(.foo))
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
         assertThat(sut.tableView.backgroundView, nilValue())
     }
 
@@ -111,7 +111,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
         let selectionHandler = makeSelectionSpy()
         sut.onUpdateSelectedContacts = selectionHandler.callAsFunction
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
 
         sut.selectRow(at: .init(row: 0, section: 0))
         assertThat(selectionHandler.invocations.first, equalTo([.alice]))
@@ -123,7 +123,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
         let selectionHandler = makeSelectionSpy()
         sut.onUpdateSelectedContacts = selectionHandler.callAsFunction
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
 
         sut.selectRow(at: .init(row: 0, section: 0))
         assertThat(selectionHandler.invocations, empty())
@@ -150,7 +150,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     func testSwipeActionConfigurationsForCellOnSwipe() throws {
         sut.loadViewIfNeeded()
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
 
         let configuration = try unwrap(sut.trailingSwipeActions(at: .init(row: 0, section: 0)))
         assertThat(configuration.actions, presentAnd(hasCount(3)))

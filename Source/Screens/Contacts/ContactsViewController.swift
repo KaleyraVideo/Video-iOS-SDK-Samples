@@ -232,13 +232,15 @@ extension ContactsViewController: Themable {
 
 extension ContactsViewController: ContactsPresenterOutput {
 
-    func display(_ state: OperationState<[Contact]>) {
+    func display(_ state: ContactsViewModel.State) {
         switch state {
+            case .initial:
+                tableView.backgroundView = NoContentView.empty
             case .loading:
                 tableView.backgroundView = NoContentView.loading
             case .error(let message):
                 tableView.backgroundView = NoContentView.error(message: message, action: { [weak self] in self?.onReady?() })
-            case .finished(let contacts):
+            case .loaded(let contacts):
                 if contacts.isEmpty {
                     tableView.backgroundView = NoContentView.empty
                     tableView.separatorColor = .clear

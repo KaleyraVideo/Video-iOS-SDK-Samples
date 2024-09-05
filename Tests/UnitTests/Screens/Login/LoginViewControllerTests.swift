@@ -10,8 +10,6 @@ import KaleyraTestMatchers
 
 final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
-    let arrIndexSection = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
     private var sut: LoginViewController!
 
     override func setUp() {
@@ -44,7 +42,7 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
     func testsDisplayViewModelAndReloadTableView() {
         sut.loadViewIfNeeded()
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
 
         assertThat(sut.tableView.numberOfRows(inSection: 0), equalTo(1))
         assertThat(sut.tableView.numberOfRows(inSection: 1), equalTo(1))
@@ -67,7 +65,7 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
         sut.loadViewIfNeeded()
 
         let users = ["Usr1", "Usr2", "Usr3"]
-        sut.display(.finished(Contact.makeRandomContacts(aliases: users)))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: users)))
         sut.tableView.frame = UIScreen.main.bounds
 
         for index in 0 ..< users.count {
@@ -82,30 +80,30 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
         sut.display(.loading)
         assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(Strings.Login.loadingTitle)))
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
         assertThat(sut.tableView.backgroundView, nilValue())
     }
 
     func testShowPlaceHolderEmptyDatasetWhenPassNoDataToTableView() throws {
         sut.loadViewIfNeeded()
-        sut.display(.finished([]))
+        sut.display(.loaded([]))
 
         assertThat(sut.tableView.noContentView?.title, presentAnd(equalTo(Strings.Login.emptyTitle)))
         assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(Strings.Login.emptySubtitle)))
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
         assertThat(sut.tableView.backgroundView, nilValue())
     }
 
     func testShowPlaceHolderErrorWhenReturnUnknownError() throws {
         sut.loadViewIfNeeded()
 
-        sut.display(.error(message: .foo))
+        sut.display(.error(description: .foo))
         assertThat(sut.tableView.noContentView?.title, presentAnd(equalTo(Strings.Login.ErrorAlert.title)))
         assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(.foo)))
         assertThat(sut.tableView.noContentView?.actionTitle, presentAnd(equalTo(Strings.Login.ErrorAlert.retryAction)))
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
         assertThat(sut.tableView.backgroundView, nilValue())
     }
 
@@ -115,7 +113,7 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
         let selectionSpy = makeSelectionSpy()
         sut.onSelection = selectionSpy.callAsFunction
 
-        sut.display(.finished(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
         assertThat(sut.tableView.backgroundView, nilValue())
 
         sut.tableView(sut.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))

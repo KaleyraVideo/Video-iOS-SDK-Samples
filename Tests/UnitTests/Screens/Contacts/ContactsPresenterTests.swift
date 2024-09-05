@@ -37,27 +37,27 @@ final class ContactsPresenterTests: UnitTestCase {
         let contacts = Contact.makeRandomContacts(aliases: [.alice, .bob])
         sut.didFinishLoading(contacts: contacts)
 
-        assertThat(output.displayInvocations, equalTo([.finished(contacts)]))
+        assertThat(output.displayInvocations, equalTo([.loaded(contacts)]))
     }
 
     func testFinishLoadingUsersWithErrorTellsOutputToDisplayNotContacts() {
         sut.didFinishLoadingWithError(errorDescription: .foo)
 
-        assertThat(output.displayInvocations, equalTo([.error(message: .foo)]))
+        assertThat(output.displayInvocations, equalTo([.error(description: .foo)]))
     }
 
     func testReceivedDataWhenFinishLoadingUsersWithEmptyDataset() {
         sut.didFinishLoading(contacts: [])
 
-        assertThat(output.displayInvocations, equalTo([.finished([])]))
+        assertThat(output.displayInvocations, equalTo([.loaded([])]))
     }
 }
 
 class ContactsPresenterOutputSpy: ContactsPresenterOutput {
 
-    private(set) var displayInvocations = [OperationState<[Contact]>]()
+    private(set) var displayInvocations = [ContactsViewModel.State]()
 
-    func display(_ state: OperationState<[Contact]>) {
+    func display(_ state: ContactsViewModel.State) {
         displayInvocations.append(state)
     }
 }
