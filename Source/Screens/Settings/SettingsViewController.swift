@@ -3,6 +3,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 protocol SettingsViewControllerDelegate: AnyObject {
 
@@ -21,9 +22,9 @@ final class SettingsViewController: UIViewController {
 
     let config: Config
     let versions: Versions
-    let store: UserDefaultsStore
+    let settingsStore: UserDefaultsStore
+    let contactsStore: ContactsStore
 
-    var onReady: (() -> Void)?
     var shareLogsAction: (() -> Void)?
 
     var user: Contact {
@@ -50,9 +51,9 @@ final class SettingsViewController: UIViewController {
                 .build()
     }()
 
-    fileprivate lazy var tableDatasource: UITableViewDataSource = {
-        SettingsTableDataSource(dataset: dataset)
-    }()
+    private lazy var subscriptions = Set<AnyCancellable>()
+
+    fileprivate lazy var tableDatasource: UITableViewDataSource = SettingsTableDataSource(dataset: dataset)
 
     private lazy var tableDelegate: UITableViewDelegate = {
         SettingsTableDelegate(dataset: dataset) { [weak self] in
@@ -84,7 +85,8 @@ final class SettingsViewController: UIViewController {
     init(user: Contact, config: Config, services: ServicesFactory, versions: Versions = .init()) {
         self.user = user
         self.config = config
-        self.store = services.makeUserDefaultsStore()
+        self.settingsStore = services.makeUserDefaultsStore()
+        self.contactsStore = services.makeContactsStore(config: config)
         self.versions = versions
         super.init(nibName: nil, bundle: nil)
     }
@@ -100,10 +102,12 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = Theme.Color.commonWhiteColor
-
         setupSubviews()
-
-        onReady?()
+        contactsStore.$contacts.dropFirst().sink { [weak self] contacts in
+            guard let self else { return }
+            guard let contact = contacts.first(where: { $0.alias == self.user.alias }) else { return }
+            self.user = contact
+        }.store(in: &subscriptions)
     }
 
     private func setupSubviews() {
@@ -153,7 +157,7 @@ final class SettingsViewController: UIViewController {
     // MARK: - Reset
 
     private func reset() {
-        store.resetConfigAndUser()
+        settingsStore.resetConfigAndUser()
         delegate?.settingsViewControllerDidReset()
     }
 

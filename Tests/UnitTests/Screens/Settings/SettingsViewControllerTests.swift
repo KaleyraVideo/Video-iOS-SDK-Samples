@@ -10,44 +10,70 @@ import KaleyraTestMatchers
 
 final class SettingsViewControllerTests: UnitTestCase {
 
-    func testLoadViewShouldCallOnReadyListener() {
-        let sut = makeSUT()
-        let spy = CompletionSpy<Void>()
-        sut.onReady = spy.callAsFunction
+    private var sut: SettingsViewController!
+    private var contact: Contact!
+    private var config: Config!
+    private var versions: Versions!
+    private var delegate: DelegateSpy!
+    private var store: ContactsStore!
 
-        sut.loadViewIfNeeded()
+    override func setUp() {
+        super.setUp()
 
-        assertThat(spy.invocations, hasCount(1))
+        delegate = .init()
+        contact = Contact.makeRandomContact(alias: .alice)
+        config = .init(keys: .any, environment: .development, region: .europe)
+        versions = .init(app: .init(marketing: "2.2.1"), sdk: .init(marketing: "1.1.0"))
+        store = .init(repository: UserRepositoryDummy())
+        let services = ServicesFactoryStub()
+        services.store = store
+        sut = .init(user: contact, config: config, services: services, versions: versions)
+        sut.delegate = delegate
+    }
+
+    override func tearDown() {
+        delegate = nil
+        contact = nil
+        config = nil
+        versions = nil
+        store = nil
+        sut = nil
+
+        super.tearDown()
     }
 
     func testLoadViewShouldDisplayDetailsSection() {
-        let contact = Contact("Bob")
-        let versions = SDK_Sample.Versions(app: .init(marketing: "2.2.1"), sdk: .init(marketing: "1.1.0"))
-        let sut = makeSUT(user: contact, environment: .production, versions: versions)
-
         sut.loadViewIfNeeded()
 
         assertCell(sut.usernameCell, hasTitle: Strings.Settings.username, hasDetail: contact.alias)
-        assertCell(sut.environmentCell, hasTitle: Strings.Settings.environment, hasDetail: "production")
+        assertCell(sut.environmentCell, hasTitle: Strings.Settings.environment, hasDetail: "development")
         assertCell(sut.regionCell, hasTitle: Strings.Settings.region, hasDetail: "europe")
         assertCell(sut.appVersionCell, hasTitle: Strings.Settings.appVersion, hasDetail: "2.2.1")
         assertCell(sut.sdkVersionCell, hasTitle: Strings.Settings.sdkVersion, hasDetail: "1.1.0")
     }
 
     func testLoadViewShouldShowDisplaySettingsSectionWithLogoutRow() {
-        let sut = makeSUT()
-
         sut.loadViewIfNeeded()
 
         assertThat(sut.logoutCell?.textLabel?.text, presentAnd(equalTo(Strings.Settings.logout)))
         assertThat(sut.logoutCell?.textLabel?.textAlignment, presentAnd(equalTo(.center)))
     }
 
+    func testWhenContactIsUpdatedShouldUpdateTheUI() {
+        sut.loadViewIfNeeded()
+
+        let resourceURL = Bundle.main.url(forResource: "woman_0", withExtension: "jpg")!
+
+        contact.profileImageURL = resourceURL
+        store.update(contact: contact)
+
+        let expectedImage = UIImage(contentsOfFile: Bundle.main.path(forResource: "woman_0", ofType: "jpg")!)
+        assertThat(sut.userImageView?.image?.jpegData(compressionQuality: 1), equalTo(expectedImage?.jpegData(compressionQuality: 1)))
+    }
+
 #if SAMPLE_CUSTOMIZABLE_THEME
 
     func testLoadViewShouldShowDisplaySettingsSectionWithChangeThemeRow() {
-        let sut = makeSUT()
-
         sut.loadViewIfNeeded()
 
         assertThat(sut.changeThemeCell?.textLabel?.text, presentAnd(equalTo(Strings.Settings.changeTheme)))
@@ -57,8 +83,6 @@ final class SettingsViewControllerTests: UnitTestCase {
 #endif
 
     func testUserProfileImageViewFitItsContentsMaintainingTheAspectRatio() throws {
-        let sut = makeSUT()
-
         sut.loadViewIfNeeded()
 
         let userImageView = try unwrap(sut.userImageView)
@@ -67,10 +91,6 @@ final class SettingsViewControllerTests: UnitTestCase {
     }
 
     func testLongPressOnCellShouldTriggerFlowDelegateMethod() throws {
-        let alice = Contact(.alice)
-        let sut = makeSUT(user: alice)
-        let delegate = makeDelegateSpy()
-        sut.delegate = delegate
         sut.loadViewIfNeeded()
 
         let userImageView = try unwrap(sut.userImageView)
@@ -79,11 +99,8 @@ final class SettingsViewControllerTests: UnitTestCase {
         assertThat(delegate.updateUserInvocations, hasCount(1))
     }
 
-    func testSelectingLogoutRowShouldInvokeFlowDelegateMethod() throws {
-        let sut = makeSUT()
-        let delegate = makeDelegateSpy()
+    func testSelectLogoutShouldNotifyDelegate() throws {
         sut.loadViewIfNeeded()
-        sut.delegate = delegate
 
         try sut.simulateLogoutTapped()
 
@@ -93,10 +110,6 @@ final class SettingsViewControllerTests: UnitTestCase {
 #if SAMPLE_CUSTOMIZABLE_THEME
 
     func testFlowDelegateProtocolThemeOpenedMethodIsCalledWhenPresentThemeIsCalled() {
-        let sut = makeSUT()
-        let delegate = makeDelegateSpy()
-        sut.flowDelegate = delegate
-
         sut.presentThemeViewController()
 
         assertThat(delegate.openThemeInvocations, hasCount(1))
@@ -104,27 +117,12 @@ final class SettingsViewControllerTests: UnitTestCase {
 
 #endif
 
-    func testTableViewShouldDeselectSelectedRowInViewDidDisappear() {
-        let sut = makeSUT()
-
+    func testViewDidDisappearShouldDeselectSelectedRow() {
         sut.loadViewIfNeeded()
         sut.tableView?.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .top)
         sut.viewDidDisappear(false)
 
         assertThat(sut.tableView?.indexPathForSelectedRow, not(present()))
-    }
-
-    // MARK: - Helpers
-
-    private func makeSUT(user: Contact = Contact(.bob),
-                         environment: Config.Environment = .sandbox,
-                         region: Config.Region = .europe,
-                         versions: SDK_Sample.Versions = .init(app: .init(marketing: "21.0.0"), sdk: .init(marketing: "42.0.0"))) -> SettingsViewController {
-        .init(user: user, config: .init(keys: .any, environment: environment, region: region), services: ServicesFactoryStub(), versions: versions)
-    }
-
-    private func makeDelegateSpy() -> DelegateSpy {
-        .init()
     }
 
     // MARK: - Assertions
