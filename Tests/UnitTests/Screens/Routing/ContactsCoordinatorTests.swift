@@ -12,7 +12,7 @@ final class ContactsCoordinatorTests: UnitTestCase {
 
     func testComposeDoesNotCreateRetainCycles() throws {
         let sut = makeSUT()
-        sut.start(onCallOptionsChanged: {_ in }, onCallUser: {_ in })
+        sut.start(onCallOptionsChanged: {_ in }, onActionSelected: {_ in })
 
         let navController = sut.navigationController
         let controller = try unwrap(navController.contactsViewController)

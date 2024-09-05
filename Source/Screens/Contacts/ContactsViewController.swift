@@ -6,18 +6,22 @@ import UIKit
 import Combine
 import KaleyraVideoSDK
 
-final class ContactsViewController: UITableViewController {
+final class ContactsViewController: UITableViewController, UISearchBarDelegate {
 
-    enum Action {
+    enum Action: Equatable {
         case startCall(type: KaleyraVideoSDK.CallOptions.CallType?, callees: [String])
         case openChat(user: String)
     }
 
     private let services: ServicesFactory
 
-    private var selectedContactsAlias: [String] = [] {
+    private var selectedContacts: [String] = [] {
         didSet {
-            onUpdateSelectedContacts?(selectedContactsAlias)
+            if selectedContacts.count > 1 {
+                groupCallButton.isEnabled = true
+            } else {
+                groupCallButton.isEnabled = false
+            }
         }
     }
 
@@ -38,11 +42,30 @@ final class ContactsViewController: UITableViewController {
         }
     }
 
+    private lazy var searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.obscuresBackgroundDuringPresentation = false
+        controller.searchBar.placeholder = Strings.Contacts.searchPlaceholder
+        controller.searchBar.delegate = self
+        return controller
+    }()
+
+    private lazy var groupCallButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: Icons.phone, style: .plain, target: self, action: #selector(groupCallButtonTouched(sender:)))
+        button.isEnabled = false
+        return button
+    }()
+
+    private lazy var callSettingsButton: UIBarButtonItem = .init(image: Icons.settings,
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(callSettingsButtonTouched(sender:)))
+
     private lazy var subscriptions = Set<AnyCancellable>()
 
-    var onAction: ((Action) -> Void)?
-    var onUpdateSelectedContacts: (([String]) -> Void)?
-    var onUpdateContact: ((Contact) -> Void)?
+    var onActionSelected: ((Action) -> Void)?
+    var onContactProfileSelected: ((Contact) -> Void)?
+    var onCallSettingsSelected: (() -> Void)?
 
     init(viewModel: ContactsViewModel, services: ServicesFactory) {
         self.viewModel = viewModel
@@ -60,6 +83,7 @@ final class ContactsViewController: UITableViewController {
 
         title = Strings.Contacts.title
         setupTableView()
+        setupNavigationItem()
 #if SAMPLE_CUSTOMIZABLE_THEME
         themeChanged(theme: services.makeThemeStorage().getSelectedTheme())
 #endif
@@ -78,6 +102,16 @@ final class ContactsViewController: UITableViewController {
         tableView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPress(sender:))))
     }
 
+    private func setupNavigationItem() {
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        setupRightBarButtonItems()
+    }
+
+    private func setupRightBarButtonItems() {
+        navigationItem.rightBarButtonItems = tableView.allowsMultipleSelection ? [groupCallButton, callSettingsButton] : [callSettingsButton]
+    }
+
     private func display(_ state: ContactsViewModel.State) {
         switch state {
             case .initial:
@@ -92,7 +126,6 @@ final class ContactsViewController: UITableViewController {
                     tableView.separatorColor = .clear
                     self.contacts = []
                 } else {
-                    tableView.isHidden = false
                     tableView.backgroundView = nil
                     tableView.separatorColor = .gray
                     self.contacts = contacts
@@ -102,29 +135,20 @@ final class ContactsViewController: UITableViewController {
 
     // MARK: - Enable / Disable multiple selection
 
-    func enableMultipleSelection(_ animated: Bool) {
+    func enableMultipleSelection(animated: Bool) {
         tableView.allowsMultipleSelection = true
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.setEditing(true, animated: animated)
+        setupRightBarButtonItems()
     }
 
-    func disableMultipleSelection(_ animated: Bool) {
+    func disableMultipleSelection(animated: Bool) {
         tableView.allowsMultipleSelection = false
         tableView.allowsMultipleSelectionDuringEditing = false
         tableView.setEditing(false, animated: animated)
 
-        selectedContactsAlias.removeAll()
-    }
-
-    // MARK: - LongPress handler
-
-    @objc(longPress:)
-    func longPress(sender: UILongPressGestureRecognizer) {
-        guard let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView)),
-                let cell = tableView.cellForRow(at: indexPath) as? UserCell,
-                let contact = cell.contact else { return }
-
-        onUpdateContact?(contact)
+        selectedContacts.removeAll()
+        setupRightBarButtonItems()
     }
 
     // MARK: - Table view data source
@@ -145,7 +169,7 @@ final class ContactsViewController: UITableViewController {
 
             if tableView.allowsMultipleSelection,
                let alias = cell.contact?.alias,
-               selectedContactsAlias.contains(alias) {
+               selectedContacts.contains(alias) {
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             } else {
                 tableView.deselectRow(at: indexPath, animated: false)
@@ -181,7 +205,8 @@ final class ContactsViewController: UITableViewController {
 
         guard let contact = dataSet.row(at: indexPath) else { return }
 
-        onAction?(.startCall(type: nil, callees: [contact.alias]))
+        searchController.searchBar.resignFirstResponder()
+        onActionSelected?(.startCall(type: nil, callees: [contact.alias]))
     }
 
     override func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -194,16 +219,16 @@ final class ContactsViewController: UITableViewController {
 
     private func addContactToSelection(_ indexPath: IndexPath) {
         guard let contact = dataSet.row(at: indexPath),
-              selectedContactsAlias.lastIndex(of: contact.alias) == nil else { return }
+              selectedContacts.lastIndex(of: contact.alias) == nil else { return }
 
-        selectedContactsAlias.append(contact.alias)
+        selectedContacts.append(contact.alias)
     }
 
     private func removeContactFromSelection(_ indexPath: IndexPath) {
         guard let contact = dataSet.row(at: indexPath),
-              let index = selectedContactsAlias.lastIndex(of: contact.alias) else { return }
+              let index = selectedContacts.lastIndex(of: contact.alias) else { return }
 
-        selectedContactsAlias.remove(at: index)
+        selectedContacts.remove(at: index)
     }
 
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -226,13 +251,46 @@ final class ContactsViewController: UITableViewController {
 
         return .init(actions: [callAction, videoCallAction, chatAction])
     }
+
+    // MARK: - Search delegate
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filter(searchFilter: searchText)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.filter(searchFilter: "")
+    }
+
+    // MARK: - Actions
+
+    @objc
+    private func longPress(sender: UILongPressGestureRecognizer) {
+        guard let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView)),
+              let cell = tableView.cellForRow(at: indexPath) as? UserCell,
+              let contact = cell.contact else { return }
+
+        onContactProfileSelected?(contact)
+    }
+
+    @objc
+    private func groupCallButtonTouched(sender: UIBarButtonItem) {
+        guard selectedContacts.count > 1 else { return }
+
+        onActionSelected?(.startCall(type: nil, callees: selectedContacts))
+    }
+
+    @objc
+    private func callSettingsButtonTouched(sender: UIBarButtonItem) {
+        onCallSettingsSelected?()
+    }
 }
 
 private extension UIContextualAction {
 
     convenience init(title: String, image: UIImage?, controller: ContactsViewController, action: ContactsViewController.Action) {
         self.init(style: .normal, title: title, handler: { [weak controller] _, _, completion in
-            controller?.onAction?(action)
+            controller?.onActionSelected?(action)
             completion(true)
         })
 

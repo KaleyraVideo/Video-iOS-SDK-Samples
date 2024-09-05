@@ -38,6 +38,40 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.title, equalTo(Strings.Contacts.title))
     }
 
+    func testLoadViewShouldSetupTableView() {
+        sut.loadViewIfNeeded()
+
+        assertThat(sut.tableView.keyboardDismissMode, equalTo(.onDrag))
+        assertThat(sut.tableView.sectionIndexColor?.resolvedDark, equalTo(Theme.Color.secondary.resolvedDark))
+    }
+
+    func testLoadViewSetupNavigationItem() {
+        sut.loadViewIfNeeded()
+
+        assertThat(sut.navigationItem.hidesSearchBarWhenScrolling, isFalse())
+        assertThat(sut.navigationItem.searchController, present())
+        assertThat(sut.navigationItem.searchController?.obscuresBackgroundDuringPresentation, presentAnd(isFalse()))
+        assertThat(sut.navigationItem.searchController?.searchBar.placeholder, presentAnd(equalTo(Strings.Contacts.searchPlaceholder)))
+    }
+
+    func testLoadViewWhenMultipleSelectionIsDisabledShouldAddCallOptionsButtonAsRightBarButtonItem() {
+        sut.loadViewIfNeeded()
+
+        assertThat(sut.navigationItem.rightBarButtonItem, present())
+        assertThat(sut.navigationItem.rightBarButtonItem?.image, presentAnd(equalTo(Icons.settings)))
+    }
+
+    func testLoadViewWhenMultipleSelectionIsEnabledShouldAddGroupCallBarButtonItem() {
+        sut.enableMultipleSelection(animated: false)
+
+        sut.loadViewIfNeeded()
+
+        assertThat(sut.navigationItem.rightBarButtonItems, presentAnd(hasCount(2)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.phone)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].isEnabled, presentAnd(isFalse()))
+        assertThat(sut.navigationItem.rightBarButtonItems![1].image, presentAnd(equalTo(Icons.settings)))
+    }
+
     func testLoadViewShouldStartLoading() {
         sut.loadViewIfNeeded()
 
@@ -81,52 +115,42 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.noContentView?.subtitle, equalTo(String(describing: anyNSError())))
     }
 
-    func testEnableMultipleSelectionSettings() {
+    // MARK: - Multiple selection
+
+    func testEnableMultipleSelection() {
         sut.loadViewIfNeeded()
 
-        sut.enableMultipleSelection(false)
+        sut.enableMultipleSelection(animated: false)
 
         assertThat(sut.tableView.allowsMultipleSelection, isTrue())
         assertThat(sut.tableView.allowsMultipleSelectionDuringEditing, isTrue())
+        assertThat(sut.navigationItem.rightBarButtonItems, presentAnd(hasCount(2)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.phone)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].isEnabled, presentAnd(isFalse()))
+        assertThat(sut.navigationItem.rightBarButtonItems![1].image, presentAnd(equalTo(Icons.settings)))
     }
 
-    func testDisableMultipleSelectionSettings() {
+    func testDisableMultipleSelection() {
         sut.loadViewIfNeeded()
 
-        sut.disableMultipleSelection(false)
+        sut.enableMultipleSelection(animated: false)
+        sut.disableMultipleSelection(animated: false)
 
         assertThat(sut.tableView.allowsMultipleSelection, isFalse())
         assertThat(sut.tableView.allowsMultipleSelectionDuringEditing, isFalse())
+        assertThat(sut.navigationItem.rightBarButtonItems, presentAnd(hasCount(1)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.settings)))
     }
 
-    func testDismissKeyBoardMode() {
+    func testWhenMoreThanOneUserIsSelectedShouldEnableGroupCallButton() throws {
         sut.loadViewIfNeeded()
+        sut.enableMultipleSelection(animated: false)
 
-        assertThat(sut.tableView.keyboardDismissMode, equalTo(.onDrag))
-    }
-
-    func testSelectionOfUserWhenEnabled() throws {
-        sut.loadViewIfNeeded()
-        sut.enableMultipleSelection(false)
-
-        let selectionHandler = makeSelectionSpy()
-        sut.onUpdateSelectedContacts = selectionHandler.callAsFunction
         try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
         sut.selectRow(at: .init(row: 0, section: 0))
-        assertThat(selectionHandler.invocations.first, equalTo([.bob]))
-    }
-
-    func testSelectionOfUserWhenDisabled() throws {
-        sut.loadViewIfNeeded()
-        sut.disableMultipleSelection(false)
-
-        let selectionHandler = makeSelectionSpy()
-        sut.onUpdateSelectedContacts = selectionHandler.callAsFunction
-        try repository.simulateLoadUsersSuccess(users: [.alice, .bob, .charlie])
-
-        sut.selectRow(at: .init(row: 0, section: 0))
-        assertThat(selectionHandler.invocations, empty())
+        sut.selectRow(at: .init(row: 0, section: 1))
+        assertThat(sut.navigationItem.rightBarButtonItems?.first?.isEnabled, presentAnd(isTrue()))
     }
 
 #if SAMPLE_CUSTOMIZABLE_THEME
@@ -140,13 +164,9 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.tableView.sectionIndexColor, equalTo(theme.accentColor.toUIColor()))
         assertThat(sut.tableView.tintColor, equalTo(theme.accentColor.toUIColor()))
     }
-#else
-    func testsColorSectionIntexTitlesTableView() {
-        sut.loadViewIfNeeded()
-
-        assertThat(sut.tableView.sectionIndexColor?.cgColor, equalTo(Theme.Color.secondary.cgColor))
-    }
 #endif
+
+    // MARK: - Cell actions
 
     func testSwipeActionConfigurationsForCellOnSwipe() throws {
         sut.loadViewIfNeeded()
@@ -174,9 +194,61 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(chatAction.image, equalTo(Icons.chatAction))
     }
 
+    // MARK: - Bar button actions
+
+    func testWhenCallSettingsButtonIsTouchedShouldNotifyListener() {
+        let listener = makeVoidCompletionSpy()
+        sut.onCallSettingsSelected = listener.callAsFunction
+        sut.loadViewIfNeeded()
+
+        sut.navigationItem.rightBarButtonItems?.first?.simulateTapped()
+
+        assertThat(listener.invocations, hasCount(1))
+    }
+
+    func testWhenGroupCallButtonIsTouchedShouldNotifyListener() throws {
+        let listener = makeActionListener()
+        sut.onActionSelected = listener.callAsFunction
+        sut.loadViewIfNeeded()
+        sut.enableMultipleSelection(animated: false)
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
+
+        sut.selectRow(at: .init(row: 0, section: 0))
+        sut.selectRow(at: .init(row: 0, section: 1))
+        sut.navigationItem.rightBarButtonItems?.first?.simulateTapped()
+
+        assertThat(listener.invocations, hasCount(1))
+        assertThat(listener.invocations.first, equalTo(.startCall(type: nil, callees: [.bob, .charlie])))
+    }
+
+    // MARK: - Search
+
+    func testWhenSearchFieldIsUpdatedShouldFilterContactsList() throws {
+        sut.loadViewIfNeeded()
+
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
+        sut.navigationItem.searchController?.searchBar.simulateSearchTextChanged("bo")
+
+        assertThat(sut.tableView.numberOfSections, equalTo(1))
+    }
+
+    func testWhenSearchIsCancelledShouldUpdateContactList() throws {
+        sut.loadViewIfNeeded()
+
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
+        sut.navigationItem.searchController?.searchBar.simulateSearchTextChanged("bo")
+        sut.navigationItem.searchController?.searchBar.simulateCancel()
+
+        assertThat(sut.tableView.numberOfSections, equalTo(3))
+    }
+
     // MARK: - Helpers
 
     private func makeSelectionSpy() -> CompletionSpy<[String]> {
+        makeCompletionSpy()
+    }
+
+    private func makeActionListener() -> CompletionSpy<ContactsViewController.Action> {
         makeCompletionSpy()
     }
 }
@@ -194,5 +266,4 @@ private extension ContactsViewController {
     func trailingSwipeActions(at indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         tableView.delegate?.tableView?(tableView, trailingSwipeActionsConfigurationForRowAt: indexPath)
     }
-
 }
