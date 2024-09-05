@@ -8,7 +8,7 @@ var appDelegateClass: AnyClass = AppDelegate.self
 
 var delegate: String
 
-if let testingDelegateClass = NSClassFromString("ObjcTestingAppDelegate") {
+if let testingDelegateClass = NSClassFromString("TestingAppDelegate") {
     delegate = NSStringFromClass(testingDelegateClass)
 } else {
     delegate = NSStringFromClass(appDelegateClass)

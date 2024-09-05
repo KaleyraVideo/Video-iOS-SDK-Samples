@@ -67,9 +67,9 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         sut.loadViewIfNeeded()
 
         assertThat(sut.navigationItem.rightBarButtonItems, presentAnd(hasCount(2)))
-        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.phone)))
-        assertThat(sut.navigationItem.rightBarButtonItems![0].isEnabled, presentAnd(isFalse()))
-        assertThat(sut.navigationItem.rightBarButtonItems![1].image, presentAnd(equalTo(Icons.settings)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.settings)))
+        assertThat(sut.navigationItem.rightBarButtonItems![1].image, presentAnd(equalTo(Icons.phone)))
+        assertThat(sut.navigationItem.rightBarButtonItems![1].isEnabled, presentAnd(isFalse()))
     }
 
     func testLoadViewShouldStartLoading() {
@@ -125,9 +125,10 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.tableView.allowsMultipleSelection, isTrue())
         assertThat(sut.tableView.allowsMultipleSelectionDuringEditing, isTrue())
         assertThat(sut.navigationItem.rightBarButtonItems, presentAnd(hasCount(2)))
-        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.phone)))
-        assertThat(sut.navigationItem.rightBarButtonItems![0].isEnabled, presentAnd(isFalse()))
-        assertThat(sut.navigationItem.rightBarButtonItems![1].image, presentAnd(equalTo(Icons.settings)))
+
+        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.settings)))
+        assertThat(sut.navigationItem.rightBarButtonItems![1].image, presentAnd(equalTo(Icons.phone)))
+        assertThat(sut.navigationItem.rightBarButtonItems![1].isEnabled, presentAnd(isFalse()))
     }
 
     func testDisableMultipleSelection() {
@@ -215,7 +216,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
         sut.selectRow(at: .init(row: 0, section: 0))
         sut.selectRow(at: .init(row: 0, section: 1))
-        sut.navigationItem.rightBarButtonItems?.first?.simulateTapped()
+        sut.navigationItem.rightBarButtonItems?.last?.simulateTapped()
 
         assertThat(listener.invocations, hasCount(1))
         assertThat(listener.invocations.first, equalTo(.startCall(type: nil, callees: [.bob, .charlie])))

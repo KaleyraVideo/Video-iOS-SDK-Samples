@@ -90,7 +90,7 @@ final class MainCoordinator: BaseCoordinator {
 extension MainCoordinator: SDKCoordinatorDelegate {
 
     func sdkIsLoading(_ isLoading: Bool) {
-        contactsCoordinator.onChangeState(isLoading: isLoading)
+//        contactsCoordinator.onChangeState(isLoading: isLoading)
     }
 
     func sdkDidFinish(withError: Error) {

@@ -78,14 +78,14 @@ final class ContactsCoordinator: BaseCoordinator {
         contactController.present(controller, animated: true)
     }
 
-    func onChangeState(isLoading: Bool) {
-        if isLoading {
-            let activityIndicator = UIActivityIndicatorView()
-            activityIndicator.startAnimating()
-            contactController?.navigationItem.setRightBarButton(.init(customView: activityIndicator), animated: true)
-        } else {
-        }
-    }
+//    func onChangeState(isLoading: Bool) {
+//        if isLoading {
+//            let activityIndicator = UIActivityIndicatorView()
+//            activityIndicator.startAnimating()
+//            contactController?.navigationItem.setRightBarButton(.init(customView: activityIndicator), animated: true)
+//        } else {
+//        }
+//    }
 
     private func updateMultipleSelection(enabled: Bool, animated: Bool = true) {
         isMultipleSelectionEnabled = enabled

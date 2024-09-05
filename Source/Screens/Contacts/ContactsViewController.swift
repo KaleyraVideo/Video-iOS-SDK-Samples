@@ -109,7 +109,7 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
     }
 
     private func setupRightBarButtonItems() {
-        navigationItem.rightBarButtonItems = tableView.allowsMultipleSelection ? [groupCallButton, callSettingsButton] : [callSettingsButton]
+        navigationItem.rightBarButtonItems = tableView.allowsMultipleSelection ? [callSettingsButton, groupCallButton] : [callSettingsButton]
     }
 
     private func display(_ state: ContactsViewModel.State) {
