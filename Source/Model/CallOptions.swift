@@ -4,7 +4,7 @@
 import Foundation
 import KaleyraVideoSDK
 
-struct CallOptions {
+struct CallOptions: Equatable {
 
     enum PresentationMode: Int {
         case fullscreen = 0

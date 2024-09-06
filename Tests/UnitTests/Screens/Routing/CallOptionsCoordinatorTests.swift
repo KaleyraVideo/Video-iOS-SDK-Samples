@@ -30,6 +30,6 @@ final class CallOptionsCoordinatorTests: UnitTestCase {
     // MARK: - Helpers
 
     private func makeSUT() -> CallOptionsCoordinator {
-        .init(services: ServicesFactoryStub())
+        .init(appSettings: .init(), services: ServicesFactoryStub())
     }
 }

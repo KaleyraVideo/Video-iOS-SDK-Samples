@@ -9,6 +9,7 @@ final class MainCoordinator: BaseCoordinator {
 
     private let config: Config
     private let loggedUser: Contact
+    private let appSettings: AppSettings
 
     // MARK: - View Controllers
 
@@ -41,27 +42,27 @@ final class MainCoordinator: BaseCoordinator {
     var onError: (() -> Void)?
     var onUpdateContact: ((Contact) -> Void)?
 
-    init(config: Config, loggedUser: Contact, services: ServicesFactory) {
+    init(config: Config, loggedUser: Contact, appSettings: AppSettings, services: ServicesFactory) {
         self.config = config
         self.loggedUser = loggedUser
-
+        self.appSettings = appSettings
         super.init(services: services)
 
         addChildren()
     }
 
     private func addChildren() {
-        addBandyerCoordinator()
+        addSDKCoordinator()
         addContactsCoordinator()
         addSettingsCoordinator()
     }
 
-    private func addBandyerCoordinator() {
-        addChild(SDKCoordinator(controller: tabBarController, config: config, services: services, delegate: self))
+    private func addSDKCoordinator() {
+        addChild(SDKCoordinator(controller: tabBarController, config: config, appSettings: appSettings, services: services, delegate: self))
     }
 
     private func addContactsCoordinator() {
-        addChild(ContactsCoordinator(config: config, loggedUser: loggedUser, services: services))
+        addChild(ContactsCoordinator(config: config, loggedUser: loggedUser, appSettings: appSettings, services: services))
     }
 
     private func addSettingsCoordinator() {

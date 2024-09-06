@@ -6,9 +6,8 @@ import UIKit
 
 final class CallOptionsCoordinator: BaseCoordinator {
 
-    private let options: CallOptions
-
-    private lazy var optionsController: CallOptionsTableViewController = .init(options: options, services: services)
+    private let appSettings: AppSettings
+    private lazy var optionsController: CallOptionsTableViewController = .init(appSettings: appSettings, services: services)
 
     private(set) lazy var controller: UIViewController = {
         let navController = UINavigationController(rootViewController: optionsController)
@@ -16,9 +15,8 @@ final class CallOptionsCoordinator: BaseCoordinator {
         return navController
     }()
 
-    override init(services: ServicesFactory) {
-        let store = services.makeUserDefaultsStore()
-        self.options = store.getCallOptions()
+    init(appSettings: AppSettings, services: ServicesFactory) {
+        self.appSettings = appSettings
         super.init(services: services)
     }
 

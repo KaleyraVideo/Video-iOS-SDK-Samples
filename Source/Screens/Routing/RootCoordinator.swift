@@ -49,12 +49,15 @@ final class RootCoordinator: BaseCoordinator {
         }
     }
 
+    private var appSettings: AppSettings = .init()
+
     override init(services: ServicesFactory) {
         self.userDefaultsStore = services.makeUserDefaultsStore()
         super.init(services: services)
     }
 
     func start() {
+        appSettings.loadFromDefaults(userDefaultsStore)
         state.loadFromDefaults(userDefaultsStore)
 
         if Config.logLevel != .off {
@@ -78,7 +81,7 @@ final class RootCoordinator: BaseCoordinator {
     }
 
     private func goToSetup(config: Config?, allowReconfiguration: Bool, direction: UIPageViewController.NavigationDirection) {
-        let coordinator = AppSetupCoordinator(stage: config.setupStage, allowReconfiguration: allowReconfiguration, services: services)
+        let coordinator = AppSetupCoordinator(stage: config.setupStage, allowReconfiguration: allowReconfiguration, appSettings: appSettings, services: services)
         addChild(coordinator)
         coordinator.start { [weak self] config, contact in
             guard let self else { return }
@@ -96,7 +99,7 @@ final class RootCoordinator: BaseCoordinator {
     }
 
     private func goToHome(config: Config, loggedUser: Contact) {
-        let coordinator = MainCoordinator(config: config, loggedUser: loggedUser, services: services)
+        let coordinator = MainCoordinator(config: config, loggedUser: loggedUser, appSettings: appSettings, services: services)
         coordinator.onLogout = { [weak self] in
             guard let self else { return }
 

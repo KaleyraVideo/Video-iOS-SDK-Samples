@@ -8,6 +8,7 @@ final class ContactsCoordinator: BaseCoordinator {
 
     private let config: Config
     private let loggedUser: Contact
+    private let appSettings: AppSettings
     private lazy var viewModel: ContactsViewModel = .init(store: services.makeContactsStore(config: config), loggedUser: loggedUser.alias)
 
     private(set) lazy var navigationController: UINavigationController = {
@@ -20,9 +21,10 @@ final class ContactsCoordinator: BaseCoordinator {
 
     private var contactController: ContactsViewController!
 
-    init(config: Config, loggedUser: Contact, services: ServicesFactory) {
+    init(config: Config, loggedUser: Contact, appSettings: AppSettings, services: ServicesFactory) {
         self.config = config
         self.loggedUser = loggedUser
+        self.appSettings = appSettings
         super.init(services: services)
     }
 
@@ -32,7 +34,7 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func makeContactsViewController(onActionSelected: @escaping (ContactsViewController.Action) -> Void) -> ContactsViewController {
-        let controller = ContactsViewController(appSettings: .init(), viewModel: viewModel, services: services)
+        let controller = ContactsViewController(appSettings: appSettings, viewModel: viewModel, services: services)
         controller.tabBarItem = .init(title: Strings.Contacts.tabName, image: Icons.contact, selectedImage: nil)
         controller.definesPresentationContext = true
         controller.onContactProfileSelected = { [weak self] contact in
@@ -60,9 +62,9 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func showCallSettingsScreen() {
-        let coordinator = CallOptionsCoordinator(services: services)
+        let coordinator = CallOptionsCoordinator(appSettings: appSettings, services: services)
         addChild(coordinator)
-        coordinator.start(onDismiss: { [weak self] options in
+        coordinator.start(onDismiss: { [weak self] _ in
             self?.removeChild(coordinator)
         })
         let controller = coordinator.controller

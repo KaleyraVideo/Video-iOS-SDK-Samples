@@ -22,6 +22,7 @@ final class SDKCoordinator: BaseCoordinator {
     private let controller: UIViewController
     private let config: Config
     private let sdk: KaleyraVideo
+    private let appSettings: AppSettings
     private let voipManager: VoIPNotificationsManager
     private let pushManager: PushManager
     private let tokenProvider: AccessTokenProvider
@@ -30,8 +31,6 @@ final class SDKCoordinator: BaseCoordinator {
         window.tintColor = Theme.Color.primary
         return window
     }()
-
-    var callOptions: CallOptions
 
     var isStarted: Bool { authentication != nil }
 
@@ -51,11 +50,12 @@ final class SDKCoordinator: BaseCoordinator {
 
     init(controller: UIViewController,
          config: Config,
+         appSettings: AppSettings,
          services: ServicesFactory,
          delegate: SDKCoordinatorDelegate? = nil) {
         self.controller = controller
         self.config = config
-        self.callOptions = services.makeUserDefaultsStore().getCallOptions()
+        self.appSettings = appSettings
         self.sdk = services.makeSDK()
         self.tokenProvider = services.makeAccessTokenProvider(config: config)
         self.voipManager = services.makeVoIPManager(config: config)
@@ -134,8 +134,8 @@ final class SDKCoordinator: BaseCoordinator {
 
     private func startOutgoingCall(userAliases: [String], type: KaleyraVideoSDK.CallOptions.CallType) {
         sdk.conference?.call(callees: userAliases, options: .init(type: type,
-                                                                  recording: callOptions.recording,
-                                                                  duration: callOptions.maximumDuration)) { result in
+                                                                  recording: appSettings.callSettings.recording,
+                                                                  duration: appSettings.callSettings.maximumDuration)) { result in
             do {
                 try result.get()
             } catch {
@@ -157,7 +157,7 @@ final class SDKCoordinator: BaseCoordinator {
     // MARK: - Present Call ViewController
 
     private func present(call: Call) {
-        let controller = CallViewController(call: call, configuration: callOptions.controllerConfig)
+        let controller = CallViewController(call: call, configuration: appSettings.callSettings.controllerConfig)
         controller.delegate = self
         callWindow.makeKeyAndVisible()
         callWindow.set(rootViewController: controller, animated: true)
@@ -194,7 +194,7 @@ final class SDKCoordinator: BaseCoordinator {
             case .startCall(let url):
                 startJoinCall(url: url)
             case .startOutgoingCall(type: let type, callees: let callees):
-                startOutgoingCall(userAliases: callees, type: type ?? callOptions.type)
+                startOutgoingCall(userAliases: callees, type: type ?? appSettings.callSettings.type)
             case .openChat(userId: let userId):
                 openChat(userId: userId)
             case .siri(intent: let intent):

@@ -12,14 +12,16 @@ final class AccessLinkCoordinator: BaseCoordinator {
 
     private let accessLinkController = AccessLinkViewController()
     private let config: Config
+    private let appSettings: AppSettings
 
-    init(config: Config, services: ServicesFactory) {
+    init(config: Config, appSettings: AppSettings, services: ServicesFactory) {
         self.config = config
+        self.appSettings = appSettings
         super.init(services: services)
     }
 
     func start(onDismiss: @escaping () -> Void) {
-        let coordinator = SDKCoordinator(controller: accessLinkController, config: config, services: services)
+        let coordinator = SDKCoordinator(controller: accessLinkController, config: config, appSettings: appSettings, services: services)
         addChild(coordinator)
         coordinator.start(authentication: .accessLink)
         accessLinkController.onDismiss = { [weak self] in

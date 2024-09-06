@@ -111,8 +111,8 @@ final class URLSessionHTTPClientTests: UnitTestCase {
         let exp = expectation(description: "Waiting for request to start")
 
         URLProtocolStub.observeRequests { (issuedRequest) in
-            exp.fulfill()
             assertThat(issuedRequest.httpMethod, equalTo("POST"))
+            exp.fulfill()
         }
 
         let _ = sut.post(.init(url: anyURL())) { _ in }
@@ -126,10 +126,9 @@ final class URLSessionHTTPClientTests: UnitTestCase {
         let body = "postBody".data(using: .utf8)
 
         URLProtocolStub.observeRequests { (issuedRequest) in
-            exp.fulfill()
-
             assertThat(issuedRequest.httpBodyStream, present())
             assertThat(try? Data(reading: issuedRequest.httpBodyStream!), presentAnd(equalTo(body)))
+            exp.fulfill()
         }
 
         var request = URLRequest(url: anyURL())

@@ -23,11 +23,13 @@ final class AppSetupCoordinator: BaseCoordinator {
 
     private var stage: Stage
     private let allowReconfiguration: Bool
+    private let appSettings: AppSettings
     private var onDismiss: ((Config, Contact) -> Void)?
 
-    init(stage: Stage, allowReconfiguration: Bool, services: ServicesFactory) {
+    init(stage: Stage, allowReconfiguration: Bool, appSettings: AppSettings, services: ServicesFactory) {
         self.stage = stage
         self.allowReconfiguration = allowReconfiguration
+        self.appSettings = appSettings
         super.init(services: services)
     }
 
@@ -98,7 +100,7 @@ final class AppSetupCoordinator: BaseCoordinator {
     }
 
     private func goToAccessLink(config: Config) {
-        let coordinator = AccessLinkCoordinator(config: config, services: services)
+        let coordinator = AccessLinkCoordinator(config: config, appSettings: appSettings, services: services)
         addChild(coordinator)
         coordinator.start { [weak self] in
             guard let self else { return }

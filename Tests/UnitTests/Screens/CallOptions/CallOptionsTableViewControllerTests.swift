@@ -10,6 +10,7 @@ import KaleyraTestMatchers
 
 final class CallOptionsTableViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
+    private var appSettings: AppSettings!
     private var store: UserDefaultsStore!
     private var userDefaults: UserDefaults!
     private var sut: CallOptionsTableViewController!
@@ -17,18 +18,20 @@ final class CallOptionsTableViewControllerTests: UnitTestCase, CompletionSpyFact
     override func setUp() {
         super.setUp()
 
+        appSettings = .init()
         userDefaults = .testSuite
         store = .init(userDefaults: userDefaults)
         let services = ServicesFactoryStub()
         services.userDefaultsStore = store
-        sut = .init(options: CallOptions(), services: services)
+        sut = .init(appSettings: appSettings, services: services)
     }
 
     override func tearDown() {
         userDefaults.removePersistentDomain(forName: .testSuite)
         userDefaults.synchronize()
-        sut = nil
         store = nil
+        appSettings = nil
+        sut = nil
 
         super.tearDown()
     }
@@ -145,6 +148,17 @@ final class CallOptionsTableViewControllerTests: UnitTestCase, CompletionSpyFact
 
         let stored = store.getCallOptions()
         assertThat(stored.type, equalTo(.audioUpgradable))
+    }
+
+    func testWhenViewDisappearsShouldUpdateAppSettings() {
+        sut.loadViewIfNeeded()
+
+        sut.simulateRowSelectedAt(1, inSection: .callType)
+        sut.viewWillDisappear(false)
+
+        var expected = CallOptions()
+        expected.type = .audioUpgradable
+        assertThat(appSettings.callSettings, equalTo(expected))
     }
 
     // MARK: - Helpers

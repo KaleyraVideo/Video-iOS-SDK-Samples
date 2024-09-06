@@ -6,6 +6,7 @@ import KaleyraVideoSDK
 
 final class CallOptionsTableViewController: UITableViewController {
 
+    private let appSettings: AppSettings
     private var options: CallOptions
     private let store: UserDefaultsStore
     private let services: ServicesFactory
@@ -15,8 +16,9 @@ final class CallOptionsTableViewController: UITableViewController {
 
     var onDismiss: ((CallOptions) -> Void)?
 
-    init(options: CallOptions, services: ServicesFactory) {
-        self.options = options
+    init(appSettings: AppSettings, services: ServicesFactory) {
+        self.appSettings = appSettings
+        self.options = appSettings.callSettings
         self.store = services.makeUserDefaultsStore()
         self.services = services
         super.init(style: .insetGrouped)
@@ -68,6 +70,7 @@ final class CallOptionsTableViewController: UITableViewController {
         super.viewWillDisappear(animated)
 
         store.storeCallOptions(options)
+        appSettings.callSettings = options
         onDismiss?(options)
     }
 

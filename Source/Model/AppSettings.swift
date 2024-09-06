@@ -8,4 +8,8 @@ final class AppSettings {
 
     @Published
     var callSettings: CallOptions = .init()
+
+    func loadFromDefaults(_ userDefaults: UserDefaultsStore) {
+        callSettings = userDefaults.getCallOptions()
+    }
 }
