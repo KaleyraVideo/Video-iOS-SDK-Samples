@@ -10,23 +10,19 @@ import KaleyraTestHelpers
 final class ContactsViewModelTests: UnitTestCase {
 
     private var sut: ContactsViewModel!
-    private var observer: ContactsViewModelObserverSpy!
     private var repository: UserRepositoryMock!
 
     override func setUp() {
         super.setUp()
 
-        observer = .init()
         repository = .init()
         sut = .init(store: .init(repository: repository), loggedUser: .alice)
-        sut.observer = observer
     }
 
     override func tearDown() {
         weak var weakSut = sut
         sut = nil
         repository = nil
-        observer = nil
         assertThat(weakSut, nilValue())
 
         super.tearDown()
@@ -36,8 +32,6 @@ final class ContactsViewModelTests: UnitTestCase {
         sut.load()
 
         assertThat(sut.state, equalTo(.loading))
-        assertThat(observer.displayInvocations, hasCount(1))
-        assertThat(observer.displayInvocations[0], equalTo(.loading))
     }
 
     func testOnLoadSuccessShouldUpdateStateToLoaded() throws  {
@@ -46,8 +40,6 @@ final class ContactsViewModelTests: UnitTestCase {
         try repository.simulateLoadUsersSuccess(users: [.bob, .charlie])
 
         assertThat(sut.state.contacts.map(\.alias), equalTo([.bob, .charlie]))
-        assertThat(observer.displayInvocations, hasCount(2))
-        assertThat(observer.displayInvocations[1].contacts.map(\.alias), equalTo([.bob, .charlie]))
     }
 
     func testOnLoadSuccessShouldFilterLoggedUserFromContacts() throws {
@@ -56,8 +48,6 @@ final class ContactsViewModelTests: UnitTestCase {
         try repository.simulateLoadUsersSuccess(users: [.alice, .bob])
 
         assertThat(sut.state.contacts.map(\.alias), equalTo([.bob]))
-        assertThat(observer.displayInvocations, hasCount(2))
-        assertThat(observer.displayInvocations[1].contacts.map(\.alias), equalTo([.bob]))
     }
 
     func testFilterShouldUpdateContactsFilteringByAlias() throws {
@@ -66,13 +56,9 @@ final class ContactsViewModelTests: UnitTestCase {
 
         sut.filter(searchFilter: .alice)
         assertThat(sut.state.contacts.map(\.alias), equalTo([]))
-        assertThat(observer.displayInvocations, hasCount(3))
-        assertThat(observer.displayInvocations[2].contacts.map(\.alias), equalTo([]))
 
         sut.filter(searchFilter: "")
         assertThat(sut.state.contacts.map(\.alias), equalTo([.bob]))
-        assertThat(observer.displayInvocations, hasCount(4))
-        assertThat(observer.displayInvocations[3].contacts.map(\.alias), equalTo([.bob]))
     }
 
     func testLoadSuccessShouldUpdateStateOrderingResultsAlphabetically() throws  {
@@ -81,8 +67,6 @@ final class ContactsViewModelTests: UnitTestCase {
         try repository.simulateLoadUsersSuccess(users: ["b", "C", "d", "A"])
 
         assertThat(sut.state.contacts.map(\.alias), equalTo(["A", "b", "C", "d"]))
-        assertThat(observer.displayInvocations, hasCount(2))
-        assertThat(observer.displayInvocations[1].contacts.map(\.alias), equalTo(["A", "b", "C", "d"]))
     }
 
     func testLoadFailureShouldUpdateStateToError() throws {
@@ -92,8 +76,6 @@ final class ContactsViewModelTests: UnitTestCase {
 
         let description = String(describing: anyNSError())
         assertThat(sut.state, equalTo(.error(description: description)))
-        assertThat(observer.displayInvocations, hasCount(2))
-        assertThat(observer.displayInvocations[1], equalTo(.error(description: description)))
     }
 
     func testSimulateLoadUserAndUpdateOneUserValues() throws {
@@ -106,15 +88,9 @@ final class ContactsViewModelTests: UnitTestCase {
         contact.imageURL = .kaleyra
         sut.update(contact: contact)
 
-        assertThat(observer.displayInvocations, hasCount(3))
-
-        let actual = observer.displayInvocations[2].contacts[1]
+        let actual = sut.state.contacts[1]
         assertThat(actual.firstName, equalTo("Charlie"))
         assertThat(actual.lastName, equalTo("Appleseed"))
         assertThat(actual.imageURL, equalTo(.kaleyra))
-    }
-
-    func testDoesNotCreateRetainCycleWhenInvokingLoadUsers() {
-        sut.load()
     }
 }

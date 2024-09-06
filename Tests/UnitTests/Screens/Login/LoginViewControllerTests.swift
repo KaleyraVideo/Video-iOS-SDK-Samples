@@ -10,16 +10,22 @@ import KaleyraTestMatchers
 
 final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
+    private var viewModel: ContactsViewModel!
+    private var repository: UserRepositoryMock!
     private var sut: LoginViewController!
 
     override func setUp() {
         super.setUp()
 
-        sut = .init(services: ServicesFactoryStub())
+        repository = .init()
+        viewModel = .init(store: .init(repository: repository))
+        sut = .init(viewModel: viewModel, services: ServicesFactoryStub())
     }
 
     override func tearDown() {
         sut = nil
+        viewModel = nil
+        repository = nil
 
         super.tearDown()
     }
@@ -30,100 +36,99 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.title, equalTo(Strings.Login.title))
     }
 
-    func testsViewDidLoadNotifiesReadyListener() {
-        let listener = makeVoidCompletionSpy()
-        sut.onReady = listener.callAsFunction
-
+    func testLoadViewShouldSetupTableView() {
         sut.loadViewIfNeeded()
 
-        assertThat(listener.invocations, hasCount(1))
+        assertThat(sut.tableView.keyboardDismissMode, equalTo(.onDrag))
+        assertThat(sut.tableView.sectionIndexColor?.resolvedDark, equalTo(Theme.Color.secondary.resolvedDark))
     }
 
-    func testsDisplayViewModelAndReloadTableView() {
+    func testWhenViewModelIsLoadingShouldShowNoContentViewWithLoadingMessage() {
         sut.loadViewIfNeeded()
 
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
+        assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(Strings.Login.loadingTitle)))
+    }
+
+    func testWhenViewModelIsLoadedShouldReloadData() throws {
+        sut.loadViewIfNeeded()
+
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
         assertThat(sut.tableView.numberOfRows(inSection: 0), equalTo(1))
         assertThat(sut.tableView.numberOfRows(inSection: 1), equalTo(1))
         assertThat(sut.tableView.numberOfRows(inSection: 2), equalTo(1))
     }
 
-    func testsColorSectionIntexTitlesTableView() {
+    func testWhenViewModelIsLoadedShouldDisplayUserCells() throws {
         sut.loadViewIfNeeded()
-
-        assertThat(sut.tableView.sectionIndexColor?.cgColor, equalTo(Theme.Color.secondary.cgColor))
-    }
-
-    func testsTableViewKeyBoardDismissMode() {
-        sut.loadViewIfNeeded()
-
-        assertThat(sut.tableView.keyboardDismissMode, equalTo(.onDrag))
-    }
-
-    func testsDisplayUsernameCorreclyInTableViewCellsTitle() throws {
-        sut.loadViewIfNeeded()
-
-        let users = ["Usr1", "Usr2", "Usr3"]
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: users)))
         sut.tableView.frame = UIScreen.main.bounds
 
-        for index in 0 ..< users.count {
-            let cell = try unwrap(sut.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? UserCell)
-            assertThat(cell.contact?.alias, equalTo(users[index]))
-        }
+        try repository.simulateLoadUsersSuccess(users: [.alice, .bob])
+
+        let firstCell = sut.cellForRow(at: .init(row: 0, section: 0))
+        assertThat(firstCell?.contact?.alias, equalTo(.alice))
+        let secondCell = sut.cellForRow(at: .init(row: 0, section: 1))
+        assertThat(secondCell?.contact?.alias, equalTo(.bob))
     }
 
-    func testShowOrHideComponentsBasedOnViewModelLoadingFlag() throws {
+    func testWhenViewModelIsLoadedShouldRemovePlaceholderBackgroundView() throws {
         sut.loadViewIfNeeded()
+        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.loadingTitle))
 
-        sut.display(.loading)
-        assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(Strings.Login.loadingTitle)))
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
         assertThat(sut.tableView.backgroundView, nilValue())
     }
 
-    func testShowPlaceHolderEmptyDatasetWhenPassNoDataToTableView() throws {
+    func testWhenViewModelIsLoadedWithAnEmptyDataSetShouldShowNoContent() throws {
         sut.loadViewIfNeeded()
-        sut.display(.loaded([]))
 
-        assertThat(sut.tableView.noContentView?.title, presentAnd(equalTo(Strings.Login.emptyTitle)))
-        assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(Strings.Login.emptySubtitle)))
+        try repository.simulateLoadUsersSuccess(users: [])
 
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob])))
-        assertThat(sut.tableView.backgroundView, nilValue())
+        assertThat(sut.noContentView?.title, equalTo(Strings.Login.emptyTitle))
+        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Login.emptySubtitle))
     }
 
-    func testShowPlaceHolderErrorWhenReturnUnknownError() throws {
+    func testWhenViewModelLoadingFailsShouldShowErrorView() throws {
         sut.loadViewIfNeeded()
 
-        sut.display(.error(description: .foo))
-        assertThat(sut.tableView.noContentView?.title, presentAnd(equalTo(Strings.Login.ErrorAlert.title)))
-        assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(.foo)))
-        assertThat(sut.tableView.noContentView?.actionTitle, presentAnd(equalTo(Strings.Login.ErrorAlert.retryAction)))
+        try repository.simulateLoadUsersFailure(error: anyNSError())
 
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
-        assertThat(sut.tableView.backgroundView, nilValue())
+        assertThat(sut.noContentView?.title, equalTo(Strings.Login.ErrorAlert.title))
+        assertThat(sut.noContentView?.subtitle, equalTo(String(describing: anyNSError())))
+        assertThat(sut.noContentView?.actionTitle, equalTo(Strings.Login.ErrorAlert.retryAction))
     }
 
-    func testCallDidSelectRowDelegateOnTapTableViewCell() {
-        sut.loadViewIfNeeded()
-
+    func testOnRowSelectedShouldNotifyListener() throws {
         let selectionSpy = makeSelectionSpy()
         sut.onSelection = selectionSpy.callAsFunction
+        sut.loadViewIfNeeded()
 
-        sut.display(.loaded(Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])))
-        assertThat(sut.tableView.backgroundView, nilValue())
+        try repository.simulateLoadUsersSuccess(users: [.alice, .bob])
+        sut.simulateRowSelected(at: .init(row: 0, section: 1))
 
-        sut.tableView(sut.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
-        assertThat(selectionSpy.invocations.map(\.alias), equalTo([.alice]))
+        assertThat(selectionSpy.invocations.map(\.alias), equalTo([.bob]))
     }
 
     // MARK: - Helpers
 
     private func makeSelectionSpy() -> CompletionSpy<Contact> {
         makeCompletionSpy()
+    }
+}
+
+private extension LoginViewController {
+
+    var noContentView: NoContentView? {
+        tableView.noContentView
+    }
+
+    func cellForRow(at indexPath: IndexPath) -> UserCell? {
+        tableView.cellForRow(at: indexPath) as? UserCell
+    }
+
+    func simulateRowSelected(at indexPath: IndexPath) {
+        tableView(tableView, didSelectRowAt: indexPath)
     }
 }
 

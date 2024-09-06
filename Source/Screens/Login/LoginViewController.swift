@@ -3,11 +3,13 @@
 
 import Foundation
 import UIKit
+import Combine
 
 final class LoginViewController: UITableViewController {
 
+    private let viewModel: ContactsViewModel
     private let services: ServicesFactory
-    var onReady: (() -> Void)?
+
     var onSelection: ((Contact) -> Void)?
     var handleErrorTapped: (() -> Void)?
 
@@ -26,7 +28,10 @@ final class LoginViewController: UITableViewController {
         }
     }
 
-    init(services: ServicesFactory) {
+    private lazy var subscriptions = Set<AnyCancellable>()
+
+    init(viewModel: ContactsViewModel, services: ServicesFactory) {
+        self.viewModel = viewModel
         self.services = services
         super.init(nibName: nil, bundle: nil)
     }
@@ -41,10 +46,13 @@ final class LoginViewController: UITableViewController {
 
         title = Strings.Login.title
         setupTableView()
-        onReady?()
 #if SAMPLE_CUSTOMIZABLE_THEME
         themeChanged(theme: services.makeThemeStorage().getSelectedTheme())
 #endif
+        viewModel.$state.sink { [weak self] state in
+            self?.display(state)
+        }.store(in: &subscriptions)
+        viewModel.load()
     }
 
     private func setupTableView() {
@@ -52,6 +60,38 @@ final class LoginViewController: UITableViewController {
         tableView.keyboardDismissMode = .onDrag
         tableView.rowHeight = 90
         tableView.sectionIndexColor = Theme.Color.secondary
+    }
+
+    private func display(_ state: ContactsViewModel.State) {
+        switch state {
+            case .initial:
+                tableView.backgroundView = NoContentView.empty
+            case .loading:
+                tableView.backgroundView = NoContentView.loading
+            case .error(let message):
+                tableView.backgroundView = NoContentView.error(message: message, action: { [weak self] in
+                    self?.viewModel.load()
+                })
+
+                guard let handleErrorTapped = handleErrorTapped else { return }
+
+                showAlertMessageWithAction(title: Strings.Login.ErrorAlert.title,
+                                           message: message,
+                                           buttonTitle: Strings.Login.ErrorAlert.cancelAction,
+                                           buttonActionTitle: Strings.Login.ErrorAlert.exitAction,
+                                           buttonActionHandler: handleErrorTapped)
+            case .loaded(let contacts):
+                if contacts.isEmpty {
+                    tableView.backgroundView = NoContentView.empty
+                    tableView.separatorColor = .clear
+                    self.contacts = []
+                } else {
+                    tableView.isHidden = false
+                    tableView.backgroundView = nil
+                    tableView.separatorColor = .gray
+                    self.contacts = contacts
+                }
+        }
     }
 
     // MARK: - Table view data source
@@ -111,39 +151,6 @@ extension LoginViewController: Themable {
     }
 }
 #endif
-
-extension LoginViewController: ContactsViewModelObserver {
-
-    func display(_ state: ContactsViewModel.State) {
-        switch state {
-            case .initial:
-                tableView.backgroundView = NoContentView.empty
-            case .loading:
-                tableView.backgroundView = NoContentView.loading
-            case .error(let message):
-                tableView.backgroundView = NoContentView.error(message: message, action: { [weak self] in self?.onReady?() })
-
-                guard let handleErrorTapped = handleErrorTapped else { return }
-
-                showAlertMessageWithAction(title: Strings.Login.ErrorAlert.title,
-                                           message: message,
-                                           buttonTitle: Strings.Login.ErrorAlert.cancelAction,
-                                           buttonActionTitle: Strings.Login.ErrorAlert.exitAction,
-                                           buttonActionHandler: handleErrorTapped)
-            case .loaded(let contacts):
-                if contacts.isEmpty {
-                    tableView.backgroundView = NoContentView.empty
-                    tableView.separatorColor = .clear
-                    self.contacts = []
-                } else {
-                    tableView.isHidden = false
-                    tableView.backgroundView = nil
-                    tableView.separatorColor = .gray
-                    self.contacts = contacts
-                }
-        }
-    }
-}
 
 private extension NoContentView {
 

@@ -31,14 +31,8 @@ final class ContactsViewModel {
     private let loggedUser: String?
     private var filter: String?
 
-    var observer: ContactsViewModelObserver?
-
     @Published
-    private(set) var state: State = .initial {
-        didSet {
-            observer?.display(state)
-        }
-    }
+    private(set) var state: State = .initial
 
     private lazy var subscriptions = Set<AnyCancellable>()
 

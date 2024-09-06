@@ -8,13 +8,12 @@ final class LoginCoordinator: BaseCoordinator {
 
     private let config: Config
 
-    private lazy var loginController: LoginViewController = LoginViewController(services: services)
-
     var controller: UIViewController {
         loginController
     }
 
     private lazy var viewModel: ContactsViewModel = .init(store: services.makeContactsStore(config: config))
+    private lazy var loginController: LoginViewController = LoginViewController(viewModel: viewModel, services: services)
     private var searchController: UISearchController?
 
     init(config: Config, services: ServicesFactory) {
@@ -24,12 +23,10 @@ final class LoginCoordinator: BaseCoordinator {
 
     func start(onDismiss: @escaping (Contact?) -> Void) {
         let searchController = makeSearchController()
-        viewModel.observer = Weak(object: loginController)
         loginController.navigationItem.searchController = searchController
         loginController.navigationItem.hidesSearchBarWhenScrolling = false
         loginController.definesPresentationContext = true
         loginController.onSelection = onDismiss
-        loginController.onReady = viewModel.load
         loginController.handleErrorTapped = { onDismiss(nil) }
     }
 }
