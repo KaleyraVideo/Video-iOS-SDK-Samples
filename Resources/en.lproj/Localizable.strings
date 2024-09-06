@@ -2,6 +2,8 @@
  Copyright © 2018-2022 Kaleyra S.p.a. All Rights Reserved.
 */
 
+// MARK: - Contacts screen
+
 "contacts.loading_title" = "Loading";
 "contacts.empty_title" = "Warning";
 "contacts.empty_subtitle" = "There are no contacts available.";
@@ -10,16 +12,20 @@
 "contacts.cell.call_action" = "Call";
 "contacts.cell.video_call_action" = "Video";
 "contacts.cell.chat_action" = "Chat";
-"contacts.update.title" = "Update user";
 "contacts.search_placeholder" = "Search";
 "contacts.title" = "Contacts";
 "contacts.tab" = "Contacts";
 
+// MARK: - Profile edit screen
+
+"contacts.update.title" = "Update user";
 "contact_update.first_name" = "Name";
 "contact_update.last_name" = "Lastname";
 "contact_update.image_url" = "Profile image URL";
 "contact_update.accept_button" = "Accept";
 "contact_update.cancel_button" = "Cancel";
+
+// MARK: - Login screen
 
 "login.search_placeholder" = "Search";
 "login.title" = "Choose an user";
@@ -30,6 +36,8 @@
 "login.error_retry_action" = "Retry";
 "login.error_cancel" = "OK";
 "login.error_exit" = "Exit";
+
+// MARK: - Setup screen
 
 "setup.title" = "Setup";
 "setup.environment_section" = "Environment";
@@ -52,31 +60,31 @@
 "setup.alert.title" = "Invalid Configuration";
 "setup.alert.message" = "The configuration provided is not valid, you must provide an \"App Id\" and an \"Api Key\"";
 "setup.alert.cancel-action.title" = "Ok";
-
 "setup.tools_section" = "Tools";
 "setup.tools-chat" = "Chat";
 "setup.tools-whiteboard" = "Whiteboard";
 "setup.tools-fileshare" = "File share";
 "setup.tools-screenshare" = "In-app screen share";
 "setup.tools-broadcast" = "Broadcast screen share";
-
 "setup.camera_section" = "Camera";
 "setup.camera_front" = "Start with front camera";
 "setup.camera_back" = "Start with back camera";
-
 "setup.voip_section_title" = "VoIP";
 "setup.voip_automatic" = "Automatic";
 "setup.voip_manual" = "Manual";
 "setup.voip_disabled" = "Disabled";
 "setup.voip_notifications_in_foreground" = "Handle notifications in foreground";
 "setup.voip_disable_direct_incoming_calls" = "Disable direct incoming calls";
-
 "setup.company.sales" = "Kaleyra Sales";
 "setup.company.video" = "Kaleyra Video";
+
+// MARK: - App setup screen
 
 "app_setup_type.qr" = "QR code";
 "app_setup_type.wizard" = "Step by step";
 "app_setup_type.advanced" = "Advanced";
+
+// MARK: - Settings screen
 
 "settings.title" = "Settings";
 "settings.tab" = "Settings";
@@ -84,35 +92,6 @@
 "settings.share" = "Share";
 "settings.logout" = "Logout";
 "settings.reset" = "Reset";
-
-"call_options.title" = "Call options";
-"call_options.call_type_section_title" = "Call type";
-"call_options.recording_section_title" = "Recording";
-"call_options.recording_none" = "None";
-"call_options.recording_automatic" = "Automatic";
-"call_options.recording_manual" = "Manual";
-"call_options.group_call_section_title" = "Group options";
-"call_options.call_type_group" = "Group call";
-"call_options.call_type_audio_video" = "Audio Video";
-"call_options.call_type_audio_upgradable" = "Audio Upgradable";
-"call_options.call_type_audio_only" = "Audio Only";
-"call_options.other_options_section" = "Other Options";
-"call_options.call_duration" = "Call duration";
-"call_options.confirm_button" = "Accept";
-"call_options.rating_section_title" = "Rating";
-"call_options.rating_enabled" = "Enable call rating";
-"call_options.ringing_ui_title" = "Ringing UI";
-"call_options.ringing_ui_invisible" = "Hide";
-"call_options.ringing_ui_visible" = "Show";
-"call_options.call_presentation_mode_title" = "Call UI presentation mode";
-"call_options.call_presentation_mode_fullscreen" = "Fullscreen";
-"call_options.call_presentation_mode_pip" = "Picture in picture";
-
-"qr_reader.alert_title" = "An error has occurred!";
-"qr_reader.alert_message" = "An error has occurred while reading the QR code! Would you like to retry?";
-"qr_reader.retry_action" = "OK";
-"qr_reader.cancel_action" = "Cancel";
-
 "settings.username" = "Username:";
 "settings.environment" = "Environment:";
 "settings.region" = "Region:";
@@ -137,21 +116,44 @@
 "color_picker.blue" = "Blue";
 "color_picker.opacity" = "Opacity";
 
-// PUSH NOTIFICATIONS
+// MARK: - Call settings screen
 
-"MISSED_CALL_TITLE_V1" = "%@ tried to call you";
-"MISSED_CALL_BODY_V1" = "Missed call";
+"call_options.title" = "Call options";
+"call_options.call_type_section_title" = "Call type";
+"call_options.recording_section_title" = "Recording";
+"call_options.recording_none" = "None";
+"call_options.recording_automatic" = "Automatic";
+"call_options.recording_manual" = "Manual";
+"call_options.group_call_section_title" = "Group options";
+"call_options.call_type_group" = "Group call";
+"call_options.call_type_audio_video" = "Audio Video";
+"call_options.call_type_audio_upgradable" = "Audio Upgradable";
+"call_options.call_type_audio_only" = "Audio Only";
+"call_options.other_options_section" = "Other Options";
+"call_options.call_duration" = "Call duration";
+"call_options.confirm_button" = "Accept";
+"call_options.rating_section_title" = "Rating";
+"call_options.rating_enabled" = "Enable call rating";
+"call_options.ringing_ui_title" = "Ringing UI";
+"call_options.ringing_ui_invisible" = "Hide";
+"call_options.ringing_ui_visible" = "Show";
+"call_options.call_presentation_mode_title" = "Call UI presentation mode";
+"call_options.call_presentation_mode_fullscreen" = "Fullscreen";
+"call_options.call_presentation_mode_pip" = "Picture in picture";
 
-// User verification
+// MARK: - QR screen
 
-"user_verification.reason" = "Authentication required!";
+"qr_reader.alert_title" = "An error has occurred!";
+"qr_reader.alert_message" = "An error has occurred while reading the QR code! Would you like to retry?";
+"qr_reader.retry_action" = "OK";
+"qr_reader.cancel_action" = "Cancel";
 
-// Access link
+// MARK: - Access link screen
 
 "access_link.title" = "Access link";
 "access_link.message" = "Here you can start a call using a call link";
 
-// Logs
+// MARK: - Logs
 
 "logs.shortcut.title" = "Share log files";
 
@@ -162,3 +164,8 @@
 
 "logs.mail.subject" = "Sharing log files";
 "logs.mail.body" = "Please take a look at log files attached to this email.";
+
+// MARK: - Push notifications
+
+"MISSED_CALL_TITLE_V1" = "%@ tried to call you";
+"MISSED_CALL_BODY_V1" = "Missed call";

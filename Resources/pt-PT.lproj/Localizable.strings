@@ -2,6 +2,8 @@
  Copyright © 2018-2022 Kaleyra S.p.a. All Rights Reserved.
 */
 
+// MARK: - Contacts screen
+
 "contacts.loading_title" = "Carregando";
 "contacts.empty_title" = "Aviso";
 "contacts.empty_subtitle" = "Não há contatos disponíveis.";
@@ -10,15 +12,21 @@
 "contacts.cell.call_action" = "Chamada";
 "contacts.cell.video_call_action" = "Vídeo";
 "contacts.cell.chat_action" = "Chat";
-"contacts.update.title" = "Atualizar usuário";
 "contacts.search_placeholder" = "Pesquisar";
 "contacts.title" = "Contatos";
 "contacts.tab" = "Contatos";
+
+// MARK: - Profile edit screen
+
+"contacts.update.title" = "Atualizar usuário";
 "contact_update.first_name" = "Nome";
 "contact_update.last_name" = "Sobrenome";
 "contact_update.image_url" = "URL da imagem de perfil";
 "contact_update.accept_button" = "Aceitar";
 "contact_update.cancel_button" = "Cancelar";
+
+// MARK: - Login screen
+
 "login.search_placeholder" = "Pesquisar";
 "login.title" = "Escolha um usuário";
 "login.loading" = "Carregando";
@@ -28,6 +36,9 @@
 "login.error_retry_action" = "Tentar Novamente";
 "login.error_cancel" = "OK";
 "login.error_exit" = "Sair";
+
+// MARK: - Setup screen
+
 "setup.title" = "Configuração";
 "setup.environment_section" = "Ambiente";
 "setup.environment_production" = "Produção";
@@ -66,44 +77,21 @@
 "setup.voip_disable_direct_incoming_calls" = "Desativar chamadas diretas recebidas";
 "setup.company.sales" = "Vendas da Kaleyra";
 "setup.company.video" = "Vídeo da Kaleyra";
+
+// MARK: - App setup screen
+
 "app_setup_type.qr" = "Código QR";
 "app_setup_type.wizard" = "Passo a passo";
 "app_setup_type.advanced" = "Avançado";
+
+// MARK: - Settings screen
+
 "settings.title" = "Configurações";
 "settings.tab" = "Configurações";
 "settings.feedback" = "Enviar feedback";
 "settings.share" = "Compartilhar";
 "settings.logout" = "Sair";
 "settings.reset" = "Redefinir";
-
-"call_options.title" = "Opções de Chamada";
-"call_options.call_type_section_title" = "Tipo de Chamada";
-"call_options.recording_section_title" = "Gravação";
-"call_options.recording_none" = "Nenhuma";
-"call_options.recording_automatic" = "Automática";
-"call_options.recording_manual" = "Manual";
-"call_options.group_call_section_title" = "Opções de Grupo";
-"call_options.call_type_group" = "Chamada em Grupo";
-"call_options.call_type_audio_video" = "Áudio Vídeo";
-"call_options.call_type_audio_upgradable" = "Áudio Atualizável";
-"call_options.call_type_audio_only" = "Apenas Áudio";
-"call_options.other_options_section" = "Outras Opções";
-"call_options.call_duration" = "Duração da Chamada";
-"call_options.confirm_button" = "Aceitar";
-"call_options.rating_section_title" = "Avaliação";
-"call_options.rating_enabled" = "Ativar avaliação da chamada";
-"call_options.ringing_ui_title" = "Interface de Chamada";
-"call_options.ringing_ui_invisible" = "Ocultar";
-"call_options.ringing_ui_visible" = "Mostrar";
-"call_options.call_presentation_mode_title" = "Modo de Apresentação da Interface de Chamada";
-"call_options.call_presentation_mode_fullscreen" = "Tela Cheia";
-"call_options.call_presentation_mode_pip" = "Imagem em Imagem";
-
-"qr_reader.alert_title" = "Ocorreu um erro!";
-"qr_reader.alert_message" = "Ocorreu um erro ao ler o código QR! Gostaria de tentar novamente?";
-"qr_reader.retry_action" = "OK";
-"qr_reader.cancel_action" = "Cancelar";
-
 "settings.username" = "Nome de usuário:";
 "settings.environment" = "Ambiente:";
 "settings.region" = "Região:";
@@ -128,21 +116,44 @@
 "color_picker.blue" = "Azul";
 "color_picker.opacity" = "Opacidade";
 
-// PUSH NOTIFICATIONS
+// MARK: - Call settings screen
 
-"MISSED_CALL_TITLE_V1" = "%@ tentou ligar para você";
-"MISSED_CALL_BODY_V1" = "Chamada perdida";
+"call_options.title" = "Opções de Chamada";
+"call_options.call_type_section_title" = "Tipo de Chamada";
+"call_options.recording_section_title" = "Gravação";
+"call_options.recording_none" = "Nenhuma";
+"call_options.recording_automatic" = "Automática";
+"call_options.recording_manual" = "Manual";
+"call_options.group_call_section_title" = "Opções de Grupo";
+"call_options.call_type_group" = "Chamada em Grupo";
+"call_options.call_type_audio_video" = "Áudio Vídeo";
+"call_options.call_type_audio_upgradable" = "Áudio Atualizável";
+"call_options.call_type_audio_only" = "Apenas Áudio";
+"call_options.other_options_section" = "Outras Opções";
+"call_options.call_duration" = "Duração da Chamada";
+"call_options.confirm_button" = "Aceitar";
+"call_options.rating_section_title" = "Avaliação";
+"call_options.rating_enabled" = "Ativar avaliação da chamada";
+"call_options.ringing_ui_title" = "Interface de Chamada";
+"call_options.ringing_ui_invisible" = "Ocultar";
+"call_options.ringing_ui_visible" = "Mostrar";
+"call_options.call_presentation_mode_title" = "Modo de Apresentação da Interface de Chamada";
+"call_options.call_presentation_mode_fullscreen" = "Tela Cheia";
+"call_options.call_presentation_mode_pip" = "Imagem em Imagem";
 
-// User verification
+// MARK: - QR screen
 
-"user_verification.reason" = "Autenticação requerida!";
+"qr_reader.alert_title" = "Ocorreu um erro!";
+"qr_reader.alert_message" = "Ocorreu um erro ao ler o código QR! Gostaria de tentar novamente?";
+"qr_reader.retry_action" = "OK";
+"qr_reader.cancel_action" = "Cancelar";
 
-// Access link
+// MARk: - Access link screen
 
 "access_link.title" = "Link de Acesso";
 "access_link.message" = "Aqui você pode iniciar uma chamada usando um link de chamada";
 
-// Logs
+// MARK: - Logs
 
 "logs.shortcut.title" = "Compartilhar arquivos de log";
 "logs.alert.title" = "Erro ao compartilhar logs";
@@ -152,3 +163,8 @@
 
 "logs.mail.subject" = "Compartilhando arquivos de log";
 "logs.mail.body" = "Por favor, dê uma olhada nos arquivos de log anexados a este e-mail.";
+
+// MARK: - Push Notifications
+
+"MISSED_CALL_TITLE_V1" = "%@ tentou ligar para você";
+"MISSED_CALL_BODY_V1" = "Chamada perdida";
