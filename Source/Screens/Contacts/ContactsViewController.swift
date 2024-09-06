@@ -98,7 +98,7 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
         tableView.keyboardDismissMode = .onDrag
         tableView.sectionIndexColor = Theme.Color.secondary
         tableView.tintColor = Theme.Color.secondary
-        tableView.registerReusableCell(UserCell.self)
+        tableView.registerReusableCell(ContactTableViewCell.self)
         tableView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPress(sender:))))
     }
 
@@ -162,7 +162,7 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UserCell = tableView.dequeueReusableCell(for: indexPath)
+        let cell: ContactTableViewCell = tableView.dequeueReusableCell(for: indexPath)
 
         if let contact = dataSet.row(at: indexPath) {
             cell.contact = contact
@@ -267,7 +267,7 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
     @objc
     private func longPress(sender: UILongPressGestureRecognizer) {
         guard let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView)),
-              let cell = tableView.cellForRow(at: indexPath) as? UserCell,
+              let cell = tableView.cellForRow(at: indexPath) as? ContactTableViewCell,
               let contact = cell.contact else { return }
 
         onContactProfileSelected?(contact)

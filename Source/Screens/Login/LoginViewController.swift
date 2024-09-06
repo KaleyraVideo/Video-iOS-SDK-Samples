@@ -71,7 +71,7 @@ final class LoginViewController: UITableViewController, UISearchBarDelegate {
     }
 
     private func setupTableView() {
-        tableView.registerReusableCell(UserCell.self)
+        tableView.registerReusableCell(ContactTableViewCell.self)
         tableView.keyboardDismissMode = .onDrag
         tableView.rowHeight = 90
         tableView.sectionIndexColor = Theme.Color.secondary
@@ -120,7 +120,7 @@ final class LoginViewController: UITableViewController, UISearchBarDelegate {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UserCell = tableView.dequeueReusableCell(for: indexPath)
+        let cell: ContactTableViewCell = tableView.dequeueReusableCell(for: indexPath)
 
         if let contact = dataSet.row(at: indexPath) {
             cell.contact = contact

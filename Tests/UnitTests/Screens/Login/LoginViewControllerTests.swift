@@ -153,8 +153,8 @@ private extension LoginViewController {
         tableView.noContentView
     }
 
-    func cellForRow(at indexPath: IndexPath) -> UserCell? {
-        tableView.cellForRow(at: indexPath) as? UserCell
+    func cellForRow(at indexPath: IndexPath) -> ContactTableViewCell? {
+        tableView.cellForRow(at: indexPath) as? ContactTableViewCell
     }
 
     func simulateRowSelected(at indexPath: IndexPath) {
