@@ -6,10 +6,10 @@ import UIKit
 
 final class ContactsCoordinator: BaseCoordinator {
 
-    private let config: Config
-    private let loggedUser: Contact
+    private let session: UserSession
     private let appSettings: AppSettings
-    private lazy var viewModel: ContactsViewModel = .init(store: services.makeContactsStore(config: config), loggedUser: loggedUser.alias)
+    private lazy var store: ContactsStore = services.makeContactsStore(config: session.config)
+    private lazy var viewModel: ContactsViewModel = .init(store: store, loggedUser: session.user)
 
     private(set) lazy var navigationController: UINavigationController = {
         let controller = UINavigationController()
@@ -21,9 +21,8 @@ final class ContactsCoordinator: BaseCoordinator {
 
     private var contactController: ContactsViewController!
 
-    init(config: Config, loggedUser: Contact, appSettings: AppSettings, services: ServicesFactory) {
-        self.config = config
-        self.loggedUser = loggedUser
+    init(session: UserSession, appSettings: AppSettings, services: ServicesFactory) {
+        self.session = session
         self.appSettings = appSettings
         super.init(services: services)
     }
@@ -48,7 +47,7 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func showProfileScreen(_ contact: Contact) {
-        let coordinator = ContactProfileCoordinator(contact: contact, services: services, config: config)
+        let coordinator = ContactProfileCoordinator(contact: contact, store: store, services: services)
         coordinator.start(onDismiss: { [weak self] _ in
             guard let self else { return }
 

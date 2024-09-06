@@ -12,11 +12,10 @@ protocol SettingsCoordinatorDelegate: AnyObject {
 
 final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate {
 
-    private let loggedUser: Contact
-    private let config: Config
+    private let session: UserSession
 
     private lazy var settingsController: SettingsViewController = {
-        let controller = SettingsViewController(user: loggedUser, config: config, services: services)
+        let controller = SettingsViewController(session: session, services: services)
         controller.title = Strings.Settings.title
         controller.tabBarItem = .init(title: Strings.Settings.tabName, image: Icons.settings, selectedImage: nil)
         controller.tabBarItem.imageInsets = .init(top: 3, left: 0, bottom: 4, right: 3)
@@ -48,12 +47,8 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
 
     // MARK: - Init
 
-    init(services: ServicesFactory,
-         loggedUser: Contact,
-         config: Config,
-         delegate: SettingsCoordinatorDelegate? = nil) {
-        self.loggedUser = loggedUser
-        self.config = config
+    init(session: UserSession, services: ServicesFactory, delegate: SettingsCoordinatorDelegate? = nil) {
+        self.session = session
         self.delegate = delegate
         super.init(services: services)
     }
@@ -72,13 +67,9 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
     private func addContactProfileCoordinator() {
         guard profileCoordinator == nil else { return }
 
-        let coordinator = ContactProfileCoordinator(contact: loggedUser, services: services, config: config)
+        let coordinator = ContactProfileCoordinator(contact: session.user, store: services.makeContactsStore(config: session.config), services: services)
         coordinator.start(onDismiss: { [weak self] contact in
             guard let self else { return }
-
-            if contact.alias == self.loggedUser.alias {
-                settingsController.user = contact
-            }
 
             self.removeChild(coordinator)
         })

@@ -7,8 +7,7 @@ import KaleyraVideoSDK
 
 final class MainCoordinator: BaseCoordinator {
 
-    private let config: Config
-    private let loggedUser: Contact
+    private let session: UserSession
     private let appSettings: AppSettings
 
     // MARK: - View Controllers
@@ -42,9 +41,8 @@ final class MainCoordinator: BaseCoordinator {
     var onError: (() -> Void)?
     var onUpdateContact: ((Contact) -> Void)?
 
-    init(config: Config, loggedUser: Contact, appSettings: AppSettings, services: ServicesFactory) {
-        self.config = config
-        self.loggedUser = loggedUser
+    init(session: UserSession, appSettings: AppSettings, services: ServicesFactory) {
+        self.session = session
         self.appSettings = appSettings
         super.init(services: services)
 
@@ -58,15 +56,15 @@ final class MainCoordinator: BaseCoordinator {
     }
 
     private func addSDKCoordinator() {
-        addChild(SDKCoordinator(controller: tabBarController, config: config, appSettings: appSettings, services: services, delegate: self))
+        addChild(SDKCoordinator(controller: tabBarController, config: session.config, appSettings: appSettings, services: services, delegate: self))
     }
 
     private func addContactsCoordinator() {
-        addChild(ContactsCoordinator(config: config, loggedUser: loggedUser, appSettings: appSettings, services: services))
+        addChild(ContactsCoordinator(session: session, appSettings: appSettings, services: services))
     }
 
     private func addSettingsCoordinator() {
-        addChild(SettingsCoordinator(services: services, loggedUser: loggedUser, config: config, delegate: self))
+        addChild(SettingsCoordinator(session: session, services: services, delegate: self))
     }
 
     // MARK: - Start
@@ -78,7 +76,7 @@ final class MainCoordinator: BaseCoordinator {
             self.handle(event: action.coordinatorEvent, direction: .toChildren)
         }))
         settingsCoordinator.start()
-        sdkCoordinator.start(authentication: .accessToken(userId: loggedUser.alias))
+        sdkCoordinator.start(authentication: .accessToken(userId: session.user.alias))
         tabBarController.setViewControllers([contactsCoordinator.navigationController, settingsCoordinator.navigationController], animated: true)
     }
 }

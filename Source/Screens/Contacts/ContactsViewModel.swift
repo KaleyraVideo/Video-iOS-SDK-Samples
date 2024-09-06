@@ -28,7 +28,7 @@ final class ContactsViewModel {
     }
 
     private let store: ContactsStore
-    private let loggedUser: String?
+    private let loggedUser: Contact?
     private var filter: String?
 
     @Published
@@ -36,7 +36,7 @@ final class ContactsViewModel {
 
     private lazy var subscriptions = Set<AnyCancellable>()
 
-    init(store: ContactsStore, loggedUser: String? = nil) {
+    init(store: ContactsStore, loggedUser: Contact? = nil) {
         self.store = store
         self.loggedUser = loggedUser
     }
@@ -73,7 +73,7 @@ final class ContactsViewModel {
     }
 
     private func setContacts(contacts: [Contact]) {
-        state = .loaded(contacts.filterBy(loggedUser: loggedUser, aliasPattern: filter))
+        state = .loaded(contacts.filterBy(loggedUser: loggedUser?.alias, aliasPattern: filter))
     }
 }
 

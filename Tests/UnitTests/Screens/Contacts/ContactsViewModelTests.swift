@@ -16,7 +16,7 @@ final class ContactsViewModelTests: UnitTestCase {
         super.setUp()
 
         repository = .init()
-        sut = .init(store: .init(repository: repository), loggedUser: .alice)
+        sut = .init(store: .init(repository: repository), loggedUser: Contact(.alice))
     }
 
     override func tearDown() {

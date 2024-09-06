@@ -20,14 +20,14 @@ final class SettingsViewController: UIViewController {
 
     weak var delegate: SettingsViewControllerDelegate?
 
-    let config: Config
+    private let session: UserSession
     let versions: Versions
     let settingsStore: UserDefaultsStore
     let contactsStore: ContactsStore
 
     var shareLogsAction: (() -> Void)?
 
-    var user: Contact {
+    private var user: Contact {
         didSet {
             iconImage.image = user.image
         }
@@ -37,8 +37,8 @@ final class SettingsViewController: UIViewController {
         SettingsDatasetBuilder()
                 .addSection({ section in
                                 section.addUsernameItem(user.alias)
-                                        .addEnvironmentItem(config.environment)
-                                        .addRegionItem(config.region)
+                                        .addEnvironmentItem(session.config.environment)
+                                        .addRegionItem(session.config.region)
                                         .addAppVersionItem(versions.app.formattedValue())
                                         .addSDKVersionItem(versions.sdk.formattedValue())
                                         .addShareLogs(action: shareLogsAction) })
@@ -81,11 +81,11 @@ final class SettingsViewController: UIViewController {
 
     // MARK: - Init
 
-    init(user: Contact, config: Config, services: ServicesFactory, versions: Versions = .init()) {
-        self.user = user
-        self.config = config
+    init(session: UserSession, services: ServicesFactory, versions: Versions = .init()) {
+        self.session = session
+        self.user = session.user
         self.settingsStore = services.makeUserDefaultsStore()
-        self.contactsStore = services.makeContactsStore(config: config)
+        self.contactsStore = services.makeContactsStore(config: session.config)
         self.versions = versions
         super.init(nibName: nil, bundle: nil)
     }

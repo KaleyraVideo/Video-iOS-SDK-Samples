@@ -24,7 +24,7 @@ final class AppSetupCoordinator: BaseCoordinator {
     private var stage: Stage
     private let allowReconfiguration: Bool
     private let appSettings: AppSettings
-    private var onDismiss: ((Config, Contact) -> Void)?
+    private var onDismiss: ((UserSession) -> Void)?
 
     init(stage: Stage, allowReconfiguration: Bool, appSettings: AppSettings, services: ServicesFactory) {
         self.stage = stage
@@ -33,7 +33,7 @@ final class AppSetupCoordinator: BaseCoordinator {
         super.init(services: services)
     }
 
-    func start(onDismiss: @escaping (Config, Contact) -> Void) {
+    func start(onDismiss: @escaping (UserSession) -> Void) {
         self.onDismiss = onDismiss
 
         switch stage {
@@ -65,14 +65,14 @@ final class AppSetupCoordinator: BaseCoordinator {
     private func setupUserSelectionStage(config: Config) -> UIViewController {
         let loginCoordinator = LoginCoordinator(config: config, services: services)
         addChild(loginCoordinator)
-        loginCoordinator.start { [weak self] contact in
+        loginCoordinator.start { [weak self] user in
             guard let self else { return }
 
             self.removeChild(loginCoordinator)
 
-            guard let contact else { return }
+            guard let user else { return }
 
-            self.onDismiss?(config, contact)
+            self.onDismiss?(.init(config: config, user: user))
         }
         let controller = loginCoordinator.controller
         controller.navigationItem.rightBarButtonItem = .accessLinkButton(action: { [weak self] in

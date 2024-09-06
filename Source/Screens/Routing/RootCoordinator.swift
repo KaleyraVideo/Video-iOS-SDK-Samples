@@ -76,21 +76,21 @@ final class RootCoordinator: BaseCoordinator {
             case .userChange(config: let config):
                 goToSetup(config: config, allowReconfiguration: false, direction: .reverse)
             case .configured(config: let config, userId: let userId):
-                goToHome(config: config, loggedUser: Contact.makeRandomContact(alias: userId))
+                goToHome(session: .init(config: config, user: Contact.makeRandomContact(alias: userId)))
         }
     }
 
     private func goToSetup(config: Config?, allowReconfiguration: Bool, direction: UIPageViewController.NavigationDirection) {
         let coordinator = AppSetupCoordinator(stage: config.setupStage, allowReconfiguration: allowReconfiguration, appSettings: appSettings, services: services)
         addChild(coordinator)
-        coordinator.start { [weak self] config, contact in
+        coordinator.start { [weak self] session in
             guard let self else { return }
 
             self.removeChild(coordinator)
             do {
-                try self.userDefaultsStore.storeConfig(config)
-                self.userDefaultsStore.setLoggedUser(userAlias: contact.alias)
-                self.state = .configured(config: config, userId: contact.alias)
+                try self.userDefaultsStore.storeConfig(session.config)
+                self.userDefaultsStore.setLoggedUser(userAlias: session.user.alias)
+                self.state = .configured(config: session.config, userId: session.user.alias)
             } catch {
                 self.state = .startup(config: config)
             }
@@ -98,14 +98,14 @@ final class RootCoordinator: BaseCoordinator {
         pageController.setViewControllers([coordinator.controller], direction: direction, animated: true)
     }
 
-    private func goToHome(config: Config, loggedUser: Contact) {
-        let coordinator = MainCoordinator(config: config, loggedUser: loggedUser, appSettings: appSettings, services: services)
+    private func goToHome(session: UserSession) {
+        let coordinator = MainCoordinator(session: session, appSettings: appSettings, services: services)
         coordinator.onLogout = { [weak self] in
             guard let self else { return }
 
             self.removeChild(coordinator)
             self.userDefaultsStore.setLoggedUser(userAlias: nil)
-            self.state = .userChange(config: config)
+            self.state = .userChange(config: session.config)
 #if SAMPLE_CUSTOMIZABLE_THEME
             self.themeStorage.resetToDefaultValues()
             self.navigationController?.themeChanged(theme: self.themeStorage.getSelectedTheme())
@@ -116,7 +116,7 @@ final class RootCoordinator: BaseCoordinator {
 
             self.removeChild(coordinator)
             self.userDefaultsStore.resetConfigAndUser()
-            self.state = .startup(config: config)
+            self.state = .startup(config: session.config)
         }
 
         addChild(coordinator)

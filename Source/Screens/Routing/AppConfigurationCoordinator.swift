@@ -4,7 +4,7 @@
 import Foundation
 import UIKit
 
-class AppConfigurationCoordinator: BaseCoordinator {
+final class AppConfigurationCoordinator: BaseCoordinator {
 
     private let config: Config?
     private var setupController: AppSetupViewController!

@@ -20,7 +20,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
         appSettings = .init()
         repository = .init()
-        viewModel = .init(store: .init(repository: repository), loggedUser: .alice)
+        viewModel = .init(store: .init(repository: repository), loggedUser: Contact(.alice))
         sut = .init(appSettings: appSettings, viewModel: viewModel, services: ServicesFactoryStub())
     }
 
