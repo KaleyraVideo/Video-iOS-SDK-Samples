@@ -165,7 +165,7 @@ class AppSetupViewController: UITableViewController {
     }
 
     private func presentInvalidConfigurationAlert() {
-        present(UIAlertController.invalidConfigurationAlert(), animated: true)
+        presentAlert(.invalidConfigurationAlert())
     }
 
     // MARK: - Table view data source
@@ -324,8 +324,8 @@ private class SecretKeySection: TableViewSection {
 private extension UIAlertController {
 
     static func invalidConfigurationAlert() -> UIAlertController {
-        let controller = UIAlertController(title: Strings.Setup.InvalidConfigAlert.title, message: Strings.Setup.InvalidConfigAlert.message, preferredStyle: .alert)
-        controller.addAction(.init(title: Strings.Setup.InvalidConfigAlert.cancelAction, style: .cancel))
-        return controller
+        let alert = UIAlertController.alert(title: Strings.Setup.InvalidConfigAlert.title, message: Strings.Setup.InvalidConfigAlert.message)
+        alert.addAction(.cancel(title: Strings.Setup.InvalidConfigAlert.cancelAction))
+        return alert
     }
 }

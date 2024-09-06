@@ -149,11 +149,11 @@
 
 // Logs
 
-"debug.logs.share_log_files" = "Compartilhar arquivos de log";
-"debug.logs.share_log_error_title" = "Erro ao compartilhar logs";
-"debug.logs.no_log_file_present_error" = "Não há arquivo de log presente";
-"debug.logs.unable_to_share_log_error" = "Ocorreu um erro ao compartilhar arquivos de log";
-"debug.logs.share_log_error_cancel" = "Fechar";
+"logs.shortcut.title" = "Compartilhar arquivos de log";
+"logs.alert.title" = "Erro ao compartilhar logs";
+"logs.alert.noLogsMessage" = "Não há arquivo de log presente";
+"logs.alert.sharingFailedMessage" = "Ocorreu um erro ao compartilhar arquivos de log";
+"logs.alert.cancel" = "Fechar";
 
-"debug.logs.share_log_mail_subject" = "Compartilhando arquivos de log";
-"debug.logs.share_log_mail_body" = "Por favor, dê uma olhada nos arquivos de log anexados a este e-mail.";
+"logs.mail.subject" = "Compartilhando arquivos de log";
+"logs.mail.body" = "Por favor, dê uma olhada nos arquivos de log anexados a este e-mail.";

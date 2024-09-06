@@ -274,13 +274,6 @@ enum Strings {
         }
     }
 
-    // MARK: - User verification
-
-    enum UserVerification {
-
-        static let reason = NSLocalizedString("user_verification.reason", comment: "Authentication required!")
-    }
-
     // MARK: - Access link
 
     enum AccessLink {
@@ -291,25 +284,25 @@ enum Strings {
 
     // MARK: - Logs
 
-    enum Debug {
+    enum Logs {
 
-        enum Logs {
+        enum Shortcut {
 
-            static let shareLogFiles = NSLocalizedString("debug.logs.share_log_files", comment: "Share log files")
+            static let title = NSLocalizedString("logs.shortcut.title", comment: "Share log files")
+        }
 
-            enum Alert {
+        enum Alert {
 
-                static let shareLogErrorTitle = NSLocalizedString("debug.logs.share_log_error_title", comment: "Error sharing logs")
-                static let noLogFilePresentError = NSLocalizedString("debug.logs.no_log_file_present_error", comment: "There is no log file present")
-                static let unableToShareLogError = NSLocalizedString("debug.logs.unable_to_share_log_error", comment: "An error occurred while sharing log files")
-                static let shareLogErrorCancel = NSLocalizedString("debug.logs.share_log_error_cancel", comment: "Close")
-            }
+            static let title = NSLocalizedString("logs.alert.title", comment: "Error sharing logs")
+            static let noLogsMessage = NSLocalizedString("logs.alert.noLogsMessage", comment: "There is no log file present")
+            static let sharingFailedMessage = NSLocalizedString("logs.alert.sharingFailedMessage", comment: "An error occurred while sharing log files")
+            static let cancel = NSLocalizedString("logs.alert.cancel", comment: "Close")
+        }
 
-            enum Mail {
+        enum Mail {
 
-                static let shareLogMailSubject = NSLocalizedString("debug.logs.share_log_mail_subject", comment: "Sharing log files")
-                static let shareLogMailBody = NSLocalizedString("debug.logs.share_log_mail_body", comment: "Please take a look at log files attached to this email.")
-            }
+            static let subject = NSLocalizedString("logs.mail.subject", comment: "Sharing log files")
+            static let body = NSLocalizedString("logs.mail.body", comment: "Please take a look at log files attached to this email.")
         }
     }
 }

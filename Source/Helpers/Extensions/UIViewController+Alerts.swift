@@ -4,29 +4,9 @@
 import UIKit
 
 extension UIViewController {
-    func showAlertMessage(title: String, message: String, buttonTitle: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-        alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: nil))
-
-        alert.popoverPresentationController?.sourceView = self.view
-        self.present(alert, animated: true, completion: nil)
-    }
-
-    func showAlertMessageWithAction(title: String,
-                                    message: String,
-                                    buttonTitle: String,
-                                    buttonActionTitle: String,
-                                    buttonActionHandler: @escaping () -> Void) {
-
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: buttonActionTitle, style: .destructive, handler: { _ in
-            buttonActionHandler()
-        }))
-
-        alert.popoverPresentationController?.sourceView = self.view
-        self.present(alert, animated: true, completion: nil)
+    public func presentAlert(_ alert: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
+        assert(alert.preferredStyle == .alert, "Trying to present an action sheet as an alert")
+        present(alert, animated: animated, completion: completion)
     }
 }

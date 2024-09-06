@@ -161,12 +161,12 @@
 
 // Logs
 
-"debug.logs.share_log_files" = "Share log files";
+"logs.shortcut.title" = "Share log files";
 
-"debug.logs.share_log_error_title" = "Error sharing logs";
-"debug.logs.no_log_file_present_error" = "There is no log file present";
-"debug.logs.unable_to_share_log_error" = "An error occurred while sharing log files";
-"debug.logs.share_log_error_cancel" = "Close";
+"logs.alert.title" = "Error sharing logs";
+"logs.alert.noLogsMessage" = "There is no log file present";
+"logs.alert.sharingFailedMessage" = "An error occurred while sharing log files";
+"logs.alert.cancel" = "Close";
 
-"debug.logs.share_log_mail_subject" = "Sharing log files";
-"debug.logs.share_log_mail_body" = "Please take a look at log files attached to this email.";
+"logs.mail.subject" = "Sharing log files";
+"logs.mail.body" = "Please take a look at log files attached to this email.";

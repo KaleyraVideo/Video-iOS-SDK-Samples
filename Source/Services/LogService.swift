@@ -86,9 +86,9 @@ final class LogService: LogServiceProtocol {
 
     private func makeShortcutItems() -> [UIApplicationShortcutItem] {
         [.init(type: LogServiceConstants.shareLogsItemType,
-               localizedTitle: Strings.Debug.Logs.shareLogFiles,
+               localizedTitle: Strings.Logs.Shortcut.title,
                localizedSubtitle: nil,
-               icon: UIApplicationShortcutIcon(systemImageName: "ladybug"))]
+               icon: Icons.logShortcut)]
     }
 
     // MARK: - Logging

@@ -161,12 +161,12 @@
 
 // Registros
 
-"debug.logs.share_log_files" = "Compartir archivos de registro";
+"logs.shortcut.title" = "Compartir archivos de registro";
 
-"debug.logs.share_log_error_title" = "Error al compartir registros";
-"debug.logs.no_log_file_present_error" = "No hay archivo de registro presente";
-"debug.logs.unable_to_share_log_error" = "Se produjo un error al compartir archivos de registro";
-"debug.logs.share_log_error_cancel" = "Cerrar";
+"logs.alert.title" = "Error al compartir registros";
+"logs.alert.noLogsMessage" = "No hay archivo de registro presente";
+"logs.alert.sharingFailedMessage" = "Se produjo un error al compartir archivos de registro";
+"logs.alert.cancel" = "Cerrar";
 
-"debug.logs.share_log_mail_subject" = "Compartir archivos de registro";
-"debug.logs.share_log_mail_body" = "Por favor, echa un vistazo a los archivos de registro adjuntos a este correo electrónico.";
+"logs.mail.subject" = "Compartir archivos de registro";
+"logs.mail.body" = "Por favor, echa un vistazo a los archivos de registro adjuntos a este correo electrónico.";

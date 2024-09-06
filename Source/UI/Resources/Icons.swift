@@ -49,4 +49,8 @@ enum Icons {
     static var chatAction: UIImage? {
         .init(systemName: "message")
     }
+
+    static var logShortcut: UIApplicationShortcutIcon? {
+        .init(systemImageName: "ladybug")
+    }
 }

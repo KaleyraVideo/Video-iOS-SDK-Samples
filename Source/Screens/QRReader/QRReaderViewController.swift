@@ -105,11 +105,7 @@ class QRReaderViewController: UIViewController, QRReaderCameraOutputDelegate {
     }
 
     func qrCode(failed error: QRReaderCameraError) {
-        let alert = UIAlertController(title: Strings.QRReader.Alert.title,
-                                      message: Strings.QRReader.Alert.message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Strings.QRReader.Alert.okAction, style: .default))
-        present(alert, animated: true)
+        presentAlert(.error())
     }
 
     // MARK: - Actions
@@ -117,5 +113,14 @@ class QRReaderViewController: UIViewController, QRReaderCameraOutputDelegate {
     @objc
     private func dismissButtonTouched(_ sender: UIButton) {
         onDismiss?(nil)
+    }
+}
+
+private extension UIAlertController {
+
+    static func error() -> UIAlertController {
+        let alert = UIAlertController.alert(title: Strings.QRReader.Alert.title, message: Strings.QRReader.Alert.message)
+        alert.addAction(.cancel(title: Strings.QRReader.Alert.okAction))
+        return alert
     }
 }

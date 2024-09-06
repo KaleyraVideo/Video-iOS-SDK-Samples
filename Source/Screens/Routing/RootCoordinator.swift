@@ -11,9 +11,7 @@ final class RootCoordinator: BaseCoordinator {
         pageController
     }
 
-    private lazy var pageController: UIPageViewController = {
-        .init(transitionStyle: .scroll, navigationOrientation: .horizontal)
-    }()
+    private lazy var pageController: UIPageViewController = .init(transitionStyle: .scroll, navigationOrientation: .horizontal)
 
     private let userDefaultsStore: UserDefaultsStore
 
@@ -168,8 +166,8 @@ final class RootCoordinator: BaseCoordinator {
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
         composer.setToRecipients(["eu.video.engineering@kaleyra.com"])
-        composer.setSubject(Strings.Debug.Logs.Mail.shareLogMailSubject)
-        composer.setMessageBody(Strings.Debug.Logs.Mail.shareLogMailBody, isHTML: false)
+        composer.setSubject(Strings.Logs.Mail.subject)
+        composer.setMessageBody(Strings.Logs.Mail.body, isHTML: false)
 
         attachLogFilesToComposer(composer)
 
@@ -188,22 +186,10 @@ final class RootCoordinator: BaseCoordinator {
     }
 
     private func showGenericErrorAlert() {
-        showShareLogErrorAlert(body: Strings.Debug.Logs.Alert.unableToShareLogError)
+        pageController.presentAlert(.shareFailed())
     }
     private func showNoLogFilePresentErrorAlert() {
-        showShareLogErrorAlert(body: Strings.Debug.Logs.Alert.noLogFilePresentError)
-    }
-
-    private func showShareLogErrorAlert(body: String) {
-        showAlert(title: Strings.Debug.Logs.Alert.shareLogErrorTitle,
-                  body: body,
-                  cancel: Strings.Debug.Logs.Alert.shareLogErrorCancel)
-    }
-
-    private func showAlert(title: String, body: String, cancel: String) {
-        let alert = UIAlertController(title: title, message: body, preferredStyle: .alert)
-        alert.addAction(.init(title: cancel, style: .cancel))
-        pageController.present(alert, animated: true)
+        pageController.presentAlert(.logsNotFound())
     }
 }
 
@@ -225,5 +211,20 @@ private extension Optional where Wrapped == Config {
             case .some(let config):
                 return .userSelection(config: config)
         }
+    }
+}
+
+private extension UIAlertController {
+
+    static func shareFailed() -> UIAlertController {
+        let alert = UIAlertController.alert(title: Strings.Logs.Alert.title, message: Strings.Logs.Alert.sharingFailedMessage)
+        alert.addAction(.cancel(title: Strings.Logs.Alert.cancel))
+        return alert
+    }
+
+    static func logsNotFound() -> UIAlertController {
+        let alert = UIAlertController.alert(title: Strings.Logs.Alert.title, message: Strings.Logs.Alert.noLogsMessage)
+        alert.addAction(.cancel(title: Strings.Logs.Alert.cancel))
+        return alert
     }
 }

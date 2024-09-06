@@ -90,11 +90,7 @@ final class LoginViewController: UITableViewController, UISearchBarDelegate {
 
                 guard let handleErrorTapped = handleErrorTapped else { return }
 
-                showAlertMessageWithAction(title: Strings.Login.ErrorAlert.title,
-                                           message: message,
-                                           buttonTitle: Strings.Login.ErrorAlert.cancelAction,
-                                           buttonActionTitle: Strings.Login.ErrorAlert.exitAction,
-                                           buttonActionHandler: handleErrorTapped)
+                presentAlert(.errorAlert(message: message, exitAction: handleErrorTapped))
             case .loaded(let contacts):
                 if contacts.isEmpty {
                     tableView.backgroundView = NoContentView.empty
@@ -196,5 +192,15 @@ private extension NoContentView {
         let loader = LoaderView(image: Icons.logo256)
         loader.startAnimating(with: 1)
         return .init(style: .message(text: Strings.Login.loadingTitle), header: loader)
+    }
+}
+
+private extension UIAlertController {
+
+    static func errorAlert(message: String, exitAction: @escaping () -> Void) -> UIAlertController {
+        let alert = UIAlertController.alert(title: Strings.Login.ErrorAlert.title, message: message)
+        alert.addAction(.cancel(title: Strings.Login.ErrorAlert.cancelAction))
+        alert.addAction(.destructive(title: Strings.Login.ErrorAlert.exitAction, handler: exitAction))
+        return alert
     }
 }

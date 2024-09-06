@@ -430,7 +430,7 @@ private class SectionBuilder {
     @discardableResult
     func addShareLogs(action: (() -> Void)?) -> Self {
         guard let action = action else { return self }
-        items.append(.init(title: Strings.Debug.Logs.shareLogFiles, description: "🪲", action: action))
+        items.append(.init(title: Strings.Logs.Shortcut.title, description: "🪲", action: action))
         return self
     }
 

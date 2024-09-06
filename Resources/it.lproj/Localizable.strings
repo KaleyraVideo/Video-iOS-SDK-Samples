@@ -161,12 +161,12 @@
 
 // Logs
 
-"debug.logs.share_log_files" = "Condividi file di log";
+"logs.shortcut.title" = "Condividi file di log";
 
-"debug.logs.share_log_error_title" = "Errore condividendo i log";
-"debug.logs.no_log_file_present_error" = "Non c'è nessun file di log da condividere";
-"debug.logs.unable_to_share_log_error" = "Si è verificato un errore durante la condivisione dei file di log";
-"debug.logs.share_log_error_cancel" = "Chiudi";
+"logs.alert.title" = "Errore condividendo i log";
+"logs.alert.noLogsMessage" = "Non c'è nessun file di log da condividere";
+"logs.alert.sharingFailedMessage" = "Si è verificato un errore durante la condivisione dei file di log";
+"logs.alert.cancel" = "Chiudi";
 
-"debug.logs.share_log_mail_subject" = "Condivisione file di log";
-"debug.logs.share_log_mail_body" = "Per favore dai un'occhiata ai file di log allegati a questa mail.";
+"logs.mail.subject" = "Condivisione file di log";
+"logs.mail.body" = "Per favore dai un'occhiata ai file di log allegati a questa mail.";

@@ -75,7 +75,7 @@ final class LogServiceTests: UnitTestCase {
 
         assertThat(holder.shortcutItems, presentAnd(hasCount(1)))
         assertThat(holder.shortcutItems?.first?.type, presentAnd(equalTo("share_logs")))
-        assertThat(holder.shortcutItems?.first?.localizedTitle, presentAnd(equalToLocalizedString("debug.logs.share_log_files", bundle: .main)))
+        assertThat(holder.shortcutItems?.first?.localizedTitle, presentAnd(equalToLocalizedString("logs.shortcut.title", bundle: .main)))
         assertThat(holder.shortcutItems?.first?.localizedSubtitle, nilValue())
         assertThat(holder.shortcutItems?.first?.icon, presentAnd(equalTo(.init(systemImageName: "ladybug"))))
     }
