@@ -55,7 +55,7 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
     func testWhenViewModelIsLoadingShouldShowNoContentViewWithLoadingMessage() {
         sut.loadViewIfNeeded()
 
-        assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(Strings.Login.loadingTitle)))
+        assertThat(sut.tableView.noContentView?.subtitle, presentAnd(equalTo(Strings.Login.Loading.title)))
     }
 
     func testWhenViewModelIsLoadedShouldReloadData() throws {
@@ -82,7 +82,7 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     func testWhenViewModelIsLoadedShouldRemovePlaceholderBackgroundView() throws {
         sut.loadViewIfNeeded()
-        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.loadingTitle))
+        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Login.Loading.title))
 
         try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
@@ -94,8 +94,8 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
         try repository.simulateLoadUsersSuccess(users: [])
 
-        assertThat(sut.noContentView?.title, equalTo(Strings.Login.emptyTitle))
-        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Login.emptySubtitle))
+        assertThat(sut.noContentView?.title, equalTo(Strings.Login.NoContent.title))
+        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Login.NoContent.subtitle))
     }
 
     func testWhenViewModelLoadingFailsShouldShowErrorView() throws {
@@ -103,9 +103,9 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
         try repository.simulateLoadUsersFailure(error: anyNSError())
 
-        assertThat(sut.noContentView?.title, equalTo(Strings.Login.ErrorAlert.title))
+        assertThat(sut.noContentView?.title, equalTo(Strings.Login.Alert.title))
         assertThat(sut.noContentView?.subtitle, equalTo(String(describing: anyNSError())))
-        assertThat(sut.noContentView?.actionTitle, equalTo(Strings.Login.ErrorAlert.retryAction))
+        assertThat(sut.noContentView?.actionTitle, equalTo(Strings.Login.Alert.retryAction))
     }
 
     func testOnRowSelectedShouldNotifyListener() throws {

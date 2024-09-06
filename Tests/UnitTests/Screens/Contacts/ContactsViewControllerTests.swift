@@ -90,7 +90,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     func testWhenViewModelIsLoadedShouldRemovePlaceholderBackgroundView() throws {
         sut.loadViewIfNeeded()
-        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.loadingTitle))
+        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.Loading.title))
 
         try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
@@ -102,8 +102,8 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
         try repository.simulateLoadUsersSuccess(users: [])
 
-        assertThat(sut.noContentView?.title, equalTo(Strings.Contacts.emptyTitle))
-        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.emptySubtitle))
+        assertThat(sut.noContentView?.title, equalTo(Strings.Contacts.NoContent.title))
+        assertThat(sut.noContentView?.subtitle, equalTo(Strings.Contacts.NoContent.subtitle))
     }
 
     func testWhenViewModelLoadingFailsShouldShowErrorView() throws {

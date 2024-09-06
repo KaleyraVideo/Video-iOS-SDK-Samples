@@ -17,13 +17,18 @@ enum Strings {
     enum Login {
 
         static let title = NSLocalizedString("login.title", comment: "Choose an user")
-
         static let searchPlaceholder = NSLocalizedString("login.search_placeholder", comment: "Search")
-        static let loadingTitle = NSLocalizedString("login.loading", comment: "Loading")
-        static let emptyTitle = NSLocalizedString("login.empty_title", comment: "Warning")
-        static let emptySubtitle = NSLocalizedString("login.empty_subtitle", comment: "User not found")
 
-        enum ErrorAlert {
+        enum Loading {
+            static let title = NSLocalizedString("login.loading", comment: "Loading")
+        }
+
+        enum NoContent {
+            static let title = NSLocalizedString("login.empty_title", comment: "Warning")
+            static let subtitle = NSLocalizedString("login.empty_subtitle", comment: "User not found")
+        }
+
+        enum Alert {
             static let title = NSLocalizedString("login.error_title", comment: "An error has occurred")
             static let retryAction = NSLocalizedString("login.error_retry_action", comment: "Retry")
             static let cancelAction = NSLocalizedString("login.error_cancel", comment: "OK")
@@ -133,9 +138,14 @@ enum Strings {
         static let title = NSLocalizedString("contacts.title", comment: "Contacts")
         static let tabName = NSLocalizedString("contacts.tab", comment: "Contacts")
 
-        static let loadingTitle = NSLocalizedString("contacts.loading_title", comment: "Loading")
-        static let emptyTitle = NSLocalizedString("contacts.empty_title", comment: "Warning")
-        static let emptySubtitle = NSLocalizedString("contacts.empty_subtitle", comment: "There are no contacts available.")
+        enum Loading {
+            static let title = NSLocalizedString("contacts.loading_title", comment: "Loading")
+        }
+
+        enum NoContent {
+            static let title = NSLocalizedString("contacts.empty_title", comment: "Warning")
+            static let subtitle = NSLocalizedString("contacts.empty_subtitle", comment: "There are no contacts available.")
+        }
 
         enum Alert {
             static let title = NSLocalizedString("contacts.error_title", comment: "An error has occurred")

@@ -319,8 +319,8 @@ extension ContactsViewController: Themable {
 
 private extension NoContentView {
 
-    static var empty: NoContentView = .init(style: .titleAndSubtitle(title: Strings.Contacts.emptyTitle,
-                                                                     subtitle: Strings.Contacts.emptySubtitle),
+    static var empty: NoContentView = .init(style: .titleAndSubtitle(title: Strings.Contacts.NoContent.title,
+                                                                     subtitle: Strings.Contacts.NoContent.subtitle),
                                             header: LoaderView(image: Icons.logo256))
 
     static func error(message: String, action: @escaping () -> Void) -> NoContentView {
@@ -334,6 +334,6 @@ private extension NoContentView {
     static var loading: NoContentView {
         let loader = LoaderView(image: Icons.logo256)
         loader.startAnimating(with: 1)
-        return .init(style: .message(text: Strings.Contacts.loadingTitle), header: loader)
+        return .init(style: .message(text: Strings.Contacts.Loading.title), header: loader)
     }
 }

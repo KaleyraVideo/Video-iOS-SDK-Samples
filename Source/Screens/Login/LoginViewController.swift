@@ -176,14 +176,14 @@ extension LoginViewController: Themable {
 
 private extension NoContentView {
 
-    static var empty: NoContentView = .init(style: .titleAndSubtitle(title: Strings.Login.emptyTitle,
-                                                                     subtitle: Strings.Login.emptySubtitle),
+    static var empty: NoContentView = .init(style: .titleAndSubtitle(title: Strings.Login.NoContent.title,
+                                                                     subtitle: Strings.Login.NoContent.subtitle),
                                             header: LoaderView(image: Icons.logo256))
 
     static func error(message: String, action: @escaping () -> Void) -> NoContentView {
-        .init(style: .action(title: Strings.Login.ErrorAlert.title,
+        .init(style: .action(title: Strings.Login.Alert.title,
                              subtitle: message,
-                             actionTitle: Strings.Login.ErrorAlert.retryAction,
+                             actionTitle: Strings.Login.Alert.retryAction,
                              action: action),
               header: LoaderView(image: Icons.logo256))
     }
@@ -191,16 +191,16 @@ private extension NoContentView {
     static var loading: NoContentView {
         let loader = LoaderView(image: Icons.logo256)
         loader.startAnimating(with: 1)
-        return .init(style: .message(text: Strings.Login.loadingTitle), header: loader)
+        return .init(style: .message(text: Strings.Login.Loading.title), header: loader)
     }
 }
 
 private extension UIAlertController {
 
     static func errorAlert(message: String, exitAction: @escaping () -> Void) -> UIAlertController {
-        let alert = UIAlertController.alert(title: Strings.Login.ErrorAlert.title, message: message)
-        alert.addAction(.cancel(title: Strings.Login.ErrorAlert.cancelAction))
-        alert.addAction(.destructive(title: Strings.Login.ErrorAlert.exitAction, handler: exitAction))
+        let alert = UIAlertController.alert(title: Strings.Login.Alert.title, message: message)
+        alert.addAction(.cancel(title: Strings.Login.Alert.cancelAction))
+        alert.addAction(.destructive(title: Strings.Login.Alert.exitAction, handler: exitAction))
         return alert
     }
 }
