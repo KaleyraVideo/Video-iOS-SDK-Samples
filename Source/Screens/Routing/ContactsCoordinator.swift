@@ -9,8 +9,6 @@ final class ContactsCoordinator: BaseCoordinator {
     private let config: Config
     private let loggedUser: Contact
     private lazy var viewModel: ContactsViewModel = .init(store: services.makeContactsStore(config: config), loggedUser: loggedUser.alias)
-    private var onCallOptionsChanged: ((CallOptions) -> Void)?
-    private var isMultipleSelectionEnabled: Bool
 
     private(set) lazy var navigationController: UINavigationController = {
         let controller = UINavigationController()
@@ -25,14 +23,11 @@ final class ContactsCoordinator: BaseCoordinator {
     init(config: Config, loggedUser: Contact, services: ServicesFactory) {
         self.config = config
         self.loggedUser = loggedUser
-        self.isMultipleSelectionEnabled = services.makeUserDefaultsStore().getCallOptions().isGroup
         super.init(services: services)
     }
 
-    func start(onCallOptionsChanged: @escaping (CallOptions) -> Void,
-               onActionSelected: @escaping (ContactsViewController.Action) -> Void) {
+    func start(onActionSelected: @escaping (ContactsViewController.Action) -> Void) {
         contactController = makeContactsViewController(onActionSelected: onActionSelected)
-        self.onCallOptionsChanged = onCallOptionsChanged
         navigationController.setViewControllers([contactController], animated: false)
     }
 
@@ -69,7 +64,6 @@ final class ContactsCoordinator: BaseCoordinator {
         addChild(coordinator)
         coordinator.start(onDismiss: { [weak self] options in
             self?.removeChild(coordinator)
-            self?.onCallOptionsChanged?(options)
         })
         let controller = coordinator.controller
         controller.modalPresentationStyle = .pageSheet

@@ -71,12 +71,7 @@ final class MainCoordinator: BaseCoordinator {
     // MARK: - Start
 
     func start() {
-        contactsCoordinator.start(onCallOptionsChanged: ({ [weak self] options in
-            guard let self else { return }
-
-            self.sdkCoordinator.callOptions = options
-        }),
-                                  onActionSelected: ({ [weak self] action in
+        contactsCoordinator.start(onActionSelected: ({ [weak self] action in
             guard let self else { return }
 
             self.handle(event: action.coordinatorEvent, direction: .toChildren)
