@@ -20,7 +20,7 @@ class ServicesFactoryStub: ServicesFactory {
         userRepository
     }
 
-    func makeTokenLoader(config: SDK_Sample.Config) -> AccessTokenProvider {
+    func makeAccessTokenProvider(config: SDK_Sample.Config) -> AccessTokenProvider {
         tokenProvider
     }
 

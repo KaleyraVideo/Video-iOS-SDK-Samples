@@ -57,7 +57,7 @@ final class SDKCoordinator: BaseCoordinator {
         self.config = config
         self.callOptions = services.makeUserDefaultsStore().getCallOptions()
         self.sdk = services.makeSDK()
-        self.tokenProvider = services.makeTokenLoader(config: config)
+        self.tokenProvider = services.makeAccessTokenProvider(config: config)
         self.voipManager = services.makeVoIPManager(config: config)
         self.pushManager = services.makePushManager(config: config)
         self.delegate = delegate

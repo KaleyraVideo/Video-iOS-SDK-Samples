@@ -9,7 +9,7 @@ protocol ServicesFactory {
     func makeUserDefaultsStore() -> UserDefaultsStore
     func makeContactsStore(config: Config) -> ContactsStore
     func makeUserRepository(config: Config) -> UserRepository
-    func makeTokenLoader(config: Config) -> AccessTokenProvider
+    func makeAccessTokenProvider(config: Config) -> AccessTokenProvider
     func makePushTokenRepository(config: Config) -> PushTokenRepository
     func makeVoIPManager(config: Config) -> VoIPNotificationsManager
     func makePushManager(config: Config) -> PushManager
@@ -44,7 +44,7 @@ final class DefaultServicesFactory: ServicesFactory {
         return contactsStore
     }
 
-    func makeTokenLoader(config: Config) -> AccessTokenProvider {
+    func makeAccessTokenProvider(config: Config) -> AccessTokenProvider {
         let tokenLoader = RestAccessTokenProvider(client: makeAuthenticatedHTTPClient(config: config), config: config)
         return MainQueueDispatchDecorator<RestAccessTokenProvider>(decoratee: tokenLoader)
     }
