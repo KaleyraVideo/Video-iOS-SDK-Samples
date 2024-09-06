@@ -34,3 +34,8 @@ extension UIBarButtonItem {
         objc_setAssociatedObject(self, key, trampoline, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 }
+
+extension UIBarButtonItem {
+
+    static var activityIndicator: UIBarButtonItem { .init(customView: UIActivityIndicatorView(style: .medium, running: true)) }
+}

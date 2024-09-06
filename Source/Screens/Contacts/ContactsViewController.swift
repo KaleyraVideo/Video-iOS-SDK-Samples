@@ -242,20 +242,17 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard let contact = dataSet.row(at: indexPath) else { return nil }
 
-        let callAction = UIContextualAction(title: Strings.Contacts.Actions.call,
-                                            image: Icons.phone,
-                                            controller: self,
-                                            action: .startCall(type: .audioOnly, callees: [contact.alias]))
+        let callAction = UIContextualAction.call { [weak self] in
+            self?.onActionSelected?(.startCall(type: .audioOnly, callees: [contact.alias]))
+        }
 
-        let videoCallAction = UIContextualAction(title: Strings.Contacts.Actions.video,
-                                                 image: Icons.videoCallAction,
-                                                 controller: self,
-                                                 action: .startCall(type: .audioVideo, callees: [contact.alias]))
+        let videoCallAction = UIContextualAction.video { [weak self] in
+            self?.onActionSelected?(.startCall(type: .audioVideo, callees: [contact.alias]))
+        }
 
-        let chatAction = UIContextualAction(title: Strings.Contacts.Actions.chat,
-                                            image: Icons.chatAction,
-                                            controller: self,
-                                            action: .openChat(user: contact.alias))
+        let chatAction = UIContextualAction.chat { [weak self] in
+            self?.onActionSelected?(.openChat(user: contact.alias))
+        }
 
         return .init(actions: [callAction, videoCallAction, chatAction])
     }
@@ -296,9 +293,21 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
 
 private extension UIContextualAction {
 
-    convenience init(title: String, image: UIImage?, controller: ContactsViewController, action: ContactsViewController.Action) {
-        self.init(style: .normal, title: title, handler: { [weak controller] _, _, completion in
-            controller?.onActionSelected?(action)
+    static func call(handler: @escaping () -> Void) -> UIContextualAction {
+        .init(title: Strings.Contacts.Actions.call, image: Icons.phone, handler: handler)
+    }
+
+    static func video(handler: @escaping () -> Void) -> UIContextualAction  {
+        .init(title: Strings.Contacts.Actions.video, image: Icons.videoCallAction, handler: handler)
+    }
+
+    static func chat(handler: @escaping () -> Void) -> UIContextualAction {
+        .init(title: Strings.Contacts.Actions.chat, image: Icons.chatAction, handler: handler)
+    }
+
+    convenience init(title: String, image: UIImage?, handler: @escaping () -> Void) {
+        self.init(style: .normal, title: title, handler: { _, _, completion in
+            handler()
             completion(true)
         })
 

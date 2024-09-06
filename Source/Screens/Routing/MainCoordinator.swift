@@ -38,8 +38,6 @@ final class MainCoordinator: BaseCoordinator {
 
     var onLogout: (() -> Void)?
     var onReset: (() -> Void)?
-    var onError: (() -> Void)?
-    var onUpdateContact: ((Contact) -> Void)?
 
     init(session: UserSession, appSettings: AppSettings, services: ServicesFactory) {
         self.session = session
@@ -56,7 +54,7 @@ final class MainCoordinator: BaseCoordinator {
     }
 
     private func addSDKCoordinator() {
-        addChild(SDKCoordinator(controller: tabBarController, config: session.config, appSettings: appSettings, services: services, delegate: self))
+        addChild(SDKCoordinator(controller: tabBarController, config: session.config, appSettings: appSettings, services: services))
     }
 
     private func addContactsCoordinator() {
@@ -78,17 +76,6 @@ final class MainCoordinator: BaseCoordinator {
         settingsCoordinator.start()
         sdkCoordinator.start(authentication: .accessToken(userId: session.user.alias))
         tabBarController.setViewControllers([contactsCoordinator.navigationController, settingsCoordinator.navigationController], animated: true)
-    }
-}
-
-extension MainCoordinator: SDKCoordinatorDelegate {
-
-    func sdkIsLoading(_ isLoading: Bool) {
-//        contactsCoordinator.onChangeState(isLoading: isLoading)
-    }
-
-    func sdkDidFinish(withError: Error) {
-        onError?()
     }
 }
 

@@ -70,13 +70,4 @@ final class ContactsCoordinator: BaseCoordinator {
         controller.modalPresentationStyle = .pageSheet
         contactController.present(controller, animated: true)
     }
-
-//    func onChangeState(isLoading: Bool) {
-//        if isLoading {
-//            let activityIndicator = UIActivityIndicatorView()
-//            activityIndicator.startAnimating()
-//            contactController?.navigationItem.setRightBarButton(.init(customView: activityIndicator), animated: true)
-//        } else {
-//        }
-//    }
 }

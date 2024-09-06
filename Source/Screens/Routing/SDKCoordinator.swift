@@ -7,11 +7,6 @@ import Intents
 import Combine
 import KaleyraVideoSDK
 
-protocol SDKCoordinatorDelegate: AnyObject {
-    func sdkDidFinish(withError: Error)
-    func sdkIsLoading(_ isLoading: Bool)
-}
-
 final class SDKCoordinator: BaseCoordinator {
 
     enum Authentication {
@@ -44,15 +39,12 @@ final class SDKCoordinator: BaseCoordinator {
         }
     }
 
-    weak var delegate: SDKCoordinatorDelegate?
-
-    private lazy var cancellables = Set<AnyCancellable>()
+    private lazy var subscriptions = Set<AnyCancellable>()
 
     init(controller: UIViewController,
          config: Config,
          appSettings: AppSettings,
-         services: ServicesFactory,
-         delegate: SDKCoordinatorDelegate? = nil) {
+         services: ServicesFactory) {
         self.controller = controller
         self.config = config
         self.appSettings = appSettings
@@ -60,7 +52,6 @@ final class SDKCoordinator: BaseCoordinator {
         self.tokenProvider = services.makeAccessTokenProvider(config: config)
         self.voipManager = services.makeVoIPManager(config: config)
         self.pushManager = services.makePushManager(config: config)
-        self.delegate = delegate
 
         super.init(services: services)
 
@@ -93,15 +84,12 @@ final class SDKCoordinator: BaseCoordinator {
         sdk.conversation?.notificationsCoordinator.start()
 
         if case Authentication.accessToken(userId: let userId) = authentication {
-            sdk.conference?.statePublisher.receive(on: RunLoop.main).sink { [weak self] state in
-                self?.callClientDidChangeState(newState: state)
-            }.store(in: &cancellables)
-            sdk.conversation?.statePublisher.receive(on: RunLoop.main).sink { [weak self] state in
-                self?.chatClientDidChangeState(newState: state)
-            }.store(in: &cancellables)
+            sdk.conversation?.statePublisher.filter({ $0 == .connected}).receive(on: RunLoop.main).sink { [weak self] state in
+                self?.handleChatIntentIfPossible()
+            }.store(in: &subscriptions)
             sdk.conference?.registry.callAddedPublisher.receive(on: RunLoop.main).sink { [weak self] call in
                 self?.present(call: call)
-            }.store(in: &cancellables)
+            }.store(in: &subscriptions)
             sdk.connect(userId: userId, provider: tokenProvider) { _ in }
 
             voipManager.start(userId: userId) { [weak self] pushPayload in
@@ -122,7 +110,7 @@ final class SDKCoordinator: BaseCoordinator {
         sdk.userDetailsProvider = nil
         voipManager.stop()
         pushManager.stop()
-        cancellables.removeAll()
+        subscriptions.removeAll()
     }
 
     func reset() {
@@ -181,6 +169,22 @@ final class SDKCoordinator: BaseCoordinator {
         self.pendingIntent = nil
     }
 
+    private func presentChat(intent: ChannelViewController.Intent) {
+        if let presentedController = controller.presentedViewController as? ChannelViewController {
+            presentedController.dismiss(animated: true) { [weak self] in
+                self?.createAndPresentChatController(intent: intent)
+            }
+        } else {
+            createAndPresentChatController(intent: intent)
+        }
+    }
+
+    private func createAndPresentChatController(intent: ChannelViewController.Intent) {
+        let controller = ChannelViewController(intent: intent, configuration: .init(audioButton: true, videoButton: true))
+        controller.delegate = self
+        self.controller.present(controller, animated: true)
+    }
+
     // MARK: - Coordinator
 
     override func handle(event: CoordinatorEvent, direction: EventDirection) -> Bool {
@@ -202,41 +206,6 @@ final class SDKCoordinator: BaseCoordinator {
         }
         return true
     }
-}
-
-extension SDKCoordinator {
-
-    func chatClientDidChangeState(newState: ClientState) {
-        switch newState {
-            case .connecting, .reconnecting:
-                delegate?.sdkIsLoading(true)
-            case .connected:
-                delegate?.sdkIsLoading(false)
-                handleChatIntentIfPossible()
-            case .disconnected(error: let error):
-                delegate?.sdkIsLoading(false)
-
-                guard let error else { return }
-
-                delegate?.sdkDidFinish(withError: error)
-        }
-    }
-}
-
-// MARK: - Call client observer
-
-extension SDKCoordinator {
-
-    func callClientDidChangeState(newState: ClientState) {
-        switch newState {
-            case .connecting, .reconnecting:
-                delegate?.sdkIsLoading(true)
-            case .connected:
-                delegate?.sdkIsLoading(false)
-            case .disconnected:
-                delegate?.sdkIsLoading(false)
-        }
-    }
 
     private func handleSiriIntent(_ intent: INIntent) {
         guard intent is INStartVideoCallIntent else { return }
@@ -245,37 +214,12 @@ extension SDKCoordinator {
     }
 }
 
-// MARK: - Present Chat ViewController
-
-extension SDKCoordinator {
-
-    private func presentChat(intent: ChannelViewController.Intent) {
-        if let presentedController = controller.presentedViewController as? ChannelViewController {
-            presentedController.dismiss(animated: true) { [weak self] in
-                self?.createAndPresentChatController(intent: intent)
-            }
-        } else {
-            createAndPresentChatController(intent: intent)
-        }
-    }
-
-    private func createAndPresentChatController(intent: ChannelViewController.Intent) {
-        let controller = ChannelViewController(intent: intent, configuration: .init(audioButton: true, videoButton: true))
-        controller.delegate = self
-        self.controller.present(controller, animated: true)
-    }
-}
-
-// MARK: - In App chat notification touch listener delegate
-
 extension SDKCoordinator: InAppChatNotificationTouchListener {
 
     func onTouch(_ notification: ChatNotification) {
         presentChat(intent: .notification(notification))
     }
 }
-
-// MARK: - Call window delegate
 
 extension SDKCoordinator: CallViewControllerDelegate {
 
