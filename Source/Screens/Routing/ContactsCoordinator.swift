@@ -48,8 +48,8 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func showProfileScreen(_ contact: Contact) {
-        let coordinator = ContactProfileCoordinator(contact: loggedUser, services: services, config: config)
-        coordinator.start(onDismiss: { [weak self] contact in
+        let coordinator = ContactProfileCoordinator(contact: contact, services: services, config: config)
+        coordinator.start(onDismiss: { [weak self] _ in
             guard let self else { return }
 
             self.removeChild(coordinator)
