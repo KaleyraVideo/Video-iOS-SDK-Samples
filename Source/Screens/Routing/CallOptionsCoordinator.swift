@@ -7,7 +7,6 @@ import UIKit
 final class CallOptionsCoordinator: BaseCoordinator {
 
     private let options: CallOptions
-    private let store: UserDefaultsStore
 
     private lazy var optionsController: CallOptionsTableViewController = .init(options: options, services: services)
 
@@ -19,15 +18,11 @@ final class CallOptionsCoordinator: BaseCoordinator {
 
     override init(services: ServicesFactory) {
         let store = services.makeUserDefaultsStore()
-        self.store = store
         self.options = store.getCallOptions()
         super.init(services: services)
     }
 
     func start(onDismiss: @escaping (CallOptions) -> Void) {
-        optionsController.onDismiss = { [weak self] options in
-            self?.store.storeCallOptions(options)
-            onDismiss(options)
-        }
+        optionsController.onDismiss = onDismiss
     }
 }
