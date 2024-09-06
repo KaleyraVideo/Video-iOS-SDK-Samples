@@ -29,12 +29,6 @@ enum Strings {
             static let cancelAction = NSLocalizedString("login.error_cancel", comment: "OK")
             static let exitAction = NSLocalizedString("login.error_exit", comment: "Exit")
         }
-
-        enum SaveErrorAlert {
-            static let title = NSLocalizedString("login.alert_title", comment: "Warning")
-            static let message = NSLocalizedString("login.alert_message", comment: "Could not save settings because of an error!")
-            static let action = NSLocalizedString("login.alert_action", comment: "OK")
-        }
     }
 
     // MARK: - Setup
@@ -237,13 +231,6 @@ enum Strings {
         static let customTheme = NSLocalizedString("settings.custom.theme", comment: "custom theme")
         static let cancelString = NSLocalizedString("settings.cancel", comment: "cancel string")
         static let selectFontString = NSLocalizedString("settings.select.font", comment: "select font")
-
-        enum RestartAlert {
-
-            static let title = NSLocalizedString("settings.restart-alert.title", comment: "Restart required")
-            static let message = NSLocalizedString("settings.restart-alert.message", comment: "You are required to restart the app in order to apply these changes")
-            static let actionTitle = NSLocalizedString("settings.restart-alert.action", comment: "OK")
-        }
     }
 
     // MARK: - Color picker

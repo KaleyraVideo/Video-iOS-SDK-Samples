@@ -85,10 +85,6 @@
 "settings.logout" = "Logout";
 "settings.reset" = "Reset";
 
-"settings.restart-alert.title" = "Riavvio necessario";
-"settings.restart-alert.message" = "E' necessario riavviare l'app per poter applicare le modifiche richieste";
-"settings.restart-alert.action" = "OK";
-
 "call_options.title" = "Opzioni di chiamata";
 "call_options.call_type_section_title" = "Tipologia";
 "call_options.recording_section_title" = "Registrazione della chiamata";
@@ -111,10 +107,6 @@
 "call_options.call_presentation_mode_title" = "Modalità di presenazione UI Chiamata";
 "call_options.call_presentation_mode_fullscreen" = "A schermo intero";
 "call_options.call_presentation_mode_pip" = "Picture in picture";
-
-"login.alert_title" = "Attenzione";
-"login.alert_message" = "Non è stato possibile salvare le impostazione a causa di un errore!";
-"login.alert_action" = "OK";
 
 "qr_reader.alert_title" = "Errore!";
 "qr_reader.alert_message" = "Si è verificato un errore durante la lettura del QR Code! Vorresti riprovare?";

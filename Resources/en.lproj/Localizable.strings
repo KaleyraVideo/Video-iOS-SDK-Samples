@@ -85,10 +85,6 @@
 "settings.logout" = "Logout";
 "settings.reset" = "Reset";
 
-"settings.restart-alert.title" = "Restart required!";
-"settings.restart-alert.message" = "You are required to restart the app in order to apply these changes";
-"settings.restart-alert.action" = "OK";
-
 "call_options.title" = "Call options";
 "call_options.call_type_section_title" = "Call type";
 "call_options.recording_section_title" = "Recording";
@@ -111,10 +107,6 @@
 "call_options.call_presentation_mode_title" = "Call UI presentation mode";
 "call_options.call_presentation_mode_fullscreen" = "Fullscreen";
 "call_options.call_presentation_mode_pip" = "Picture in picture";
-
-"login.alert_title" = "Warning";
-"login.alert_message" = "Could not save settings because of an error!";
-"login.alert_action" = "OK";
 
 "qr_reader.alert_title" = "An error has occurred!";
 "qr_reader.alert_message" = "An error has occurred while reading the QR code! Would you like to retry?";

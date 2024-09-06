@@ -75,9 +75,7 @@
 "settings.share" = "Compartilhar";
 "settings.logout" = "Sair";
 "settings.reset" = "Redefinir";
-"settings.restart-alert.title" = "Reinício necessário!";
-"settings.restart-alert.message" = "Você precisa reiniciar o aplicativo para aplicar essas alterações";
-"settings.restart-alert.action" = "OK";
+
 "call_options.title" = "Opções de Chamada";
 "call_options.call_type_section_title" = "Tipo de Chamada";
 "call_options.recording_section_title" = "Gravação";
@@ -100,9 +98,6 @@
 "call_options.call_presentation_mode_title" = "Modo de Apresentação da Interface de Chamada";
 "call_options.call_presentation_mode_fullscreen" = "Tela Cheia";
 "call_options.call_presentation_mode_pip" = "Imagem em Imagem";
-"login.alert_title" = "Aviso";
-"login.alert_message" = "Não foi possível salvar as configurações por causa de um erro!";
-"login.alert_action" = "OK";
 
 "qr_reader.alert_title" = "Ocorreu um erro!";
 "qr_reader.alert_message" = "Ocorreu um erro ao ler o código QR! Gostaria de tentar novamente?";
