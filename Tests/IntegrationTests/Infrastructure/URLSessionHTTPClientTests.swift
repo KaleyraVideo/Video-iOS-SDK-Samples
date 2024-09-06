@@ -20,8 +20,8 @@ final class URLSessionHTTPClientTests: UnitTestCase {
 
         let request = makeARequest()
         URLProtocolStub.observeRequests { (issuedRequest) in
-            exp.fulfill()
             XCTAssertEqual(issuedRequest, request)
+            exp.fulfill()
         }
 
         sut.get(request) { _ in }
@@ -35,10 +35,9 @@ final class URLSessionHTTPClientTests: UnitTestCase {
 
         let request = makeARequest()
         URLProtocolStub.observeRequests { (issuedRequest) in
-            exp.fulfill()
             assertThat(issuedRequest.url, equalTo(request.url))
+            exp.fulfill()
         }
-
 
         let _ = sut.post(.init(url: anyURL())) { _ in }
 

@@ -6,8 +6,8 @@ import UIKit
 
 enum Icons {
 
-    static var logo256: UIImage {
-        #imageLiteral(resourceName: "logo256")
+    static var logo256: UIImage? {
+        .init(named: "logo256")
     }
 
     static var callkit: UIImage? {

@@ -29,8 +29,7 @@ final class SettingsViewController: UIViewController {
 
     var user: Contact {
         didSet {
-            guard let url = user.imageURL, url.isFileURL else { return }
-            iconImage.image = UIImage(contentsOfFile: url.path)
+            iconImage.image = user.image
         }
     }
 
@@ -70,7 +69,7 @@ final class SettingsViewController: UIViewController {
     }()
 
     private lazy var iconImage: CircleMaskedImageView = {
-        let imageView = CircleMaskedImageView(image: Icons.logo256)
+        let imageView = CircleMaskedImageView(image: user.image ?? Icons.logo256)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -149,7 +148,7 @@ final class SettingsViewController: UIViewController {
 
     // MARK: - Long press handler
 
-    @objc(longPress)
+    @objc
     private func longPress() {
         delegate?.settingsViewControllerDidUpdateUser(contact: user)
     }

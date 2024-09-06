@@ -2,11 +2,11 @@
 // See LICENSE.txt for licensing information
 
 import Foundation
+import UIKit
 
 struct Contact: Equatable {
 
     enum Gender {
-        case unknown
         case male
         case female
     }
@@ -23,7 +23,7 @@ struct Contact: Equatable {
         return "\(firstName) \(lastName)"
     }
 
-    var gender: Gender
+    var gender: Gender?
     var email: String?
     var age: UInt?
     var imageName: String?
@@ -31,7 +31,16 @@ struct Contact: Equatable {
 
     init(_ alias: String) {
         self.alias = alias
-        self.gender = .unknown
+    }
+}
+
+extension Contact {
+
+    var image: UIImage? {
+        guard let imageURL else { return nil }
+        guard imageURL.isFileURL else { return nil }
+
+        return .init(contentsOfFile: imageURL.path)
     }
 }
 
