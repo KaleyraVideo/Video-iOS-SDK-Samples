@@ -10,6 +10,7 @@ import KaleyraTestMatchers
 
 final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
+    private var appSettings: AppSettings!
     private var viewModel: ContactsViewModel!
     private var repository: UserRepositoryMock!
     private var sut: ContactsViewController!
@@ -17,13 +18,15 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
     override func setUp() {
         super.setUp()
 
+        appSettings = .init()
         repository = .init()
         viewModel = .init(store: .init(repository: repository), loggedUser: .alice)
-        sut = .init(viewModel: viewModel, services: ServicesFactoryStub())
+        sut = .init(appSettings: appSettings, viewModel: viewModel, services: ServicesFactoryStub())
     }
 
     override func tearDown() {
         weak var weakSut = sut
+        appSettings = nil
         viewModel = nil
         repository = nil
         sut = nil
@@ -62,7 +65,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
     }
 
     func testLoadViewWhenMultipleSelectionIsEnabledShouldAddGroupCallBarButtonItem() {
-        sut.enableMultipleSelection(animated: false)
+        appSettings.callSettings.isGroup = true
 
         sut.loadViewIfNeeded()
 
@@ -120,7 +123,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
     func testEnableMultipleSelection() {
         sut.loadViewIfNeeded()
 
-        sut.enableMultipleSelection(animated: false)
+        appSettings.callSettings.isGroup = true
 
         assertThat(sut.tableView.allowsMultipleSelection, isTrue())
         assertThat(sut.tableView.allowsMultipleSelectionDuringEditing, isTrue())
@@ -134,8 +137,8 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
     func testDisableMultipleSelection() {
         sut.loadViewIfNeeded()
 
-        sut.enableMultipleSelection(animated: false)
-        sut.disableMultipleSelection(animated: false)
+        appSettings.callSettings.isGroup = true
+        appSettings.callSettings.isGroup = false
 
         assertThat(sut.tableView.allowsMultipleSelection, isFalse())
         assertThat(sut.tableView.allowsMultipleSelectionDuringEditing, isFalse())
@@ -145,7 +148,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     func testWhenMoreThanOneUserIsSelectedShouldEnableGroupCallButton() throws {
         sut.loadViewIfNeeded()
-        sut.enableMultipleSelection(animated: false)
+        appSettings.callSettings.isGroup = true
 
         try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
@@ -211,7 +214,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         let listener = makeActionListener()
         sut.onActionSelected = listener.callAsFunction
         sut.loadViewIfNeeded()
-        sut.enableMultipleSelection(animated: false)
+        appSettings.callSettings.isGroup = true
         try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
 
         sut.selectRow(at: .init(row: 0, section: 0))

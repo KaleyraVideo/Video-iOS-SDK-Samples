@@ -4,7 +4,7 @@
 import Foundation
 import KaleyraVideoSDK
 
-class CallOptions {
+struct CallOptions {
 
     enum PresentationMode: Int {
         case fullscreen = 0
@@ -39,7 +39,7 @@ extension CallOptions {
         case presentationMode = "com.kaleyra.call_options.call_presentation_mode"
     }
 
-    convenience init?(from defaults: UserDefaults) {
+    init?(from defaults: UserDefaults) {
         guard let callTypeRaw = defaults.object(forKey: Keys.type.rawValue) as? UInt,
               let callType = KaleyraVideoSDK.CallOptions.CallType(callTypeRaw),
               let maximumDuration = defaults.object(forKey: Keys.duration.rawValue) as? UInt

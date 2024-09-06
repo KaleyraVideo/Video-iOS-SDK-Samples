@@ -13,6 +13,8 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
         case openChat(user: String)
     }
 
+    private let appSettings: AppSettings
+    private let viewModel: ContactsViewModel
     private let services: ServicesFactory
 
     private var selectedContacts: [String] = [] {
@@ -24,8 +26,6 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
             }
         }
     }
-
-    private let viewModel: ContactsViewModel
 
     private var dataSet: IndexedSections<String, Contact> = .init(sections: []) {
         didSet {
@@ -67,7 +67,8 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
     var onContactProfileSelected: ((Contact) -> Void)?
     var onCallSettingsSelected: (() -> Void)?
 
-    init(viewModel: ContactsViewModel, services: ServicesFactory) {
+    init(appSettings: AppSettings, viewModel: ContactsViewModel, services: ServicesFactory) {
+        self.appSettings = appSettings
         self.viewModel = viewModel
         self.services = services
         super.init(nibName: nil, bundle: nil)
@@ -87,6 +88,13 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
 #if SAMPLE_CUSTOMIZABLE_THEME
         themeChanged(theme: services.makeThemeStorage().getSelectedTheme())
 #endif
+        appSettings.$callSettings.sink { [weak self] settings in
+            if settings.isGroup {
+                self?.enableMultipleSelection(animated: true)
+            } else {
+                self?.disableMultipleSelection(animated: true)
+            }
+        }.store(in: &subscriptions)
         viewModel.$state.sink { [weak self] state in
             self?.display(state)
         }.store(in: &subscriptions)
@@ -135,14 +143,14 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
 
     // MARK: - Enable / Disable multiple selection
 
-    func enableMultipleSelection(animated: Bool) {
+    private func enableMultipleSelection(animated: Bool) {
         tableView.allowsMultipleSelection = true
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.setEditing(true, animated: animated)
         setupRightBarButtonItems()
     }
 
-    func disableMultipleSelection(animated: Bool) {
+    private func disableMultipleSelection(animated: Bool) {
         tableView.allowsMultipleSelection = false
         tableView.allowsMultipleSelectionDuringEditing = false
         tableView.setEditing(false, animated: animated)

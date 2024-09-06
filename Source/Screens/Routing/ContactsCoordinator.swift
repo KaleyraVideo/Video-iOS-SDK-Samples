@@ -32,13 +32,12 @@ final class ContactsCoordinator: BaseCoordinator {
     func start(onCallOptionsChanged: @escaping (CallOptions) -> Void,
                onActionSelected: @escaping (ContactsViewController.Action) -> Void) {
         contactController = makeContactsViewController(onActionSelected: onActionSelected)
-        updateMultipleSelection(enabled: isMultipleSelectionEnabled, animated: false)
         self.onCallOptionsChanged = onCallOptionsChanged
         navigationController.setViewControllers([contactController], animated: false)
     }
 
     private func makeContactsViewController(onActionSelected: @escaping (ContactsViewController.Action) -> Void) -> ContactsViewController {
-        let controller = ContactsViewController(viewModel: viewModel, services: services)
+        let controller = ContactsViewController(appSettings: .init(), viewModel: viewModel, services: services)
         controller.tabBarItem = .init(title: Strings.Contacts.tabName, image: Icons.contact, selectedImage: nil)
         controller.definesPresentationContext = true
         controller.onContactProfileSelected = { [weak self] contact in
@@ -70,7 +69,6 @@ final class ContactsCoordinator: BaseCoordinator {
         addChild(coordinator)
         coordinator.start(onDismiss: { [weak self] options in
             self?.removeChild(coordinator)
-            self?.updateMultipleSelection(enabled: options.isGroup)
             self?.onCallOptionsChanged?(options)
         })
         let controller = coordinator.controller
@@ -86,13 +84,4 @@ final class ContactsCoordinator: BaseCoordinator {
 //        } else {
 //        }
 //    }
-
-    private func updateMultipleSelection(enabled: Bool, animated: Bool = true) {
-        isMultipleSelectionEnabled = enabled
-        if enabled {
-            contactController.enableMultipleSelection(animated: animated)
-        } else {
-            contactController.disableMultipleSelection(animated: animated)
-        }
-    }
 }

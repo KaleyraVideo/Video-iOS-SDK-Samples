@@ -51,7 +51,7 @@ final class UserDefaultsStoreTests: UnitTestCase {
 
     func testStoresCallOptionItem() throws {
         let sut = try makeSUT()
-        let callOptions = CallOptions()
+        var callOptions = CallOptions()
         callOptions.isGroup = true
         callOptions.maximumDuration = 40
         callOptions.recording = .automatic
