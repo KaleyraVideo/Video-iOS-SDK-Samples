@@ -7,6 +7,7 @@ import KaleyraVideoSDK
 final class CallOptionsTableViewController: UITableViewController {
 
     private var options: CallOptions
+    private let store: UserDefaultsStore
     private let services: ServicesFactory
     private var dataset = DataSet()
     private var tableViewFont: UIFont = UIFont.systemFont(ofSize: 20)
@@ -16,6 +17,7 @@ final class CallOptionsTableViewController: UITableViewController {
 
     init(options: CallOptions, services: ServicesFactory) {
         self.options = options
+        self.store = services.makeUserDefaultsStore()
         self.services = services
         super.init(style: .insetGrouped)
 #if SAMPLE_CUSTOMIZABLE_THEME
@@ -27,6 +29,8 @@ final class CallOptionsTableViewController: UITableViewController {
     required init(coder: NSCoder) {
         fatalError("Not available")
     }
+
+    // MARK: - View loading
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +62,12 @@ final class CallOptionsTableViewController: UITableViewController {
         tableView.tableFooterView = footer
     }
 
+    // MARK: - View will disappear
+
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        store.storeCallOptions(options)
         onDismiss?(options)
     }
 

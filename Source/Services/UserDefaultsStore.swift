@@ -18,7 +18,7 @@ final class UserDefaultsStore {
 
     // MARK: - Initialization
 
-    init(userDefaults: UserDefaults = UserDefaults.standard) {
+    init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
     }
 

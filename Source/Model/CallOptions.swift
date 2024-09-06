@@ -42,8 +42,6 @@ extension CallOptions {
     convenience init?(from defaults: UserDefaults) {
         guard let callTypeRaw = defaults.object(forKey: Keys.type.rawValue) as? UInt,
               let callType = KaleyraVideoSDK.CallOptions.CallType(callTypeRaw),
-              let recordingRaw = defaults.object(forKey: Keys.recording.rawValue) as? Int,
-              let recording = KaleyraVideoSDK.CallOptions.RecordingType(recordingRaw),
               let maximumDuration = defaults.object(forKey: Keys.duration.rawValue) as? UInt
         else {
             return nil
@@ -52,7 +50,7 @@ extension CallOptions {
         self.init()
 
         self.type = callType
-        self.recording = recording
+        self.recording = .init((defaults.object(forKey: Keys.recording.rawValue) as? Int) ?? 0)
         self.maximumDuration = maximumDuration
         self.isGroup = defaults.bool(forKey: Keys.group.rawValue)
         self.showsRating = defaults.bool(forKey: Keys.rating.rawValue)
