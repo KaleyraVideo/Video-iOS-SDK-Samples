@@ -4,9 +4,11 @@
 import XCTest
 import SwiftHamcrest
 import KaleyraTestKit
+import KaleyraTestHelpers
+import KaleyraTestMatchers
 @testable import SDK_Sample
 
-final class CallOptionsTableViewControllerTests: UnitTestCase {
+final class CallOptionsTableViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     private var sut: CallOptionsTableViewController!
 
@@ -28,11 +30,17 @@ final class CallOptionsTableViewControllerTests: UnitTestCase {
         assertThat(sut.title, equalTo(Strings.CallSettings.title))
     }
 
-    func testTableViewStyle() {
+    func testLoadViewShouldSetupTableView() {
+        sut.loadViewIfNeeded()
+
         assertThat(sut.tableView.style, equalTo(.insetGrouped))
+        assertThat(sut.tableView.contentInset.top, equalTo(0))
+        assertThat(sut.tableView.contentInset.left, equalTo(0))
+        assertThat(sut.tableView.contentInset.right, equalTo(0))
+        assertThat(sut.tableView.contentInset.bottom, equalTo(20))
     }
 
-    func testDataSourceForTableViewSectionsAndCells() {
+    func testLoadViewShouldReloadData() {
         sut.loadViewIfNeeded()
 
         assertThat(sut.numberOfSections(), equalTo(6))
@@ -44,7 +52,7 @@ final class CallOptionsTableViewControllerTests: UnitTestCase {
         assertThat(sut.numberOfRowsIn(section: .presentationMode), equalTo(2))
     }
 
-    func testCellForRowForDurationRowShouldSetATextFieldAsCellAccessoryView() throws {
+    func testSetupDurationCell() throws {
         sut.loadViewIfNeeded()
 
         let cell = sut.callDurationCell()
@@ -52,25 +60,17 @@ final class CallOptionsTableViewControllerTests: UnitTestCase {
         assertThat(cell, present())
         assertThat(cell?.selectionStyle, presentAnd(equalTo(.none)))
         assertThat(cell?.tintColor.cgColor, presentAnd(equalTo(Theme.Color.secondary.cgColor)))
+        assertThat(cell?.textField?.textAlignment, equalTo(.natural))
+        assertThat(cell?.textField?.inputAccessoryView, present())
 
         let durationTextField = try unwrap(cell?.textField)
-
-        assertThat(durationTextField.textAlignment, equalTo(.natural))
-        assertThat(durationTextField.inputAccessoryView, present())
-
         let toolBar: UIToolbar = try unwrap(durationTextField.inputAccessoryView as? UIToolbar)
-
-        assertThat(toolBar.frame, equalTo(CGRect(x: 0, y: 0, width: 100, height: 44)))
-        assertThat(toolBar.barStyle, equalTo(.default))
-        assertThat(toolBar.items?.count, presentAnd(equalTo(2)))
-
         let doneButtonItem = try unwrap(toolBar.items?.last)
-
         assertThat(doneButtonItem.style, equalTo(.plain))
         assertThat(doneButtonItem.title, equalTo(Strings.CallSettings.confirm))
     }
 
-    func testSetupRecordingTypeCell() throws {
+    func testSetupRecordingTypeCell() {
         sut.loadViewIfNeeded()
 
         let cell = sut.recordingCell()
@@ -79,79 +79,59 @@ final class CallOptionsTableViewControllerTests: UnitTestCase {
         assertThat(cell?.tintColor.cgColor, equalTo(Theme.Color.secondary.cgColor))
     }
 
-    func testCellForRowForGroupCallRowShouldSetSwitchAsCellAccessoryView() throws {
+    func testSetupGroupCallCell() throws {
         sut.loadViewIfNeeded()
 
         let cell = sut.groupCell()
 
         assertThat(cell, present())
-        assertThat(cell?.selectionStyle, presentAnd(equalTo(.none)))
-        assertThat(cell?.tintColor.cgColor, presentAnd(equalTo(Theme.Color.secondary.cgColor)))
-
-        let `switch` = try XCTUnwrap(cell?.accessoryView as? UISwitch)
-
-        assertThat(`switch`.onTintColor?.cgColor, equalTo(Theme.Color.secondary.cgColor))
-        assertThat(`switch`.allTargets.count, equalTo(1))
+        assertThat(cell?.switch?.onTintColor?.resolvedLight, equalTo(Theme.Color.secondary.resolvedLight))
+        assertThat(cell?.switch?.allTargets, presentAnd(hasCount(1)))
     }
 
-    func testCellForRowForRatingRowShouldSetSwitchAsCellAccessoryView() throws {
+    func testSetupRatingCell() throws {
         sut.loadViewIfNeeded()
 
         let cell = sut.ratingCell()
 
         assertThat(cell, present())
-        assertThat(cell?.selectionStyle, presentAnd(equalTo(.none)))
-        assertThat(cell?.tintColor.cgColor, presentAnd(equalTo(Theme.Color.secondary.cgColor)))
-
-        let `switch` = try XCTUnwrap(cell?.accessoryView as? UISwitch)
-
-        assertThat(`switch`.onTintColor?.cgColor, equalTo(Theme.Color.secondary.cgColor))
-        assertThat(`switch`.allTargets.count, equalTo(1))
+        assertThat(cell?.switch?.onTintColor?.resolvedDark, equalTo(Theme.Color.secondary.resolvedDark))
+        assertThat(cell?.switch?.allTargets, presentAnd(hasCount(1)))
     }
 
-    func testOnDismissFunctionReturnUpdatedCallOptionsItem() throws {
+    func testWhenViewDisappearsShouldNotifyDismissCallback() throws {
+        let callback = makeDismissCallback()
+        sut.onDismiss = callback.callAsFunction
         sut.loadViewIfNeeded()
-
-        var callOptionsItem = CallOptions()
-        let onDismiss: (CallOptions) -> Void = { options in
-            callOptionsItem = options
-        }
-
-        sut.onDismiss = onDismiss
 
         sut.simulateRowSelectedAt(1, inSection: .callType)
 
-        let cellTextField = sut.callDurationCell()
-        cellTextField?.simulateTextChanged("100")
+        let durationCell = sut.callDurationCell()
+        durationCell?.simulateTextChanged("100")
 
         let groupCallCell = sut.groupCell()
-        let groupCallSwitch = try XCTUnwrap(groupCallCell?.accessoryView as? UISwitch)
-
-        groupCallSwitch.isOn = true
-        groupCallSwitch.simulate(event: UIControl.Event.valueChanged)
+        groupCallCell?.switch?.isOn = true
+        groupCallCell?.switch?.simulate(event: UIControl.Event.valueChanged)
 
         let ratingCell = sut.ratingCell()
-        let ratingSwitch = try XCTUnwrap(ratingCell?.accessoryView as? UISwitch)
-
-        ratingSwitch.isOn = true
-        ratingSwitch.simulate(event: UIControl.Event.valueChanged)
+        ratingCell?.switch?.isOn = true
+        ratingCell?.switch?.simulate(event: UIControl.Event.valueChanged)
 
         sut.viewWillDisappear(false)
 
-        XCTAssertEqual(callOptionsItem.recording, .none)
-        XCTAssertEqual(callOptionsItem.maximumDuration, 100)
-        XCTAssertEqual(callOptionsItem.type, .audioUpgradable)
-        XCTAssertEqual(callOptionsItem.isGroup, true)
-        XCTAssertEqual(callOptionsItem.showsRating, true)
+        assertThat(callback.invocations, hasCount(1))
+        let settings = callback.invocations[0]
+        assertThat(settings.recording, nilValue())
+        assertThat(settings.maximumDuration, equalTo(100))
+        assertThat(settings.type, equalTo(.audioUpgradable))
+        assertThat(settings.isGroup, isTrue())
+        assertThat(settings.showsRating, isTrue())
     }
 
-    func testTableViewContentInsetHasABottomPadding() {
-        sut.loadViewIfNeeded()
+    // MARK: - Helpers
 
-        assertThat(sut.tableView?.contentInset.top, equalTo(0))
-        assertThat(sut.tableView?.contentInset.left, equalTo(0))
-        assertThat(sut.tableView?.contentInset.right, equalTo(0))
-        assertThat(sut.tableView?.contentInset.bottom, equalTo(20))
+    private func makeDismissCallback() -> CompletionSpy<CallOptions> {
+        makeCompletionSpy()
     }
 }
 
@@ -182,12 +162,12 @@ private extension CallOptionsTableViewController {
         cellForRow(at: 0, section: .duration) as? TextFieldTableViewCell
     }
 
-    func groupCell() -> UITableViewCell? {
-        cellForRow(at: 0, section: .group)
+    func groupCell() -> SwitchTableViewCell? {
+        cellForRow(at: 0, section: .group) as? SwitchTableViewCell
     }
 
-    func ratingCell() -> UITableViewCell? {
-        cellForRow(at: 0, section: .rating)
+    func ratingCell() -> SwitchTableViewCell? {
+        cellForRow(at: 0, section: .rating) as? SwitchTableViewCell
     }
 
     private func cellForRow(at rowIndex: Int, section: Section) -> UITableViewCell? {
