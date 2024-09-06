@@ -89,7 +89,7 @@ final class AppSetupCoordinator: BaseCoordinator {
 
             guard let qr else { return }
 
-            self.goToUserSelectionStage(config: qr.makeConfig())
+            self.goToUserSelectionStage(config: qr.config)
         }
 
         controller.navigationItem.hidesBackButton = true

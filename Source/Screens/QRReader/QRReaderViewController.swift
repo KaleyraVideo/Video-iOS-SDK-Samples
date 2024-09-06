@@ -18,6 +18,7 @@ class QRReaderViewController: UIViewController, QRReaderCameraOutputDelegate {
         previewLayer.videoGravity = .resizeAspectFill
         let view = UIView(frame: view.frame)
         view.layer.addSublayer(previewLayer)
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
@@ -27,6 +28,7 @@ class QRReaderViewController: UIViewController, QRReaderCameraOutputDelegate {
         button.addTarget(self, action: #selector(dismissButtonTouched(_:)), for: .touchUpInside)
         button.backgroundColor = Theme.Color.secondary
         button.setTitleColor(Theme.Color.commonWhiteColor, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -57,8 +59,6 @@ class QRReaderViewController: UIViewController, QRReaderCameraOutputDelegate {
     }
 
     private func setupConstraints() {
-        cameraView.translatesAutoresizingMaskIntoConstraints = false
-        dismissButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             cameraView.topAnchor.constraint(equalTo: view.topAnchor),
             cameraView.leftAnchor.constraint(equalTo: view.leftAnchor),

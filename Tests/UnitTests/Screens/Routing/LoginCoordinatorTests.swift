@@ -13,7 +13,7 @@ final class LoginCoordinatorTests: UnitTestCase {
     }
 
     private let testsSuiteName = "testRootCoordinatorTests"
-    private let config = QRCode(keys: .any, userAlias: .alice, environment: .development, region: .europe, defaultCallType: nil)
+//    private let config = QRCode(keys: .any, userAlias: .alice, environment: .development, region: .europe, defaultCallType: nil)
     private var navigationController: UINavigationController!
     private let userLoader = UserRepositoryMock()
 

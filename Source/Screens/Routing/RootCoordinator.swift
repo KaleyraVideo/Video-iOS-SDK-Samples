@@ -165,7 +165,7 @@ final class RootCoordinator: BaseCoordinator {
 
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
-        composer.setToRecipients(["eu.video.engineering@kaleyra.com"])
+        composer.setToRecipients([Strings.Logs.Mail.recipient])
         composer.setSubject(Strings.Logs.Mail.subject)
         composer.setMessageBody(Strings.Logs.Mail.body, isHTML: false)
 
@@ -176,12 +176,9 @@ final class RootCoordinator: BaseCoordinator {
 
     private func attachLogFilesToComposer(_ composer: MFMailComposeViewController) {
         logService.logFileList.forEach { logFileUrl in
-            if let fileData = NSData(contentsOf: logFileUrl) {
+            guard let fileData = try? Data(contentsOf: logFileUrl) else { return }
 
-                composer.addAttachmentData(fileData as Data,
-                                           mimeType: "text/txt",
-                                           fileName: logFileUrl.lastPathComponent)
-            }
+            composer.addAttachmentData(fileData, mimeType: "text/txt", fileName: logFileUrl.lastPathComponent)
         }
     }
 

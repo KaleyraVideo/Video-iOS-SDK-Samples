@@ -2,24 +2,13 @@
 // See LICENSE for licensing information
 
 import Foundation
+import KaleyraVideoSDK
 
 struct QRCode {
 
-    enum CallType: String, Codable {
-        case audio_video = "AUDIO_VIDEO"
-        case audio_upgradable = "AUDIO_UPGRADABLE"
-        case audio_only = "AUDIO_ONLY"
-    }
-
-    let keys: Config.Keys
+    let config: Config
     let userAlias: String?
-    let environment: Config.Environment
-    let region: Config.Region
-    let defaultCallType: CallType?
-
-    func makeConfig() -> Config {
-        .init(keys: keys, environment: environment, region: region)
-    }
+    let callType: KaleyraVideoSDK.CallOptions.CallType?
 
     // MARK: - Parsing
 
@@ -32,31 +21,35 @@ struct QRCode {
         case invalidApiKey
     }
 
+    fileprivate enum Key: String {
+        case apiKey
+        case appId
+        case environment
+        case region
+        case userAlias
+        case callType = "defaultCallType"
+    }
+
     static func parse(from url: URL) throws -> QRCode {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             throw ParseError.cannotSplitURLIntoComponents
         }
 
-        guard let queryItems = components.queryItems,
-              let rawApiKey = queryItems.first(where: { $0.name == "apiKey" })?.value,
-              let rawAppId = queryItems.first(where: { $0.name == "appId" })?.value,
-              let env = queryItems.first(where: { $0.name == "environment" })?.value,
-              let reg = queryItems.first(where: { $0.name == "region" })?.value else {
+        guard let queryItems = components.queryItems else {
             throw ParseError.missingRequiredConfigurationArguments
         }
 
         do {
-            let appId = try Config.AppId(rawAppId)
-            let apiKey = try Config.ApiKey(rawApiKey)
+            let appId = try Config.AppId(queryItems[.appId])
+            let apiKey = try Config.ApiKey(queryItems[.apiKey])
 
-            let userAlias = queryItems.first(where: { $0.name == "userAlias" })?.value
-            let callTypeString = queryItems.first(where: { $0.name == "defaultCallType" })?.value
+            let userAlias = queryItems[.userAlias]
 
-            return .init(keys: .init(apiKey: apiKey, appId: appId),
+            return .init(config: .init(keys: .init(apiKey: apiKey, appId: appId),
+                                       environment: try parseEnvironment(queryItems[.environment]),
+                                       region: try parseRegion(queryItems[.region])),
                          userAlias: userAlias,
-                         environment: try parseEnvironment(env),
-                         region: try parseRegion(reg),
-                         defaultCallType: CallType(rawValue: callTypeString ?? ""))
+                         callType: .init(rawValue: queryItems[.callType]))
         } catch is InvalidAppIdError {
             throw ParseError.invalidAppId
         } catch is InvalidApiKeyError {
@@ -76,5 +69,35 @@ struct QRCode {
             throw ParseError.invalidRegion
         }
         return region
+    }
+}
+
+private extension Array where Element == URLQueryItem {
+
+    subscript(_ key: QRCode.Key) -> String {
+        first(where: { $0.name == key })?.value ?? ""
+    }
+}
+
+private extension String {
+
+    static func == <T: RawRepresentable>(lhs: String, rhs: T) -> Bool where T.RawValue == String {
+        lhs == rhs.rawValue
+    }
+}
+
+private extension KaleyraVideoSDK.CallOptions.CallType {
+
+    init?(rawValue: String) {
+        switch rawValue.lowercased() {
+            case "audio_video", "audiovideo" :
+                self = .audioVideo
+            case "audio_upgradable", "audioupgradable":
+                self = .audioUpgradable
+            case "audio_only", "audioonly":
+                self = .audioOnly
+            default:
+                return nil
+        }
     }
 }

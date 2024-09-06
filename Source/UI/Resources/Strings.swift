@@ -298,6 +298,7 @@ enum Strings {
 
         enum Mail {
 
+            static let recipient = "eu.video.engineering@kaleyra.com"
             static let subject = NSLocalizedString("logs.mail.subject", comment: "Sharing log files")
             static let body = NSLocalizedString("logs.mail.body", comment: "Please take a look at log files attached to this email.")
         }
