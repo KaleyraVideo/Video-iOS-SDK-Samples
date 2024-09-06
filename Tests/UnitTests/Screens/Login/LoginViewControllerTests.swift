@@ -43,6 +43,15 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.tableView.sectionIndexColor?.resolvedDark, equalTo(Theme.Color.secondary.resolvedDark))
     }
 
+    func testLoadViewSetupNavigationItem() {
+        sut.loadViewIfNeeded()
+
+        assertThat(sut.navigationItem.hidesSearchBarWhenScrolling, isFalse())
+        assertThat(sut.navigationItem.searchController, present())
+        assertThat(sut.navigationItem.searchController?.obscuresBackgroundDuringPresentation, presentAnd(isFalse()))
+        assertThat(sut.navigationItem.searchController?.searchBar.placeholder, presentAnd(equalTo(Strings.Login.searchPlaceholder)))
+    }
+
     func testWhenViewModelIsLoadingShouldShowNoContentViewWithLoadingMessage() {
         sut.loadViewIfNeeded()
 
@@ -108,6 +117,27 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
         sut.simulateRowSelected(at: .init(row: 0, section: 1))
 
         assertThat(selectionSpy.invocations.map(\.alias), equalTo([.bob]))
+    }
+
+    // MARK: - Search
+
+    func testWhenSearchFieldIsUpdatedShouldFilterContactsList() throws {
+        sut.loadViewIfNeeded()
+
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
+        sut.navigationItem.searchController?.searchBar.simulateSearchTextChanged("bo")
+
+        assertThat(sut.tableView.numberOfSections, equalTo(1))
+    }
+
+    func testWhenSearchIsCancelledShouldUpdateContactList() throws {
+        sut.loadViewIfNeeded()
+
+        try repository.simulateLoadUsersSuccess(users: [.bob, .charlie, .dave])
+        sut.navigationItem.searchController?.searchBar.simulateSearchTextChanged("bo")
+        sut.navigationItem.searchController?.searchBar.simulateCancel()
+
+        assertThat(sut.tableView.numberOfSections, equalTo(3))
     }
 
     // MARK: - Helpers

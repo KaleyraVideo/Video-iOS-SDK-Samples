@@ -5,7 +5,7 @@ import Foundation
 import UIKit
 import Combine
 
-final class LoginViewController: UITableViewController {
+final class LoginViewController: UITableViewController, UISearchBarDelegate {
 
     private let viewModel: ContactsViewModel
     private let services: ServicesFactory
@@ -28,6 +28,15 @@ final class LoginViewController: UITableViewController {
         }
     }
 
+    private lazy var searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: nil)
+        controller.obscuresBackgroundDuringPresentation = false
+        controller.searchBar.placeholder = Strings.Login.searchPlaceholder
+        controller.searchBar.delegate = self
+        controller.searchBar.searchBarStyle = .default
+        return controller
+    }()
+
     private lazy var subscriptions = Set<AnyCancellable>()
 
     init(viewModel: ContactsViewModel, services: ServicesFactory) {
@@ -45,6 +54,7 @@ final class LoginViewController: UITableViewController {
         super.viewDidLoad()
 
         title = Strings.Login.title
+        setupNavigationItem()
         setupTableView()
 #if SAMPLE_CUSTOMIZABLE_THEME
         themeChanged(theme: services.makeThemeStorage().getSelectedTheme())
@@ -53,6 +63,11 @@ final class LoginViewController: UITableViewController {
             self?.display(state)
         }.store(in: &subscriptions)
         viewModel.load()
+    }
+
+    private func setupNavigationItem() {
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
 
     private func setupTableView() {
@@ -135,7 +150,18 @@ final class LoginViewController: UITableViewController {
 
         onSelection?(contact)
     }
+
+    // MARK: - Search bar delegate
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filter(searchFilter: searchText)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.filter(searchFilter: "")
+    }
 }
+
 #if SAMPLE_CUSTOMIZABLE_THEME
 extension LoginViewController: Themable {
 
