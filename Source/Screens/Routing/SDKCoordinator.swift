@@ -27,12 +27,6 @@ final class SDKCoordinator: BaseCoordinator {
         return window
     }()
 
-    var isStarted: Bool { authentication != nil }
-
-    private var isSdkConfigured: Bool = false
-
-    private var authentication: Authentication?
-
     private var pendingIntent: ChannelViewController.Intent? {
         didSet {
             handleChatIntentIfPossible()
@@ -55,27 +49,10 @@ final class SDKCoordinator: BaseCoordinator {
 
         super.init(services: services)
 
-        sdk.configure(config.sdk) { [weak self] result in
-            try! result.get()
-            self?.sdkConfigured()
-        }
+        try! sdk.configure(config.sdk)
     }
 
     func start(authentication: Authentication) {
-        self.authentication = authentication
-        guard isSdkConfigured else { return }
-
-        onReady(authentication: authentication)
-    }
-
-    private func sdkConfigured() {
-        isSdkConfigured = true
-        guard let authentication else { return }
-
-        onReady(authentication: authentication)
-    }
-
-    private func onReady(authentication: Authentication) {
         if config.showUserInfo {
             sdk.userDetailsProvider = services.makeContactsStore(config: config).userDetailsProvider
         }
@@ -84,13 +61,14 @@ final class SDKCoordinator: BaseCoordinator {
         sdk.conversation?.notificationsCoordinator.start()
 
         if case Authentication.accessToken(userId: let userId) = authentication {
-            sdk.conversation?.statePublisher.filter({ $0 == .connected}).receive(on: RunLoop.main).sink { [weak self] state in
+            sdk.conversation?.statePublisher.filter(\.isConnected).receive(on: RunLoop.main).sink { [weak self] state in
                 self?.handleChatIntentIfPossible()
             }.store(in: &subscriptions)
             sdk.conference?.registry.callAddedPublisher.receive(on: RunLoop.main).sink { [weak self] call in
                 self?.present(call: call)
             }.store(in: &subscriptions)
-            sdk.connect(userId: userId, provider: tokenProvider) { _ in }
+
+            try? sdk.connect(userId: userId, provider: tokenProvider)
 
             voipManager.start(userId: userId) { [weak self] pushPayload in
                 self?.sdk.conference?.handleNotification(pushPayload)
@@ -103,8 +81,6 @@ final class SDKCoordinator: BaseCoordinator {
     }
 
     func stop() {
-        authentication = nil
-
         sdk.conversation?.notificationsCoordinator.stop()
         sdk.disconnect()
         sdk.userDetailsProvider = nil
@@ -217,7 +193,7 @@ final class SDKCoordinator: BaseCoordinator {
 extension SDKCoordinator: InAppChatNotificationTouchListener {
 
     func onTouch(_ notification: ChatNotification) {
-        presentChat(intent: .notification(notification))
+        presentChat(intent: .channel(id: notification.channelId))
     }
 }
 
