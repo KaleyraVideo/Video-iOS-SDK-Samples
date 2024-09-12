@@ -156,14 +156,14 @@ final class CallOptionsTableViewControllerTests: UnitTestCase, CompletionSpyFact
         sut.simulateRowSelectedAt(1, inSection: .callType)
         sut.viewWillDisappear(false)
 
-        var expected = CallOptions()
+        var expected = CallSettings()
         expected.type = .audioUpgradable
         assertThat(appSettings.callSettings, equalTo(expected))
     }
 
     // MARK: - Helpers
 
-    private func makeDismissCallback() -> CompletionSpy<CallOptions> {
+    private func makeDismissCallback() -> CompletionSpy<CallSettings> {
         makeCompletionSpy()
     }
 }

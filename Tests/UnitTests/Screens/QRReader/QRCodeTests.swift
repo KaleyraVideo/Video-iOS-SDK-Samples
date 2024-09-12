@@ -54,7 +54,6 @@ final class QRCodeTests: UnitTestCase, QRCodeFixtureFactory {
         assertThat(config.disableDirectIncomingCalls, isFalse())
         assertThat(config.showUserInfo, isTrue())
         assertThat(config.tools, equalTo(.default))
-        assertThat(config.cameraPosition, equalTo(.front))
     }
 
     // MARK: - Helpers

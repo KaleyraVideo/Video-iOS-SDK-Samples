@@ -15,7 +15,6 @@ struct Config: Codable {
     let disableDirectIncomingCalls: Bool
     let voip: Config.VoIP
     let tools: Config.Tools
-    let cameraPosition: Config.CameraPosition
 
     init(keys: Config.Keys,
          showUserInfo: Bool = true,
@@ -23,8 +22,7 @@ struct Config: Codable {
          region: Config.Region = .europe,
          disableDirectIncomingCalls: Bool = false,
          voip: Config.VoIP = .default,
-         tools: Config.Tools = .init(),
-         cameraPosition: Config.CameraPosition = .front) {
+         tools: Config.Tools = .init()) {
         self.keys = keys
         self.environment = environment
         self.region = region
@@ -32,7 +30,6 @@ struct Config: Codable {
         self.disableDirectIncomingCalls = disableDirectIncomingCalls
         self.voip = voip
         self.tools = tools
-        self.cameraPosition = cameraPosition
     }
 
     // MARK: - Decodable
@@ -45,7 +42,6 @@ struct Config: Codable {
         case disableDirectIncomingCalls
         case voip
         case tools
-        case cameraPosition
     }
 
     init(from decoder: Decoder) throws {
@@ -57,6 +53,5 @@ struct Config: Codable {
         self.disableDirectIncomingCalls = try container.decodeIfPresent(Bool.self, forKey: .disableDirectIncomingCalls) ?? false
         self.voip = try container.decodeIfPresent(Config.VoIP.self, forKey: .voip) ?? .automatic(strategy: .backgroundOnly)
         self.tools = try container.decode(Config.Tools.self, forKey: .tools)
-        self.cameraPosition = try container.decodeIfPresent(Config.CameraPosition.self, forKey: .cameraPosition) ?? .front
     }
 }

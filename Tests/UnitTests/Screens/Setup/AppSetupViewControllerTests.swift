@@ -39,14 +39,13 @@ final class AppSetupViewControllerTests: UnitTestCase {
     func testSetupsSectionsAndSectionRows() {
         let sut = makeSUT()
 
-        assertThat(sut.numberOfSections(), equalTo(8))
+        assertThat(sut.numberOfSections(), equalTo(7))
         assertThat(sut.numberOfRowsInEnvironmentSection(), equalTo(3))
         assertThat(sut.numberOfRowsInRegionSection(), equalTo(4))
         assertThat(sut.numberOfRowsInAppIdSection(), equalTo(1))
         assertThat(sut.numberOfRowsInApiKeySection(), equalTo(1))
         assertThat(sut.numberOfRowsInUserDetailsSection(), equalTo(1))
         assertThat(sut.numberOfRowsInToolsSection(), equalTo(5))
-        assertThat(sut.numberOfRowsInCameraSection(), equalTo(2))
         assertThat(sut.numberOfRowsInVoIPSection(), equalTo(4))
     }
 
@@ -193,14 +192,6 @@ final class AppSetupViewControllerTests: UnitTestCase {
         assertThat(cell.title, presentAnd(equalTo(localizedString("setup.voip_automatic"))))
     }
 
-    func testCameraSectionHeader() {
-        let sut = makeSUT()
-
-        let header = sut.cameraSectionHeader()
-
-        assertThat(header, equalTo(Strings.Setup.CameraSection.title))
-    }
-
     func testManualVoIPCell() throws {
         let config = makeConfig(voip: .manual(strategy: .always))
         let sut = makeSUT(config: config)
@@ -264,7 +255,6 @@ private extension AppSetupViewController {
         case apiKey
         case userDetails
         case tools
-        case camera
         case voip
     }
 
@@ -296,10 +286,6 @@ private extension AppSetupViewController {
 
     func numberOfRowsInToolsSection() -> Int {
         numberOfRowsInSection(.tools)
-    }
-
-    func numberOfRowsInCameraSection() -> Int {
-        numberOfRowsInSection(.camera)
     }
 
     func numberOfRowsInVoIPSection() -> Int {
@@ -366,10 +352,6 @@ private extension AppSetupViewController {
 
     func regionSectionHeader() -> String? {
         tableView(tableView, titleForHeaderInSection: Section.region.rawValue)
-    }
-
-    func cameraSectionHeader() -> String? {
-        tableView(tableView, titleForHeaderInSection: Section.camera.rawValue)
     }
 
     private func cellFor(row: Int, section: Section) -> UITableViewCell? {

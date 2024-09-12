@@ -7,14 +7,14 @@ import KaleyraVideoSDK
 final class CallOptionsTableViewController: UITableViewController {
 
     private let appSettings: AppSettings
-    private var options: CallOptions
+    private var options: CallSettings
     private let store: UserDefaultsStore
     private let services: ServicesFactory
     private var dataset = DataSet()
     private var tableViewFont: UIFont = UIFont.systemFont(ofSize: 20)
     private var tableViewAccessoryFont: UIFont = UIFont.systemFont(ofSize: 18)
 
-    var onDismiss: ((CallOptions) -> Void)?
+    var onDismiss: ((CallSettings) -> Void)?
 
     init(appSettings: AppSettings, services: ServicesFactory) {
         self.appSettings = appSettings
@@ -180,7 +180,7 @@ final class CallOptionsTableViewController: UITableViewController {
     }
 
     private func onCallPresentationModeCellSelected(_ tableView: UITableView, at indexPath: IndexPath) {
-        guard let mode = CallOptions.PresentationMode(rawValue: indexPath.row) else { return }
+        guard let mode = CallSettings.PresentationMode(rawValue: indexPath.row) else { return }
 
         options.presentationMode = mode
         tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)

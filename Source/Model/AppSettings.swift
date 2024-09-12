@@ -7,7 +7,7 @@ import Combine
 final class AppSettings {
 
     @Published
-    var callSettings: CallOptions = .init()
+    var callSettings: CallSettings = .init()
 
     func loadFromDefaults(_ userDefaults: UserDefaultsStore) {
         callSettings = userDefaults.getCallOptions()

@@ -20,7 +20,7 @@ final class CallOptionsCoordinator: BaseCoordinator {
         super.init(services: services)
     }
 
-    func start(onDismiss: @escaping (CallOptions) -> Void) {
+    func start(onDismiss: @escaping (CallSettings) -> Void) {
         optionsController.onDismiss = onDismiss
     }
 }

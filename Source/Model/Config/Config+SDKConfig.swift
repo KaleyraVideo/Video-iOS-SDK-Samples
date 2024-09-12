@@ -21,7 +21,6 @@ extension Config {
 #else
         config.callKit = .enabled(.init(icon: Icons.callkit))
 #endif
-        config.camera = cameraPosition == .front ? .front : .back
         config.voip = voip.sdk
         config.shouldListenForDirectIncomingCalls = !disableDirectIncomingCalls
 

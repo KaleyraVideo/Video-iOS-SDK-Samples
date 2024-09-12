@@ -10,7 +10,7 @@ import KaleyraTestMatchers
 final class CallOptionsTests: UnitTestCase {
 
     func testDefaultInitialiserSetupObjectWithDefaultValues() {
-        let sut = CallOptions()
+        let sut = CallSettings()
 
         assertThat(sut.type, equalTo(.audioVideo))
         assertThat(sut.maximumDuration, equalTo(0))

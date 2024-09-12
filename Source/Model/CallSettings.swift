@@ -4,11 +4,16 @@
 import Foundation
 import KaleyraVideoSDK
 
-struct CallOptions: Equatable {
+struct CallSettings: Equatable {
 
     enum PresentationMode: Int {
         case fullscreen = 0
         case pip = 1
+    }
+
+    enum CameraPosition: String {
+        case front
+        case back
     }
 
     var type: KaleyraVideoSDK.CallOptions.CallType
@@ -17,6 +22,7 @@ struct CallOptions: Equatable {
     var isGroup: Bool
     var showsRating: Bool
     var presentationMode: PresentationMode
+    var cameraPosition: CameraPosition
 
     init() {
         type = .audioVideo
@@ -25,10 +31,32 @@ struct CallOptions: Equatable {
         isGroup = false
         showsRating = false
         presentationMode = .fullscreen
+        cameraPosition = .front
     }
 }
 
-extension CallOptions {
+extension CallSettings.CameraPosition: CaseIterable, Codable {}
+
+extension CallSettings.CameraPosition: CustomStringConvertible {
+
+    var description: String { rawValue }
+}
+
+extension CallSettings.CameraPosition: LosslessStringConvertible {
+
+    init?(_ description: String) {
+        switch description.lowercased() {
+            case "front":
+                self = .front
+            case "back":
+                self = .back
+            default:
+                return nil
+        }
+    }
+}
+
+extension CallSettings {
 
     private enum Keys: String {
         case type = "com.kaleyra.call_options.type"

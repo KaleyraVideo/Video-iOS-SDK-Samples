@@ -19,14 +19,13 @@ final class ConfigTests: UnitTestCase {
     }
 
     func testDesignatedInitializer() {
-        let sut = Config(keys: .any, showUserInfo: true, environment: .production, cameraPosition: .back)
+        let sut = Config(keys: .any, showUserInfo: true, environment: .production)
 
         assertThat(sut.keys, equalTo(.any))
         assertThat(sut.region, equalTo(.europe))
         assertThat(sut.showUserInfo, isTrue())
         assertThat(sut.voip, equalTo(.default))
         assertThat(sut.environment, equalTo(.production))
-        assertThat(sut.cameraPosition, equalTo(.back))
     }
 
     // MARK: - Base URL
@@ -86,8 +85,7 @@ final class ConfigTests: UnitTestCase {
                         "backgroundOnly" : {}
                     }
                 }
-            },
-            "cameraPosition" : "back"
+            }
         }
         """
 
@@ -100,7 +98,6 @@ final class ConfigTests: UnitTestCase {
         assertThat(decoded.disableDirectIncomingCalls, isTrue())
         assertThat(decoded.voip, equalTo(.manual(strategy: .backgroundOnly)))
         assertThat(decoded.tools, equalTo(tools))
-        assertThat(decoded.cameraPosition, equalTo(.back))
     }
 
     func testDecodesConfigUsingDefaultVoIPConfigurationWhenVoIPConfigIsMissing() throws {
@@ -178,32 +175,6 @@ final class ConfigTests: UnitTestCase {
         assertThat(decoded.region, equalTo(.india))
     }
 
-    func testDecodeInstanceFromDataMissingCameraPositionShouldDefaultItToFront() throws {
-        let json = """
-        {
-            "keys" : {
-                "appId" : "mAppId_32d6da9f24c1b7s01bd2c61a",
-                "apiKey" : "ak_live_18ad4c1f9dae593b114b6e3f"
-            },
-            "environment" : "sandbox",
-            "region" : "india",
-            "showUserInfo" : true,
-            "manuallyHandleVoIPNotifications" : true,
-            "tools" : {
-                "isChatEnabled" : true,
-                "isScreenshareEnabled" : true,
-                "isFileshareEnabled" : true,
-                "isWhiteboardEnabled" : true,
-                "isBroadcastEnabled" : true
-            }
-        }
-        """
-
-        let decoded = try decode(json)
-
-        assertThat(decoded.cameraPosition, equalTo(.front))
-    }
-
     func testThrowsAnErrorWhenDecodingAnInvalidAppId() throws {
         let json = """
         {
@@ -260,16 +231,14 @@ final class ConfigTests: UnitTestCase {
                          region: Config.Region = .europe,
                          disableDirectIncomingCalls: Bool = false,
                          voip: Config.VoIP = .automatic(strategy: .backgroundOnly),
-                         tools: Config.Tools = .default,
-                         cameraPosition: Config.CameraPosition = .front) -> Config {
+                         tools: Config.Tools = .default) -> Config {
         .init(keys: keys,
               showUserInfo: showsUserInfo,
               environment: environment,
               region: region,
               disableDirectIncomingCalls: disableDirectIncomingCalls,
               voip: voip,
-              tools: tools,
-              cameraPosition: cameraPosition)
+              tools: tools)
     }
 
     private func decode(_ json: String) throws -> Config {

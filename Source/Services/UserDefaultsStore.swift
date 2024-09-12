@@ -49,13 +49,13 @@ final class UserDefaultsStore {
         return token
     }
 
-    func storeCallOptions(_ options: CallOptions) {
+    func storeCallOptions(_ options: CallSettings) {
         options.store(in: userDefaults)
         userDefaults.synchronize()
     }
 
-    func getCallOptions() -> CallOptions {
-        guard let options = CallOptions(from: userDefaults) else {
+    func getCallOptions() -> CallSettings {
+        guard let options = CallSettings(from: userDefaults) else {
             return .init()
         }
 

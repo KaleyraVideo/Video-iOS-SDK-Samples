@@ -45,7 +45,6 @@ class AppSetupViewModel {
     var toolsConfig: Config.Tools
     var voipConfig: Config.VoIP
     var disableDirectIncomingCalls: Bool
-    var cameraPosition: Config.CameraPosition
 
     var isValid: Bool { keys.areValid }
 
@@ -55,8 +54,7 @@ class AppSetupViewModel {
          toolsConfig: Config.Tools = .default,
          voipConfig: Config.VoIP = .default,
          disableDirectIncomingCalls: Bool = false,
-         showsUserInfo: Bool = true,
-         cameraPosition: Config.CameraPosition = .front) {
+         showsUserInfo: Bool = true) {
         self.keys = keys
         self.environment = environment
         self.region = region
@@ -64,7 +62,6 @@ class AppSetupViewModel {
         self.voipConfig = voipConfig
         self.disableDirectIncomingCalls = disableDirectIncomingCalls
         self.showsUserInfo = showsUserInfo
-        self.cameraPosition = cameraPosition
     }
 
     convenience init(config: Config?) {
@@ -75,8 +72,7 @@ class AppSetupViewModel {
                   toolsConfig: conf.tools,
                   voipConfig: conf.voip,
                   disableDirectIncomingCalls: conf.disableDirectIncomingCalls,
-                  showsUserInfo: conf.showUserInfo,
-                  cameraPosition: conf.cameraPosition)
+                  showsUserInfo: conf.showUserInfo)
     }
 
     func makeConfig() throws -> Config {
@@ -86,8 +82,7 @@ class AppSetupViewModel {
               region: region,
               disableDirectIncomingCalls: disableDirectIncomingCalls,
               voip: voipConfig,
-              tools: toolsConfig,
-              cameraPosition: cameraPosition)
+              tools: toolsConfig)
     }
 }
 
@@ -260,11 +255,6 @@ private class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
             SecretKeySection(header: Strings.Setup.ApiKeySection.title, key: model.keys.apiKey, footer: Strings.Setup.ApiKeySection.footer, onChange: { key in model.keys.apiKey = key }),
             UserDetailsSection(header: Strings.Setup.UserDetailsSection.title, value: model.showsUserInfo, onChange: { showsUserInfo in model.showsUserInfo = showsUserInfo }),
             ToolsSection(config: model.toolsConfig, onChange: { newConfig in model.toolsConfig = newConfig }),
-            SingleChoiceTableViewSection(header: Strings.Setup.CameraSection.title, options: Config.CameraPosition.allCases, selected: .front, optionName: { option in
-                option.rawValue.capitalized
-            }, onChange: { newPosition in
-                model.cameraPosition = newPosition
-            }),
             VoipSection(config: model.voipConfig, disableDirectIncomingCalls: model.disableDirectIncomingCalls, onChange: { newConfig, disableDirectIncomingCalls in
                 model.voipConfig = newConfig
                 model.disableDirectIncomingCalls = disableDirectIncomingCalls

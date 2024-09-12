@@ -234,7 +234,7 @@ extension SDKCoordinator: ChannelViewControllerDelegate {
     }
 }
 
-extension CallOptions {
+extension CallSettings {
 
     var controllerConfig: CallViewController.Configuration {
         var config = CallViewController.Configuration()
