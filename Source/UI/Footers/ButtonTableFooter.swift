@@ -11,6 +11,7 @@ final class ButtonTableFooter: UIView {
         button.addTarget(self, action: #selector(onButtonTouched(_:)), for: .touchUpInside)
         button.backgroundColor = Theme.Color.secondary
         button.setTitleColor(Theme.Color.commonWhiteColor, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -31,6 +32,7 @@ final class ButtonTableFooter: UIView {
         setup()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("Not available")
     }
@@ -44,16 +46,7 @@ final class ButtonTableFooter: UIView {
     }
 
     private func setup() {
-        addButton()
-        setupConstraints()
-    }
-
-    private func addButton() {
         addSubview(button)
-    }
-
-    private func setupConstraints() {
-        button.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: topAnchor),
             button.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),

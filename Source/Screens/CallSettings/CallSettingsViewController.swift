@@ -4,7 +4,7 @@
 import UIKit
 import KaleyraVideoSDK
 
-final class CallOptionsTableViewController: UITableViewController {
+final class CallSettingsViewController: UITableViewController {
 
     private let appSettings: AppSettings
     private var options: CallSettings
@@ -332,7 +332,7 @@ private extension CallSettings.PresentationMode {
 
 #if SAMPLE_CUSTOMIZABLE_THEME
 
-extension CallOptionsTableViewController: Themable {
+extension CallSettingsViewController: Themable {
     func themeChanged(theme: AppTheme) {
         view.backgroundColor = theme.primaryBackgroundColor.toUIColor()
         tableView.backgroundColor = theme.secondaryBackgroundColor.toUIColor()

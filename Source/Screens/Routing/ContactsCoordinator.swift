@@ -61,7 +61,7 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func showCallSettingsScreen() {
-        let coordinator = CallOptionsCoordinator(appSettings: appSettings, services: services)
+        let coordinator = CallSettingsCoordinator(appSettings: appSettings, services: services)
         addChild(coordinator)
         coordinator.start(onDismiss: { [weak self] _ in
             self?.removeChild(coordinator)

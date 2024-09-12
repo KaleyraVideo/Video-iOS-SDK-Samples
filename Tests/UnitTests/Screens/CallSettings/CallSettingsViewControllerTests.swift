@@ -8,12 +8,12 @@ import KaleyraTestHelpers
 import KaleyraTestMatchers
 @testable import SDK_Sample
 
-final class CallOptionsTableViewControllerTests: UnitTestCase, CompletionSpyFactory {
+final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     private var appSettings: AppSettings!
     private var store: UserDefaultsStore!
     private var userDefaults: UserDefaults!
-    private var sut: CallOptionsTableViewController!
+    private var sut: CallSettingsViewController!
 
     override func setUp() {
         super.setUp()
@@ -168,7 +168,7 @@ final class CallOptionsTableViewControllerTests: UnitTestCase, CompletionSpyFact
     }
 }
 
-private extension CallOptionsTableViewController {
+private extension CallSettingsViewController {
 
     enum Section: Int {
         case callType

@@ -7,7 +7,7 @@ import KaleyraTestKit
 import KaleyraTestMatchers
 @testable import SDK_Sample
 
-final class CallOptionsCoordinatorTests: UnitTestCase {
+final class CallSettingsCoordinatorTests: UnitTestCase {
 
     func testCreatesNavigationControllerWithCallOptionsTableViewControllerAsRoot() throws {
         let sut = makeSUT()
@@ -15,7 +15,7 @@ final class CallOptionsCoordinatorTests: UnitTestCase {
         let controller = sut.controller
 
         assertThat(controller, instanceOf(UINavigationController.self))
-        assertThat(controller.children.first, presentAnd(instanceOf(CallOptionsTableViewController.self)))
+        assertThat(controller.children.first, presentAnd(instanceOf(CallSettingsViewController.self)))
     }
 
     func testComposeSetsNavigationItemPrefersLargeTitleToTrue() throws {
@@ -29,7 +29,7 @@ final class CallOptionsCoordinatorTests: UnitTestCase {
 
     // MARK: - Helpers
 
-    private func makeSUT() -> CallOptionsCoordinator {
+    private func makeSUT() -> CallSettingsCoordinator {
         .init(appSettings: .init(), services: ServicesFactoryStub())
     }
 }

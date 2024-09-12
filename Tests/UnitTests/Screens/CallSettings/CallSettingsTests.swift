@@ -7,7 +7,7 @@ import KaleyraTestKit
 import KaleyraTestMatchers
 @testable import SDK_Sample
 
-final class CallOptionsTests: UnitTestCase {
+final class CallSettingsTests: UnitTestCase {
 
     func testDefaultInitialiserSetupObjectWithDefaultValues() {
         let sut = CallSettings()
@@ -18,5 +18,6 @@ final class CallOptionsTests: UnitTestCase {
         assertThat(sut.isGroup, isFalse())
         assertThat(sut.showsRating, isFalse())
         assertThat(sut.presentationMode, equalTo(.fullscreen))
+        assertThat(sut.cameraPosition, equalTo(.front))
     }
 }

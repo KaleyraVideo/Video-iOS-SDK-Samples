@@ -4,13 +4,13 @@
 import Foundation
 import UIKit
 
-final class CallOptionsCoordinator: BaseCoordinator {
+final class CallSettingsCoordinator: BaseCoordinator {
 
     private let appSettings: AppSettings
-    private lazy var optionsController: CallOptionsTableViewController = .init(appSettings: appSettings, services: services)
+    private lazy var settingsController: CallSettingsViewController = .init(appSettings: appSettings, services: services)
 
     private(set) lazy var controller: UIViewController = {
-        let navController = UINavigationController(rootViewController: optionsController)
+        let navController = UINavigationController(rootViewController: settingsController)
         navController.navigationBar.prefersLargeTitles = true
         return navController
     }()
@@ -21,6 +21,6 @@ final class CallOptionsCoordinator: BaseCoordinator {
     }
 
     func start(onDismiss: @escaping (CallSettings) -> Void) {
-        optionsController.onDismiss = onDismiss
+        settingsController.onDismiss = onDismiss
     }
 }
