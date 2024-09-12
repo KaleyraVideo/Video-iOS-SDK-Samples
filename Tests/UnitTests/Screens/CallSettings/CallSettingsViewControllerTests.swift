@@ -55,11 +55,12 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
     func testLoadViewShouldReloadData() {
         sut.loadViewIfNeeded()
 
-        assertThat(sut.numberOfSections(), equalTo(6))
+        assertThat(sut.numberOfSections(), equalTo(7))
         assertThat(sut.numberOfRowsIn(section: .callType), equalTo(3))
         assertThat(sut.numberOfRowsIn(section: .recording), equalTo(3))
         assertThat(sut.numberOfRowsIn(section: .duration), equalTo(1))
         assertThat(sut.numberOfRowsIn(section: .group), equalTo(1))
+        assertThat(sut.numberOfRowsIn(section: .camera), equalTo(2))
         assertThat(sut.numberOfRowsIn(section: .rating), equalTo(1))
         assertThat(sut.numberOfRowsIn(section: .presentationMode), equalTo(2))
     }
@@ -109,6 +110,15 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
         assertThat(cell, present())
         assertThat(cell?.switch?.onTintColor?.resolvedDark, equalTo(Theme.Color.secondary.resolvedDark))
         assertThat(cell?.switch?.allTargets, presentAnd(hasCount(1)))
+    }
+
+    func testSetupCameraCell() throws {
+        sut.loadViewIfNeeded()
+
+        let cell = sut.cameraCell()
+
+        assertThat(cell, present())
+        assertThat(cell?.textLabel?.text, presentAnd(equalToLocalizedString("call_options.camera_section.front", bundle: .main)))
     }
 
     func testWhenViewDisappearsShouldNotifyDismissCallback() throws {
@@ -163,6 +173,7 @@ private extension CallSettingsViewController {
         case recording
         case duration
         case group
+        case camera
         case rating
         case presentationMode
     }
@@ -185,6 +196,10 @@ private extension CallSettingsViewController {
 
     func groupCell() -> SwitchTableViewCell? {
         cellForRow(at: 0, section: .group) as? SwitchTableViewCell
+    }
+
+    func cameraCell() -> UITableViewCell? {
+        cellForRow(at: 0, section: .camera)
     }
 
     func ratingCell() -> SwitchTableViewCell? {

@@ -66,9 +66,6 @@
 "setup.tools-fileshare" = "Condivisione file";
 "setup.tools-screenshare" = "Condivisione schermo in-app";
 "setup.tools-broadcast" = "Condivisione schermo broadcast";
-"setup.camera_section" = "Camera";
-"setup.camera_front" = "Comincia con la camera anteriore";
-"setup.camera_back" = "Comincia con la camera posteriore";
 "setup.voip_section_title" = "VoIP";
 "setup.voip_automatic" = "Automatiche";
 "setup.voip_manual" = "Manuali";
@@ -140,6 +137,9 @@
 "call_options.call_presentation_mode_title" = "Modalità di presenazione UI Chiamata";
 "call_options.call_presentation_mode_fullscreen" = "A schermo intero";
 "call_options.call_presentation_mode_pip" = "Picture in picture";
+"call_options.camera_section_title" = "Camera";
+"call_options.camera_section.front" = "Frontale";
+"call_options.camera_section.back" = "Posteriore";
 
 // MARK: - QR Reader
 

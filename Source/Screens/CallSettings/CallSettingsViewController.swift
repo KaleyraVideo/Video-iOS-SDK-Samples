@@ -90,6 +90,11 @@ private extension SectionedTableDataSource {
                                          onChange: { model.settings.recording = $0 }),
             TextFieldSection(header: Strings.CallSettings.DurationSection.title, value: "\(model.settings.maximumDuration)", onChange: { model.settings.maximumDuration = UInt($0) ?? 0 }),
             ToggleSection(header: Strings.CallSettings.GroupSection.title, description: Strings.CallSettings.GroupSection.conference, value: model.settings.isGroup, onChange: { model.settings.isGroup = $0 }),
+            SingleChoiceTableViewSection(header: Strings.CallSettings.CameraSection.title,
+                                         options: [CallSettings.CameraPosition.front, CallSettings.CameraPosition.back],
+                                         selected: model.settings.cameraPosition,
+                                         optionName: CameraPositionPresenter.optionName(_:),
+                                         onChange: { model.settings.cameraPosition = $0 }),
             ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: model.settings.showsRating, onChange: { model.settings.showsRating = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: model.settings.presentationMode, optionName: PresentationModePresenter.optionName(_:), onChange: { model.settings.presentationMode = $0 })
 
@@ -132,6 +137,18 @@ private extension SectionedTableDataSource {
                     Strings.CallSettings.PresentationMode.fullscreen
                 case .pip:
                     Strings.CallSettings.PresentationMode.pip
+            }
+        }
+    }
+
+    private enum CameraPositionPresenter {
+
+        static func optionName(_ position: CallSettings.CameraPosition) -> String {
+            switch position {
+                case .front:
+                    Strings.CallSettings.CameraSection.front
+                case .back:
+                    Strings.CallSettings.CameraSection.back
             }
         }
     }

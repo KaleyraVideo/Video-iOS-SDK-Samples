@@ -66,9 +66,6 @@
 "setup.tools-fileshare" = "File share";
 "setup.tools-screenshare" = "In-app screen share";
 "setup.tools-broadcast" = "Broadcast screen share";
-"setup.camera_section" = "Camera";
-"setup.camera_front" = "Start with front camera";
-"setup.camera_back" = "Start with back camera";
 "setup.voip_section_title" = "VoIP";
 "setup.voip_automatic" = "Automatic";
 "setup.voip_manual" = "Manual";
@@ -140,6 +137,9 @@
 "call_options.call_presentation_mode_title" = "Call UI presentation mode";
 "call_options.call_presentation_mode_fullscreen" = "Fullscreen";
 "call_options.call_presentation_mode_pip" = "Picture in picture";
+"call_options.camera_section_title" = "Camera";
+"call_options.camera_section.front" = "Front";
+"call_options.camera_section.back" = "Back";
 
 // MARK: - QR screen
 

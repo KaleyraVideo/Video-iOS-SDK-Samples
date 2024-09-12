@@ -106,13 +106,6 @@ enum Strings {
             static let broadcast = NSLocalizedString("setup.tools-broadcast", comment: "Broadcast screen share")
         }
 
-        enum CameraSection {
-            static let title = NSLocalizedString("setup.camera_section", comment: "Camera")
-
-            static let cameraFront = NSLocalizedString("setup.camera_front", comment: "Front camera")
-            static let cameraBack = NSLocalizedString("setup.camera_back", comment: "Back camera")
-        }
-
         enum VoIPSection {
 
             static let title = NSLocalizedString("setup.voip_section_title", comment: "VoIP")
@@ -179,7 +172,6 @@ enum Strings {
         static let confirm = NSLocalizedString("call_options.confirm_button", comment: "Accept")
 
         enum CallTypeSection {
-
             static let title = NSLocalizedString("call_options.call_type_section_title", comment: "Call type")
             static let audioVideo = NSLocalizedString("call_options.call_type_audio_video", comment: "Audio Video")
             static let audioUpgradable = NSLocalizedString("call_options.call_type_audio_upgradable", comment: "Audio Upgradable")
@@ -187,7 +179,6 @@ enum Strings {
         }
 
         enum RecordingSection {
-
             static let title = NSLocalizedString("call_options.recording_section_title", comment: "Recording")
             static let none = NSLocalizedString("call_options.recording_none", comment: "None")
             static let automatic = NSLocalizedString("call_options.recording_automatic", comment: "Automatic")
@@ -195,19 +186,22 @@ enum Strings {
         }
 
         enum DurationSection {
-
             static let title = NSLocalizedString("call_options.call_duration", comment: "")
             static let duration = NSLocalizedString("call_options.call_duration", comment: "Call duration")
         }
 
         enum GroupSection {
-
             static let title = NSLocalizedString("call_options.group_call_section_title", comment: "Group options")
             static let conference = NSLocalizedString("call_options.call_type_group", comment: "Group call")
         }
 
-        enum RatingSection {
+        enum CameraSection {
+            static let title = NSLocalizedString("call_options.camera_section_title", comment: "")
+            static let front = NSLocalizedString("call_options.camera_section.front", comment: "")
+            static let back = NSLocalizedString("call_options.camera_section.back", comment: "")
+        }
 
+        enum RatingSection {
             static let title = NSLocalizedString("call_options.rating_section_title", comment: "Rating")
             static let enabled = NSLocalizedString("call_options.rating_enabled", comment: "Enable rating")
         }
