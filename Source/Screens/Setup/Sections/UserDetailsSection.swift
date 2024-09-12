@@ -4,7 +4,7 @@
 import Foundation
 import UIKit
 
-class UserDetailsSection: TableViewSection {
+final class UserDetailsSection: TableViewSection {
 
     let header: String
 

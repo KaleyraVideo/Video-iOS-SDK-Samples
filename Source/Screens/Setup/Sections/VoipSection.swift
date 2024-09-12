@@ -4,7 +4,7 @@
 import Foundation
 import UIKit
 
-class VoipSection: TableViewSection {
+final class VoipSection: TableViewSection {
 
     private(set) var config: Config.VoIP {
         didSet {

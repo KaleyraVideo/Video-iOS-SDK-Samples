@@ -4,7 +4,7 @@
 import Foundation
 import UIKit
 
-class ToolsSection: TableViewSection {
+final class ToolsSection: TableViewSection {
 
     private(set) var config: Config.Tools {
         didSet {

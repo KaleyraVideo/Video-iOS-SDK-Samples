@@ -147,7 +147,6 @@ class AppSetupViewController: UITableViewController {
         }
 
         tableView.tableFooterView = footer
-        tableView.contentInset = .init(top: 0, left: 0, bottom: 20, right: 0)
     }
 
     private func onConfirmButtonTouched() {
@@ -211,7 +210,7 @@ extension AppSetupViewController: Themable {
 
 #endif
 
-private class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
+private final class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
 
     private let sections: [TableViewSection]
 
@@ -261,54 +260,6 @@ private class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
             })
         ])
     }
-}
-
-private class SecretKeySection: TableViewSection {
-
-    private let header: String
-    private var key: String {
-        didSet {
-            guard key != oldValue else { return }
-
-            onChange(key)
-        }
-    }
-    private let footer: String?
-    private let onChange: (String) -> Void
-
-    init(header: String, key: String, footer: String? = nil, onChange: @escaping (String) -> Void) {
-        self.header = header
-        self.key = key
-        self.footer = footer
-        self.onChange = onChange
-    }
-
-    func registerReusableCells(_ tableView: UITableView) {
-        tableView.registerReusableCell(TextFieldTableViewCell.self)
-    }
-
-    func numberOfRows() -> Int {
-        1
-    }
-
-    func titleForHeader(_ tableView: UITableView) -> String? {
-        header
-    }
-
-    func titleForFooter(_ tableView: UITableView) -> String? {
-        footer
-    }
-
-    func cellForRowAt(indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
-        let cell: TextFieldTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.text = key
-        cell.onTextChanged = { [weak self] text in
-            self?.key = text ?? ""
-        }
-        return cell
-    }
-
-    func didSelectRowAt(indexPath: IndexPath, tableView: UITableView) {}
 }
 
 private extension UIAlertController {

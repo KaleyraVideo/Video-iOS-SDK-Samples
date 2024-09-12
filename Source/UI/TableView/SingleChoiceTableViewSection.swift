@@ -4,7 +4,7 @@
 import Foundation
 import UIKit
 
-class SingleChoiceTableViewSection<Option: Equatable>: TableViewSection {
+final class SingleChoiceTableViewSection<Option: Equatable>: TableViewSection {
 
     let header: String
     let options: [Option]
