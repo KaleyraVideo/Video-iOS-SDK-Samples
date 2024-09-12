@@ -14,7 +14,7 @@ final class CallSettingsViewController: UITableViewController {
     private var tableViewFont: UIFont = UIFont.systemFont(ofSize: 20)
     private var tableViewAccessoryFont: UIFont = UIFont.systemFont(ofSize: 18)
 
-    var onDismiss: ((CallSettings) -> Void)?
+    var onDismiss: (() -> Void)?
 
     init(appSettings: AppSettings, services: ServicesFactory) {
         self.appSettings = appSettings
@@ -71,7 +71,7 @@ final class CallSettingsViewController: UITableViewController {
 
         store.storeCallOptions(options)
         appSettings.callSettings = options
-        onDismiss?(options)
+        onDismiss?()
     }
 
     // MARK: - Table data source

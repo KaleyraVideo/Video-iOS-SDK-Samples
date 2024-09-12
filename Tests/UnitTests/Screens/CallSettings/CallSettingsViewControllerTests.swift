@@ -112,7 +112,7 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
     }
 
     func testWhenViewDisappearsShouldNotifyDismissCallback() throws {
-        let callback = makeDismissCallback()
+        let callback = makeVoidCompletionSpy()
         sut.onDismiss = callback.callAsFunction
         sut.loadViewIfNeeded()
 
@@ -132,12 +132,6 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
         sut.viewWillDisappear(false)
 
         assertThat(callback.invocations, hasCount(1))
-        let settings = callback.invocations[0]
-        assertThat(settings.recording, nilValue())
-        assertThat(settings.maximumDuration, equalTo(100))
-        assertThat(settings.type, equalTo(.audioUpgradable))
-        assertThat(settings.isGroup, isTrue())
-        assertThat(settings.showsRating, isTrue())
     }
 
     func testWhenViewDisappearsShouldStoreSettingsInStore() {
@@ -159,12 +153,6 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
         var expected = CallSettings()
         expected.type = .audioUpgradable
         assertThat(appSettings.callSettings, equalTo(expected))
-    }
-
-    // MARK: - Helpers
-
-    private func makeDismissCallback() -> CompletionSpy<CallSettings> {
-        makeCompletionSpy()
     }
 }
 
