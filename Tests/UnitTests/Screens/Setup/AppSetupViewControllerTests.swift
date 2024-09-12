@@ -343,15 +343,15 @@ private extension AppSetupViewController {
     // MARK: - Headers
 
     func voipSectionHeader() -> String? {
-        tableView(tableView, titleForHeaderInSection: Section.voip.rawValue)
+        tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: Section.voip.rawValue)
     }
 
     func environmentSectionHeader() -> String? {
-        tableView(tableView, titleForHeaderInSection: Section.environment.rawValue)
+        tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: Section.environment.rawValue)
     }
 
     func regionSectionHeader() -> String? {
-        tableView(tableView, titleForHeaderInSection: Section.region.rawValue)
+        tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: Section.region.rawValue)
     }
 
     private func cellFor(row: Int, section: Section) -> UITableViewCell? {
@@ -359,7 +359,7 @@ private extension AppSetupViewController {
     }
 
     private func cell(at indexPath: IndexPath) -> UITableViewCell? {
-        tableView(tableView, cellForRowAt: indexPath)
+        tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
     }
 
     private func indexPath(row: Int, section: Section) -> IndexPath {
@@ -367,6 +367,6 @@ private extension AppSetupViewController {
     }
 
     func simulateIndiaRegionSelected() {
-        tableView(tableView, didSelectRowAt: indexPath(row: 1, section: .region))
+        tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath(row: 1, section: .region))
     }
 }

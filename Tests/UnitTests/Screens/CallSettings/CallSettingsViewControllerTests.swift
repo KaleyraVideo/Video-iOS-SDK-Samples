@@ -192,7 +192,7 @@ private extension CallSettingsViewController {
     }
 
     private func cellForRow(at rowIndex: Int, section: Section) -> UITableViewCell? {
-        tableView(tableView, cellForRowAt: IndexPath(row: rowIndex, section: section.rawValue))
+        tableView.dataSource?.tableView(tableView, cellForRowAt: IndexPath(row: rowIndex, section: section.rawValue))
     }
 
     func simulateRowSelectedAt(_ rowIndex: Int, inSection section: Section) {

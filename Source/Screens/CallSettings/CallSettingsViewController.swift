@@ -6,19 +6,26 @@ import KaleyraVideoSDK
 
 final class CallSettingsViewController: UITableViewController {
 
+    fileprivate final class ViewModel {
+
+        var settings: CallSettings
+
+        init(settings: CallSettings) {
+            self.settings = settings
+        }
+    }
+
     private let appSettings: AppSettings
-    private var options: CallSettings
+    private let model: ViewModel
     private let store: UserDefaultsStore
     private let services: ServicesFactory
-    private var dataset = DataSet()
-    private var tableViewFont: UIFont = UIFont.systemFont(ofSize: 20)
-    private var tableViewAccessoryFont: UIFont = UIFont.systemFont(ofSize: 18)
+    private lazy var dataSource: SectionedTableDataSource = .create(for: model)
 
     var onDismiss: (() -> Void)?
 
     init(appSettings: AppSettings, services: ServicesFactory) {
         self.appSettings = appSettings
-        self.options = appSettings.callSettings
+        self.model = .init(settings: appSettings.callSettings)
         self.store = services.makeUserDefaultsStore()
         self.services = services
         super.init(style: .insetGrouped)
@@ -38,22 +45,14 @@ final class CallSettingsViewController: UITableViewController {
         super.viewDidLoad()
 
         title = Strings.CallSettings.title
-        setupTableViewContentInset()
-        registerReusableCells()
-        insertTableViewFooter()
+        setupTableView()
     }
 
-    private func setupTableViewContentInset() {
+    private func setupTableView() {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
-    }
-
-    private func registerReusableCells() {
-        tableView.registerReusableCell(UITableViewCell.self)
-        tableView.registerReusableCell(SwitchTableViewCell.self)
-        tableView.registerReusableCell(TextFieldTableViewCell.self)
-    }
-
-    private func insertTableViewFooter() {
+        tableView.dataSource = dataSource
+        tableView.delegate = dataSource
+        dataSource.registerReusableCells(tableView)
         let footer = ButtonTableFooter(frame: .init(x: 0, y: 0, width: 150, height: 50))
         footer.buttonTitle = Strings.CallSettings.confirm
         footer.buttonAction = { [weak self] in
@@ -69,263 +68,71 @@ final class CallSettingsViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        store.storeCallOptions(options)
-        appSettings.callSettings = options
+        store.storeCallOptions(model.settings)
+        appSettings.callSettings = model.settings
         onDismiss?()
     }
+}
 
-    // MARK: - Table data source
+private extension SectionedTableDataSource {
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        dataset.numberOfSections()
+    static func create(for model: CallSettingsViewController.ViewModel) -> SectionedTableDataSource {
+        .init(sections: [
+            SingleChoiceTableViewSection(header: Strings.CallSettings.CallTypeSection.title,
+                                         options: [CallOptions.CallType.audioVideo, CallOptions.CallType.audioUpgradable, CallOptions.CallType.audioOnly],
+                                         selected: model.settings.type,
+                                         optionName: CallTypePresenter.optionName,
+                                         onChange: { model.settings.type = $0 }),
+            SingleChoiceTableViewSection(header: Strings.CallSettings.RecordingSection.title,
+                                         options: [CallOptions.RecordingType?.none, CallOptions.RecordingType.automatic, CallOptions.RecordingType.manual],
+                                         selected: model.settings.recording,
+                                         optionName: RecordingPresenter.optionName(_:),
+                                         onChange: { model.settings.recording = $0 }),
+            SecretKeySection(header: Strings.CallSettings.DurationSection.title, key: "\(model.settings.maximumDuration)", onChange: { model.settings.maximumDuration = UInt($0) ?? 0 }),
+            ToggleSection(header: Strings.CallSettings.GroupSection.title, description: Strings.CallSettings.GroupSection.conference, value: model.settings.isGroup, onChange: { model.settings.isGroup = $0 }),
+            ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: model.settings.showsRating, onChange: { model.settings.showsRating = $0 }),
+            SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: model.settings.presentationMode, optionName: PresentationModePresenter.optionName(_:), onChange: { model.settings.presentationMode = $0 })
+
+        ])
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        dataset.sectionTitle(section)
-    }
+    private enum CallTypePresenter {
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataset.numberOfRowsInSection(section)
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = dataset.section(at: indexPath.section)
-
-        switch section {
-            case .callType:
-                let cell = tableView.dequeueReusableCell(for: indexPath)
-                cell.textLabel?.text = dataset.rowTitle(at: indexPath)
-                cell.selectionStyle = .none
-                cell.textLabel?.font = tableViewFont
-                cell.detailTextLabel?.font = tableViewAccessoryFont
-                cell.tintColor = Theme.Color.secondary
-                cell.accessoryView = nil
-                cell.accessoryType = KaleyraVideoSDK.CallOptions.CallType(row: indexPath.row) == options.type ? .checkmark : .none
-                return cell
-            case .recording:
-                let cell = tableView.dequeueReusableCell(for: indexPath)
-                cell.textLabel?.text = dataset.rowTitle(at: indexPath)
-                cell.selectionStyle = .none
-                cell.textLabel?.font = tableViewFont
-                cell.detailTextLabel?.font = tableViewAccessoryFont
-                cell.tintColor = Theme.Color.secondary
-                cell.accessoryView = nil
-                cell.accessoryType = KaleyraVideoSDK.CallOptions.RecordingType(row: indexPath.row) == options.recording ? .checkmark : .none
-                return cell
-            case .duration:
-                let cell: TextFieldTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-                cell.text = String(options.maximumDuration)
-                cell.onTextChanged = { [weak self] text in
-                    if let text = text, let value = UInt(text) {
-                        self?.options.maximumDuration = value
-                    } else {
-                        self?.options.maximumDuration = 0
-                    }
-                }
-                return cell
-            case .group:
-                let cell: SwitchTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-                cell.isOn = options.isGroup
-                cell.textLabel?.text = dataset.rowTitle(indexPath.section, row: indexPath.row)
-                cell.textLabel?.font = tableViewFont
-                cell.onSwitchValueChange = { [weak self] cell in
-                    self?.options.isGroup = cell.isOn
-                }
-                return cell
-            case .rating:
-                let cell: SwitchTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-                cell.isOn = options.showsRating
-                cell.textLabel?.text = dataset.rowTitle(indexPath.section, row: indexPath.row)
-                cell.textLabel?.font = tableViewFont
-                cell.onSwitchValueChange = { [weak self] cell in
-                    self?.options.showsRating = cell.isOn
-                }
-                return cell
-            case .presentationMode:
-                let cell = tableView.dequeueReusableCell(for: indexPath)
-                cell.textLabel?.text = dataset.rowTitle(indexPath.section, row: indexPath.row)
-                cell.selectionStyle = .none
-                cell.textLabel?.font = tableViewFont
-                cell.detailTextLabel?.font = tableViewAccessoryFont
-                cell.tintColor = Theme.Color.secondary
-                cell.accessoryView = nil
-                cell.accessoryType = indexPath.row == options.presentationMode.row ? .checkmark : .none
-                return cell
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch dataset.section(at: indexPath) {
-            case .callType:
-                onCallTypeCellSelected(tableView, at: indexPath)
-            case .recording:
-                onRecordingTypeCellSelected(tableView, at: indexPath)
-            case .presentationMode:
-                onCallPresentationModeCellSelected(tableView, at: indexPath)
-            default:
-                return
-        }
-    }
-
-    private func onCallTypeCellSelected(_ tableView: UITableView, at indexPath: IndexPath) {
-        guard let type = KaleyraVideoSDK.CallOptions.CallType(row: indexPath.row) else { return }
-
-        options.type = type
-        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
-    }
-
-    private func onRecordingTypeCellSelected(_ tableView: UITableView, at indexPath: IndexPath) {
-        options.recording = .init(row: indexPath.row)
-        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
-    }
-
-    private func onCallPresentationModeCellSelected(_ tableView: UITableView, at indexPath: IndexPath) {
-        guard let mode = CallSettings.PresentationMode(row: indexPath.row) else { return }
-
-        options.presentationMode = mode
-        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
-    }
-
-    // MARK: - Data set
-
-    private enum SectionType {
-        case callType
-        case recording
-        case duration
-        case group
-        case rating
-        case presentationMode
-
-        var title: String {
-            switch self {
-                case .callType:
-                    return Strings.CallSettings.CallTypeSection.title
-                case .recording:
-                    return Strings.CallSettings.RecordingSection.title
-                case .duration:
-                    return Strings.CallSettings.DurationSection.title
-                case .group:
-                    return Strings.CallSettings.GroupSection.title
-                case .rating:
-                    return Strings.CallSettings.RatingSection.title
-                case .presentationMode:
-                    return Strings.CallSettings.PresentationMode.title
+        static func optionName(_ type: CallOptions.CallType) -> String {
+            switch type {
+                case .audioVideo:
+                    Strings.CallSettings.CallTypeSection.audioVideo
+                case .audioUpgradable:
+                    Strings.CallSettings.CallTypeSection.audioUpgradable
+                case .audioOnly:
+                    Strings.CallSettings.CallTypeSection.audioOnly
             }
         }
     }
 
-    private struct DataSet {
-
-        private var sections = [Section]()
-
-        private struct Section  {
-            let type: SectionType
-            let rows: [Row]
-        }
-
-        private struct Row {
-            let title: String
-        }
-
-        init() {
-            sections.append(Section(type: .callType,
-                                    rows: [.init(title: Strings.CallSettings.CallTypeSection.audioVideo),
-                                           .init(title: Strings.CallSettings.CallTypeSection.audioUpgradable),
-                                           .init(title: Strings.CallSettings.CallTypeSection.audioOnly)]))
-            sections.append(Section(type: .recording,
-                                    rows: [.init(title: Strings.CallSettings.RecordingSection.none),
-                                           .init(title: Strings.CallSettings.RecordingSection.automatic),
-                                           .init(title: Strings.CallSettings.RecordingSection.manual)]))
-            sections.append(Section(type: .duration,
-                                    rows: [.init(title: Strings.CallSettings.DurationSection.duration)]))
-            sections.append(Section(type: .group,
-                                    rows: [.init(title: Strings.CallSettings.GroupSection.conference)]))
-            sections.append(Section(type: .rating,
-                                    rows: [.init(title: Strings.CallSettings.RatingSection.enabled)]))
-            sections.append(Section(type: .presentationMode,
-                                    rows: [.init(title: Strings.CallSettings.PresentationMode.fullscreen),
-                                           .init(title: Strings.CallSettings.PresentationMode.pip)]))
-        }
-
-        func numberOfSections() -> Int {
-            sections.count
-        }
-
-        func section(at index: Int) -> SectionType {
-            sections[index].type
-        }
-
-        func section(at indexPath: IndexPath) -> SectionType {
-            section(at: indexPath.section)
-        }
-
-        func sectionTitle(_ section: Int) -> String? {
-            sections[section].type.title
-        }
-
-        func numberOfRowsInSection(_ section: Int) -> Int {
-            sections[section].rows.count
-        }
-
-        func rowTitle(at indexPath: IndexPath) -> String? {
-            rowTitle(indexPath.section, row: indexPath.row)
-        }
-
-        func rowTitle(_ section: Int, row: Int) -> String? {
-            sections[section].rows[row].title
-        }
-    }
-}
-
-private extension KaleyraVideoSDK.CallOptions.CallType {
-
-    init?(row: Int) {
-        switch row {
-            case 0:
-                self = .audioVideo
-            case 1:
-                self = .audioUpgradable
-            case 2:
-                self = .audioOnly
-            default:
-                return nil
-        }
-    }
-}
-
-private extension KaleyraVideoSDK.CallOptions.RecordingType {
-
-    init?(row: Int) {
-        switch row {
-            case 1:
-                self = .automatic
-            case 2:
-                self = .manual
-            default:
-                return nil
-        }
-    }
-}
-
-private extension CallSettings.PresentationMode {
-
-    var row: Int {
-        switch self {
-            case .fullscreen:
-                0
-            case .pip:
-                1
+    private enum RecordingPresenter {
+        
+        static func optionName(_ type: CallOptions.RecordingType?) -> String {
+            switch type {
+                case nil:
+                    Strings.CallSettings.RecordingSection.none
+                case .automatic:
+                    Strings.CallSettings.RecordingSection.automatic
+                case .manual:
+                    Strings.CallSettings.RecordingSection.manual
+            }
         }
     }
 
-    init?(row: Int) {
-        switch row {
-            case 0:
-                self = .fullscreen
-            case 1:
-                self = .pip
-            default:
-                return nil
+    private enum PresentationModePresenter {
+
+        static func optionName(_ mode: CallSettings.PresentationMode) -> String {
+            switch mode {
+                case .fullscreen:
+                    Strings.CallSettings.PresentationMode.fullscreen
+                case .pip:
+                    Strings.CallSettings.PresentationMode.pip
+            }
         }
     }
 }

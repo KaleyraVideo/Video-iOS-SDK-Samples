@@ -89,7 +89,7 @@ class AppSetupViewModel {
 class AppSetupViewController: UITableViewController {
 
     private var model: AppSetupViewModel
-    private var dataSource: DataSource
+    private var dataSource: SectionedTableDataSource
     private var tableViewFont: UIFont = UIFont.systemFont(ofSize: 20)
     private var tableViewAccessoryFont: UIFont = UIFont.systemFont(ofSize: 18)
 
@@ -102,7 +102,7 @@ class AppSetupViewController: UITableViewController {
 
     init(model: AppSetupViewModel, services: ServicesFactory) {
         self.model = model
-        self.dataSource = DataSource.makeDataSource(for: model)
+        self.dataSource = .create(for: model)
 #if SAMPLE_CUSTOMIZABLE_THEME
         self.themeStorage = services.makeThemeStorage()
 #endif
@@ -119,22 +119,20 @@ class AppSetupViewController: UITableViewController {
         super.viewDidLoad()
 
         title = Strings.Setup.title
-        setupTableViewContentInset()
-        registerCells()
-        setupTableViewFooter()
+        setupTableView()
 #if SAMPLE_CUSTOMIZABLE_THEME
         themeChanged(theme: themeStorage.getSelectedTheme())
 #endif
     }
 
-    private func setupTableViewContentInset() {
+    private func setupTableView() {
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
-    }
-
-    private func registerCells() {
         dataSource.registerReusableCells(tableView)
+        tableView.dataSource = dataSource
+        tableView.delegate = dataSource
+        setupTableViewFooter()
     }
 
     private func setupTableViewFooter() {
@@ -161,34 +159,6 @@ class AppSetupViewController: UITableViewController {
     private func presentInvalidConfigurationAlert() {
         presentAlert(.invalidConfigurationAlert())
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        dataSource.numberOfSections(in: tableView)
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataSource.tableView(tableView, numberOfRowsInSection: section)
-    }
-
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        dataSource.tableView(tableView, titleForHeaderInSection: section)
-    }
-
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        dataSource.tableView(tableView, titleForFooterInSection: section)
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        dataSource.tableView(tableView, cellForRowAt: indexPath)
-    }
-
-    // MARK: - Delegate
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dataSource.tableView(tableView, didSelectRowAt: indexPath)
-    }
 }
 
 #if SAMPLE_CUSTOMIZABLE_THEME
@@ -210,43 +180,9 @@ extension AppSetupViewController: Themable {
 
 #endif
 
-private final class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
+private extension SectionedTableDataSource {
 
-    private let sections: [TableViewSection]
-
-    init(sections: [TableViewSection]) {
-        self.sections = sections
-    }
-
-    func registerReusableCells(_ tableView: UITableView) {
-        sections.forEach({ $0.registerReusableCells(tableView) })
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        sections.count
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        sections[section].numberOfRows()
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        sections[indexPath.section].cellForRowAt(indexPath: indexPath, tableView: tableView)
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        sections[section].titleForHeader(tableView)
-    }
-
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        sections[section].titleForFooter(tableView)
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        sections[indexPath.section].didSelectRowAt(indexPath: indexPath, tableView: tableView)
-    }
-
-    static func makeDataSource(for model: AppSetupViewModel) -> DataSource {
+    static func create(for model: AppSetupViewModel) -> SectionedTableDataSource {
         .init(sections: [
             SingleChoiceTableViewSection(header: Strings.Setup.RegionSection.title, options: Config.Region.allCases, selected: model.region, optionName: RegionPresenter.localizedName, onChange: { newRegion in model.region = newRegion }),
             SingleChoiceTableViewSection(header: Strings.Setup.EnvironmentSection.title, options: Config.Environment.allCases, selected: model.environment, optionName: EnvironmentPresenter.localizedName, onChange: { newEnv in model.environment = newEnv }),
