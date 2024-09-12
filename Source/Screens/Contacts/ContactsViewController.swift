@@ -56,7 +56,7 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
         return button
     }()
 
-    private lazy var callSettingsButton: UIBarButtonItem = .init(image: Icons.settings,
+    private lazy var callSettingsButton: UIBarButtonItem = .init(image: Icons.callSettings,
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(callSettingsButtonTouched(sender:)))

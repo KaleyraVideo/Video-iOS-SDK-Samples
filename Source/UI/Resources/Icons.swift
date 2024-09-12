@@ -30,6 +30,10 @@ enum Icons {
         .init(systemName: "person.crop.circle")
     }
 
+    static var callSettings: UIImage? {
+        .init(named: "callSettings")
+    }
+
     static var settings: UIImage? {
         .init(systemName: "gear")
     }
