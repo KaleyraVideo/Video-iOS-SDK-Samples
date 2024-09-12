@@ -4,94 +4,92 @@
 import Foundation
 import UIKit
 
-class AppSetupViewModel {
+final class AppSetupViewController: UITableViewController {
 
-    struct Keys {
+    final class ViewModel {
 
-        var appId: String
-        var apiKey: String
+        struct Keys {
 
-        var areValid: Bool {
-            let apiKey = try? Config.ApiKey(self.apiKey)
-            let appId = try? Config.AppId(self.appId)
+            var appId: String
+            var apiKey: String
 
-            return apiKey != nil && appId != nil
-        }
+            var areValid: Bool {
+                let apiKey = try? Config.ApiKey(self.apiKey)
+                let appId = try? Config.AppId(self.appId)
 
-        init(appId: String, apiKey: String) {
-            self.appId = appId
-            self.apiKey = apiKey
-        }
-
-        init(keys: Config.Keys) {
-            self.init(appId: keys.appId.description, apiKey: keys.apiKey.description)
-        }
-
-        func makeConfigKeys() throws -> Config.Keys {
-            do {
-                return .init(apiKey: try .init(apiKey), appId: try .init(appId))
-            } catch {
-                return .init(apiKey: try .init(appId), appId: try .init(apiKey))
+                return apiKey != nil && appId != nil
             }
+
+            init(appId: String, apiKey: String) {
+                self.appId = appId
+                self.apiKey = apiKey
+            }
+
+            init(keys: Config.Keys) {
+                self.init(appId: keys.appId.description, apiKey: keys.apiKey.description)
+            }
+
+            func makeConfigKeys() throws -> Config.Keys {
+                do {
+                    return .init(apiKey: try .init(apiKey), appId: try .init(appId))
+                } catch {
+                    return .init(apiKey: try .init(appId), appId: try .init(apiKey))
+                }
+            }
+
+            static var empty: Keys { .init(appId: "", apiKey: "") }
         }
 
-        static var empty: Keys { .init(appId: "", apiKey: "") }
+        var region: Config.Region
+        var environment: Config.Environment
+        var keys: Keys
+        var showsUserInfo: Bool
+        var toolsConfig: Config.Tools
+        var voipConfig: Config.VoIP
+        var disableDirectIncomingCalls: Bool
+
+        var isValid: Bool { keys.areValid }
+
+        init(keys: Keys = .empty,
+             environment: Config.Environment = .sandbox,
+             region: Config.Region = .europe,
+             toolsConfig: Config.Tools = .default,
+             voipConfig: Config.VoIP = .default,
+             disableDirectIncomingCalls: Bool = false,
+             showsUserInfo: Bool = true) {
+            self.keys = keys
+            self.environment = environment
+            self.region = region
+            self.toolsConfig = toolsConfig
+            self.voipConfig = voipConfig
+            self.disableDirectIncomingCalls = disableDirectIncomingCalls
+            self.showsUserInfo = showsUserInfo
+        }
+
+        convenience init(config: Config?) {
+            guard let conf = config else { self.init();  return }
+            self.init(keys: .init(keys: conf.keys),
+                      environment: conf.environment,
+                      region: conf.region,
+                      toolsConfig: conf.tools,
+                      voipConfig: conf.voip,
+                      disableDirectIncomingCalls: conf.disableDirectIncomingCalls,
+                      showsUserInfo: conf.showUserInfo)
+        }
+
+        func makeConfig() throws -> Config {
+            .init(keys: try keys.makeConfigKeys(),
+                  showUserInfo: showsUserInfo,
+                  environment: environment,
+                  region: region,
+                  disableDirectIncomingCalls: disableDirectIncomingCalls,
+                  voip: voipConfig,
+                  tools: toolsConfig)
+        }
     }
 
-    var region: Config.Region
-    var environment: Config.Environment
-    var keys: Keys
-    var showsUserInfo: Bool
-    var toolsConfig: Config.Tools
-    var voipConfig: Config.VoIP
-    var disableDirectIncomingCalls: Bool
-
-    var isValid: Bool { keys.areValid }
-
-    init(keys: Keys = .empty,
-         environment: Config.Environment = .sandbox,
-         region: Config.Region = .europe,
-         toolsConfig: Config.Tools = .default,
-         voipConfig: Config.VoIP = .default,
-         disableDirectIncomingCalls: Bool = false,
-         showsUserInfo: Bool = true) {
-        self.keys = keys
-        self.environment = environment
-        self.region = region
-        self.toolsConfig = toolsConfig
-        self.voipConfig = voipConfig
-        self.disableDirectIncomingCalls = disableDirectIncomingCalls
-        self.showsUserInfo = showsUserInfo
-    }
-
-    convenience init(config: Config?) {
-        guard let conf = config else { self.init();  return }
-        self.init(keys: .init(keys: conf.keys),
-                  environment: conf.environment,
-                  region: conf.region,
-                  toolsConfig: conf.tools,
-                  voipConfig: conf.voip,
-                  disableDirectIncomingCalls: conf.disableDirectIncomingCalls,
-                  showsUserInfo: conf.showUserInfo)
-    }
-
-    func makeConfig() throws -> Config {
-        .init(keys: try keys.makeConfigKeys(),
-              showUserInfo: showsUserInfo,
-              environment: environment,
-              region: region,
-              disableDirectIncomingCalls: disableDirectIncomingCalls,
-              voip: voipConfig,
-              tools: toolsConfig)
-    }
-}
-
-class AppSetupViewController: UITableViewController {
-
-    private var model: AppSetupViewModel
+    private var model: ViewModel
     private var dataSource: SectionedTableDataSource
-    private var tableViewFont: UIFont = UIFont.systemFont(ofSize: 20)
-    private var tableViewAccessoryFont: UIFont = UIFont.systemFont(ofSize: 18)
 
     var onDismiss: ((Config) -> Void)?
 
@@ -100,7 +98,7 @@ class AppSetupViewController: UITableViewController {
     private var themeStorage: ThemeStorage
 #endif
 
-    init(model: AppSetupViewModel, services: ServicesFactory) {
+    init(model: ViewModel, services: ServicesFactory) {
         self.model = model
         self.dataSource = .create(for: model)
 #if SAMPLE_CUSTOMIZABLE_THEME
@@ -182,7 +180,7 @@ extension AppSetupViewController: Themable {
 
 private extension SectionedTableDataSource {
 
-    static func create(for model: AppSetupViewModel) -> SectionedTableDataSource {
+    static func create(for model: AppSetupViewController.ViewModel) -> SectionedTableDataSource {
         .init(sections: [
             SingleChoiceTableViewSection(header: Strings.Setup.RegionSection.title, options: Config.Region.allCases, selected: model.region, optionName: RegionPresenter.localizedName, onChange: { newRegion in model.region = newRegion }),
             SingleChoiceTableViewSection(header: Strings.Setup.EnvironmentSection.title, options: Config.Environment.allCases, selected: model.environment, optionName: EnvironmentPresenter.localizedName, onChange: { newEnv in model.environment = newEnv }),

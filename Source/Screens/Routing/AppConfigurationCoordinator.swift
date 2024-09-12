@@ -19,7 +19,7 @@ final class AppConfigurationCoordinator: BaseCoordinator {
     }
 
     func start(onDismiss: @escaping (Config) -> Void) {
-        setupController = .init(model: AppSetupViewModel(config: config), services: services)
+        setupController = .init(model: .init(config: config), services: services)
         setupController.onDismiss = onDismiss
     }
 }

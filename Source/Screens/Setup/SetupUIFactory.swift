@@ -8,7 +8,7 @@ protocol SetupUIFactory {
 
     func makeSetupSelectionViewController(onSelection: @escaping (AppSetupType) -> Void) -> UIViewController
     func makeQRViewController(onDismiss: @escaping (QRCode?) -> Void) -> UIViewController
-    func makeAdvancedSetupViewController(model: AppSetupViewModel, services: ServicesFactory) -> UIViewController
+    func makeAdvancedSetupViewController(model: AppSetupViewController.ViewModel, services: ServicesFactory) -> UIViewController
 }
 
 protocol SetupWizardUIFactory {
@@ -31,7 +31,7 @@ struct DefaultSetupUIFactory: SetupUIFactory, SetupWizardUIFactory {
         return controller
     }
 
-    func makeAdvancedSetupViewController(model: AppSetupViewModel, services: ServicesFactory) -> UIViewController {
+    func makeAdvancedSetupViewController(model: AppSetupViewController.ViewModel, services: ServicesFactory) -> UIViewController {
         AppSetupViewController(model: model, services: services)
     }
 

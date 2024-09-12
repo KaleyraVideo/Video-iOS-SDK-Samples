@@ -200,7 +200,7 @@ private class SetupUIFactorySpy: ServicesFactoryStub, SetupUIFactory, SetupWizar
         return stub()
     }
 
-    func makeAdvancedSetupViewController(model: AppSetupViewModel, services: ServicesFactory) -> UIViewController {
+    func makeAdvancedSetupViewController(model: AppSetupViewController.ViewModel, services: ServicesFactory) -> UIViewController {
         guard let stub = onMakeAdvancedSetup else { return .init() }
         return stub()
     }
