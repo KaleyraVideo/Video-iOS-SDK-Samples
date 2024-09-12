@@ -53,6 +53,10 @@ final class SDKCoordinator: BaseCoordinator {
     }
 
     func start(authentication: Authentication) {
+        appSettings.$callSettings.map(\.cameraPosition).sink { [weak self] in
+            self?.sdk.conference?.settings.camera = $0 == .front ? .front : .back
+        }.store(in: &subscriptions)
+
         if config.showUserInfo {
             sdk.userDetailsProvider = services.makeContactsStore(config: config).userDetailsProvider
         }
