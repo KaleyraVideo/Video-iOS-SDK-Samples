@@ -252,7 +252,7 @@ private final class DataSource: NSObject, UITableViewDataSource, UITableViewDele
             SingleChoiceTableViewSection(header: Strings.Setup.EnvironmentSection.title, options: Config.Environment.allCases, selected: model.environment, optionName: EnvironmentPresenter.localizedName, onChange: { newEnv in model.environment = newEnv }),
             SecretKeySection(header: Strings.Setup.AppIdSection.title, key: model.keys.appId, footer: Strings.Setup.AppIdSection.footer, onChange: { key in model.keys.appId = key }),
             SecretKeySection(header: Strings.Setup.ApiKeySection.title, key: model.keys.apiKey, footer: Strings.Setup.ApiKeySection.footer, onChange: { key in model.keys.apiKey = key }),
-            UserDetailsSection(header: Strings.Setup.UserDetailsSection.title, value: model.showsUserInfo, onChange: { showsUserInfo in model.showsUserInfo = showsUserInfo }),
+            ToggleSection(header: Strings.Setup.UserDetailsSection.title, description: Strings.Setup.UserDetailsSection.cellTitle, value: model.showsUserInfo, onChange: { showsUserInfo in model.showsUserInfo = showsUserInfo }),
             ToolsSection(config: model.toolsConfig, onChange: { newConfig in model.toolsConfig = newConfig }),
             VoipSection(config: model.voipConfig, disableDirectIncomingCalls: model.disableDirectIncomingCalls, onChange: { newConfig, disableDirectIncomingCalls in
                 model.voipConfig = newConfig

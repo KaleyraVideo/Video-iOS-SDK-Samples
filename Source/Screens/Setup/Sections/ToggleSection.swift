@@ -4,9 +4,10 @@
 import Foundation
 import UIKit
 
-final class UserDetailsSection: TableViewSection {
+final class ToggleSection: TableViewSection {
 
     let header: String
+    let description: String
 
     private(set) var value: Bool {
         didSet {
@@ -18,8 +19,9 @@ final class UserDetailsSection: TableViewSection {
 
     let onChange: (Bool) -> Void
 
-    init(header: String, value: Bool, onChange: @escaping (Bool) -> Void) {
+    init(header: String, description: String, value: Bool, onChange: @escaping (Bool) -> Void) {
         self.header = header
+        self.description = description
         self.value = value
         self.onChange = onChange
     }
@@ -38,7 +40,7 @@ final class UserDetailsSection: TableViewSection {
 
     func cellForRowAt(indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
         let cell: SwitchTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.textLabel?.text = Strings.Setup.UserDetailsSection.cellTitle
+        cell.textLabel?.text = description
         cell.isOn = value
         cell.onSwitchValueChange = { [weak self] sender in
             self?.value = sender.isOn

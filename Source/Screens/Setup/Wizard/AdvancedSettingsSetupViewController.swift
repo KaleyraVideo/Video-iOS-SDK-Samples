@@ -110,7 +110,7 @@ private class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
                 model.voipConfig = newConfig
                 model.disableDirectIncomingCalls = disableDirectIncomingCalls
             }),
-            UserDetailsSection(header: Strings.Setup.UserDetailsSection.title, value: model.showsUserInfo, onChange: { showsUserInfo in
+            ToggleSection(header: Strings.Setup.UserDetailsSection.title, description: Strings.Setup.UserDetailsSection.cellTitle, value: model.showsUserInfo, onChange: { showsUserInfo in
                 model.showsUserInfo = showsUserInfo
             })
         ])
