@@ -6,9 +6,9 @@ import KaleyraVideoSDK
 
 struct CallSettings: Equatable {
 
-    enum PresentationMode: Int {
-        case fullscreen = 0
-        case pip = 1
+    enum PresentationMode: String {
+        case fullscreen
+        case pip
     }
 
     enum CameraPosition: String {
@@ -32,6 +32,27 @@ struct CallSettings: Equatable {
         showsRating = false
         presentationMode = .fullscreen
         cameraPosition = .front
+    }
+}
+
+extension CallSettings.PresentationMode: Codable {}
+
+extension CallSettings.PresentationMode: CustomStringConvertible {
+
+    var description: String { rawValue }
+}
+
+extension CallSettings.PresentationMode: LosslessStringConvertible {
+
+    init?(_ description: String) {
+        switch description.lowercased() {
+            case "fullscreen":
+                self = .fullscreen
+            case "pip":
+                self = .pip
+            default:
+                return nil
+        }
     }
 }
 
@@ -82,7 +103,7 @@ extension CallSettings {
         self.maximumDuration = maximumDuration
         self.isGroup = defaults.bool(forKey: Keys.group.rawValue)
         self.showsRating = defaults.bool(forKey: Keys.rating.rawValue)
-        self.presentationMode = .init(rawValue: defaults.integer(forKey: Keys.presentationMode.rawValue)) ?? .fullscreen
+        self.presentationMode = .init(defaults.string(forKey: Keys.presentationMode.rawValue) ?? "") ?? .fullscreen
     }
 
     func store(in defaults: UserDefaults) {

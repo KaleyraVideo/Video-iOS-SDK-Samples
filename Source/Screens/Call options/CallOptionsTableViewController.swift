@@ -112,7 +112,7 @@ final class CallOptionsTableViewController: UITableViewController {
                 cell.accessoryView = nil
                 cell.accessoryType = KaleyraVideoSDK.CallOptions.RecordingType(row: indexPath.row) == options.recording ? .checkmark : .none
                 return cell
-            case .callOptions:
+            case .duration:
                 let cell: TextFieldTableViewCell = tableView.dequeueReusableCell(for: indexPath)
                 cell.text = String(options.maximumDuration)
                 cell.onTextChanged = { [weak self] text in
@@ -141,7 +141,7 @@ final class CallOptionsTableViewController: UITableViewController {
                     self?.options.showsRating = cell.isOn
                 }
                 return cell
-            case .callPresentationMode:
+            case .presentationMode:
                 let cell = tableView.dequeueReusableCell(for: indexPath)
                 cell.textLabel?.text = dataset.rowTitle(indexPath.section, row: indexPath.row)
                 cell.selectionStyle = .none
@@ -149,7 +149,7 @@ final class CallOptionsTableViewController: UITableViewController {
                 cell.detailTextLabel?.font = tableViewAccessoryFont
                 cell.tintColor = Theme.Color.secondary
                 cell.accessoryView = nil
-                cell.accessoryType = indexPath.row == options.presentationMode.rawValue ? .checkmark : .none
+                cell.accessoryType = indexPath.row == options.presentationMode.row ? .checkmark : .none
                 return cell
         }
     }
@@ -160,7 +160,7 @@ final class CallOptionsTableViewController: UITableViewController {
                 onCallTypeCellSelected(tableView, at: indexPath)
             case .recording:
                 onRecordingTypeCellSelected(tableView, at: indexPath)
-            case .callPresentationMode:
+            case .presentationMode:
                 onCallPresentationModeCellSelected(tableView, at: indexPath)
             default:
                 return
@@ -180,7 +180,7 @@ final class CallOptionsTableViewController: UITableViewController {
     }
 
     private func onCallPresentationModeCellSelected(_ tableView: UITableView, at indexPath: IndexPath) {
-        guard let mode = CallSettings.PresentationMode(rawValue: indexPath.row) else { return }
+        guard let mode = CallSettings.PresentationMode(row: indexPath.row) else { return }
 
         options.presentationMode = mode
         tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
@@ -191,10 +191,10 @@ final class CallOptionsTableViewController: UITableViewController {
     private enum SectionType {
         case callType
         case recording
-        case callOptions
+        case duration
         case group
         case rating
-        case callPresentationMode
+        case presentationMode
 
         var title: String {
             switch self {
@@ -202,14 +202,14 @@ final class CallOptionsTableViewController: UITableViewController {
                     return Strings.CallSettings.CallTypeSection.title
                 case .recording:
                     return Strings.CallSettings.RecordingSection.title
-                case .callOptions:
-                    return Strings.CallSettings.CallOptionsSection.title
+                case .duration:
+                    return Strings.CallSettings.DurationSection.title
                 case .group:
                     return Strings.CallSettings.GroupSection.title
                 case .rating:
                     return Strings.CallSettings.RatingSection.title
-                case .callPresentationMode:
-                    return Strings.CallSettings.CallPresentationMode.title
+                case .presentationMode:
+                    return Strings.CallSettings.PresentationMode.title
             }
         }
     }
@@ -236,15 +236,15 @@ final class CallOptionsTableViewController: UITableViewController {
                                     rows: [.init(title: Strings.CallSettings.RecordingSection.none),
                                            .init(title: Strings.CallSettings.RecordingSection.automatic),
                                            .init(title: Strings.CallSettings.RecordingSection.manual)]))
-            sections.append(Section(type: .callOptions,
-                                    rows: [.init(title: Strings.CallSettings.CallOptionsSection.duration)]))
+            sections.append(Section(type: .duration,
+                                    rows: [.init(title: Strings.CallSettings.DurationSection.duration)]))
             sections.append(Section(type: .group,
                                     rows: [.init(title: Strings.CallSettings.GroupSection.conference)]))
             sections.append(Section(type: .rating,
                                     rows: [.init(title: Strings.CallSettings.RatingSection.enabled)]))
-            sections.append(Section(type: .callPresentationMode,
-                                    rows: [.init(title: Strings.CallSettings.CallPresentationMode.fullscreen),
-                                           .init(title: Strings.CallSettings.CallPresentationMode.pip)]))
+            sections.append(Section(type: .presentationMode,
+                                    rows: [.init(title: Strings.CallSettings.PresentationMode.fullscreen),
+                                           .init(title: Strings.CallSettings.PresentationMode.pip)]))
         }
 
         func numberOfSections() -> Int {
@@ -301,6 +301,29 @@ private extension KaleyraVideoSDK.CallOptions.RecordingType {
                 self = .automatic
             case 2:
                 self = .manual
+            default:
+                return nil
+        }
+    }
+}
+
+private extension CallSettings.PresentationMode {
+
+    var row: Int {
+        switch self {
+            case .fullscreen:
+                0
+            case .pip:
+                1
+        }
+    }
+
+    init?(row: Int) {
+        switch row {
+            case 0:
+                self = .fullscreen
+            case 1:
+                self = .pip
             default:
                 return nil
         }

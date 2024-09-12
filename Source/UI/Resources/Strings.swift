@@ -194,9 +194,9 @@ enum Strings {
             static let manual = NSLocalizedString("call_options.recording_manual", comment: "Manual")
         }
 
-        enum CallOptionsSection {
+        enum DurationSection {
 
-            static let title = NSLocalizedString("call_options.other_options_section", comment: "Other Options")
+            static let title = NSLocalizedString("call_options.call_duration", comment: "")
             static let duration = NSLocalizedString("call_options.call_duration", comment: "Call duration")
         }
 
@@ -212,7 +212,7 @@ enum Strings {
             static let enabled = NSLocalizedString("call_options.rating_enabled", comment: "Enable rating")
         }
 
-        enum CallPresentationMode {
+        enum PresentationMode {
             static let title = NSLocalizedString("call_options.call_presentation_mode_title", comment: "Call UI presentation mode")
             static let fullscreen = NSLocalizedString("call_options.call_presentation_mode_fullscreen", comment: "Fullscreen")
             static let pip = NSLocalizedString("call_options.call_presentation_mode_pip", comment: "Picture in picture")
