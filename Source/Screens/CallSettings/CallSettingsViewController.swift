@@ -88,7 +88,7 @@ private extension SectionedTableDataSource {
                                          selected: model.settings.recording,
                                          optionName: RecordingPresenter.optionName(_:),
                                          onChange: { model.settings.recording = $0 }),
-            SecretKeySection(header: Strings.CallSettings.DurationSection.title, key: "\(model.settings.maximumDuration)", onChange: { model.settings.maximumDuration = UInt($0) ?? 0 }),
+            TextFieldSection(header: Strings.CallSettings.DurationSection.title, value: "\(model.settings.maximumDuration)", onChange: { model.settings.maximumDuration = UInt($0) ?? 0 }),
             ToggleSection(header: Strings.CallSettings.GroupSection.title, description: Strings.CallSettings.GroupSection.conference, value: model.settings.isGroup, onChange: { model.settings.isGroup = $0 }),
             ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: model.settings.showsRating, onChange: { model.settings.showsRating = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: model.settings.presentationMode, optionName: PresentationModePresenter.optionName(_:), onChange: { model.settings.presentationMode = $0 })

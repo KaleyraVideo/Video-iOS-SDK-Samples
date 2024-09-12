@@ -186,8 +186,8 @@ private extension SectionedTableDataSource {
         .init(sections: [
             SingleChoiceTableViewSection(header: Strings.Setup.RegionSection.title, options: Config.Region.allCases, selected: model.region, optionName: RegionPresenter.localizedName, onChange: { newRegion in model.region = newRegion }),
             SingleChoiceTableViewSection(header: Strings.Setup.EnvironmentSection.title, options: Config.Environment.allCases, selected: model.environment, optionName: EnvironmentPresenter.localizedName, onChange: { newEnv in model.environment = newEnv }),
-            SecretKeySection(header: Strings.Setup.AppIdSection.title, key: model.keys.appId, footer: Strings.Setup.AppIdSection.footer, onChange: { key in model.keys.appId = key }),
-            SecretKeySection(header: Strings.Setup.ApiKeySection.title, key: model.keys.apiKey, footer: Strings.Setup.ApiKeySection.footer, onChange: { key in model.keys.apiKey = key }),
+            TextFieldSection(header: Strings.Setup.AppIdSection.title, value: model.keys.appId, footer: Strings.Setup.AppIdSection.footer, onChange: { key in model.keys.appId = key }),
+            TextFieldSection(header: Strings.Setup.ApiKeySection.title, value: model.keys.apiKey, footer: Strings.Setup.ApiKeySection.footer, onChange: { key in model.keys.apiKey = key }),
             ToggleSection(header: Strings.Setup.UserDetailsSection.title, description: Strings.Setup.UserDetailsSection.cellTitle, value: model.showsUserInfo, onChange: { showsUserInfo in model.showsUserInfo = showsUserInfo }),
             ToolsSection(config: model.toolsConfig, onChange: { newConfig in model.toolsConfig = newConfig }),
             VoipSection(config: model.voipConfig, disableDirectIncomingCalls: model.disableDirectIncomingCalls, onChange: { newConfig, disableDirectIncomingCalls in

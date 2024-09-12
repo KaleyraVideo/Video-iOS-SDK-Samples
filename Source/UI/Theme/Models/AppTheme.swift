@@ -50,17 +50,17 @@ class AppTheme: NSObject, Codable{
         lhs.id == rhs.id
     }
 
-    func setValue<T: RawRepresentable>(_ value: T, forKey key: String) where T.RawValue == Int {
-        super.setValue(NSNumber(value: value.rawValue), forKey: key)
+    func setValue<T: RawRepresentable>(_ value: T, forKey value: String) where T.RawValue == Int {
+        super.setValue(NSNumber(value: value.rawValue), forKey: value)
     }
 
-    override func setValue(_ value: Any?, forKey key: String) {
+    override func setValue(_ value: Any?, forKey value: String) {
         if let barStyle = value as? UIBarStyle {
-            setValue(barStyle, forKey: key)
+            setValue(barStyle, forKey: value)
         } else if let keyboardApp = value as? UIKeyboardAppearance {
-            setValue(keyboardApp, forKey: key)
+            setValue(keyboardApp, forKey: value)
         } else {
-            super.setValue(value, forKey: key)
+            super.setValue(value, forKey: value)
         }
     }
 

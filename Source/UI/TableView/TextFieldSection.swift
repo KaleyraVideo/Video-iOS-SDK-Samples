@@ -4,22 +4,22 @@
 import Foundation
 import UIKit
 
-final class SecretKeySection: TableViewSection {
+final class TextFieldSection: TableViewSection {
 
     private let header: String
-    private var key: String {
+    private var value: String {
         didSet {
-            guard key != oldValue else { return }
+            guard value != oldValue else { return }
 
-            onChange(key)
+            onChange(value)
         }
     }
     private let footer: String?
     private let onChange: (String) -> Void
 
-    init(header: String, key: String, footer: String? = nil, onChange: @escaping (String) -> Void) {
+    init(header: String, value: String, footer: String? = nil, onChange: @escaping (String) -> Void) {
         self.header = header
-        self.key = key
+        self.value = value
         self.footer = footer
         self.onChange = onChange
     }
@@ -42,9 +42,9 @@ final class SecretKeySection: TableViewSection {
 
     func cellForRowAt(indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
         let cell: TextFieldTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.text = key
+        cell.text = value
         cell.onTextChanged = { [weak self] text in
-            self?.key = text ?? ""
+            self?.value = text ?? ""
         }
         return cell
     }
