@@ -58,14 +58,14 @@ struct QRCode {
     }
 
     private static func parseEnvironment(_ string: String) throws -> Config.Environment {
-        guard let env = Config.Environment(rawValue: string) else {
+        guard let env = Config.Environment(string) else {
             throw ParseError.invalidEnvironment
         }
         return env
     }
 
     private static func parseRegion(_ string: String) throws -> Config.Region {
-        guard let region = Config.Region(rawValue: string) else {
+        guard let region = Config.Region(string) else {
             throw ParseError.invalidRegion
         }
         return region

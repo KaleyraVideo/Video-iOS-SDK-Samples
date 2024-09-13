@@ -8,12 +8,12 @@ struct Config: Codable {
 
     static var logLevel: LogLevel = .all
 
-    let keys: Config.Keys
-    let environment: Config.Environment
-    let region: Config.Region
-    let showUserInfo: Bool
-    let disableDirectIncomingCalls: Bool
-    let voip: Config.VoIP
+    var keys: Config.Keys
+    var environment: Config.Environment
+    var region: Config.Region
+    var showUserInfo: Bool
+    var disableDirectIncomingCalls: Bool
+    var voip: Config.VoIP
 
     init(keys: Config.Keys,
          showUserInfo: Bool = true,

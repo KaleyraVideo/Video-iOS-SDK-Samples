@@ -53,7 +53,7 @@ final class SetupCoordinator: BaseCoordinator {
         let controller = factory.makeRegionSelectionViewController { [weak self] region in
             guard let self else { return }
 
-            if Config.Environment.environmentsFor(region: region).count > 1 {
+            if region.availableEnvironments.count > 1 {
                 self.goToEnvironmentSelection(region: region)
             } else {
                 self.goToCompanySelection(region: region, environment: .production)

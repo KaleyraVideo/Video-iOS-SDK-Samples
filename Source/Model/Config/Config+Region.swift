@@ -6,29 +6,48 @@ import KaleyraVideoSDK
 
 extension Config {
 
-    enum Region: String, Codable, CustomStringConvertible, CaseIterable {
+    enum Region: String, CaseIterable {
         case europe
         case india
         case us
         case middleEast
+    }
+}
 
-        init?(rawValue: String) {
-            switch rawValue.lowercased() {
-                case "europe", "eu":
-                    self = .europe
-                case "india", "in":
-                    self = .india
-                case "us":
-                    self = .us
-                case "middleEast", "me":
-                    self = .middleEast
-                default:
-                    return nil
-            }
+extension Config.Region: Codable {}
+
+extension Config.Region: LosslessStringConvertible {
+
+    var description: String { rawValue }
+
+    init?(_ rawValue: String) {
+        switch rawValue.lowercased() {
+            case "europe", "eu":
+                self = .europe
+            case "india", "in":
+                self = .india
+            case "us":
+                self = .us
+            case "middleeast", "me":
+                self = .middleEast
+            default:
+                return nil
         }
+    }
+}
 
-        var description: String {
-            rawValue
+extension Config.Region {
+
+    var availableEnvironments: [Config.Environment] {
+        switch self {
+            case .europe:
+                Config.Environment.allCases
+            case .india:
+                [.production]
+            case .us:
+                [.production]
+            case .middleEast:
+                [.production]
         }
     }
 }

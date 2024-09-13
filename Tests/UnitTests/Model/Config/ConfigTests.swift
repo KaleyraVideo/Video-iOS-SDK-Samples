@@ -31,25 +31,36 @@ final class ConfigTests: UnitTestCase {
     // MARK: - Base URL
 
     func testBaseURL() {
-        assertBaseURL(environment: .production, region: .europe, equalTo: "https://cs.eu.bandyer.com")
-        assertBaseURL(environment: .sandbox, region: .europe, equalTo: "https://cs.sandbox.eu.bandyer.com")
-        assertBaseURL(environment: .development, region: .europe, equalTo: "https://cs.development.eu.bandyer.com")
+        zip(Config.Environment.allCases, Config.Region.allCases).forEach { tuple in
+            switch tuple {
+                case (.production, .europe):
+                    assertBaseURL(tuple, equalTo: "https://cs.eu.bandyer.com")
+                case (.sandbox, .europe): 
+                    assertBaseURL(tuple, equalTo: "https://cs.sandbox.eu.bandyer.com")
+                case (.development, .europe):
+                    assertBaseURL(tuple, equalTo: "https://cs.development.eu.bandyer.com")
+                case (.production, .india):
+                    assertBaseURL(tuple, equalTo: "https://cs.in.bandyer.com")
+                case (.sandbox, .india):
+                    assertBaseURL(tuple, equalTo: "https://cs.sandbox.in.bandyer.com")
+                case (.development, .india):
+                    assertBaseURL(tuple, equalTo: "https://cs.development.in.bandyer.com")
+                case (.production, .us):
+                    assertBaseURL(tuple, equalTo: "https://cs.us.bandyer.com")
+                case (.sandbox, .us):
+                    assertBaseURL(tuple, equalTo: "https://cs.sandbox.us.bandyer.com")
+                case (.development, .us):
+                    assertBaseURL(tuple, equalTo: "https://cs.development.us.bandyer.com")
+                case (.production, .middleEast):
+                    assertBaseURL(tuple, equalTo: "https://cs.me.bandyer.com")
+                case (.sandbox, .middleEast):
+                    assertBaseURL(tuple, equalTo: "https://cs.sandbox.me.bandyer.com")
+                case (.development, .middleEast):
+                    assertBaseURL(tuple, equalTo: "https://cs.development.me.bandyer.com")
+            }
+        }
 
-        assertBaseURL(environment: .production, region: .india, equalTo: "https://cs.in.bandyer.com")
-        assertBaseURL(environment: .sandbox, region: .india, equalTo: "https://cs.sandbox.in.bandyer.com")
-        assertBaseURL(environment: .development, region: .india, equalTo: "https://cs.development.in.bandyer.com")
 
-        assertBaseURL(environment: .production, region: .us, equalTo: "https://cs.us.bandyer.com")
-        assertBaseURL(environment: .sandbox, region: .us, equalTo: "https://cs.sandbox.us.bandyer.com")
-        assertBaseURL(environment: .development, region: .us, equalTo: "https://cs.development.us.bandyer.com")
-    }
-
-    // MARK: - Environment
-
-    func testEnvironmentsForRegion() {
-        assertThat(Config.Environment.environmentsFor(region: .europe), equalTo([.production, .sandbox, .development]))
-        assertThat(Config.Environment.environmentsFor(region: .india), equalTo([.production]))
-        assertThat(Config.Environment.environmentsFor(region: .us), equalTo([.production]))
     }
 
     // MARK: - Decodable
@@ -164,11 +175,10 @@ final class ConfigTests: UnitTestCase {
 
     // MARK: - Assertions
 
-    private func assertBaseURL(environment: Config.Environment,
-                               region: Config.Region,
+    private func assertBaseURL(_ tuple: (environment: Config.Environment, region: Config.Region),
                                equalTo expectedURL: String,
                                file: StaticString = #filePath,
                                line: UInt = #line) {
-        assertThat(makeSUT(environment: environment, region: region).baseURL, equalTo(URL(string: expectedURL)), file: file, line: line)
+        assertThat(makeSUT(environment: tuple.environment, region: tuple.region).baseURL, equalTo(URL(string: expectedURL)), file: file, line: line)
     }
 }

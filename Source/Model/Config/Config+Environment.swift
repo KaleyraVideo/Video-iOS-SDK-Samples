@@ -6,42 +6,32 @@ import KaleyraVideoSDK
 
 extension Config {
 
-    enum Environment: String, Codable, CustomStringConvertible, CaseIterable {
+    enum Environment: String, CaseIterable {
         case production
         case sandbox
         case development
+    }
+}
 
-        init?(rawValue: String) {
-            switch rawValue.lowercased() {
-                case "production", "prod":
-                    self = .production
-                case "sandbox":
-                    self = .sandbox
-                case "develop", "development":
-                    self = .development
-                default:
-                    return nil
-            }
-        }
+extension Config.Environment: LosslessStringConvertible {
 
-        var description: String {
-            rawValue
-        }
+    var description: String { rawValue }
 
-        static func environmentsFor(region: Region) -> [Environment] {
-            switch region {
-                case .europe:
-                    return Environment.allCases
-                case .india:
-                    return [.production]
-                case .us:
-                    return [.production]
-                case .middleEast:
-                    return [.production]
-            }
+    init?(_ rawValue: String) {
+        switch rawValue.lowercased() {
+            case "production", "prod":
+                self = .production
+            case "sandbox":
+                self = .sandbox
+            case "develop", "development":
+                self = .development
+            default:
+                return nil
         }
     }
 }
+
+extension Config.Environment: Codable {}
 
 extension Config.Environment {
 
@@ -51,14 +41,8 @@ extension Config.Environment {
                 return .production
             case .sandbox:
                 return .sandbox
-//#if DEBUG
-//            case .development:
-//                return .develop
-//#else
             case .development:
                 return .init("develop")
-//#endif
-
         }
     }
 }

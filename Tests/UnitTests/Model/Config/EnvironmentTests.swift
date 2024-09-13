@@ -8,19 +8,16 @@ import KaleyraTestKit
 
 final class EnvironmentTests: UnitTestCase {
 
+    private typealias SUT = Config.Environment
+
     func testInitFromString() {
-        assertThat(Config.Environment(rawValue: "production"), equalTo(.production))
-        assertThat(Config.Environment(rawValue: "sandbox"), equalTo(.sandbox))
-
-#if DEBUG
-        assertThat(Config.Environment(rawValue: "develop"), equalTo(.development))
-        assertThat(Config.Environment(rawValue: "development"), equalTo(.development))
-#endif
-    }
-
-    func testEnvironmentsForRegion() {
-        assertThat(Config.Environment.environmentsFor(region: .europe), equalTo(Config.Environment.allCases))
-        assertThat(Config.Environment.environmentsFor(region: .india), equalTo([.production]))
-        assertThat(Config.Environment.environmentsFor(region: .us), equalTo([.production]))
+        assertThat(SUT("production"), equalTo(.production))
+        assertThat(SUT("PRODUCTION"), equalTo(.production))
+        assertThat(SUT("prod"), equalTo(.production))
+        assertThat(SUT("sandbox"), equalTo(.sandbox))
+        assertThat(SUT("SANDBOX"), equalTo(.sandbox))
+        assertThat(SUT("develop"), equalTo(.development))
+        assertThat(SUT("development"), equalTo(.development))
+        assertThat(SUT("DEVELOPMENT"), equalTo(.development))
     }
 }
