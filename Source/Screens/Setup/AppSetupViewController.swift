@@ -121,7 +121,6 @@ final class AppSetupViewController: UITableViewController {
     private func setupTableView() {
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         dataSource.registerReusableCells(tableView)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
@@ -129,15 +128,9 @@ final class AppSetupViewController: UITableViewController {
     }
 
     private func setupTableViewFooter() {
-        let footer = ButtonTableFooter(frame: .init(x: 0, y: 0, width: 150, height: 50))
-        footer.buttonTitle = Strings.Setup.confirm
-        footer.buttonAction = { [weak self] in
-            guard let self = self else { return }
-
-            self.onConfirmButtonTouched()
+        tableView.tableFooterView = ButtonTableFooter(title: Strings.Setup.confirm) { [weak self] in
+            self?.onConfirmButtonTouched()
         }
-
-        tableView.tableFooterView = footer
     }
 
     private func onConfirmButtonTouched() {

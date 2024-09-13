@@ -46,10 +46,6 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
         sut.loadViewIfNeeded()
 
         assertThat(sut.tableView.style, equalTo(.insetGrouped))
-        assertThat(sut.tableView.contentInset.top, equalTo(0))
-        assertThat(sut.tableView.contentInset.left, equalTo(0))
-        assertThat(sut.tableView.contentInset.right, equalTo(0))
-        assertThat(sut.tableView.contentInset.bottom, equalTo(20))
     }
 
     func testLoadViewShouldReloadData() {

@@ -49,18 +49,12 @@ final class CallSettingsViewController: UITableViewController {
     }
 
     private func setupTableView() {
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
         dataSource.registerReusableCells(tableView)
-        let footer = ButtonTableFooter(frame: .init(x: 0, y: 0, width: 150, height: 50))
-        footer.buttonTitle = Strings.CallSettings.confirm
-        footer.buttonAction = { [weak self] in
-            guard let self else { return }
-
-            self.dismiss(animated: true, completion: nil)
+        tableView.tableFooterView = ButtonTableFooter(title: Strings.CallSettings.confirm) { [weak self] in
+            self?.dismiss(animated: true)
         }
-        tableView.tableFooterView = footer
     }
 
     // MARK: - View will disappear

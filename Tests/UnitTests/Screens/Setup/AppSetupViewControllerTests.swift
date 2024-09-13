@@ -27,15 +27,6 @@ final class AppSetupViewControllerTests: UnitTestCase {
         assertThat(sut.title, equalTo(Strings.Setup.title))
     }
 
-    func testTableViewContentInsetHasABottomPadding() {
-        let sut = makeSUT()
-
-        assertThat(sut.tableView?.contentInset.top, equalTo(0))
-        assertThat(sut.tableView?.contentInset.left, equalTo(0))
-        assertThat(sut.tableView?.contentInset.right, equalTo(0))
-        assertThat(sut.tableView?.contentInset.bottom, equalTo(20))
-    }
-
     func testSetupsSectionsAndSectionRows() {
         let sut = makeSUT()
 

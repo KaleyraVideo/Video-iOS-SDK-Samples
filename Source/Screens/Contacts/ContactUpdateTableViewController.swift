@@ -48,17 +48,13 @@ final class ContactUpdateTableViewController: UITableViewController {
 
     private func setupTableView() {
         tableView.registerReusableCell(TextFieldTableViewCell.self)
-        let footer = ButtonTableFooter(frame: .init(x: 0, y: 0, width: 150, height: 50))
-        footer.buttonTitle = Strings.ContactUpdate.confirm
-        footer.buttonAction = { [weak self] in
+        tableView.tableFooterView = ButtonTableFooter(title: Strings.ContactUpdate.confirm) { [weak self] in
             guard let self = self else { return }
 
             self.saveChanges()
             self.onDismiss?(self.contact)
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true)
         }
-
-        tableView.tableFooterView = footer
     }
 
     private func saveChanges() {
