@@ -9,18 +9,28 @@ import KaleyraTestHelpers
 
 final class URLSessionHTTPClientTests: UnitTestCase {
 
+    private var sut: URLSessionHTTPClient!
+
+    override func setUp() {
+        super.setUp()
+
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [URLProtocolStub.self]
+        sut = .init(session: .init(configuration: configuration))
+    }
+
     override func tearDown() {
         URLProtocolStub.reset()
+        sut = nil
         super.tearDown()
     }
 
     func testGetRequestStartsURLRequest() {
-        let sut = makeSUT()
         let exp = expectation(description: "Waiting for request to start")
 
         let request = makeARequest()
-        URLProtocolStub.observeRequests { (issuedRequest) in
-            XCTAssertEqual(issuedRequest, request)
+        URLProtocolStub.observeRequests { issuedRequest in
+            assertThat(issuedRequest, equalTo(request))
             exp.fulfill()
         }
 
@@ -30,16 +40,15 @@ final class URLSessionHTTPClientTests: UnitTestCase {
     }
 
     func testPostRequestStartsURLRequest() {
-        let sut = makeSUT()
         let exp = expectation(description: "Waiting for request to start")
 
         let request = makeARequest()
-        URLProtocolStub.observeRequests { (issuedRequest) in
+        URLProtocolStub.observeRequests { issuedRequest in
             assertThat(issuedRequest.url, equalTo(request.url))
             exp.fulfill()
         }
 
-        let _ = sut.post(.init(url: anyURL())) { _ in }
+        let _ = sut.post(.init(url: .kaleyra)) { _ in }
 
         wait(for: [exp], timeout: 5)
     }
@@ -49,7 +58,7 @@ final class URLSessionHTTPClientTests: UnitTestCase {
 
         let error = startRequest(simulatingFailure: expectedError)
 
-        XCTAssertNotNil(error)
+        assertThat(error, present())
     }
 
     func testGetRequestReportsErrorWhenAnErrorIsReceivedAlongsideAnHttpResponse() {
@@ -59,7 +68,7 @@ final class URLSessionHTTPClientTests: UnitTestCase {
 
         let error = startRequest(simulatingHTTPResponse: failureResponse, data: emptyData, error: receivedError)
 
-        XCTAssertNotNil(error)
+        assertThat(error, present())
     }
 
     func testGetRequestReportsSuccessWhenSuccessfulHTTPResponseIsReceivedWithEmptyData() {
@@ -68,10 +77,10 @@ final class URLSessionHTTPClientTests: UnitTestCase {
 
         let result = startRequest(simulatingHTTPResponse: successResponse, data: emptyData)
 
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.response.statusCode, successResponse.statusCode)
-        XCTAssertEqual(result?.response.url, successResponse.url)
-        XCTAssertEqual(result?.data, emptyData)
+        assertThat(result, present())
+        assertThat(result?.response.statusCode, equalTo(successResponse.statusCode))
+        assertThat(result?.response.url, equalTo(successResponse.url))
+        assertThat(result?.data, equalTo(emptyData))
     }
 
     func testGetRequestReportsSuccessWhenNonSuccessfulHTTPResponseIsReceived() {
@@ -80,10 +89,10 @@ final class URLSessionHTTPClientTests: UnitTestCase {
 
         let result = startRequest(simulatingHTTPResponse: failureResponse, data: emptyData)
 
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.response.statusCode, failureResponse.statusCode)
-        XCTAssertEqual(result?.response.url, failureResponse.url)
-        XCTAssertEqual(result?.data, emptyData)
+        assertThat(result, present())
+        assertThat(result?.response.statusCode, equalTo(failureResponse.statusCode))
+        assertThat(result?.response.url, equalTo(failureResponse.url))
+        assertThat(result?.data, equalTo(emptyData))
     }
 
     func testGetRequestReportsSuccessWhenAnyHTTPResponseIsReceivedWithNilData() {
@@ -91,10 +100,10 @@ final class URLSessionHTTPClientTests: UnitTestCase {
 
         let result = startRequest(simulatingHTTPResponse: failureResponse, data: nil)
 
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.response.statusCode, failureResponse.statusCode)
-        XCTAssertEqual(result?.response.url, failureResponse.url)
-        XCTAssertEqual(result?.data, Data())
+        assertThat(result, present())
+        assertThat(result?.response.statusCode, equalTo(failureResponse.statusCode))
+        assertThat(result?.response.url, equalTo(failureResponse.url))
+        assertThat(result?.data, equalTo(Data()))
     }
 
     func testGetRequestReportsFailureWhenNonHTTPResponseIsReceived() {
@@ -102,35 +111,33 @@ final class URLSessionHTTPClientTests: UnitTestCase {
 
         let error = startRequest(simulatingResponse: nonHTTPResponse)
 
-        XCTAssertNotNil(error)
+        assertThat(error, present())
     }
 
     func testPostRequestHttpMethodIsPost() {
-        let sut = makeSUT()
         let exp = expectation(description: "Waiting for request to start")
 
-        URLProtocolStub.observeRequests { (issuedRequest) in
+        URLProtocolStub.observeRequests { issuedRequest in
             assertThat(issuedRequest.httpMethod, equalTo("POST"))
             exp.fulfill()
         }
 
-        let _ = sut.post(.init(url: anyURL())) { _ in }
+        let _ = sut.post(.init(url: .kaleyra)) { _ in }
 
         wait(for: [exp], timeout: 5)
     }
 
     func testPostRequestWithBodyCreatesARequestWithTheSameBody() throws {
-        let sut = makeSUT()
         let exp = expectation(description: "Waiting for request to start")
         let body = "postBody".data(using: .utf8)
 
-        URLProtocolStub.observeRequests { (issuedRequest) in
+        URLProtocolStub.observeRequests { issuedRequest in
             assertThat(issuedRequest.httpBodyStream, present())
             assertThat(try? Data(reading: issuedRequest.httpBodyStream!), presentAnd(equalTo(body)))
             exp.fulfill()
         }
 
-        var request = URLRequest(url: anyURL())
+        var request = URLRequest(url: .kaleyra)
         request.httpBody = body
         let _ = sut.post(request) { _ in }
 
@@ -196,7 +203,6 @@ final class URLSessionHTTPClientTests: UnitTestCase {
     }
 
     private func start(request: URLRequest, file: StaticString = #filePath, line: UInt = #line) -> HTTPClient.Result {
-        let sut = makeSUT()
         let exp = expectation(description: "Waiting for task completion")
         let request = makeARequest()
         var result: Result<(data: Data, httpResponse: HTTPURLResponse), Error>!
@@ -209,27 +215,20 @@ final class URLSessionHTTPClientTests: UnitTestCase {
         return result
     }
 
-    private func makeSUT() -> URLSessionHTTPClient {
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [URLProtocolStub.self]
-        let session = URLSession(configuration: configuration)
-        return URLSessionHTTPClient(session: session)
-    }
-
     private func makeARequest() -> URLRequest {
-        URLRequest(url: anyURL())
+        URLRequest(url: .kaleyra)
     }
 
     private func makeSuccessfulHTTPResponse() -> HTTPURLResponse {
-        HTTPURLResponse(url: anyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)!
+        HTTPURLResponse(url: .kaleyra, statusCode: 200, httpVersion: nil, headerFields: nil)!
     }
 
     private func makeUnsuccessfulHTTPResponse() -> HTTPURLResponse {
-        HTTPURLResponse(url: anyURL(), statusCode: 400, httpVersion: nil, headerFields: nil)!
+        HTTPURLResponse(url: .kaleyra, statusCode: 400, httpVersion: nil, headerFields: nil)!
     }
 
     private func makeNonHTTPResponse() -> URLResponse {
-        URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
+        URLResponse(url: .kaleyra, mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
     }
 }
 

@@ -20,7 +20,7 @@ final class URLSessionHTTPClient: HTTPClient {
     func post(_ request: URLRequest, completion: @escaping (HTTPClient.Result) -> Void) {
         var postRequest = request
         postRequest.httpMethod = "POST"
-        startTask(request, completion: completion)
+        startTask(postRequest, completion: completion)
     }
 
     private func startTask(_ request: URLRequest,

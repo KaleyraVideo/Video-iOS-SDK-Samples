@@ -8,14 +8,14 @@ final class VoIPNotificationsDetector: NSObject, PKPushRegistryDelegate {
 
     private let registryDelegate: PKPushRegistryDelegate
     private let config: Config.VoIP
-    private var appStateObserver: ApplicationStateChangeObservable
+    private var appStateObserver: ApplicationStateObserver
     private(set) var pushRegistry: PKPushRegistry?
 
     var isDetecting: Bool { pushRegistry != nil }
 
     init(registryDelegate: PKPushRegistryDelegate,
          config: Config.VoIP,
-         appStateObserver: ApplicationStateChangeObservable = ApplicationStateChangeObserver()) {
+         appStateObserver: ApplicationStateObserver = .init()) {
         self.registryDelegate = registryDelegate
         self.config = config
         self.appStateObserver = appStateObserver

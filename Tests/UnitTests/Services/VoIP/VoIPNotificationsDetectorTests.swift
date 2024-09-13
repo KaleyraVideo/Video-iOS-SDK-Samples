@@ -2,7 +2,9 @@
 // See LICENSE for licensing information
 
 import Foundation
+import UIKit
 import PushKit
+import Combine
 import SwiftHamcrest
 import KaleyraTestKit
 import KaleyraTestMatchers
@@ -12,19 +14,22 @@ import KaleyraTestHelpers
 final class VoIPNotificationsDetectorTests: UnitTestCase, ConditionalTestCase, CompletionSpyFactory {
 
     private var delegate: PushRegistryDelegateSpy!
-    private var applicationState: ApplicationStateMock!
+    private var fakeSubject: CurrentValueSubject<UIApplication.State, Never>!
+    private var applicationState: ApplicationStateObserver!
     private var payload: PKPushPayload!
 
     override func setUp() {
         super.setUp()
 
         delegate = .init()
-        applicationState = .init()
+        fakeSubject = .init(.active)
+        applicationState = .init(initialState: .active, publisher: fakeSubject)
         payload = .init()
     }
 
     override func tearDown() {
         payload = nil
+        fakeSubject = nil
         applicationState = nil
         delegate = nil
 
@@ -56,7 +61,7 @@ final class VoIPNotificationsDetectorTests: UnitTestCase, ConditionalTestCase, C
         let sut = makeSUT()
 
         sut.start()
-        applicationState.isCurrentAppStateBackground = true
+        fakeSubject.send(.background)
 
         assertThat((sut as PKPushRegistryDelegate).responds(to: #selector(PKPushRegistryDelegate.pushRegistry(_:didReceiveIncomingPushWith:for:completion:))), isTrue())
     }
@@ -65,7 +70,7 @@ final class VoIPNotificationsDetectorTests: UnitTestCase, ConditionalTestCase, C
         let sut = makeSUT()
 
         sut.start()
-        applicationState.isCurrentAppStateBackground = false
+        fakeSubject.send(.active)
 
         assertThat((sut as PKPushRegistryDelegate).responds(to: #selector(PKPushRegistryDelegate.pushRegistry(_:didReceiveIncomingPushWith:for:completion:))), isFalse())
     }
@@ -74,7 +79,7 @@ final class VoIPNotificationsDetectorTests: UnitTestCase, ConditionalTestCase, C
         let sut = makeSUT(config: .manual(strategy: .always))
 
         sut.start()
-        applicationState.isCurrentAppStateBackground = false
+        fakeSubject.send(.active)
 
         assertThat((sut as PKPushRegistryDelegate).responds(to: #selector(PKPushRegistryDelegate.pushRegistry(_:didReceiveIncomingPushWith:for:completion:))), isTrue())
     }
@@ -125,13 +130,5 @@ final class VoIPNotificationsDetectorTests: UnitTestCase, ConditionalTestCase, C
 
     private func makeSUT(config: Config.VoIP = .manual(strategy: .backgroundOnly)) -> VoIPNotificationsDetector {
         return .init(registryDelegate: delegate, config: config, appStateObserver: applicationState)
-    }
-
-    // MARK: - Doubles
-
-    private class ApplicationStateMock: ApplicationStateChangeObservable {
-
-        var isCurrentAppStateBackground: Bool = false
-        var listener: ApplicationStateChangeListener?
     }
 }
