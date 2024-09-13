@@ -55,6 +55,7 @@ final class SDKCoordinator: BaseCoordinator {
     func start(authentication: Authentication) {
         appSettings.$callSettings.sink { [weak self] in
             self?.sdk.conference?.settings.speakerOverride = $0.speakerOverride
+            self?.sdk.conference?.settings.tools = $0.tools.asSDKSettings
             self?.sdk.conference?.settings.camera = $0.cameraPosition == .front ? .front : .back
         }.store(in: &subscriptions)
 

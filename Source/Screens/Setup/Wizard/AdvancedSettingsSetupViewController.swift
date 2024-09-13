@@ -6,16 +6,13 @@ import UIKit
 
 class AdvancedSettingsViewModel {
 
-    var toolsConfig: Config.Tools
     var voipConfig: Config.VoIP
     var disableDirectIncomingCalls: Bool
     var showsUserInfo: Bool
 
-    init(toolsConfig: Config.Tools = .default,
-         voipConfig: Config.VoIP = .default,
+    init(voipConfig: Config.VoIP = .default,
          disableDirectIncomingCalls: Bool = false,
          showUserInfo: Bool = true) {
-        self.toolsConfig = toolsConfig
         self.voipConfig = voipConfig
         self.disableDirectIncomingCalls = disableDirectIncomingCalls
         self.showsUserInfo = showUserInfo
@@ -105,7 +102,6 @@ private class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
 
     static func makeDataSource(for model: AdvancedSettingsViewModel) -> DataSource {
         .init(sections: [
-            ToolsSection(config: model.toolsConfig, onChange: { newConfig in model.toolsConfig = newConfig}),
             VoipSection(config: model.voipConfig, disableDirectIncomingCalls: model.disableDirectIncomingCalls, onChange: { newConfig, disableDirectIncomingCalls in
                 model.voipConfig = newConfig
                 model.disableDirectIncomingCalls = disableDirectIncomingCalls

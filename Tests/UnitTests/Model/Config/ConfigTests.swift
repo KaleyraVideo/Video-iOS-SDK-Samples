@@ -54,52 +54,6 @@ final class ConfigTests: UnitTestCase {
 
     // MARK: - Decodable
 
-    func testDecodesInstanceFromDataContainingAllOptions() throws {
-        var tools = Config.Tools()
-        tools.isChatEnabled = true
-        tools.isScreenshareEnabled = true
-        tools.isFileshareEnabled = true
-        tools.isWhiteboardEnabled = true
-        tools.isBroadcastEnabled = true
-
-        let json = """
-        {
-            "keys" : {
-                "appId" : "mAppId_32d6da9f24c1b7s01bd2c61a",
-                "apiKey" : "ak_live_18ad4c1f9dae593b114b6e3f"
-            },
-            "environment" : "sandbox",
-            "region" : "india",
-            "showUserInfo" : true,
-            "tools" : {
-                "isChatEnabled" : true,
-                "isScreenshareEnabled" : true,
-                "isFileshareEnabled" : true,
-                "isWhiteboardEnabled" : true,
-                "isBroadcastEnabled" : true
-            },
-            "disableDirectIncomingCalls" : true,
-            "voip": {
-                "manual": {
-                    "strategy" : {
-                        "backgroundOnly" : {}
-                    }
-                }
-            }
-        }
-        """
-
-        let decoded = try decode(json)
-
-        assertThat(decoded.keys, equalTo(.any))
-        assertThat(decoded.environment, equalTo(.sandbox))
-        assertThat(decoded.region, equalTo(.india))
-        assertThat(decoded.showUserInfo, isTrue())
-        assertThat(decoded.disableDirectIncomingCalls, isTrue())
-        assertThat(decoded.voip, equalTo(.manual(strategy: .backgroundOnly)))
-        assertThat(decoded.tools, equalTo(tools))
-    }
-
     func testDecodesConfigUsingDefaultVoIPConfigurationWhenVoIPConfigIsMissing() throws {
         let json = """
         {
@@ -108,14 +62,7 @@ final class ConfigTests: UnitTestCase {
                 "apiKey" : "ak_live_18ad4c1f9dae593b114b6e3f"
             },
             "environment" : "sandbox",
-            "showUserInfo" : true,
-            "tools" : {
-                "isChatEnabled" : true,
-                "isScreenshareEnabled" : true,
-                "isFileshareEnabled" : true,
-                "isWhiteboardEnabled" : true,
-                "isBroadcastEnabled" : true
-            }
+            "showUserInfo" : true
         }
         """
 
@@ -133,14 +80,7 @@ final class ConfigTests: UnitTestCase {
             },
             "environment" : "sandbox",
             "showUserInfo" : true,
-            "manuallyHandleVoIPNotifications" : true,
-            "tools" : {
-                "isChatEnabled" : true,
-                "isScreenshareEnabled" : true,
-                "isFileshareEnabled" : true,
-                "isWhiteboardEnabled" : true,
-                "isBroadcastEnabled" : true
-            }
+            "manuallyHandleVoIPNotifications" : true
         }
         """
 
@@ -159,14 +99,7 @@ final class ConfigTests: UnitTestCase {
             "environment" : "sandbox",
             "region" : "india",
             "showUserInfo" : true,
-            "manuallyHandleVoIPNotifications" : true,
-            "tools" : {
-                "isChatEnabled" : true,
-                "isScreenshareEnabled" : true,
-                "isFileshareEnabled" : true,
-                "isWhiteboardEnabled" : true,
-                "isBroadcastEnabled" : true
-            }
+            "manuallyHandleVoIPNotifications" : true
         }
         """
 
@@ -185,14 +118,7 @@ final class ConfigTests: UnitTestCase {
             "environment" : "sandbox",
             "region" : "india",
             "showUserInfo" : true,
-            "manuallyHandleVoIPNotifications" : true,
-            "tools" : {
-                "isChatEnabled" : true,
-                "isScreenshareEnabled" : true,
-                "isFileshareEnabled" : true,
-                "isWhiteboardEnabled" : true,
-                "isBroadcastEnabled" : true
-            }
+            "manuallyHandleVoIPNotifications" : true
         }
         """
 
@@ -209,14 +135,7 @@ final class ConfigTests: UnitTestCase {
             "environment" : "sandbox",
             "region" : "india",
             "showUserInfo" : true,
-            "manuallyHandleVoIPNotifications" : true,
-            "tools" : {
-                "isChatEnabled" : true,
-                "isScreenshareEnabled" : true,
-                "isFileshareEnabled" : true,
-                "isWhiteboardEnabled" : true,
-                "isBroadcastEnabled" : true
-            }
+            "manuallyHandleVoIPNotifications" : true
         }
         """
 
@@ -230,15 +149,13 @@ final class ConfigTests: UnitTestCase {
                          environment: Config.Environment = .sandbox,
                          region: Config.Region = .europe,
                          disableDirectIncomingCalls: Bool = false,
-                         voip: Config.VoIP = .automatic(strategy: .backgroundOnly),
-                         tools: Config.Tools = .default) -> Config {
+                         voip: Config.VoIP = .automatic(strategy: .backgroundOnly)) -> Config {
         .init(keys: keys,
               showUserInfo: showsUserInfo,
               environment: environment,
               region: region,
               disableDirectIncomingCalls: disableDirectIncomingCalls,
-              voip: voip,
-              tools: tools)
+              voip: voip)
     }
 
     private func decode(_ json: String) throws -> Config {

@@ -6,7 +6,7 @@ import UIKit
 
 final class ToolsSection: TableViewSection {
 
-    private(set) var config: Config.Tools {
+    private(set) var config: CallSettings.Tools {
         didSet {
             guard config != oldValue else { return }
 
@@ -14,9 +14,9 @@ final class ToolsSection: TableViewSection {
         }
     }
 
-    private let onChange: (Config.Tools) -> Void
+    private let onChange: (CallSettings.Tools) -> Void
 
-    init(config: Config.Tools, onChange: @escaping (Config.Tools) -> Void) {
+    init(config: CallSettings.Tools, onChange: @escaping (CallSettings.Tools) -> Void) {
         self.config = config
         self.onChange = onChange
     }

@@ -90,6 +90,7 @@ private extension SectionedTableDataSource {
                                          onChange: { model.settings.recording = $0 }),
             TextFieldSection(header: Strings.CallSettings.DurationSection.title, value: "\(model.settings.maximumDuration)", onChange: { model.settings.maximumDuration = UInt($0) ?? 0 }),
             ToggleSection(header: Strings.CallSettings.GroupSection.title, description: Strings.CallSettings.GroupSection.conference, value: model.settings.isGroup, onChange: { model.settings.isGroup = $0 }),
+            ToolsSection(config: model.settings.tools, onChange: { model.settings.tools = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.CameraSection.title,
                                          options: [CallSettings.CameraPosition.front, CallSettings.CameraPosition.back],
                                          selected: model.settings.cameraPosition,

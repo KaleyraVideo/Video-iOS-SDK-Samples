@@ -12,8 +12,7 @@ final class AdvancedSettingsSetupViewControllerTests: UnitTestCase {
     func testSetupsSectionsAndSectionRows() {
         let sut = makeSUT()
 
-        assertThat(sut.numberOfSections(), equalTo(3))
-        assertThat(sut.numberOfRowsInToolsSection(), equalTo(5))
+        assertThat(sut.numberOfSections(), equalTo(2))
         assertThat(sut.numberOfRowsInVoIPSection(), equalTo(4))
         assertThat(sut.numberOfRowsInUserDetailsSection(), equalTo(1))
     }
@@ -99,14 +98,13 @@ final class AdvancedSettingsSetupViewControllerTests: UnitTestCase {
     }
 
     private func makeSUT(voipConfig: Config.VoIP, showUserInfo: Bool = true) -> AdvancedSettingsSetupViewController {
-        .init(model: .init(toolsConfig: .init(), voipConfig: voipConfig, disableDirectIncomingCalls: false, showUserInfo: showUserInfo))
+        .init(model: .init(voipConfig: voipConfig, disableDirectIncomingCalls: false, showUserInfo: showUserInfo))
     }
 }
 
 private extension AdvancedSettingsSetupViewController {
 
     private enum Section: Int {
-        case tools
         case voip
         case userDetails
     }
@@ -119,10 +117,6 @@ private extension AdvancedSettingsSetupViewController {
 
     func numberOfRowsInUserDetailsSection() -> Int {
         numberOfRowsInSection(.userDetails)
-    }
-
-    func numberOfRowsInToolsSection() -> Int {
-        numberOfRowsInSection(.tools)
     }
 
     func numberOfRowsInVoIPSection() -> Int {

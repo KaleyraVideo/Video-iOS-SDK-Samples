@@ -4,6 +4,7 @@
 import XCTest
 import SwiftHamcrest
 import KaleyraTestKit
+import KaleyraTestHelpers
 import KaleyraTestMatchers
 @testable import SDK_Sample
 

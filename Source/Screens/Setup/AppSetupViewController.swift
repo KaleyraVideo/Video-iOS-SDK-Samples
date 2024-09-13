@@ -44,7 +44,6 @@ final class AppSetupViewController: UITableViewController {
         var environment: Config.Environment
         var keys: Keys
         var showsUserInfo: Bool
-        var toolsConfig: Config.Tools
         var voipConfig: Config.VoIP
         var disableDirectIncomingCalls: Bool
 
@@ -53,14 +52,12 @@ final class AppSetupViewController: UITableViewController {
         init(keys: Keys = .empty,
              environment: Config.Environment = .sandbox,
              region: Config.Region = .europe,
-             toolsConfig: Config.Tools = .default,
              voipConfig: Config.VoIP = .default,
              disableDirectIncomingCalls: Bool = false,
              showsUserInfo: Bool = true) {
             self.keys = keys
             self.environment = environment
             self.region = region
-            self.toolsConfig = toolsConfig
             self.voipConfig = voipConfig
             self.disableDirectIncomingCalls = disableDirectIncomingCalls
             self.showsUserInfo = showsUserInfo
@@ -71,7 +68,6 @@ final class AppSetupViewController: UITableViewController {
             self.init(keys: .init(keys: conf.keys),
                       environment: conf.environment,
                       region: conf.region,
-                      toolsConfig: conf.tools,
                       voipConfig: conf.voip,
                       disableDirectIncomingCalls: conf.disableDirectIncomingCalls,
                       showsUserInfo: conf.showUserInfo)
@@ -83,8 +79,7 @@ final class AppSetupViewController: UITableViewController {
                   environment: environment,
                   region: region,
                   disableDirectIncomingCalls: disableDirectIncomingCalls,
-                  voip: voipConfig,
-                  tools: toolsConfig)
+                  voip: voipConfig)
         }
     }
 
@@ -187,7 +182,6 @@ private extension SectionedTableDataSource {
             TextFieldSection(header: Strings.Setup.AppIdSection.title, value: model.keys.appId, footer: Strings.Setup.AppIdSection.footer, onChange: { key in model.keys.appId = key }),
             TextFieldSection(header: Strings.Setup.ApiKeySection.title, value: model.keys.apiKey, footer: Strings.Setup.ApiKeySection.footer, onChange: { key in model.keys.apiKey = key }),
             ToggleSection(header: Strings.Setup.UserDetailsSection.title, description: Strings.Setup.UserDetailsSection.cellTitle, value: model.showsUserInfo, onChange: { showsUserInfo in model.showsUserInfo = showsUserInfo }),
-            ToolsSection(config: model.toolsConfig, onChange: { newConfig in model.toolsConfig = newConfig }),
             VoipSection(config: model.voipConfig, disableDirectIncomingCalls: model.disableDirectIncomingCalls, onChange: { newConfig, disableDirectIncomingCalls in
                 model.voipConfig = newConfig
                 model.disableDirectIncomingCalls = disableDirectIncomingCalls

@@ -39,13 +39,12 @@ final class AppSetupViewControllerTests: UnitTestCase {
     func testSetupsSectionsAndSectionRows() {
         let sut = makeSUT()
 
-        assertThat(sut.numberOfSections(), equalTo(7))
+        assertThat(sut.numberOfSections(), equalTo(6))
         assertThat(sut.numberOfRowsInEnvironmentSection(), equalTo(3))
         assertThat(sut.numberOfRowsInRegionSection(), equalTo(4))
         assertThat(sut.numberOfRowsInAppIdSection(), equalTo(1))
         assertThat(sut.numberOfRowsInApiKeySection(), equalTo(1))
         assertThat(sut.numberOfRowsInUserDetailsSection(), equalTo(1))
-        assertThat(sut.numberOfRowsInToolsSection(), equalTo(5))
         assertThat(sut.numberOfRowsInVoIPSection(), equalTo(4))
     }
 
@@ -254,7 +253,6 @@ private extension AppSetupViewController {
         case appId
         case apiKey
         case userDetails
-        case tools
         case voip
     }
 
@@ -282,10 +280,6 @@ private extension AppSetupViewController {
 
     func numberOfRowsInUserDetailsSection() -> Int {
         numberOfRowsInSection(.userDetails)
-    }
-
-    func numberOfRowsInToolsSection() -> Int {
-        numberOfRowsInSection(.tools)
     }
 
     func numberOfRowsInVoIPSection() -> Int {

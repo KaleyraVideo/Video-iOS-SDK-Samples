@@ -53,7 +53,6 @@ final class QRCodeTests: UnitTestCase, QRCodeFixtureFactory {
         assertThat(config.voip, equalTo(.default))
         assertThat(config.disableDirectIncomingCalls, isFalse())
         assertThat(config.showUserInfo, isTrue())
-        assertThat(config.tools, equalTo(.default))
     }
 
     // MARK: - Helpers

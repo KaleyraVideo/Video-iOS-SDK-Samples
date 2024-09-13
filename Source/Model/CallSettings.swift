@@ -16,8 +16,19 @@ struct CallSettings: Equatable {
         case back
     }
 
+    struct Tools: Codable, Equatable {
+        var isChatEnabled = true
+        var isWhiteboardEnabled = true
+        var isFileshareEnabled = true
+        var isScreenshareEnabled = true
+        var isBroadcastEnabled = true
+
+        static let `default`: Tools = .init()
+    }
+
     var type: KaleyraVideoSDK.CallOptions.CallType
     var recording: KaleyraVideoSDK.CallOptions.RecordingType?
+    var tools: Tools
     var maximumDuration: UInt
     var isGroup: Bool
     var showsRating: Bool
@@ -28,6 +39,7 @@ struct CallSettings: Equatable {
     init() {
         type = .audioVideo
         recording = nil
+        tools = .default
         maximumDuration = 0
         isGroup = false
         showsRating = false
@@ -79,11 +91,26 @@ extension CallSettings.CameraPosition: LosslessStringConvertible {
     }
 }
 
+extension CallSettings.Tools {
+
+    var asSDKSettings: KaleyraVideoSDK.ConferenceSettings.Tools {
+        var config = KaleyraVideoSDK.ConferenceSettings.Tools.default
+        config.chat = isChatEnabled ? .enabled : .disabled
+        config.broadcastScreenSharing = isBroadcastEnabled ? .enabled(appGroupIdentifier: try! .init("group.com.bandyer.BandyerSDKSample"),
+                                                                                  extensionBundleIdentifier: "com.bandyer.BandyerSDKSample.BroadcastExtension") : .disabled
+        config.fileshare = isFileshareEnabled ? .enabled : .disabled
+        config.inAppScreenSharing = isScreenshareEnabled ? .enabled : .disabled
+        config.whiteboard = isWhiteboardEnabled ? .enabled(isUploadEnabled: true) : .disabled
+        return config
+    }
+}
+
 extension CallSettings {
 
     private enum Keys: String {
         case type = "com.kaleyra.call_options.type"
         case recording = "com.kaleyra.call_options.recording"
+        case tools
         case duration = "com.kaleyra.call_options.duration"
         case group = "com.kaleyra.call_options.group"
         case rating = "com.kaleyra.call_options.rating"

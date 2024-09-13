@@ -55,10 +55,11 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
     func testLoadViewShouldReloadData() {
         sut.loadViewIfNeeded()
 
-        assertThat(sut.numberOfSections(), equalTo(8))
+        assertThat(sut.numberOfSections(), equalTo(9))
         assertThat(sut.numberOfRowsIn(section: .callType), equalTo(3))
         assertThat(sut.numberOfRowsIn(section: .recording), equalTo(3))
         assertThat(sut.numberOfRowsIn(section: .duration), equalTo(1))
+        assertThat(sut.numberOfRowsIn(section: .tools), equalTo(5))
         assertThat(sut.numberOfRowsIn(section: .group), equalTo(1))
         assertThat(sut.numberOfRowsIn(section: .camera), equalTo(2))
         assertThat(sut.numberOfRowsIn(section: .rating), equalTo(1))
@@ -182,6 +183,7 @@ private extension CallSettingsViewController {
         case recording
         case duration
         case group
+        case tools
         case camera
         case rating
         case presentationMode
