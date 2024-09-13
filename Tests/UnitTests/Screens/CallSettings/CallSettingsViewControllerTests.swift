@@ -55,7 +55,7 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
     func testLoadViewShouldReloadData() {
         sut.loadViewIfNeeded()
 
-        assertThat(sut.numberOfSections(), equalTo(7))
+        assertThat(sut.numberOfSections(), equalTo(8))
         assertThat(sut.numberOfRowsIn(section: .callType), equalTo(3))
         assertThat(sut.numberOfRowsIn(section: .recording), equalTo(3))
         assertThat(sut.numberOfRowsIn(section: .duration), equalTo(1))
@@ -118,7 +118,16 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
         let cell = sut.cameraCell()
 
         assertThat(cell, present())
-        assertThat(cell?.textLabel?.text, presentAnd(equalToLocalizedString("call_options.camera_section.front", bundle: .main)))
+        assertThat(cell?.textLabel?.text, presentAnd(equalTo(Strings.CallSettings.CameraSection.front)))
+    }
+
+    func testSetupSpeakerOverride() throws {
+        sut.loadViewIfNeeded()
+
+        let cell = sut.speakerOverride()
+
+        assertThat(cell, present())
+        assertThat(cell?.textLabel?.text, presentAnd(equalTo(Strings.CallSettings.SpeakerSection.always)))
     }
 
     func testWhenViewDisappearsShouldNotifyDismissCallback() throws {
@@ -133,11 +142,11 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
 
         let groupCallCell = sut.groupCell()
         groupCallCell?.switch?.isOn = true
-        groupCallCell?.switch?.simulate(event: UIControl.Event.valueChanged)
+        groupCallCell?.switch?.simulate(event: .valueChanged)
 
         let ratingCell = sut.ratingCell()
         ratingCell?.switch?.isOn = true
-        ratingCell?.switch?.simulate(event: UIControl.Event.valueChanged)
+        ratingCell?.switch?.simulate(event: .valueChanged)
 
         sut.viewWillDisappear(false)
 
@@ -176,6 +185,7 @@ private extension CallSettingsViewController {
         case camera
         case rating
         case presentationMode
+        case speakerOverride
     }
 
     func numberOfSections() -> Int {
@@ -204,6 +214,10 @@ private extension CallSettingsViewController {
 
     func ratingCell() -> SwitchTableViewCell? {
         cellForRow(at: 0, section: .rating) as? SwitchTableViewCell
+    }
+
+    func speakerOverride() -> UITableViewCell? {
+        cellForRow(at: 0, section: .speakerOverride)
     }
 
     private func cellForRow(at rowIndex: Int, section: Section) -> UITableViewCell? {

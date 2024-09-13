@@ -23,6 +23,7 @@ struct CallSettings: Equatable {
     var showsRating: Bool
     var presentationMode: PresentationMode
     var cameraPosition: CameraPosition
+    var speakerOverride: ConferenceSettings.SpeakerOverride
 
     init() {
         type = .audioVideo
@@ -32,6 +33,7 @@ struct CallSettings: Equatable {
         showsRating = false
         presentationMode = .fullscreen
         cameraPosition = .front
+        speakerOverride = .default
     }
 }
 
@@ -86,6 +88,8 @@ extension CallSettings {
         case group = "com.kaleyra.call_options.group"
         case rating = "com.kaleyra.call_options.rating"
         case presentationMode = "com.kaleyra.call_options.call_presentation_mode"
+        case camera
+        case speaker
     }
 
     init?(from defaults: UserDefaults) {
@@ -104,6 +108,8 @@ extension CallSettings {
         self.isGroup = defaults.bool(forKey: Keys.group.rawValue)
         self.showsRating = defaults.bool(forKey: Keys.rating.rawValue)
         self.presentationMode = .init(defaults.string(forKey: Keys.presentationMode.rawValue) ?? "") ?? .fullscreen
+        self.cameraPosition = .init(defaults.string(forKey: Keys.camera.rawValue) ?? "") ?? .front
+        self.speakerOverride = .init(defaults.string(forKey: Keys.speaker.rawValue) ?? "") ?? .default
     }
 
     func store(in defaults: UserDefaults) {
@@ -113,6 +119,8 @@ extension CallSettings {
         defaults.set(isGroup, forKey: Keys.group.rawValue)
         defaults.set(showsRating, forKey: Keys.rating.rawValue)
         defaults.set(presentationMode.rawValue, forKey: Keys.presentationMode.rawValue)
+        defaults.set(cameraPosition.rawValue, forKey: Keys.camera.rawValue)
+        defaults.set(speakerOverride.value, forKey: Keys.speaker.rawValue)
     }
 }
 
@@ -174,6 +182,37 @@ private extension KaleyraVideoSDK.CallOptions.RecordingType {
                 self = .automatic
             case 2:
                 self = .manual
+            default:
+                return nil
+        }
+    }
+}
+
+private extension ConferenceSettings.SpeakerOverride {
+
+    var value: String {
+        switch self {
+            case .never:
+                "never"
+            case .always:
+                "always"
+            case .video:
+                "video"
+            case .videoForeground:
+                "videoForeground"
+        }
+    }
+
+    init?(_ rawValue: String) {
+        switch rawValue {
+            case "never":
+                self = .never
+            case "always":
+                self = .always
+            case "video":
+                self = .video
+            case "videoForeground":
+                self = .videoForeground
             default:
                 return nil
         }

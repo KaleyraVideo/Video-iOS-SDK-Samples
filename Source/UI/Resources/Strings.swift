@@ -211,6 +211,15 @@ enum Strings {
             static let fullscreen = NSLocalizedString("call_options.call_presentation_mode_fullscreen", comment: "Fullscreen")
             static let pip = NSLocalizedString("call_options.call_presentation_mode_pip", comment: "Picture in picture")
         }
+
+        enum SpeakerSection {
+
+            static let title = NSLocalizedString("call_options.speaker_override_title", comment: "")
+            static let always = NSLocalizedString("call_options.speaker_override_title.always", comment: "")
+            static let video = NSLocalizedString("call_options.speaker_override_title.video", comment: "")
+            static let videoInForeground = NSLocalizedString("call_options.speaker_override_title.videoForeground", comment: "")
+            static let never = NSLocalizedString("call_options.speaker_override_title.never", comment: "")
+        }
     }
 
     // MARK: - Settings

@@ -93,11 +93,11 @@ private extension SectionedTableDataSource {
             SingleChoiceTableViewSection(header: Strings.CallSettings.CameraSection.title,
                                          options: [CallSettings.CameraPosition.front, CallSettings.CameraPosition.back],
                                          selected: model.settings.cameraPosition,
-                                         optionName: CameraPositionPresenter.optionName(_:),
+                                         optionName: CameraPositionPresenter.optionName,
                                          onChange: { model.settings.cameraPosition = $0 }),
             ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: model.settings.showsRating, onChange: { model.settings.showsRating = $0 }),
-            SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: model.settings.presentationMode, optionName: PresentationModePresenter.optionName(_:), onChange: { model.settings.presentationMode = $0 })
-
+            SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: model.settings.presentationMode, optionName: PresentationModePresenter.optionName, onChange: { model.settings.presentationMode = $0 }),
+            SingleChoiceTableViewSection(header: Strings.CallSettings.SpeakerSection.title, options: [KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.always, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.video, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.videoForeground, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.never], selected: model.settings.speakerOverride, optionName: SpeakerOverridePresenter.optionName, onChange: { model.settings.speakerOverride = $0 })
         ])
     }
 
@@ -149,6 +149,22 @@ private extension SectionedTableDataSource {
                     Strings.CallSettings.CameraSection.front
                 case .back:
                     Strings.CallSettings.CameraSection.back
+            }
+        }
+    }
+
+    private enum SpeakerOverridePresenter {
+
+        static func optionName(_ mode: ConferenceSettings.SpeakerOverride) -> String {
+            switch mode {
+                case .never:
+                    Strings.CallSettings.SpeakerSection.never
+                case .always:
+                    Strings.CallSettings.SpeakerSection.always
+                case .video:
+                    Strings.CallSettings.SpeakerSection.video
+                case .videoForeground:
+                    Strings.CallSettings.SpeakerSection.videoInForeground
             }
         }
     }

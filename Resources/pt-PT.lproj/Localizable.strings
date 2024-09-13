@@ -140,6 +140,12 @@
 "call_options.camera_section_title" = "Câmera";
 "call_options.camera_section.front" = "Frontal";
 "call_options.camera_section.back" = "Traseira";
+"call_options.speaker_override_title" = "Alto-falante";
+"call_options.speaker_override_title.always" = "Sempre";
+"call_options.speaker_override_title.video" = "Vídeo";
+"call_options.speaker_override_title.videoForeground" = "Vídeo em primeiro plano";
+"call_options.speaker_override_title.never" = "Jamais";
+
 
 // MARK: - QR screen
 

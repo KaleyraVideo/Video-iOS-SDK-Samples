@@ -61,7 +61,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         sut.loadViewIfNeeded()
 
         assertThat(sut.navigationItem.rightBarButtonItem, present())
-        assertThat(sut.navigationItem.rightBarButtonItem?.image, presentAnd(equalTo(Icons.settings)))
+        assertThat(sut.navigationItem.rightBarButtonItem?.image, presentAnd(equalTo(Icons.callSettings)))
     }
 
     func testLoadViewWhenMultipleSelectionIsEnabledShouldAddGroupCallBarButtonItem() {
@@ -70,7 +70,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         sut.loadViewIfNeeded()
 
         assertThat(sut.navigationItem.rightBarButtonItems, presentAnd(hasCount(2)))
-        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.settings)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.callSettings)))
         assertThat(sut.navigationItem.rightBarButtonItems![1].image, presentAnd(equalTo(Icons.phone)))
         assertThat(sut.navigationItem.rightBarButtonItems![1].isEnabled, presentAnd(isFalse()))
     }
@@ -129,7 +129,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.tableView.allowsMultipleSelectionDuringEditing, isTrue())
         assertThat(sut.navigationItem.rightBarButtonItems, presentAnd(hasCount(2)))
 
-        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.settings)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.callSettings)))
         assertThat(sut.navigationItem.rightBarButtonItems![1].image, presentAnd(equalTo(Icons.phone)))
         assertThat(sut.navigationItem.rightBarButtonItems![1].isEnabled, presentAnd(isFalse()))
     }
@@ -143,7 +143,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.tableView.allowsMultipleSelection, isFalse())
         assertThat(sut.tableView.allowsMultipleSelectionDuringEditing, isFalse())
         assertThat(sut.navigationItem.rightBarButtonItems, presentAnd(hasCount(1)))
-        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.settings)))
+        assertThat(sut.navigationItem.rightBarButtonItems![0].image, presentAnd(equalTo(Icons.callSettings)))
     }
 
     func testWhenMoreThanOneUserIsSelectedShouldEnableGroupCallButton() throws {

@@ -53,8 +53,9 @@ final class SDKCoordinator: BaseCoordinator {
     }
 
     func start(authentication: Authentication) {
-        appSettings.$callSettings.map(\.cameraPosition).sink { [weak self] in
-            self?.sdk.conference?.settings.camera = $0 == .front ? .front : .back
+        appSettings.$callSettings.sink { [weak self] in
+            self?.sdk.conference?.settings.speakerOverride = $0.speakerOverride
+            self?.sdk.conference?.settings.camera = $0.cameraPosition == .front ? .front : .back
         }.store(in: &subscriptions)
 
         if config.showUserInfo {
