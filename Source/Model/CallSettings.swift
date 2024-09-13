@@ -105,72 +105,83 @@ extension CallSettings.Tools {
     }
 }
 
-extension CallSettings {
+extension CallSettings: Codable {
 
-    private enum Keys: String {
-        case type = "com.kaleyra.call_options.type"
-        case recording = "com.kaleyra.call_options.recording"
+    private enum Keys: String, CodingKey {
+        case type
+        case recording
         case tools
-        case duration = "com.kaleyra.call_options.duration"
-        case group = "com.kaleyra.call_options.group"
-        case rating = "com.kaleyra.call_options.rating"
-        case presentationMode = "com.kaleyra.call_options.call_presentation_mode"
+        case duration
+        case group
+        case rating
+        case presentationMode
         case camera
         case speaker
     }
 
-    init?(from defaults: UserDefaults) {
-        guard let callTypeRaw = defaults.object(forKey: Keys.type.rawValue) as? UInt,
-              let callType = KaleyraVideoSDK.CallOptions.CallType(callTypeRaw),
-              let maximumDuration = defaults.object(forKey: Keys.duration.rawValue) as? UInt
-        else {
-            return nil
-        }
-
-        self.init()
-
-        self.type = callType
-        self.recording = .init((defaults.object(forKey: Keys.recording.rawValue) as? Int) ?? 0)
-        self.maximumDuration = maximumDuration
-        self.isGroup = defaults.bool(forKey: Keys.group.rawValue)
-        self.showsRating = defaults.bool(forKey: Keys.rating.rawValue)
-        self.presentationMode = .init(defaults.string(forKey: Keys.presentationMode.rawValue) ?? "") ?? .fullscreen
-        self.cameraPosition = .init(defaults.string(forKey: Keys.camera.rawValue) ?? "") ?? .front
-        self.speakerOverride = .init(defaults.string(forKey: Keys.speaker.rawValue) ?? "") ?? .default
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Keys.self)
+        self.type = .init(try container.decodeIfPresent(String.self, forKey: .type) ?? "") ?? .audioVideo
+        self.recording = .init(try container.decodeIfPresent(String.self, forKey: .recording) ?? "") ?? nil
+        self.tools = try container.decodeIfPresent(CallSettings.Tools.self, forKey: .tools) ?? .default
+        self.maximumDuration = try container.decodeIfPresent(UInt.self, forKey: .duration) ?? 0
+        self.isGroup = try container.decodeIfPresent(Bool.self, forKey: .group) ?? false
+        self.showsRating = try container.decodeIfPresent(Bool.self, forKey: .rating) ?? false
+        self.presentationMode = .init(try container.decodeIfPresent(String.self, forKey: .presentationMode) ?? "") ?? .fullscreen
+        self.cameraPosition = .init(try container.decodeIfPresent(String.self, forKey: .camera) ?? "") ?? .front
+        self.speakerOverride = .init(try container.decodeIfPresent(String.self, forKey: .speaker) ?? "") ?? .default
     }
 
-    func store(in defaults: UserDefaults) {
-        defaults.set(type.value, forKey: Keys.type.rawValue)
-        defaults.set(recording.value, forKey: Keys.recording.rawValue)
-        defaults.set(maximumDuration, forKey: Keys.duration.rawValue)
-        defaults.set(isGroup, forKey: Keys.group.rawValue)
-        defaults.set(showsRating, forKey: Keys.rating.rawValue)
-        defaults.set(presentationMode.rawValue, forKey: Keys.presentationMode.rawValue)
-        defaults.set(cameraPosition.rawValue, forKey: Keys.camera.rawValue)
-        defaults.set(speakerOverride.value, forKey: Keys.speaker.rawValue)
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: Keys.self)
+        try container.encode(type.description, forKey: .type)
+        try container.encodeIfPresent(recording?.description, forKey: .recording)
+        try container.encode(tools, forKey: .tools)
+        try container.encode(maximumDuration, forKey: .duration)
+        try container.encode(isGroup, forKey: .group)
+        try container.encode(showsRating, forKey: .rating)
+        try container.encode(presentationMode, forKey: .presentationMode)
+        try container.encode(cameraPosition, forKey: .camera)
+        try container.encode(speakerOverride.value, forKey: .speaker)
+    }
+}
+
+extension CallSettings {
+
+    private enum DefaultsKeys: String {
+        case callSettings = "com.kaleyra.call_settings"
+    }
+
+    private enum Errors: Error {
+        case objectNotFoundInDefaults
+    }
+
+    init(from defaults: UserDefaults) throws {
+        guard let object = defaults.object(forKey: DefaultsKeys.callSettings.rawValue) else {
+            throw Errors.objectNotFoundInDefaults
+        }
+        let data = try JSONSerialization.data(withJSONObject: object, options: [.fragmentsAllowed])
+        let decoder = JSONDecoder()
+        self = try decoder.decode(CallSettings.self, from: data)
+    }
+
+    func store(in defaults: UserDefaults) throws {
+        let encoder = JSONEncoder()
+        let data = try encoder.encode(self)
+        let object = try JSONSerialization.jsonObject(with: data)
+        defaults.set(object, forKey: DefaultsKeys.callSettings.rawValue)
     }
 }
 
 private extension KaleyraVideoSDK.CallOptions.CallType {
 
-    var value: UInt {
-        switch self {
-            case .audioVideo:
-                0
-            case .audioUpgradable:
-                1
-            case .audioOnly:
-                2
-        }
-    }
-
-    init?(_ value: UInt) {
-        switch value {
-            case 0:
+    init?(_ string: String) {
+        switch string.lowercased() {
+            case "audio video":
                 self = .audioVideo
-            case 1:
+            case "audio upgradable":
                 self = .audioUpgradable
-            case 2:
+            case "audio only":
                 self = .audioOnly
             default:
                 return nil
@@ -201,13 +212,13 @@ private extension KaleyraVideoSDK.CallOptions.RecordingType {
         }
     }
 
-    init?(_ value: Int) {
-        switch value {
-            case 0:
+    init?(_ value: String) {
+        switch value.lowercased() {
+            case "":
                 return nil
-            case 1:
+            case "automatic":
                 self = .automatic
-            case 2:
+            case "manual":
                 self = .manual
             default:
                 return nil

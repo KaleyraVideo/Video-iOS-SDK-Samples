@@ -154,13 +154,13 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
         assertThat(callback.invocations, hasCount(1))
     }
 
-    func testWhenViewDisappearsShouldStoreSettingsInStore() {
+    func testWhenViewDisappearsShouldStoreSettingsInStore() throws {
         sut.loadViewIfNeeded()
 
         sut.simulateRowSelectedAt(1, inSection: .callType)
         sut.viewWillDisappear(false)
 
-        let stored = store.getCallOptions()
+        let stored = try store.getCallOptions()
         assertThat(stored.type, equalTo(.audioUpgradable))
     }
 

@@ -57,9 +57,9 @@ final class UserDefaultsStoreTests: UnitTestCase {
         callOptions.recording = .automatic
         callOptions.type = .audioUpgradable
 
-        sut.storeCallOptions(callOptions)
+        try sut.storeCallOptions(callOptions)
 
-        let actual = sut.getCallOptions()
+        let actual = try sut.getCallOptions()
         assertThat(actual.type, equalTo(callOptions.type))
         assertThat(actual.recording, equalTo(callOptions.recording))
         assertThat(actual.maximumDuration, equalTo(callOptions.maximumDuration))

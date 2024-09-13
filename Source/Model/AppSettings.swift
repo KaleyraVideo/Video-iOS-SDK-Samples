@@ -10,6 +10,6 @@ final class AppSettings {
     var callSettings: CallSettings = .init()
 
     func loadFromDefaults(_ userDefaults: UserDefaultsStore) {
-        callSettings = userDefaults.getCallOptions()
+        callSettings = (try? userDefaults.getCallOptions()) ?? .init()
     }
 }
