@@ -15,6 +15,18 @@ final class UserDefaultsStoreTests: UnitTestCase {
 
     private let suiteName = "com.kaleyra.user-defaults-test"
 
+    private var sut: UserDefaultsStore!
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+
+        guard let userDefaults = UserDefaults(suiteName: suiteName) else {
+            throw UserDefaultError.cannotLoadSuite
+        }
+
+        sut = .init(userDefaults: userDefaults)
+    }
+
     override func tearDown() {
         UserDefaults.standard.removePersistentDomain(forName: suiteName)
         super.tearDown()
@@ -22,72 +34,51 @@ final class UserDefaultsStoreTests: UnitTestCase {
 
     // MARK: - Tests
 
-    func testStoresLoggedUserAlias() throws {
-        let sut = try makeSUT()
+    func testStoresLoggedUserAlias() {
+        sut.store(loggedUser: .alice)
 
-        sut.setLoggedUser(userAlias: "test")
-
-        assertThat(sut.getLoggedUserAlias(), presentAnd(equalTo("test")))
+        assertThat(sut.loadLoggedUser(), presentAnd(equalTo(.alice)))
     }
 
-    func testRemovesLoggedUserFromStoreWhenSettingNilLoggedUser() throws {
-        let sut = try makeSUT()
+    func testRemovesLoggedUserFromStoreWhenSettingNilLoggedUser() {
+        sut.store(loggedUser: .alice)
 
-        sut.setLoggedUser(userAlias: "test")
-        sut.setLoggedUser(userAlias: nil)
+        sut.store(loggedUser: nil)
 
-        assertThat(sut.getLoggedUserAlias(), nilValue())
+        assertThat(sut.loadLoggedUser(), nilValue())
     }
 
-    func testStoresDeviceToken() throws {
-        let sut = try makeSUT()
+    func testStoresDeviceToken() {
+        sut.store(pushToken: .foobar)
+        assertThat(sut.loadPushToken(), presentAnd(equalTo(.foobar)))
 
-        sut.setDeviceToken(token: "token")
-        assertThat(sut.getDeviceToken(), presentAnd(equalTo("token")))
-
-        sut.setDeviceToken(token: nil)
-        assertThat(sut.getDeviceToken(), nilValue())
+        sut.store(pushToken: nil)
+        assertThat(sut.loadPushToken(), nilValue())
     }
 
-    func testStoresCallOptionItem() throws {
-        let sut = try makeSUT()
-        var callOptions = CallSettings()
-        callOptions.isGroup = true
-        callOptions.maximumDuration = 40
-        callOptions.recording = .automatic
-        callOptions.type = .audioUpgradable
+    func testStoresCallSettings() throws {
+        var settings = CallSettings()
+        settings.isGroup = true
+        settings.maximumDuration = 40
+        settings.recording = .automatic
+        settings.type = .audioUpgradable
 
-        try sut.storeCallOptions(callOptions)
+        try sut.store(settings)
 
-        let actual = try sut.getCallOptions()
-        assertThat(actual.type, equalTo(callOptions.type))
-        assertThat(actual.recording, equalTo(callOptions.recording))
-        assertThat(actual.maximumDuration, equalTo(callOptions.maximumDuration))
-        assertThat(actual.isGroup, equalTo(callOptions.isGroup))
-        assertThat(actual.showsRating, equalTo(callOptions.showsRating))
+        let actual = try sut.loadSettings()
+        assertThat(actual, equalTo(settings))
     }
 
     func testStoresConfig() throws {
-        let sut = try makeSUT()
         let config = Config(keys: .any, showUserInfo: true, environment: .production, voip: .manual(strategy: .always))
 
-        try sut.storeConfig(config)
+        try sut.store(config)
 
-        let actual = try unwrap(sut.getConfig())
+        let actual = try unwrap(sut.loadConfig())
         assertThat(actual, present())
         assertThat(actual.keys, equalTo(.any))
         assertThat(actual.showUserInfo, isTrue())
         assertThat(actual.voip, equalTo(.manual(strategy: .always)))
         assertThat(actual.environment, equalTo(.production))
-    }
-
-    // MARK: - Helpers
-
-    private func makeSUT() throws -> UserDefaultsStore {
-        guard let userDefaults = UserDefaults(suiteName: suiteName) else {
-            throw UserDefaultError.cannotLoadSuite
-        }
-
-        return UserDefaultsStore(userDefaults: userDefaults)
     }
 }

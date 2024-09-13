@@ -27,8 +27,8 @@ final class RootCoordinator: BaseCoordinator {
         case configured(config: Config, userId: String)
 
         mutating func loadFromDefaults(_ store: UserDefaultsStore) {
-            let config = store.getConfig()
-            let user = store.getLoggedUserAlias()
+            let config = try? store.loadConfig()
+            let user = store.loadLoggedUser()
 
             switch (config, user) {
                 case (.none, .none):
@@ -88,8 +88,8 @@ final class RootCoordinator: BaseCoordinator {
 
             self.removeChild(coordinator)
             do {
-                try self.userDefaultsStore.storeConfig(session.config)
-                self.userDefaultsStore.setLoggedUser(userAlias: session.user.alias)
+                try self.userDefaultsStore.store(session.config)
+                self.userDefaultsStore.store(loggedUser: session.user.alias)
                 self.state = .configured(config: session.config, userId: session.user.alias)
             } catch {
                 self.state = .startup(config: config)
@@ -104,7 +104,7 @@ final class RootCoordinator: BaseCoordinator {
             guard let self else { return }
 
             self.removeChild(coordinator)
-            self.userDefaultsStore.setLoggedUser(userAlias: nil)
+            self.userDefaultsStore.store(loggedUser: nil)
             self.state = .userChange(config: session.config)
 #if SAMPLE_CUSTOMIZABLE_THEME
             self.themeStorage.resetToDefaultValues()
@@ -115,7 +115,7 @@ final class RootCoordinator: BaseCoordinator {
             guard let self else { return }
 
             self.removeChild(coordinator)
-            self.userDefaultsStore.resetConfigAndUser()
+            self.userDefaultsStore.reset()
             self.state = .startup(config: session.config)
         }
 

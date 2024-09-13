@@ -156,7 +156,7 @@ final class SettingsViewController: UIViewController {
     // MARK: - Reset
 
     private func reset() {
-        settingsStore.resetConfigAndUser()
+        settingsStore.reset()
         delegate?.settingsViewControllerDidReset()
     }
 

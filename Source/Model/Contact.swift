@@ -29,7 +29,7 @@ struct Contact: Equatable {
     var imageName: String?
     var imageURL: URL?
 
-    init(_ alias: String) {
+    init(alias: String) {
         self.alias = alias
     }
 }
@@ -63,7 +63,7 @@ extension Contact {
     }
 
     private static func makeContact(_ alias: String, generator: inout SeededGenerator) -> Contact {
-        var contact = Contact(alias)
+        var contact = Contact(alias: alias)
 
         let female = Int.random(in: 1...2, using: &generator)
         var resourceName: String

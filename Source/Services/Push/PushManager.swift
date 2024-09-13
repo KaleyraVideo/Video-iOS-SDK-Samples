@@ -35,7 +35,7 @@ final class PushManager {
 
     func pushTokenUpdated(token: String) {
         self.token = token
-        store.setDeviceToken(token: token)
+        store.store(pushToken: token)
 
         guard let userId else { return }
 

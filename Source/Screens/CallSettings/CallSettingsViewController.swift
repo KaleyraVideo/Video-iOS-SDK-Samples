@@ -68,7 +68,7 @@ final class CallSettingsViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        try? store.storeCallOptions(model.settings)
+        try? store.store(model.settings)
         appSettings.callSettings = model.settings
         onDismiss?()
     }

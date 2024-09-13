@@ -16,7 +16,7 @@ final class ContactsViewModelTests: UnitTestCase {
         super.setUp()
 
         repository = .init()
-        sut = .init(store: .init(repository: repository), loggedUser: Contact(.alice))
+        sut = .init(store: .init(repository: repository), loggedUser: Contact(alias: .alice))
     }
 
     override func tearDown() {
@@ -82,7 +82,7 @@ final class ContactsViewModelTests: UnitTestCase {
         sut.load()
         try repository.simulateLoadUsersSuccess(users: [.charlie, .bob])
 
-        var contact = Contact(.charlie)
+        var contact = Contact(alias: .charlie)
         contact.firstName = "Charlie"
         contact.lastName = "Appleseed"
         contact.imageURL = .kaleyra

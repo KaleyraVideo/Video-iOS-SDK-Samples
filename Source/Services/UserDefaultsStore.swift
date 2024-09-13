@@ -7,80 +7,105 @@ import KaleyraVideoSDK
 final class UserDefaultsStore {
 
     private enum Key: String {
-        case loggedUser = "com.acme.logged_user_id"
-        case pushDeviceToken = "com.acme.device_token"
-        case config = "com.acme.environment_options"
+        case loggedUser = "com.kaleyra.logged_user"
+        case pushDeviceToken = "com.kaleyra.push_token"
+        case callSettings = "com.kaleyra.call_settings"
+        case config = "com.kaleyra.config"
+    }
+
+    private enum Errors: Error {
+        case objectNotFoundInDefaults
     }
 
     // MARK: - Properties
 
-    private let userDefaults: UserDefaults
+    private let defaults: UserDefaults
 
     // MARK: - Initialization
 
     init(userDefaults: UserDefaults = .standard) {
-        self.userDefaults = userDefaults
+        self.defaults = userDefaults
     }
 
     // MARK: - Functions
 
-    func getLoggedUserAlias() -> String? {
-        guard let userAlias = userDefaults.object(forKey: Key.loggedUser.rawValue) as? String else {
+    func store(loggedUser alias: String?) {
+        defaults.set(alias, forKey: Key.loggedUser)
+        defaults.synchronize()
+    }
+
+    func store(pushToken token: String?) {
+        defaults.set(token, forKey: Key.pushDeviceToken)
+        defaults.synchronize()
+    }
+
+    func store(_ settings: CallSettings) throws {
+        try store(settings, key: .callSettings)
+        defaults.synchronize()
+    }
+
+    func store(_ config: Config) throws {
+        try store(config, key: .config)
+        defaults.synchronize()
+    }
+
+    func loadSettings() throws -> CallSettings {
+        try load(key: .callSettings)
+    }
+
+    func loadConfig() throws -> Config {
+        try load(key: .config)
+    }
+
+    func loadLoggedUser() -> String? {
+        guard let userAlias = defaults.object(forKey: Key.loggedUser) as? String else {
             return nil
         }
         return userAlias
     }
 
-    func setLoggedUser(userAlias: String?) {
-        userDefaults.set(userAlias, forKey: Key.loggedUser.rawValue)
-        userDefaults.synchronize()
-    }
-
-    func setDeviceToken(token: String?) {
-        userDefaults.set(token, forKey: Key.pushDeviceToken.rawValue)
-        userDefaults.synchronize()
-    }
-
-    func getDeviceToken() -> String? {
-        guard let token = userDefaults.object(forKey: Key.pushDeviceToken.rawValue) as? String else {
+    func loadPushToken() -> String? {
+        guard let token = defaults.object(forKey: Key.pushDeviceToken) as? String else {
             return nil
         }
 
         return token
     }
 
-    func storeCallOptions(_ options: CallSettings) throws {
-        try options.store(in: userDefaults)
-        userDefaults.synchronize()
+    func reset() {
+        defaults.removeObject(forKey: Key.config)
+        defaults.removeObject(forKey: Key.loggedUser)
+        defaults.synchronize()
     }
 
-    func getCallOptions() throws -> CallSettings {
-        try CallSettings(from: userDefaults)
+    private func load<T: Decodable>(_ type: T.Type = T.self, key: Key) throws -> T {
+        guard let object = defaults.object(forKey: key) else {
+            throw Errors.objectNotFoundInDefaults
+        }
+        let data = try JSONSerialization.data(withJSONObject: object, options: [.fragmentsAllowed])
+        let decoder = JSONDecoder()
+        return try decoder.decode(T.self, from: data)
     }
 
-    func storeConfig(_ config: Config) throws {
+    private func store<T: Encodable>(_ value: T, key: Key) throws {
         let encoder = JSONEncoder()
-        let data = try encoder.encode(config)
-        userDefaults.set(data, forKey: Key.config.rawValue)
+        let data = try encoder.encode(value)
+        let object = try JSONSerialization.jsonObject(with: data)
+        defaults.set(object, forKey: key)
     }
-
-    func getConfig() -> Config? {
-        guard let data = userDefaults.data(forKey: Key.config.rawValue) else {
-            return nil
-        }
-
-        do {
-            return try JSONDecoder().decode(Config.self, from: data)
-        } catch {
-            return nil
-        }
-    }
-
-    func resetConfigAndUser() {
-        userDefaults.removeObject(forKey: Key.config.rawValue)
-        userDefaults.removeObject(forKey: Key.loggedUser.rawValue)
-        userDefaults.synchronize()
-    }
-
 }
 
+private extension UserDefaults {
+
+    func set<Key: RawRepresentable>(_ object: Any?, forKey key: Key) where Key.RawValue == String {
+        set(object, forKey: key.rawValue)
+    }
+
+    func object<Key: RawRepresentable>(forKey key: Key) -> Any? where Key.RawValue == String {
+        object(forKey: key.rawValue)
+    }
+
+    func removeObject<Key: RawRepresentable>(forKey key: Key) where Key.RawValue == String {
+        removeObject(forKey: key.rawValue)
+    }
+}

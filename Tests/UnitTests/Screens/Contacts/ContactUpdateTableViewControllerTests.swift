@@ -17,7 +17,7 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
     override func setUp() {
         super.setUp()
 
-        contact = .init(.alice)
+        contact = .init(alias: .alice)
         contact.firstName = "Alice"
         contact.lastName = "Appleseed"
         contact.imageURL = URL(string: .foobar)

@@ -4,7 +4,7 @@
 import Foundation
 import KaleyraVideoSDK
 
-struct Config: Codable {
+struct Config {
 
     static var logLevel: LogLevel = .all
 
@@ -27,26 +27,5 @@ struct Config: Codable {
         self.showUserInfo = showUserInfo
         self.disableDirectIncomingCalls = disableDirectIncomingCalls
         self.voip = voip
-    }
-
-    // MARK: - Decodable
-
-    private enum CodingKeys: CodingKey {
-        case keys
-        case environment
-        case region
-        case showUserInfo
-        case disableDirectIncomingCalls
-        case voip
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.keys = try container.decode(Config.Keys.self, forKey: .keys)
-        self.environment = try container.decode(Environment.self, forKey: .environment)
-        self.region = try container.decodeIfPresent(Config.Region.self, forKey: .region) ?? .europe
-        self.showUserInfo = try container.decode(Bool.self, forKey: .showUserInfo)
-        self.disableDirectIncomingCalls = try container.decodeIfPresent(Bool.self, forKey: .disableDirectIncomingCalls) ?? false
-        self.voip = try container.decodeIfPresent(Config.VoIP.self, forKey: .voip) ?? .automatic(strategy: .backgroundOnly)
     }
 }

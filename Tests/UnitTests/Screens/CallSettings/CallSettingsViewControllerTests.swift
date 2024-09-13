@@ -160,7 +160,7 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
         sut.simulateRowSelectedAt(1, inSection: .callType)
         sut.viewWillDisappear(false)
 
-        let stored = try store.getCallOptions()
+        let stored = try store.loadSettings()
         assertThat(stored.type, equalTo(.audioUpgradable))
     }
 
