@@ -60,12 +60,6 @@
 "setup.alert.title" = "Configurazione non valida";
 "setup.alert.message" = "La configurazione fornita non è valida, per favore controlla che l'\"App Id\" e l'\"Api Key\" siano state inserite correttamente";
 "setup.alert.cancel-action.title" = "Ok";
-"setup.tools_section" = "Strumenti di collaborazione";
-"setup.tools-chat" = "Chat";
-"setup.tools-whiteboard" = "Lavagna";
-"setup.tools-fileshare" = "Condivisione file";
-"setup.tools-screenshare" = "Condivisione schermo in-app";
-"setup.tools-broadcast" = "Condivisione schermo broadcast";
 "setup.voip_section_title" = "VoIP";
 "setup.voip_automatic" = "Automatiche";
 "setup.voip_manual" = "Manuali";
@@ -145,6 +139,12 @@
 "call_options.speaker_override_title.video" = "Video";
 "call_options.speaker_override_title.videoForeground" = "Video in foreground";
 "call_options.speaker_override_title.never" = "Mai";
+"call_options.tools_section" = "Strumenti di collaborazione";
+"call_options.tools-chat" = "Chat";
+"call_options.tools-whiteboard" = "Lavagna";
+"call_options.tools-fileshare" = "Condivisione file";
+"call_options.tools-screenshare" = "Condivisione schermo in-app";
+"call_options.tools-broadcast" = "Condivisione schermo broadcast";
 
 
 // MARK: - QR Reader

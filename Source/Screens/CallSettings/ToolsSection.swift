@@ -30,7 +30,7 @@ final class ToolsSection: TableViewSection {
     }
 
     func titleForHeader(_ tableView: UITableView) -> String? {
-        Strings.Setup.ToolsSection.title
+        Strings.CallSettings.ToolsSection.title
     }
 
     func cellForRowAt(indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
@@ -38,31 +38,31 @@ final class ToolsSection: TableViewSection {
 
         switch indexPath.row {
             case 0:
-                cell.textLabel?.text = Strings.Setup.ToolsSection.chat
+                cell.textLabel?.text = Strings.CallSettings.ToolsSection.chat
                 cell.onSwitchValueChange = { [weak self] sender in
                     self?.config.isChatEnabled = sender.isOn
                 }
                 cell.isOn = config.isChatEnabled
             case 1:
-                cell.textLabel?.text = Strings.Setup.ToolsSection.whiteboard
+                cell.textLabel?.text = Strings.CallSettings.ToolsSection.whiteboard
                 cell.onSwitchValueChange = { [weak self] sender in
                     self?.config.isWhiteboardEnabled = sender.isOn
                 }
                 cell.isOn = config.isWhiteboardEnabled
             case 2:
-                cell.textLabel?.text = Strings.Setup.ToolsSection.fileshare
+                cell.textLabel?.text = Strings.CallSettings.ToolsSection.fileshare
                 cell.onSwitchValueChange = { [weak self] sender in
                     self?.config.isFileshareEnabled = sender.isOn
                 }
                 cell.isOn = config.isFileshareEnabled
             case 3:
-                cell.textLabel?.text = Strings.Setup.ToolsSection.screenshare
+                cell.textLabel?.text = Strings.CallSettings.ToolsSection.screenshare
                 cell.onSwitchValueChange = { [weak self] sender in
                     self?.config.isScreenshareEnabled = sender.isOn
                 }
                 cell.isOn = config.isScreenshareEnabled
             case 4:
-                cell.textLabel?.text = Strings.Setup.ToolsSection.broadcast
+                cell.textLabel?.text = Strings.CallSettings.ToolsSection.broadcast
                 cell.onSwitchValueChange = { [weak self] sender in
                     self?.config.isBroadcastEnabled = sender.isOn
                 }

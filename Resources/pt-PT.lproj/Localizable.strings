@@ -60,12 +60,6 @@
 "setup.alert.title" = "Configuração Inválida";
 "setup.alert.message" = "A configuração fornecida não é válida, você deve fornecer um \"ID do Aplicativo\" e uma \"Chave da API\"";
 "setup.alert.cancel-action.title" = "Ok";
-"setup.tools_section" = "Ferramentas";
-"setup.tools-chat" = "Chat";
-"setup.tools-whiteboard" = "Quadro Branco";
-"setup.tools-fileshare" = "Compartilhamento de Arquivos";
-"setup.tools-screenshare" = "Compartilhamento de Tela no Aplicativo";
-"setup.tools-broadcast" = "Transmissão do Compartilhamento de Tela";
 "setup.voip_section_title" = "VoIP";
 "setup.voip_automatic" = "Automático";
 "setup.voip_manual" = "Manual";
@@ -145,6 +139,12 @@
 "call_options.speaker_override_title.video" = "Vídeo";
 "call_options.speaker_override_title.videoForeground" = "Vídeo em primeiro plano";
 "call_options.speaker_override_title.never" = "Jamais";
+"call_options.tools_section" = "Ferramentas";
+"call_options.tools-chat" = "Chat";
+"call_options.tools-whiteboard" = "Quadro Branco";
+"call_options.tools-fileshare" = "Compartilhamento de Arquivos";
+"call_options.tools-screenshare" = "Compartilhamento de Tela no Aplicativo";
+"call_options.tools-broadcast" = "Transmissão do Compartilhamento de Tela";
 
 
 // MARK: - QR screen

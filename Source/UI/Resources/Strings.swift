@@ -95,17 +95,6 @@ enum Strings {
             static let cellTitle = NSLocalizedString("setup.show_user_details", comment: "Show user details")
         }
 
-        enum ToolsSection {
-
-            static let title = NSLocalizedString("setup.tools_section", comment: "Tools")
-
-            static let chat = NSLocalizedString("setup.tools-chat", comment: "Chat")
-            static let whiteboard = NSLocalizedString("setup.tools-whiteboard", comment: "Whiteboard")
-            static let fileshare = NSLocalizedString("setup.tools-fileshare", comment: "File share")
-            static let screenshare = NSLocalizedString("setup.tools-screenshare", comment: "In-app screen share")
-            static let broadcast = NSLocalizedString("setup.tools-broadcast", comment: "Broadcast screen share")
-        }
-
         enum VoIPSection {
 
             static let title = NSLocalizedString("setup.voip_section_title", comment: "VoIP")
@@ -183,6 +172,17 @@ enum Strings {
             static let none = NSLocalizedString("call_options.recording_none", comment: "None")
             static let automatic = NSLocalizedString("call_options.recording_automatic", comment: "Automatic")
             static let manual = NSLocalizedString("call_options.recording_manual", comment: "Manual")
+        }
+
+        enum ToolsSection {
+
+            static let title = NSLocalizedString("call_options.tools_section", comment: "Tools")
+
+            static let chat = NSLocalizedString("call_options.tools-chat", comment: "Chat")
+            static let whiteboard = NSLocalizedString("call_options.tools-whiteboard", comment: "Whiteboard")
+            static let fileshare = NSLocalizedString("call_options.tools-fileshare", comment: "File share")
+            static let screenshare = NSLocalizedString("call_options.tools-screenshare", comment: "In-app screen share")
+            static let broadcast = NSLocalizedString("call_options.tools-broadcast", comment: "Broadcast screen share")
         }
 
         enum DurationSection {

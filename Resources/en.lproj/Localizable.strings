@@ -60,12 +60,6 @@
 "setup.alert.title" = "Invalid Configuration";
 "setup.alert.message" = "The configuration provided is not valid, you must provide an \"App Id\" and an \"Api Key\"";
 "setup.alert.cancel-action.title" = "Ok";
-"setup.tools_section" = "Tools";
-"setup.tools-chat" = "Chat";
-"setup.tools-whiteboard" = "Whiteboard";
-"setup.tools-fileshare" = "File share";
-"setup.tools-screenshare" = "In-app screen share";
-"setup.tools-broadcast" = "Broadcast screen share";
 "setup.voip_section_title" = "VoIP";
 "setup.voip_automatic" = "Automatic";
 "setup.voip_manual" = "Manual";
@@ -145,6 +139,12 @@
 "call_options.speaker_override_title.video" = "Video";
 "call_options.speaker_override_title.videoForeground" = "Video when in foreground";
 "call_options.speaker_override_title.never" = "Never";
+"call_options.tools_section" = "Tools";
+"call_options.tools-chat" = "Chat";
+"call_options.tools-whiteboard" = "Whiteboard";
+"call_options.tools-fileshare" = "File share";
+"call_options.tools-screenshare" = "In-app screen share";
+"call_options.tools-broadcast" = "Broadcast screen share";
 
 // MARK: - QR screen
 
