@@ -11,8 +11,12 @@ protocol ServicesFactory {
     func makeUserRepository(config: Config) -> UserRepository
     func makeAccessTokenProvider(config: Config) -> AccessTokenProvider
     func makePushTokenRepository(config: Config) -> PushTokenRepository
+
+    @available(iOS 15.0, *)
     func makeVoIPManager(config: Config) -> VoIPNotificationsManager
     func makePushManager(config: Config) -> PushManager
+
+    @available(iOS 15.0, *)
     func makeSDK() -> KaleyraVideo
     func makeLogService() -> LogServiceProtocol
 
@@ -57,6 +61,7 @@ final class DefaultServicesFactory: ServicesFactory {
         RestPushTokenRepository(config: config)
     }
 
+    @available(iOS 15.0, *)
     func makeVoIPManager(config: Config) -> VoIPNotificationsManager {
         .init(config: config, registry: makePushTokenRepository(config: config), sdk: makeSDK())
     }
@@ -65,6 +70,7 @@ final class DefaultServicesFactory: ServicesFactory {
         .init(registry: makePushTokenRepository(config: config), store: makeUserDefaultsStore())
     }
 
+    @available(iOS 15.0, *)
     func makeSDK() -> KaleyraVideo {
         .instance
     }

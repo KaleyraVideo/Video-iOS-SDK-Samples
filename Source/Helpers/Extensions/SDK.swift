@@ -10,4 +10,5 @@ protocol SDK {
     static var loggers: KaleyraVideoSDK.Loggers { get set }
 }
 
+@available(iOS 15.0, *)
 extension KaleyraVideo: SDK {}

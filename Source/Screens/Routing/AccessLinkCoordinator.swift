@@ -21,6 +21,8 @@ final class AccessLinkCoordinator: BaseCoordinator {
     }
 
     func start(onDismiss: @escaping () -> Void) {
+        guard #available(iOS 15.0, *) else { onDismiss(); return }
+        
         let coordinator = SDKCoordinator(controller: accessLinkController, config: config, appSettings: appSettings, services: services)
         addChild(coordinator)
         coordinator.start(authentication: .accessLink)

@@ -6,6 +6,7 @@ import KaleyraVideoSDK
 
 extension Bundle {
 
+    @available(iOS 15.0, *)
     static let sdk: Bundle = Bundle(for: KaleyraVideo.self)
 
     var version: String? {

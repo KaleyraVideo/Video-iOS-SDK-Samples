@@ -6,6 +6,7 @@ import PushKit
 import Combine
 import KaleyraVideoSDK
 
+@available(iOS 15.0, *)
 final class VoIPNotificationsManager: NSObject, PKPushRegistryDelegate {
 
     private let config: Config

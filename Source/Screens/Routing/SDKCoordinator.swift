@@ -7,6 +7,7 @@ import Intents
 import Combine
 import KaleyraVideoSDK
 
+@available(iOS 15.0, *)
 final class SDKCoordinator: BaseCoordinator {
 
     enum Authentication {
@@ -196,6 +197,7 @@ final class SDKCoordinator: BaseCoordinator {
     }
 }
 
+@available(iOS 15.0, *)
 extension SDKCoordinator: InAppChatNotificationTouchListener {
 
     func onTouch(_ notification: ChatNotification) {
@@ -203,6 +205,7 @@ extension SDKCoordinator: InAppChatNotificationTouchListener {
     }
 }
 
+@available(iOS 15.0, *)
 extension SDKCoordinator: CallViewControllerDelegate {
 
     func callViewControllerDidFinish(_ controller: CallViewController) {
@@ -214,6 +217,7 @@ extension SDKCoordinator: CallViewControllerDelegate {
 
 // MARK: - Channel view controller delegate
 
+@available(iOS 15.0, *)
 extension SDKCoordinator: ChannelViewControllerDelegate {
 
     func channelViewControllerDidFinish(_ controller: ChannelViewController) {
@@ -240,6 +244,7 @@ extension SDKCoordinator: ChannelViewControllerDelegate {
     }
 }
 
+@available(iOS 15.0, *)
 extension CallSettings {
 
     var controllerConfig: CallViewController.Configuration {

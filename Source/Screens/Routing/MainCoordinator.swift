@@ -22,6 +22,7 @@ final class MainCoordinator: BaseCoordinator {
 
     // MARK: - Children
 
+    @available(iOS 15.0, *)
     var sdkCoordinator: SDKCoordinator! {
         children.compactMap({ $0 as? SDKCoordinator }).first
     }
@@ -54,6 +55,7 @@ final class MainCoordinator: BaseCoordinator {
     }
 
     private func addSDKCoordinator() {
+        guard #available(iOS 15.0, *) else { return }
         addChild(SDKCoordinator(controller: tabBarController, config: session.config, appSettings: appSettings, services: services))
     }
 
@@ -74,7 +76,10 @@ final class MainCoordinator: BaseCoordinator {
             self.handle(event: action.coordinatorEvent, direction: .toChildren)
         }))
         settingsCoordinator.start()
-        sdkCoordinator.start(authentication: .accessToken(userId: session.user.alias))
+
+        if #available(iOS 15.0, *) {
+            sdkCoordinator.start(authentication: .accessToken(userId: session.user.alias))
+        }
         tabBarController.setViewControllers([contactsCoordinator.navigationController, settingsCoordinator.navigationController], animated: true)
     }
 }
@@ -82,12 +87,16 @@ final class MainCoordinator: BaseCoordinator {
 extension MainCoordinator: SettingsCoordinatorDelegate {
 
     func settingsCoordinatorDidReset() {
-        sdkCoordinator.reset()
+        if #available(iOS 15.0, *) {
+            sdkCoordinator.reset()
+        }
         onReset?()
     }
 
     func settingsCoordinatorDidLogout() {
-        sdkCoordinator.stop()
+        if #available(iOS 15.0, *) {
+            sdkCoordinator.stop()
+        }
         onLogout?()
     }
 }

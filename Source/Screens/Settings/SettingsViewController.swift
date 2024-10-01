@@ -438,6 +438,18 @@ private class SectionBuilder {
     }
 }
 
+private extension Optional where Wrapped == Version {
+
+    func formattedValue() -> String {
+        switch self {
+            case .none:
+                "N/A"
+            case .some(let wrapped):
+                wrapped.formattedValue()
+        }
+    }
+}
+
 private extension Version {
 
     func formattedValue() -> String {

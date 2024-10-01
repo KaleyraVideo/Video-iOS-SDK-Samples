@@ -22,5 +22,7 @@ extension Version {
     }
 
     static let app: Version = .init(bundle: .main)
+
+    @available(iOS 15.0, *)
     static let sdk: Version = .init(bundle: .sdk)
 }

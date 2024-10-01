@@ -25,7 +25,7 @@ final class LogService: LogServiceProtocol {
 
     private let fileManager: FileManagerProtocol
     private let holder: ShortcutItemsHolder
-    private let sdk: SDK.Type
+    private let sdk: SDK.Type?
 
     var areLogFilesPresent: Bool {
         !logFileList.isEmpty
@@ -50,9 +50,18 @@ final class LogService: LogServiceProtocol {
 
     // MARK: - Init
 
+    init(fileManager: FileManagerProtocol = FileManager.default, holder: ShortcutItemsHolder = UIApplication.shared) {
+        self.fileManager = fileManager
+        self.holder = holder
+        self.sdk = nil
+
+        setup()
+    }
+
+    @available(iOS 15.0, *)
     init(fileManager: FileManagerProtocol = FileManager.default,
          holder: ShortcutItemsHolder = UIApplication.shared,
-         bandyerSDKType: SDK.Type = KaleyraVideo.self) {
+         bandyerSDKType: SDK.Type? = KaleyraVideo.self) {
         self.fileManager = fileManager
         self.holder = holder
         self.sdk = bandyerSDKType
@@ -94,16 +103,15 @@ final class LogService: LogServiceProtocol {
     // MARK: - Logging
 
     func startLogging() {
-        sdk.logLevel = .all
-        sdk.loggers = [.file, .console]
+        sdk?.logLevel = .all
+        sdk?.loggers = [.file, .console]
 
         addShortcutItems()
     }
 
     func stopLogging() {
-        KaleyraVideo.loggers = []
-        sdk.logLevel = .off
-        sdk.loggers = []
+        sdk?.logLevel = .off
+        sdk?.loggers = []
 
         refreshShortcutItems()
     }

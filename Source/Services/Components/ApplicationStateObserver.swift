@@ -34,6 +34,7 @@ final class ApplicationStateObserver {
 
     init<P: Publisher>(initialState: UIApplication.State, publisher: P) where P.Output == UIApplication.State, P.Failure == Never {
         state = initialState
+        guard #available(iOS 14.0, *) else { return }
         publisher.assign(to: &$state)
     }
 }
