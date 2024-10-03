@@ -16,6 +16,16 @@ final class TextFieldTableViewCell: UITableViewCell {
         }
     }
 
+    var placeholder: String? {
+        get {
+            textField.placeholder
+        }
+
+        set {
+            textField.placeholder = newValue
+        }
+    }
+
     var onTextChanged: ((String?) -> Void)?
 
     // MARK: - Field

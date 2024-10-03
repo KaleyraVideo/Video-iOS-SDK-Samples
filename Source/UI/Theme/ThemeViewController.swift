@@ -29,6 +29,24 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
         }
     }
 
+    private enum StyleRow: Int, CaseIterable {
+        case light
+        case dark
+
+        init?(indexPath: IndexPath) {
+            self.init(rawValue: indexPath.row)
+        }
+    }
+
+    private enum FontRow: Int, CaseIterable {
+        case regular
+        case medium
+
+        init?(indexPath: IndexPath) {
+            self.init(rawValue: indexPath.row)
+        }
+    }
+
     private let sdk: KaleyraVideo
     private var indexForFontPicker: Int?
     private var theme: KaleyraVideoSDK.Theme? {
@@ -66,26 +84,52 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = Section(rawValue: indexPath.section)
-        let row = indexPath.row
-
-        switch section {
+        switch Section(indexPath: indexPath) {
             case .logo:
                 let cell: TextFieldTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-                cell.onTextChanged = { _ in
+                let lightURL: String?
+                let darkURL: String?
 
+                switch theme?.logo {
+                    case .static(let url):
+                        lightURL = url.absoluteString
+                        darkURL = url.absoluteString
+                    case .dynamic(let light, let dark):
+                        lightURL = light.absoluteString
+                        darkURL = dark.absoluteString
+                    case nil:
+                        lightURL = nil
+                        darkURL = nil
                 }
+
+                switch StyleRow(indexPath: indexPath) {
+                    case .light:
+                        cell.text = lightURL
+                        cell.placeholder = "Light logo"
+                        cell.onTextChanged = { [weak self] text in
+                            self?.onLightLogoChanged(url: .init(string: text ?? ""))
+                        }
+                    case .dark:
+                        cell.text = darkURL
+                        cell.placeholder = "Dark logo"
+                        cell.onTextChanged = { [weak self] text in
+                            self?.onDarkLogoChanged(url: .init(string: text ?? ""))
+                        }
+                    default:
+                        break
+                }
+
                 return cell
             case .color:
                 let cell: ColorTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-                switch row {
-                    case 0:
+                switch StyleRow(indexPath: indexPath) {
+                    case .light:
                         cell.title = "Light"
                         cell.color = theme?.paletteSeed?.resolvedLight
                         cell.onColorChanged = { [weak self] color in
                             self?.onLightColorChanged(color: color)
                         }
-                    case 1:
+                    case .dark:
                         cell.title = "Dark"
                         cell.color = theme?.paletteSeed?.resolvedDark
                         cell.onColorChanged = { [weak self] color in
@@ -102,11 +146,11 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
 
                 let font: UIFont?
                 var config = cell.defaultContentConfiguration()
-                switch row {
-                    case 0:
+                switch FontRow(indexPath: indexPath) {
+                    case .regular:
                         config.text = "Regular font"
                         font = theme?.regularFont
-                    case 1:
+                    case .medium:
                         config.text = "Medium Font"
                         font = theme?.mediumFont
                     default:
@@ -137,6 +181,60 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
             default:
                 return
         }
+    }
+
+    // MARK: - Logo
+
+    private func onLightLogoChanged(url: URL?) {
+        let logo: KaleyraVideoSDK.Theme.Logo?
+
+        switch theme?.logo {
+            case .static(let dark):
+                if let url {
+                    logo = .dynamic(light: url, dark: dark)
+                } else {
+                    logo = .static(dark)
+                }
+            case .dynamic(let light, let dark):
+                if let url {
+                    logo = .dynamic(light: url, dark: dark)
+                } else {
+                    logo = .static(dark)
+                }
+            case nil:
+                if let url {
+                    logo = .static(url)
+                } else {
+                    logo = nil
+                }
+        }
+        theme?.logo = logo
+    }
+
+    private func onDarkLogoChanged(url: URL?) {
+        let logo: KaleyraVideoSDK.Theme.Logo?
+
+        switch theme?.logo {
+            case .static(let light):
+                if let url {
+                    logo = .dynamic(light: light, dark: url)
+                } else {
+                    logo = .static(light)
+                }
+            case .dynamic(let light, let dark):
+                if let url {
+                    logo = .dynamic(light: light, dark: url)
+                } else {
+                    logo = .static(light)
+                }
+            case nil:
+                if let url {
+                    logo = .static(url)
+                } else {
+                    logo = nil
+                }
+        }
+        theme?.logo = logo
     }
 
     // MARK: - Color
