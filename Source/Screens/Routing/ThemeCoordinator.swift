@@ -15,6 +15,6 @@ final class ThemeCoordinator: BaseCoordinator {
     }
 
     func start() {
-        navigationController.pushViewController(ThemeViewController(), animated: true)
+        navigationController.pushViewController(ThemeViewController(sdk: services.makeSDK()), animated: true)
     }
 }

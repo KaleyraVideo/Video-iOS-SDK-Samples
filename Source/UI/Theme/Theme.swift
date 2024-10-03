@@ -12,15 +12,15 @@ struct Theme {
         static let unselectedTintTabBar = UIColor.rgba(red: 117, green: 117, blue: 117, alpha: 1)
 
         static var labelSettingItem: UIColor {
-            return UIColor.dynamicColor(light: UIColor.rgba(red: 96, green: 96, blue: 96, alpha: 1), dark: .white)
+            return UIColor(light: UIColor.rgba(red: 96, green: 96, blue: 96, alpha: 1), dark: .white)
         }
 
         static var commonBlackColor: UIColor {
-            return UIColor.dynamicColor(light: .black, dark: .white)
+            return UIColor(light: .black, dark: .white)
         }
 
         static var commonWhiteColor: UIColor {
-            return UIColor.dynamicColor(light: .white, dark: .black)
+            return UIColor(light: .white, dark: .black)
         }
     }
 }

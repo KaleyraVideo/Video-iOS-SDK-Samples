@@ -14,6 +14,24 @@ extension UIColor {
         return (r: r, g: g, b: b, a: a)
     }
 
+    var resolvedLight: UIColor {
+        resolvedColor(with: .init(userInterfaceStyle: .light))
+    }
+
+    var resolvedDark: UIColor {
+        resolvedColor(with: .init(userInterfaceStyle: .dark))
+    }
+
+    convenience init(light: @autoclosure @escaping () -> UIColor, dark: @autoclosure @escaping () -> UIColor) {
+        self.init {
+            if $0.userInterfaceStyle == .light {
+                return light()
+            } else {
+                return dark()
+            }
+        }
+    }
+
     convenience init(r: UInt8, g: UInt8, b: UInt8) {
         let max = CGFloat(UInt8.max)
         self.init(red: CGFloat(r) / max, green: CGFloat(g) / max, blue: CGFloat(b) / max, alpha: 1.0)
@@ -28,16 +46,5 @@ extension UIColor {
 
     static func rgba(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: alpha)
-    }
-
-    class func dynamicColor(light: UIColor, dark: UIColor) -> UIColor {
-        return UIColor {
-            switch $0.userInterfaceStyle {
-                case .dark:
-                    return dark
-                default:
-                    return light
-            }
-        }
     }
 }

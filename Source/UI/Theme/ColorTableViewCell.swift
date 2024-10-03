@@ -27,6 +27,8 @@ final class ColorTableViewCell : UITableViewCell {
         }
     }
 
+    var onColorChanged: ((UIColor?) -> Void)?
+
     private lazy var label: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +40,7 @@ final class ColorTableViewCell : UITableViewCell {
     private lazy var colorWell: UIColorWell = {
         let view = UIColorWell()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.addTarget(self, action: #selector(onColorChanged(sender:)), for: .valueChanged)
         return view
     }()
 
@@ -65,7 +68,7 @@ final class ColorTableViewCell : UITableViewCell {
 
     private func setupConstraints() {
         setupLabelConstraints()
-        setupColorPreviewConstraints()
+        setupColorWellConstraints()
     }
 
     private func setupLabelConstraints() {
@@ -77,7 +80,7 @@ final class ColorTableViewCell : UITableViewCell {
         ])
     }
 
-    private func setupColorPreviewConstraints() {
+    private func setupColorWellConstraints() {
         NSLayoutConstraint.activate([
             colorWell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             colorWell.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 0.8),
@@ -92,5 +95,12 @@ final class ColorTableViewCell : UITableViewCell {
         super.prepareForReuse()
         title = nil
         color = nil
+    }
+
+    // MARK: - Action
+
+    @objc
+    private func onColorChanged(sender: UIColorWell) {
+        onColorChanged?(sender.selectedColor)
     }
 }

@@ -9,14 +9,14 @@ import KaleyraTestMatchers
 @testable import SDK_Sample
 
 @available(iOS 15.0, *)
-final class ThemeViewControllerTests: UnitTestCase, ConditionalTestCase {
+final class ThemeViewControllerTests: UnitTestCase {
 
     private var sut: ThemeViewController!
 
     override func setUp() {
         super.setUp()
 
-        sut = .init(style: .insetGrouped)
+        sut = .init(sdk: .instance)
     }
 
     override func tearDown() {

@@ -37,6 +37,11 @@ final class SettingsCell: UITableViewCell {
         setup()
     }
 
+    @available(*, unavailable)
+    required init(coder: NSCoder) {
+        fatalError("Not available")
+    }
+
     private func setup() {
         setupBackgroundView()
         setupLabels()
@@ -52,12 +57,7 @@ final class SettingsCell: UITableViewCell {
         refreshLabelTextColor()
     }
 
-    @available(*, unavailable)
-    required init(coder: NSCoder) {
-        fatalError("Not available")
-    }
-
     private func refreshLabelTextColor() {
-        textLabel?.textColor = cellStyle == .danger ? .red : ((backgroundColor?.isLight ?? true) ? .black : .white)
+        textLabel?.textColor = cellStyle == .danger ? .red : .label
     }
 }
