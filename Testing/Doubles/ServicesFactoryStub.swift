@@ -45,6 +45,6 @@ class ServicesFactoryStub: ServicesFactory {
     }
 
     func makeLogService() -> LogServiceProtocol {
-        fatalError()
+        LogServiceSpy()
     }
 }

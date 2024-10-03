@@ -136,33 +136,6 @@ final class RootCoordinatorTests: UnitTestCase {
             return logServiceSpy
         }
     }
-
-    private class LogServiceSpy: LogServiceProtocol {
-
-        private var _logFileList: [URL] = []
-        private(set) var startLoggingInvocations: [Void] = []
-        private(set) var stopLoggingInvocations: [Void] = []
-
-        var areLogFilesPresent: Bool {
-            !logFileList.isEmpty
-        }
-
-        var logFileList: [URL] {
-            _logFileList
-        }
-
-        func startLogging() {
-            startLoggingInvocations.append()
-        }
-
-        func stopLogging() {
-            stopLoggingInvocations.append()
-        }
-
-        func mockLogFileListe(_ list: [URL]) {
-            _logFileList = list
-        }
-    }
 }
 
 private extension RootCoordinator {
