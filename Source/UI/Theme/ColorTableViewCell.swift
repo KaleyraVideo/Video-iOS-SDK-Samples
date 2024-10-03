@@ -4,16 +4,8 @@
 import Foundation
 import UIKit
 
-enum ThemeCustomCellCase {
-    case color
-    case keyboardAppearance
-    case bool
-    case font
-    case barStyle
-    case number
-}
-
-class ColorTableViewCell : UITableViewCell {
+@available(iOS 15.0, *)
+final class ColorTableViewCell : UITableViewCell {
 
     var title: String? {
         get {
@@ -27,15 +19,15 @@ class ColorTableViewCell : UITableViewCell {
 
     var color: UIColor? {
         get {
-            colorPreview.backgroundColor
+            colorWell.selectedColor
         }
 
         set {
-            colorPreview.backgroundColor = newValue
+            colorWell.selectedColor = newValue
         }
     }
 
-    private let label : UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
@@ -43,19 +35,11 @@ class ColorTableViewCell : UITableViewCell {
         return label
     }()
 
-    lazy var colorPreview: ColorPreviewView = {
-        let view = ColorPreviewView()
-        view.borderColor = UIColor.dynamicColor(light: .black, dark: .white)
-        view.borderWidth = 1
-        view.clipsToBounds = true
+    private lazy var colorWell: UIColorWell = {
+        let view = UIColorWell()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        colorPreview.borderColor = UIColor.dynamicColor(light: .black, dark: .white)
-    }
 
     // MARK: - Setup
 
@@ -76,7 +60,7 @@ class ColorTableViewCell : UITableViewCell {
 
     private func setupSubviews() {
         contentView.addSubview(label)
-        contentView.addSubview(colorPreview)
+        contentView.addSubview(colorWell)
     }
 
     private func setupConstraints() {
@@ -95,15 +79,11 @@ class ColorTableViewCell : UITableViewCell {
 
     private func setupColorPreviewConstraints() {
         NSLayoutConstraint.activate([
-            colorPreview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            colorPreview.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 0.8),
-            colorPreview.widthAnchor.constraint(equalTo: label.heightAnchor, multiplier: 0.8),
-            colorPreview.centerYAnchor.constraint(equalTo: label.centerYAnchor),
+            colorWell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            colorWell.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 0.8),
+            colorWell.widthAnchor.constraint(equalTo: label.heightAnchor, multiplier: 0.8),
+            colorWell.centerYAnchor.constraint(equalTo: label.centerYAnchor),
         ])
-    }
-
-    func setUpLabelFont(font: UIFont) {
-        label.font = font
     }
 
     // MARK: - Reuse

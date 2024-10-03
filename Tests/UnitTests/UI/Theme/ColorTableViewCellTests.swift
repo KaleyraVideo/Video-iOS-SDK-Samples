@@ -4,72 +4,62 @@
 import XCTest
 import SwiftHamcrest
 import KaleyraTestKit
+import KaleyraTestHelpers
+import KaleyraTestMatchers
 @testable import SDK_Sample
 
+@available(iOS 15.0, *)
 final class ColorTableViewCellTests: UnitTestCase {
+
+    private var sut: ColorTableViewCell!
+
+    override func setUp() {
+        super.setUp()
+
+        sut = .init(style: .default, reuseIdentifier: nil)
+    }
+
+    override func tearDown() {
+        sut = nil
+
+        super.tearDown()
+    }
 
     // MARK: - Init
 
     func testInitShouldAddLabelToContentViewHierarchy() {
-        let sut = makeSUT()
-
-        let labels = sut.contentView.subviews.compactMap({ $0 as? UILabel })
-        assertThat(labels, hasCount(1))
-    }
-
-    func testInitShouldAddLabelWithLeftTextAlignment() {
-        let sut = makeSUT()
-
+        assertThat(sut.label, present())
         assertThat(sut.label.textAlignment, equalTo(.left))
+        assertThat(sut.label.isDescendant(of: sut.contentView), isTrue())
     }
 
     func testInitShouldAddColorPreviewViewToContentViewHierarchy() {
-        let sut = makeSUT()
-
-        let colorPreviewViews = sut.contentView.subviews.compactMap({ $0 as? ColorPreviewView })
-        assertThat(colorPreviewViews, hasCount(1))
-    }
-
-    func testSetUpFontShouldActAccordingly() {
-        let sut = makeSUT()
-
-        let font = UIFont(name: "avenir-black", size: 13)!
-        sut.setUpLabelFont(font: font)
-
-        assertThat(sut.label.font, equalTo(font))
-
+        assertThat(sut.colorWell, present())
+        assertThat(sut.colorWell.isDescendant(of: sut.contentView), isTrue())
     }
 
     // MARK: - Getters and setters
 
     func testSetTitleShouldUpdateLabelText() {
-        let sut = makeSUT()
-
         sut.title = "foo"
 
         assertThat(sut.label.text, equalTo("foo"))
     }
 
     func testGetTitleShouldReturnLabelText() {
-        let sut = makeSUT()
-
         sut.label.text = "foo"
 
         assertThat(sut.title, equalTo("foo"))
     }
 
     func testSetColorShouldUpdateColorPreviewViewBackgroundColor() {
-        let sut = makeSUT()
-
         sut.color = .red
 
-        assertThat(sut.colorPreview.backgroundColor, equalTo(.red))
+        assertThat(sut.colorWell.selectedColor, equalTo(.red))
     }
 
     func testGetColorShouldReturnColorPreviewViewBackgroundColor() {
-        let sut = makeSUT()
-
-        sut.colorPreview.backgroundColor = .red
+        sut.colorWell.selectedColor = .red
 
         assertThat(sut.color, equalTo(.red))
     }
@@ -77,7 +67,6 @@ final class ColorTableViewCellTests: UnitTestCase {
     // MARK: - Prepare for reuse
 
     func testPrepareForReuseShouldResetTitleAndColor() {
-        let sut = makeSUT()
         sut.color = .red
         sut.title = "foo"
 
@@ -86,21 +75,16 @@ final class ColorTableViewCellTests: UnitTestCase {
         assertThat(sut.title, nilValue())
         assertThat(sut.color, nilValue())
     }
-
-    // MARK: - Helpers
-
-    private func makeSUT() -> ColorTableViewCell {
-        ColorTableViewCell()
-    }
 }
 
+@available(iOS 15.0, *)
 private extension ColorTableViewCell {
 
     var label: UILabel! {
         firstDescendant()
     }
 
-    var colorPreview: ColorPreviewView! {
+    var colorWell: UIColorWell! {
         firstDescendant()
     }
 }

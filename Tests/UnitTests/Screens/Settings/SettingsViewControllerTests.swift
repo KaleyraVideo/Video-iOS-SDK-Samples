@@ -141,7 +141,7 @@ final class SettingsViewControllerTests: UnitTestCase {
 
     private class DelegateSpy: SettingsViewControllerDelegate {
 
-        private(set) lazy var openThemeInvocations: [Void] = []
+        private(set) lazy var themeInvocations: [Void] = []
         private(set) lazy var logoutInvocations: [Void] = []
         private(set) lazy var resetInvocations: [Void] = []
         private(set) lazy var updateUserInvocations = [Contact]()
@@ -158,8 +158,8 @@ final class SettingsViewControllerTests: UnitTestCase {
             updateUserInvocations.append(contact)
         }
 
-        func openTheme() {
-            openThemeInvocations.append()
+        func settingsViewControllerDidOpenTheme() {
+            themeInvocations.append()
         }
     }
 }
@@ -206,19 +206,11 @@ private extension SettingsViewController {
     }
 
     var changeThemeCell: UITableViewCell? {
-#if SAMPLE_CUSTOMIZABLE_THEME
         cellForRow(at: IndexPath(row: 0, section: 1))
-#else
-        nil
-#endif
     }
 
     private var logoutRowIndexPath: IndexPath {
-#if SAMPLE_CUSTOMIZABLE_THEME
         IndexPath(row: 1, section: 1)
-#else
-        IndexPath(row: 0, section: 1)
-#endif
     }
 
     func simulateLogoutTapped() throws {

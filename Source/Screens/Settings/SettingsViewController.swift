@@ -7,13 +7,10 @@ import Combine
 
 protocol SettingsViewControllerDelegate: AnyObject {
 
-#if SAMPLE_CUSTOMIZABLE_THEME
-    func settingsViewControllerDidOpenTheme()
-#endif
-
     func settingsViewControllerDidLogout()
     func settingsViewControllerDidReset()
     func settingsViewControllerDidUpdateUser(contact: Contact)
+    func settingsViewControllerDidOpenTheme()
 }
 
 final class SettingsViewController: UIViewController {
@@ -163,35 +160,14 @@ final class SettingsViewController: UIViewController {
     // MARK: - Present theme view controller
 
     func presentThemeViewController() {
-#if SAMPLE_CUSTOMIZABLE_THEME
         delegate?.settingsViewControllerDidOpenTheme()
-#endif
     }
 }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-extension SettingsViewController: Themable {
-
-    func themeChanged(theme: AppTheme) {
-        view.backgroundColor = theme.primaryBackgroundColor.toUIColor()
-        tableView.backgroundColor = theme.secondaryBackgroundColor.toUIColor()
-        view.subviews.forEach { subview in
-            subview.tintColor = theme.accentColor.toUIColor()
-        }
-        (tableDatasource as? SettingsTableDataSource)?.themeChanged(theme: theme)
-    }
-}
-#endif
 
 private class SettingsTableDataSource: NSObject, UITableViewDataSource {
 
     private let cellIdentifier = "settingsTableViewCell"
     private let dataset: SettingsDataset
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-    private var currentTheme: AppTheme?
-#endif
-
     private var cells: [SettingsCell] = []
 
     init(dataset: SettingsDataset) {
@@ -235,29 +211,9 @@ private class SettingsTableDataSource: NSObject, UITableViewDataSource {
         cell.textLabel?.text = item.title
         cell.textLabel?.textAlignment = item.textAlignment
         cell.detailTextLabel?.text = item.description
-
         cell.cellStyle = item.style
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-        if let currentTheme = currentTheme {
-            cell.themeChanged(theme: currentTheme)
-        }
-#endif
     }
 }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-extension SettingsTableDataSource: Themable {
-
-    func themeChanged(theme: AppTheme) {
-        currentTheme = theme
-
-        cells.forEach { cell in
-            cell.themeChanged(theme: theme)
-        }
-    }
-}
-#endif
 
 private class SettingsTableDelegate: NSObject, UITableViewDelegate {
 
@@ -420,9 +376,7 @@ private class SectionBuilder {
 
     @discardableResult
     func addThemeItem(action: @escaping () -> Void) -> Self {
-#if SAMPLE_CUSTOMIZABLE_THEME
         items.append(.init(title: Strings.Settings.changeTheme, action: action))
-#endif
         return self
     }
 

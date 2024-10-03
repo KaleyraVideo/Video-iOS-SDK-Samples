@@ -20,10 +20,6 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
         controller.tabBarItem = .init(title: Strings.Settings.tabName, image: Icons.settings, selectedImage: nil)
         controller.tabBarItem.imageInsets = .init(top: 3, left: 0, bottom: 4, right: 3)
         controller.delegate = self
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-        controller?.themeChanged(theme: settingsCoordinator.themeStorage.getSelectedTheme())
-#endif
         return controller
     }()
 
@@ -75,9 +71,8 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
         })
         addChild(coordinator)
         let controller = coordinator.controller
-        controller.modalPresentationStyle = .pageSheet
         controller.isModalInPresentation = true
-        settingsController.present(controller, animated: true, completion: nil)
+        settingsController.present(controller, animated: true)
     }
 
     // MARK: - Settings View Controller delegate
@@ -94,16 +89,11 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
         addContactProfileCoordinator()
     }
 
-#if SAMPLE_CUSTOMIZABLE_THEME
+    func settingsViewControllerDidOpenTheme() {
+        guard #available(iOS 15.0, *) else { return }
 
-    func openTheme() {
-        let pickerFactory = PickerFactory()
-        let themeCoordinator = ThemeCoordinator(navigationController: navigationController, themeStorage: servicesFactory.makeThemeStorage())
-        themeCoordinator.pickerFactory = pickerFactory
-        addChild(themeCoordinator)
-        themeCoordinator.start()
+        let coordinator = ThemeCoordinator(navigationController: navigationController, services: services)
+        addChild(coordinator)
+        coordinator.start()
     }
-
-#endif
-
 }
