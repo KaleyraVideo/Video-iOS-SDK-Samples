@@ -4,7 +4,7 @@
 import Foundation
 import UIKit
 
-class SettingsCell: UITableViewCell {
+final class SettingsCell: UITableViewCell {
 
     enum CellStyle {
         case normal
@@ -61,19 +61,3 @@ class SettingsCell: UITableViewCell {
         textLabel?.textColor = cellStyle == .danger ? .red : ((backgroundColor?.isLight ?? true) ? .black : .white)
     }
 }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-
-extension SettingsCell: Themable {
-
-    func themeChanged(theme: AppTheme) {
-        backgroundColor = theme.primaryBackgroundColor.toUIColor()
-        bgView.backgroundColor = theme.tertiaryBackgroundColor.toUIColor()
-        tintColor = theme.accentColor.toUIColor()
-        textLabel?.font = theme.font != nil ? theme.font?.toUIFont() : UIFont.systemFont(ofSize: 18)
-        refreshLabelTextColor()
-        detailTextLabel?.textColor = (backgroundColor?.isLight ?? true) ? .gray : .lightGray
-    }
-}
-
-#endif

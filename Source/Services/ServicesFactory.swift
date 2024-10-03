@@ -19,10 +19,6 @@ protocol ServicesFactory {
     @available(iOS 15.0, *)
     func makeSDK() -> KaleyraVideo
     func makeLogService() -> LogServiceProtocol
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-    func makeThemeStorage() -> ThemeStorage
-#endif
 }
 
 final class DefaultServicesFactory: ServicesFactory {
@@ -78,14 +74,4 @@ final class DefaultServicesFactory: ServicesFactory {
     func makeLogService() -> LogServiceProtocol {
         logService
     }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-
-    private lazy var themeStorage: ThemeStorage = UserDefaultsThemeStorage()
-
-    func makeThemeStorage() -> ThemeStorage {
-        themeStorage
-    }
-
-#endif
 }

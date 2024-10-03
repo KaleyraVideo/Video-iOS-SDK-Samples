@@ -101,22 +101,3 @@ final class ContactTableViewCell: UITableViewCell {
         selectedBackgroundView = background
     }
 }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-extension ContactTableViewCell: Themable {
-
-    func themeChanged(theme: AppTheme) {
-        let bgColor = theme.primaryBackgroundColor.toUIColor()
-        backgroundColor = bgColor
-
-        let font = theme.font != nil ? theme.font!.toUIFont() : UIFont.boldSystemFont(ofSize: 16)
-        let secondaryFont = theme.secondaryFont != nil ? theme.secondaryFont!.toUIFont() : UIFont.systemFont(ofSize: 14)
-
-        nameLabel.font = font
-        aliasLabel.font = secondaryFont
-
-        nameLabel.textColor = bgColor.isLight ? .black : .white
-        aliasLabel.textColor = bgColor.isLight ? .black : .white
-    }
-}
-#endif

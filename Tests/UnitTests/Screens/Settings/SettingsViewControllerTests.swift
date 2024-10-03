@@ -71,16 +71,12 @@ final class SettingsViewControllerTests: UnitTestCase {
         assertThat(sut.userImageView?.image?.jpegData(compressionQuality: 1), equalTo(expectedImage?.jpegData(compressionQuality: 1)))
     }
 
-#if SAMPLE_CUSTOMIZABLE_THEME
-
     func testLoadViewShouldShowDisplaySettingsSectionWithChangeThemeRow() {
         sut.loadViewIfNeeded()
 
         assertThat(sut.changeThemeCell?.textLabel?.text, presentAnd(equalTo(Strings.Settings.changeTheme)))
         assertThat(sut.changeThemeCell?.detailTextLabel?.text, nilValue())
     }
-
-#endif
 
     func testUserProfileImageViewFitItsContentsMaintainingTheAspectRatio() throws {
         sut.loadViewIfNeeded()
@@ -107,15 +103,11 @@ final class SettingsViewControllerTests: UnitTestCase {
         assertThat(delegate.logoutInvocations, hasCount(1))
     }
 
-#if SAMPLE_CUSTOMIZABLE_THEME
-
     func testFlowDelegateProtocolThemeOpenedMethodIsCalledWhenPresentThemeIsCalled() {
         sut.presentThemeViewController()
 
-        assertThat(delegate.openThemeInvocations, hasCount(1))
+        assertThat(delegate.themeInvocations, hasCount(1))
     }
-
-#endif
 
     func testViewDidDisappearShouldDeselectSelectedRow() {
         sut.loadViewIfNeeded()

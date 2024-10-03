@@ -88,17 +88,10 @@ final class AppSetupViewController: UITableViewController {
 
     var onDismiss: ((Config) -> Void)?
 
-#if SAMPLE_CUSTOMIZABLE_THEME
-
-    private var themeStorage: ThemeStorage
-#endif
 
     init(model: ViewModel, services: ServicesFactory) {
         self.model = model
         self.dataSource = .create(for: model)
-#if SAMPLE_CUSTOMIZABLE_THEME
-        self.themeStorage = services.makeThemeStorage()
-#endif
         super.init(style: .insetGrouped)
     }
 
@@ -113,9 +106,6 @@ final class AppSetupViewController: UITableViewController {
 
         title = Strings.Setup.title
         setupTableView()
-#if SAMPLE_CUSTOMIZABLE_THEME
-        themeChanged(theme: themeStorage.getSelectedTheme())
-#endif
     }
 
     private func setupTableView() {
@@ -146,25 +136,6 @@ final class AppSetupViewController: UITableViewController {
         presentAlert(.invalidConfigurationAlert())
     }
 }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-
-extension AppSetupViewController: Themable {
-
-    func themeChanged(theme: AppTheme) {
-        view.backgroundColor = theme.primaryBackgroundColor.toUIColor()
-        tableView.backgroundColor = theme.secondaryBackgroundColor.toUIColor()
-        tableViewFont = theme.font?.toUIFont() ?? UIFont.systemFont(ofSize: 20)
-        tableViewAccessoryFont = theme.secondaryFont?.toUIFont() ?? UIFont.systemFont(ofSize: 18)
-        view.subviews.forEach { subview in
-            subview.tintColor = theme.accentColor.toUIColor()
-        }
-
-        tableView.reloadData()
-    }
-}
-
-#endif
 
 private extension SectionedTableDataSource {
 

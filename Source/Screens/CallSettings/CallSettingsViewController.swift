@@ -29,9 +29,6 @@ final class CallSettingsViewController: UITableViewController {
         self.store = services.makeUserDefaultsStore()
         self.services = services
         super.init(style: .insetGrouped)
-#if SAMPLE_CUSTOMIZABLE_THEME
-        themeChanged(theme: services.makeThemeStorage().getSelectedTheme())
-#endif
     }
 
     @available(*, unavailable)
@@ -164,21 +161,3 @@ private extension SectionedTableDataSource {
         }
     }
 }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-
-extension CallSettingsViewController: Themable {
-    func themeChanged(theme: AppTheme) {
-        view.backgroundColor = theme.primaryBackgroundColor.toUIColor()
-        tableView.backgroundColor = theme.secondaryBackgroundColor.toUIColor()
-        tableViewFont = theme.font?.toUIFont() ?? UIFont.systemFont(ofSize: 20)
-        tableViewAccessoryFont = theme.secondaryFont?.toUIFont() ?? UIFont.systemFont(ofSize: 18)
-        view.subviews.forEach { subview in
-            subview.tintColor = theme.accentColor.toUIColor()
-        }
-
-        tableView.reloadData()
-    }
-}
-
-#endif

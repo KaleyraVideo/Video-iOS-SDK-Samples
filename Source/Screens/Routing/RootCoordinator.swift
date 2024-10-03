@@ -63,10 +63,6 @@ final class RootCoordinator: BaseCoordinator {
         if Config.logLevel != .off {
             logService.startLogging()
         }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-        applyTheme(theme: themeStorage.getSelectedTheme(), animated: false)
-#endif
     }
 
     private func goToScreenFor(newState: State, oldState: State) {
@@ -106,10 +102,6 @@ final class RootCoordinator: BaseCoordinator {
             self.removeChild(coordinator)
             self.userDefaultsStore.store(loggedUser: nil)
             self.state = .userChange(config: session.config)
-#if SAMPLE_CUSTOMIZABLE_THEME
-            self.themeStorage.resetToDefaultValues()
-            self.navigationController?.themeChanged(theme: self.themeStorage.getSelectedTheme())
-#endif
         }
         coordinator.onReset = { [weak self] in
             guard let self else { return }
@@ -123,26 +115,6 @@ final class RootCoordinator: BaseCoordinator {
         coordinator.start()
         pageController.setViewControllers([coordinator.tabBarController], direction: .forward, animated: true)
     }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-
-    override func handle(event: CoordinatorEvent, direction: EventDirection) -> Bool {
-        guard case CoordinatorEvent.refreshTheme = event else {
-            return try super.handle(event: event, direction: direction)
-        }
-
-        applyTheme(theme: themeStorage.getSelectedTheme())
-        return true
-    }
-
-    private func applyTheme(theme: AppTheme, animated: Bool = true) {
-        let duration = animated ? 0.2 : 0
-        UIView.animate(withDuration: duration) { [weak self] in
-            self?.navigationController?.themeChanged(theme: theme)
-        }
-    }
-
-#endif
 
     override func handle(event: CoordinatorEvent, direction: EventDirection) -> Bool {
         guard event == .shareLogFiles else {

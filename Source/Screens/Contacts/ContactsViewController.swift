@@ -85,9 +85,6 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
         title = Strings.Contacts.title
         setupTableView()
         setupNavigationItem()
-#if SAMPLE_CUSTOMIZABLE_THEME
-        themeChanged(theme: services.makeThemeStorage().getSelectedTheme())
-#endif
         appSettings.$callSettings.sink { [weak self] settings in
             if settings.isGroup {
                 self?.enableMultipleSelection(animated: true)
@@ -183,10 +180,6 @@ final class ContactsViewController: UITableViewController, UISearchBarDelegate {
                 tableView.deselectRow(at: indexPath, animated: false)
             }
         }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-        cell.themeChanged(theme: themeStorage.getSelectedTheme())
-#endif
 
         return cell
     }
@@ -312,27 +305,9 @@ private extension UIContextualAction {
         })
 
         self.image = image
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-        self.backgroundColor = themeStorage.getSelectedTheme().accentColor.toUIColor()
-#else
         self.backgroundColor = Theme.Color.primary
-#endif
     }
 }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-extension ContactsViewController: Themable {
-
-    func themeChanged(theme: AppTheme) {
-        view.backgroundColor = theme.primaryBackgroundColor.toUIColor()
-        tableView.backgroundColor = theme.secondaryBackgroundColor.toUIColor()
-        tableView.sectionIndexColor = theme.accentColor.toUIColor()
-        tableView.tintColor = theme.accentColor.toUIColor()
-        tableView.reloadData()
-    }
-}
-#endif
 
 private extension NoContentView {
 

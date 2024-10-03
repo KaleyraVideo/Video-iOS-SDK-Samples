@@ -56,9 +56,6 @@ final class LoginViewController: UITableViewController, UISearchBarDelegate {
         title = Strings.Login.title
         setupNavigationItem()
         setupTableView()
-#if SAMPLE_CUSTOMIZABLE_THEME
-        themeChanged(theme: services.makeThemeStorage().getSelectedTheme())
-#endif
         viewModel.$state.sink { [weak self] state in
             self?.display(state)
         }.store(in: &subscriptions)
@@ -157,22 +154,6 @@ final class LoginViewController: UITableViewController, UISearchBarDelegate {
         viewModel.filter(searchFilter: "")
     }
 }
-
-#if SAMPLE_CUSTOMIZABLE_THEME
-extension LoginViewController: Themable {
-
-    func themeChanged(theme: AppTheme) {
-        view.backgroundColor = theme.primaryBackgroundColor.toUIColor()
-        tableView.backgroundColor = theme.secondaryBackgroundColor.toUIColor()
-        tableViewFont = theme.font?.toUIFont() ?? UIFont.systemFont(ofSize: 20)
-        tableViewAccessoryFont = theme.secondaryFont?.toUIFont() ?? UIFont.systemFont(ofSize: 18)
-        view.subviews.forEach { subview in
-            subview.tintColor = theme.accentColor.toUIColor()
-        }
-        tableView.reloadData()
-    }
-}
-#endif
 
 private extension NoContentView {
 

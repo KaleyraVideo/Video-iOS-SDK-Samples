@@ -114,48 +114,6 @@ final class RootCoordinatorTests: UnitTestCase {
 //        assertThat(sut.mainCoordinator?.parent, present())
 //    }
 
-#if SAMPLE_CUSTOMIZABLE_THEME
-
-    func testRootCoordinatorShouldRetrurnTrueToCanHandleRefreshThemeEvent() throws {
-        let sut = try makeSUT(navigationController: navigationController)
-
-        let canHandle = sut.canHandle(event: .refreshTheme)
-
-        assertThat(canHandle, isTrue())
-    }
-
-    func testRootCoordinatorShouldPassTheCurrentAppThemeToItsNavigationControllerWhenReceveARefreshThemeEvent() throws {
-        let sut = try makeSUT(navigationController: navigationController)
-
-        navigationController.navigationBar.barStyle = .black
-        try sut.handle(event: .refreshTheme, additionalInfo: nil, eventDirection: .toParent)
-
-        assertThat(sut.themeStorage.getSelectedTheme().barStyle, not(equalTo(.black)))
-        assertThat(navigationController.navigationBar.barStyle, not(equalTo(.black)))
-    }
-
-    func testStartFunctionCallShouldPropagateARefreshThemeEventAfterViewControllersInitialization() throws {
-        let sut = try makeSUT(navigationController: navigationController)
-
-        navigationController.navigationBar.barStyle = .black
-        sut.start()
-
-        assertThat(sut.themeStorage.getSelectedTheme().barStyle, not(equalTo(.black)))
-        assertThat(navigationController.navigationBar.barStyle, not(equalTo(.black)))
-    }
-
-    func testLogoutInMainCoordinatorShouldResetSelectedThemeInThemeStorage() throws {
-        let sut = try makeSUT(navigationController: navigationController)
-        let contact = Contact("test")
-
-        sut.goToHome(loggedUser: contact)
-        sut.mainCoordinator?.onLogout?()
-
-        assertThat((sut.themeStorage as? ThemeStorageSpy)?.resetToDefaultValuesInvocations, presentAnd(hasCount(1)))
-    }
-
-#endif
-
     // MARK: - Helpers
 
     private func makeSUT(servicesFactory: ServicesFactory) -> RootCoordinator {

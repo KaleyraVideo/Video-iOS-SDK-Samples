@@ -157,19 +157,6 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
         assertThat(sut.navigationItem.rightBarButtonItems?.first?.isEnabled, presentAnd(isTrue()))
     }
 
-#if SAMPLE_CUSTOMIZABLE_THEME
-    func testThemableBehavior() {
-        let theme = AppTheme.defaultDarkTheme()
-
-        sut.themeChanged(theme: theme)
-
-        assertThat(sut.view.backgroundColor, equalTo(theme.primaryBackgroundColor.toUIColor()))
-        assertThat(sut.tableView.backgroundColor, equalTo(theme.secondaryBackgroundColor.toUIColor()))
-        assertThat(sut.tableView.sectionIndexColor, equalTo(theme.accentColor.toUIColor()))
-        assertThat(sut.tableView.tintColor, equalTo(theme.accentColor.toUIColor()))
-    }
-#endif
-
     // MARK: - Cell actions
 
     func testSwipeActionConfigurationsForCellOnSwipe() throws {
