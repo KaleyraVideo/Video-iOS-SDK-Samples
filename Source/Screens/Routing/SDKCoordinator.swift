@@ -224,22 +224,22 @@ extension SDKCoordinator: ChannelViewControllerDelegate {
         controller.dismiss(animated: true)
     }
 
-    func channelViewController(_ controller: ChannelViewController, didTapAudioCallWith users: [String]) {
-        dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioUpgradable)
+    func channelViewControllerDidTapAudioCallButton(_ controller: ChannelViewController) {
+        dismiss(channelViewController: controller, thenStartCall: .audioUpgradable)
     }
 
-    func channelViewController(_ controller: ChannelViewController, didTapVideoCallWith users: [String]) {
-        dismiss(channelViewController: controller, presentCallViewControllerWith: users, type: .audioVideo)
+    func channelViewControllerDidTapVideoCallButton(_ controller: ChannelViewController) {
+        dismiss(channelViewController: controller, thenStartCall: .audioVideo)
     }
 
-    private func dismiss(channelViewController: ChannelViewController, presentCallViewControllerWith callees: [String], type: KaleyraVideoSDK.CallOptions.CallType) {
+    private func dismiss(channelViewController: ChannelViewController, thenStartCall type: KaleyraVideoSDK.CallOptions.CallType) {
         guard let _ = controller.presentedViewController as? ChannelViewController else {
-            startOutgoingCall(userAliases: callees, type: type)
+            startOutgoingCall(userAliases: channelViewController.participants, type: type)
             return
         }
 
         channelViewController.dismiss(animated: true) { [weak self] in
-            self?.startOutgoingCall(userAliases: callees, type: type)
+            self?.startOutgoingCall(userAliases: channelViewController.participants, type: type)
         }
     }
 }
