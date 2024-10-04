@@ -7,9 +7,7 @@ import MessageUI
 
 final class RootCoordinator: BaseCoordinator {
 
-    var controller: UIViewController {
-        pageController
-    }
+    var controller: UIViewController { pageController }
 
     private lazy var pageController: UIPageViewController = .init(transitionStyle: .scroll, navigationOrientation: .horizontal)
 

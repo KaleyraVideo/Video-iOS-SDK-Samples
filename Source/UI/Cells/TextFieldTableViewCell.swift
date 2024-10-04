@@ -6,25 +6,11 @@ import UIKit
 
 final class TextFieldTableViewCell: UITableViewCell {
 
-    var text: String? {
-        get {
-            textField.text
-        }
+    @Proxy(\.textField.text)
+    var text: String?
 
-        set {
-            textField.text = newValue
-        }
-    }
-
-    var placeholder: String? {
-        get {
-            textField.placeholder
-        }
-
-        set {
-            textField.placeholder = newValue
-        }
-    }
+    @Proxy(\.textField.placeholder)
+    var placeholder: String?
 
     var onTextChanged: ((String?) -> Void)?
 

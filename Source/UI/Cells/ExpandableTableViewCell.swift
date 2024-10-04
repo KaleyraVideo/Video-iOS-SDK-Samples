@@ -40,27 +40,13 @@ class ExpandableTableViewCell: UITableViewCell {
 
     // MARK: - Content
 
-    var expandedContent: UIView! {
-        get {
-            expandedContainer.contentView
-        }
-
-        set {
-            expandedContainer.contentView = newValue
-        }
-    }
+    @Proxy(\.expandedContainer.contentView)
+    var expandedContent: UIView!
 
     // MARK: - Properties
 
-    var title: String? {
-        get {
-            titleLabel.text
-        }
-
-        set {
-            titleLabel.text = newValue
-        }
-    }
+    @Proxy(\.titleLabel.text)
+    var title: String?
 
     // MARK: - Init
 

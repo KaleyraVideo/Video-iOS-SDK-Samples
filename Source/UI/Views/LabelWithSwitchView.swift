@@ -22,28 +22,13 @@ class LabelWithSwitchView: UIView {
 
     // MARK: - Properties
 
-    var text: String? {
-        get {
-            label.text
-        }
+    @Proxy(\.label.text)
+    var text: String?
 
-        set {
-            label.text = newValue
-        }
-    }
-
-    var isOn: Bool {
-        get {
-            `switch`.isOn
-        }
-
-        set {
-            `switch`.isOn = newValue
-        }
-    }
+    @Proxy(\.switch.isOn)
+    var isOn: Bool
 
     var onValueChange: ((Bool) -> Void)?
-
 
     // MARK: - Init
 

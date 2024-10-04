@@ -7,25 +7,11 @@ import UIKit
 @available(iOS 15.0, *)
 final class ColorTableViewCell : UITableViewCell {
 
-    var title: String? {
-        get {
-            label.text
-        }
+    @Proxy(\.label.text)
+    var title: String?
 
-        set {
-            label.text = newValue
-        }
-    }
-
-    var color: UIColor? {
-        get {
-            colorWell.selectedColor
-        }
-
-        set {
-            colorWell.selectedColor = newValue
-        }
-    }
+    @Proxy(\.colorWell.selectedColor)
+    var color: UIColor?
 
     var onColorChanged: ((UIColor?) -> Void)?
 
