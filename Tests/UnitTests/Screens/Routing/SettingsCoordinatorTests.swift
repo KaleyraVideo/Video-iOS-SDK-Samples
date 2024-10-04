@@ -15,7 +15,10 @@ final class SettingsCoordinatorTests: UnitTestCase {
         super.setUp()
 
         delegate = .init()
-        sut = .init(session: .init(config: .init(keys: .any), user: .init(alias: .alice)), services: ServicesFactoryStub(), delegate: delegate)
+        sut = .init(session: .init(config: .init(keys: .any), 
+                                   user: .init(alias: .alice),
+                                   contactsStore: .init(repository: UserRepositoryDummy())),
+                    services: ServicesFactoryStub(), delegate: delegate)
     }
 
     override func tearDown() {

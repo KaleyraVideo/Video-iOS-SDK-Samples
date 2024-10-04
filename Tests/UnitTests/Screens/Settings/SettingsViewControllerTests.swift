@@ -27,7 +27,7 @@ final class SettingsViewControllerTests: UnitTestCase {
         store = .init(repository: UserRepositoryDummy())
         let services = ServicesFactoryStub()
         services.store = store
-        sut = .init(session: .init(config: config, user: contact), services: services, versions: versions)
+        sut = .init(session: .init(config: config, user: contact, contactsStore: store), services: services, versions: versions)
         sut.delegate = delegate
     }
 

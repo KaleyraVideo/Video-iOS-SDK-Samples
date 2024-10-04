@@ -7,4 +7,5 @@ struct UserSession {
 
     let config: Config
     let user: Contact
+    let contactsStore: ContactsStore
 }

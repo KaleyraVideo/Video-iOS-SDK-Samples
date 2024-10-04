@@ -18,6 +18,7 @@ final class SDKCoordinator: BaseCoordinator {
     private let controller: UIViewController
     private let config: Config
     private let sdk: KaleyraVideo
+    private let store: ContactsStore
     private let appSettings: AppSettings
     private let voipManager: VoIPNotificationsManager
     private let pushManager: PushManager
@@ -38,10 +39,12 @@ final class SDKCoordinator: BaseCoordinator {
 
     init(controller: UIViewController,
          config: Config,
+         store: ContactsStore,
          appSettings: AppSettings,
          services: ServicesFactory) {
         self.controller = controller
         self.config = config
+        self.store = store
         self.appSettings = appSettings
         self.sdk = services.makeSDK()
         self.tokenProvider = services.makeAccessTokenProvider(config: config)
@@ -61,7 +64,7 @@ final class SDKCoordinator: BaseCoordinator {
         }.store(in: &subscriptions)
 
         if config.showUserInfo {
-            sdk.userDetailsProvider = services.makeContactsStore(config: config).userDetailsProvider
+            sdk.userDetailsProvider = store.userDetailsProvider
         }
 
         sdk.conversation?.notificationsCoordinator.chatListener = self

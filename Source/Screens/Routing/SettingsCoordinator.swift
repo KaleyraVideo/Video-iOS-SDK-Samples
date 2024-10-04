@@ -63,7 +63,7 @@ final class SettingsCoordinator: BaseCoordinator, SettingsViewControllerDelegate
     private func addContactProfileCoordinator() {
         guard profileCoordinator == nil else { return }
 
-        let coordinator = ContactProfileCoordinator(contact: session.user, store: services.makeContactsStore(config: session.config), services: services)
+        let coordinator = ContactProfileCoordinator(contact: session.user, store: session.contactsStore, services: services)
         coordinator.start(onDismiss: { [weak self] contact in
             guard let self else { return }
 

@@ -25,7 +25,9 @@ final class ContactsCoordinatorTests: UnitTestCase {
     // MARK: - Helpers
 
     private func makeSUT() -> ContactsCoordinator {
-        .init(session: .init(config: .init(keys: .any), user: .init(alias: .alice)), appSettings: .init(), services: ServicesFactoryStub())
+        .init(session: .init(config: .init(keys: .any), user: .init(alias: .alice), contactsStore: .init(repository: UserRepositoryDummy())),
+              appSettings: .init(),
+              services: ServicesFactoryStub())
     }
 }
 

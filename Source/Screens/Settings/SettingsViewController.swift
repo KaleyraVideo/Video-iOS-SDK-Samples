@@ -82,7 +82,7 @@ final class SettingsViewController: UIViewController {
         self.session = session
         self.user = session.user
         self.settingsStore = services.makeUserDefaultsStore()
-        self.contactsStore = services.makeContactsStore(config: session.config)
+        self.contactsStore = session.contactsStore
         self.versions = versions
         super.init(nibName: nil, bundle: nil)
     }

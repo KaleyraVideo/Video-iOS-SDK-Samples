@@ -58,9 +58,8 @@ final class RootCoordinator: BaseCoordinator {
         appSettings.loadFromDefaults(userDefaultsStore)
         state.loadFromDefaults(userDefaultsStore)
 
-        if Config.logLevel != .off {
-            logService.startLogging()
-        }
+        guard Config.logLevel != .off else { return }
+        logService.startLogging()
     }
 
     private func goToScreenFor(newState: State, oldState: State) {
@@ -70,7 +69,7 @@ final class RootCoordinator: BaseCoordinator {
             case .userChange(config: let config):
                 goToSetup(config: config, allowReconfiguration: false, direction: .reverse)
             case .configured(config: let config, userId: let userId):
-                goToHome(session: .init(config: config, user: Contact.makeRandomContact(alias: userId)))
+                goToHome(session: .init(config: config, user: Contact.makeRandomContact(alias: userId), contactsStore: services.makeContactsStore(config: config)))
         }
     }
 
@@ -177,9 +176,9 @@ private extension Optional where Wrapped == Config {
     var setupStage: AppSetupCoordinator.Stage {
         switch self {
             case .none:
-                return .configuration
+                .configuration
             case .some(let config):
-                return .userSelection(config: config)
+                .userSelection(config: config)
         }
     }
 }

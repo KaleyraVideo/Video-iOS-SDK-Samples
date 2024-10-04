@@ -6,16 +6,15 @@ import UIKit
 
 final class LoginCoordinator: BaseCoordinator {
 
-    private let config: Config
-    private lazy var viewModel: ContactsViewModel = .init(store: services.makeContactsStore(config: config))
-    private lazy var loginController: LoginViewController = LoginViewController(viewModel: viewModel, services: services)
+    private let store: ContactsStore
+    private lazy var loginController: LoginViewController = .init(viewModel: .init(store: store), services: services)
 
     var controller: UIViewController {
         loginController
     }
 
-    init(config: Config, services: ServicesFactory) {
-        self.config = config
+    init(store: ContactsStore, services: ServicesFactory) {
+        self.store = store
         super.init(services: services)
     }
 
