@@ -125,13 +125,13 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
                 switch StyleRow(indexPath: indexPath) {
                     case .light:
                         cell.title = "Light"
-                        cell.color = theme?.paletteSeed?.resolvedLight
+                        cell.color = theme?.palette?.seed.resolvedLight
                         cell.onColorChanged = { [weak self] color in
                             self?.onLightColorChanged(color: color)
                         }
                     case .dark:
                         cell.title = "Dark"
-                        cell.color = theme?.paletteSeed?.resolvedDark
+                        cell.color = theme?.palette?.seed.resolvedDark
                         cell.onColorChanged = { [weak self] color in
                             self?.onDarkColorChanged(color: color)
                         }
@@ -149,10 +149,10 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
                 switch FontRow(indexPath: indexPath) {
                     case .regular:
                         config.text = "Regular font"
-                        font = theme?.regularFont
+                        font = theme?.typography?.regular
                     case .medium:
                         config.text = "Medium Font"
-                        font = theme?.mediumFont
+                        font = theme?.typography?.medium
                     default:
                         font = nil
                         break
@@ -195,7 +195,7 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
                 } else {
                     logo = .static(dark)
                 }
-            case .dynamic(let light, let dark):
+            case .dynamic(_, let dark):
                 if let url {
                     logo = .dynamic(light: url, dark: dark)
                 } else {
@@ -221,7 +221,7 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
                 } else {
                     logo = .static(light)
                 }
-            case .dynamic(let light, let dark):
+            case .dynamic(let light, _):
                 if let url {
                     logo = .dynamic(light: light, dark: url)
                 } else {
@@ -242,7 +242,7 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
     private func onLightColorChanged(color: UIColor?) {
         let seed: UIColor?
 
-        switch (theme?.paletteSeed?.resolvedLight, theme?.paletteSeed?.resolvedDark) {
+        switch (theme?.palette?.seed.resolvedLight, theme?.palette?.seed.resolvedDark) {
             case (_, nil):
                 seed = color
             case (_, .some(let dark)):
@@ -252,14 +252,14 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
                     seed = dark
                 }
         }
-        theme?.paletteSeed = seed
+        theme?.palette = seed.map{ .init(seed: $0) }
         tableView.reloadSections(.init(integer: Section.color.rawValue), with: .automatic)
     }
 
     private func onDarkColorChanged(color: UIColor?) {
         let seed: UIColor?
 
-        switch (theme?.paletteSeed?.resolvedLight, theme?.paletteSeed?.resolvedDark) {
+        switch (theme?.palette?.seed.resolvedLight, theme?.palette?.seed.resolvedDark) {
             case (nil, _):
                 seed = color
             case (.some(let light), _):
@@ -269,7 +269,7 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
                     seed = light
                 }
         }
-        theme?.paletteSeed = seed
+        theme?.palette = seed.map{ .init(seed: $0) }
         tableView.reloadSections(.init(integer: Section.color.rawValue), with: .automatic)
     }
 
@@ -287,11 +287,14 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
     func fontPickerViewControllerDidPickFont(_ viewController: UIFontPickerViewController) {
         if let descriptor = viewController.selectedFontDescriptor {
             let font = UIFont(descriptor: descriptor, size: UIFont.systemFontSize)
+            if theme?.typography == nil {
+                theme?.typography = .init(regular: font, medium: font)
+            }
             switch indexForFontPicker {
                 case 0:
-                    theme?.regularFont = font
+                    theme?.typography?.regular = font
                 case 1:
-                    theme?.mediumFont = font
+                    theme?.typography?.medium = font
                 default:
                     break
             }
