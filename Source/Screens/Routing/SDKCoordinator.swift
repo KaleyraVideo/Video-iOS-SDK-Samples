@@ -103,10 +103,12 @@ final class SDKCoordinator: BaseCoordinator {
 
     // MARK: - Calls
 
-    private func startOutgoingCall(userAliases: [String], type: KaleyraVideoSDK.CallOptions.CallType) {
-        sdk.conference?.call(callees: userAliases, options: .init(type: type,
-                                                                  recording: appSettings.callSettings.recording,
-                                                                  duration: appSettings.callSettings.maximumDuration)) { result in
+    private func startOutgoingCall(userAliases: [String], type: KaleyraVideoSDK.CallOptions.CallType, channelId: String?) {
+        sdk.conference?.call(callees: userAliases, 
+                             options: .init(type: type,
+                                            recording: appSettings.callSettings.recording,
+                                            duration: appSettings.callSettings.maximumDuration),
+                             channelId: channelId) { result in
             do {
                 try result.get()
             } catch {
@@ -181,7 +183,7 @@ final class SDKCoordinator: BaseCoordinator {
             case .startCall(let url):
                 startJoinCall(url: url)
             case .startOutgoingCall(type: let type, callees: let callees):
-                startOutgoingCall(userAliases: callees, type: type ?? appSettings.callSettings.type)
+                startOutgoingCall(userAliases: callees, type: type ?? appSettings.callSettings.type, channelId: nil)
             case .openChat(userId: let userId):
                 openChat(userId: userId)
             case .siri(intent: let intent):
@@ -234,12 +236,12 @@ extension SDKCoordinator: ChannelViewControllerDelegate {
 
     private func dismiss(channelViewController: ChannelViewController, thenStartCall type: KaleyraVideoSDK.CallOptions.CallType) {
         guard let _ = controller.presentedViewController as? ChannelViewController else {
-            startOutgoingCall(userAliases: channelViewController.participants, type: type)
+            startOutgoingCall(userAliases: channelViewController.participants, type: type, channelId: channelViewController.channelId)
             return
         }
 
         channelViewController.dismiss(animated: true) { [weak self] in
-            self?.startOutgoingCall(userAliases: channelViewController.participants, type: type)
+            self?.startOutgoingCall(userAliases: channelViewController.participants, type: type, channelId: channelViewController.channelId)
         }
     }
 }
