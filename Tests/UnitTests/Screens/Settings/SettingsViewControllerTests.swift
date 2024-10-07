@@ -15,7 +15,7 @@ final class SettingsViewControllerTests: UnitTestCase {
     private var config: Config!
     private var versions: Versions!
     private var delegate: DelegateSpy!
-    private var store: ContactsStore!
+    private var store: AddressBook!
 
     override func setUp() {
         super.setUp()
@@ -26,8 +26,8 @@ final class SettingsViewControllerTests: UnitTestCase {
         versions = .init(app: .init(marketing: "2.2.1"), sdk: .init(marketing: "1.1.0"))
         store = .init(repository: UserRepositoryDummy())
         let services = ServicesFactoryStub()
-        services.store = store
-        sut = .init(session: .init(config: config, user: contact, contactsStore: store), services: services, versions: versions)
+        services.book = store
+        sut = .init(session: .init(config: config, user: contact, addressBook: store), services: services, versions: versions)
         sut.delegate = delegate
     }
 

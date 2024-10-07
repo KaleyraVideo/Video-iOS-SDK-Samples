@@ -6,15 +6,15 @@ import UIKit
 
 final class LoginCoordinator: BaseCoordinator {
 
-    private let store: ContactsStore
-    private lazy var loginController: LoginViewController = .init(viewModel: .init(store: store), services: services)
+    private let book: AddressBook
+    private lazy var loginController: LoginViewController = .init(viewModel: .init(book: book), services: services)
 
     var controller: UIViewController {
         loginController
     }
 
-    init(store: ContactsStore, services: ServicesFactory) {
-        self.store = store
+    init(book: AddressBook, services: ServicesFactory) {
+        self.book = book
         super.init(services: services)
     }
 

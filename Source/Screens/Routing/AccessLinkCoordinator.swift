@@ -23,7 +23,7 @@ final class AccessLinkCoordinator: BaseCoordinator {
     func start(onDismiss: @escaping () -> Void) {
         guard #available(iOS 15.0, *) else { onDismiss(); return }
 
-        let coordinator = SDKCoordinator(controller: accessLinkController, config: config, store: services.makeContactsStore(config: config), appSettings: appSettings, services: services)
+        let coordinator = SDKCoordinator(controller: accessLinkController, config: config, book: services.makeAddressBook(config: config), appSettings: appSettings, services: services)
         addChild(coordinator)
         coordinator.start(authentication: .accessLink)
         accessLinkController.onDismiss = { [weak self] in

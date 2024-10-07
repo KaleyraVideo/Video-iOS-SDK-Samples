@@ -10,7 +10,7 @@ class ServicesFactoryStub: ServicesFactory {
     var settingsRepository: UserDefaultsStore = .init()
     var userRepository: UserRepository = UserRepositoryDummy()
     var tokenProvider: AccessTokenProvider = AccessTokenProviderDummy()
-    var store: ContactsStore?
+    var book: AddressBook?
 
     func makeSettingsRepository() -> SettingsRepository {
         settingsRepository
@@ -24,8 +24,8 @@ class ServicesFactoryStub: ServicesFactory {
         tokenProvider
     }
 
-    func makeContactsStore(config: SDK_Sample.Config) -> ContactsStore {
-        store ?? .init(repository: userRepository)
+    func makeAddressBook(config: SDK_Sample.Config) -> AddressBook {
+        book ?? .init(repository: userRepository)
     }
 
     func makeSDK() -> KaleyraVideoSDK.KaleyraVideo {

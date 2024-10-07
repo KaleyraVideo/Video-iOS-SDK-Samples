@@ -24,13 +24,13 @@ final class ContactUpdateTableViewController: UITableViewController {
     }
 
     private var contact: Contact
-    private let store: ContactsStore
+    private let book: AddressBook
 
     var onDismiss: ((Contact) -> Void)?
 
-    init(contact: Contact, store: ContactsStore) {
+    init(contact: Contact, book: AddressBook) {
         self.contact = contact
-        self.store = store
+        self.book = book
         super.init(style: .insetGrouped)
     }
 
@@ -58,7 +58,7 @@ final class ContactUpdateTableViewController: UITableViewController {
     }
 
     private func saveChanges() {
-        store.update(contact: contact)
+        book.update(contact: contact)
     }
 
     // MARK: - Data source

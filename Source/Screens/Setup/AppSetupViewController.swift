@@ -88,7 +88,6 @@ final class AppSetupViewController: UITableViewController {
 
     var onDismiss: ((Config) -> Void)?
 
-
     init(model: ViewModel) {
         self.model = model
         self.dataSource = .create(for: model)

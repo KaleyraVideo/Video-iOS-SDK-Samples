@@ -20,7 +20,7 @@ final class SettingsViewController: UIViewController {
     private let session: UserSession
     let versions: Versions
     let settingsRepository: SettingsRepository
-    let contactsStore: ContactsStore
+    let contactsStore: AddressBook
 
     var shareLogsAction: (() -> Void)?
 
@@ -82,7 +82,7 @@ final class SettingsViewController: UIViewController {
         self.session = session
         self.user = session.user
         self.settingsRepository = services.makeSettingsRepository()
-        self.contactsStore = session.contactsStore
+        self.contactsStore = session.addressBook
         self.versions = versions
         super.init(nibName: nil, bundle: nil)
     }

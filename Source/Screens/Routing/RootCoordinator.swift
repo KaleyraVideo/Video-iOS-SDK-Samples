@@ -69,7 +69,7 @@ final class RootCoordinator: BaseCoordinator {
             case .userChange(config: let config):
                 goToSetup(config: config, allowReconfiguration: false, direction: .reverse)
             case .configured(config: let config, userId: let userId):
-                goToHome(session: .init(config: config, user: Contact.makeRandomContact(alias: userId), contactsStore: services.makeContactsStore(config: config)))
+                goToHome(session: .init(config: config, user: Contact.makeRandomContact(alias: userId), addressBook: services.makeAddressBook(config: config)))
         }
     }
 

@@ -11,7 +11,7 @@ import KaleyraTestMatchers
 final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFactory {
 
     private var contact: Contact!
-    private var store: ContactsStore!
+    private var store: AddressBook!
     private var sut: ContactUpdateTableViewController!
 
     override func setUp() {
@@ -22,7 +22,7 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
         contact.lastName = "Appleseed"
         contact.imageURL = URL(string: .foobar)
         store = .init(repository: UserRepositoryDummy())
-        sut = .init(contact: contact, store: store)
+        sut = .init(contact: contact, book: store)
     }
 
     override func tearDown() {

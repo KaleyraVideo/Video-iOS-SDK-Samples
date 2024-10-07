@@ -63,8 +63,8 @@ final class AppSetupCoordinator: BaseCoordinator {
     }
 
     private func setupUserSelectionStage(config: Config) -> UIViewController {
-        let store = services.makeContactsStore(config: config)
-        let loginCoordinator = LoginCoordinator(store: store, services: services)
+        let addressBook = services.makeAddressBook(config: config)
+        let loginCoordinator = LoginCoordinator(book: addressBook, services: services)
         addChild(loginCoordinator)
         loginCoordinator.start { [weak self] user in
             guard let self else { return }
@@ -73,7 +73,7 @@ final class AppSetupCoordinator: BaseCoordinator {
 
             guard let user else { return }
 
-            self.onDismiss?(.init(config: config, user: user, contactsStore: store))
+            self.onDismiss?(.init(config: config, user: user, addressBook: addressBook))
         }
         let controller = loginCoordinator.controller
         controller.navigationItem.rightBarButtonItem = .accessLinkButton(action: { [weak self] in

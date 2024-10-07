@@ -8,7 +8,7 @@ final class ContactsCoordinator: BaseCoordinator {
 
     private let session: UserSession
     private let appSettings: AppSettings
-    private lazy var viewModel: ContactsViewModel = .init(store: session.contactsStore, loggedUser: session.user)
+    private lazy var viewModel: ContactsViewModel = .init(book: session.addressBook, loggedUser: session.user)
 
     private(set) lazy var navigationController: UINavigationController = {
         let controller = UINavigationController()
@@ -46,7 +46,7 @@ final class ContactsCoordinator: BaseCoordinator {
     }
 
     private func showProfileScreen(_ contact: Contact) {
-        let coordinator = ContactProfileCoordinator(contact: contact, store: session.contactsStore, services: services)
+        let coordinator = ContactProfileCoordinator(contact: contact, book: session.addressBook, services: services)
         coordinator.start(onDismiss: { [weak self] _ in
             guard let self else { return }
 

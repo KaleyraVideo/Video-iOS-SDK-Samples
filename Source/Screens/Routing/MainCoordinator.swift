@@ -56,7 +56,7 @@ final class MainCoordinator: BaseCoordinator {
 
     private func addSDKCoordinator() {
         guard #available(iOS 15.0, *) else { return }
-        addChild(SDKCoordinator(controller: tabBarController, config: session.config, store: session.contactsStore, appSettings: appSettings, services: services))
+        addChild(SDKCoordinator(controller: tabBarController, config: session.config, book: session.addressBook, appSettings: appSettings, services: services))
     }
 
     private func addContactsCoordinator() {

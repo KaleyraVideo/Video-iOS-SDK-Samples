@@ -18,7 +18,7 @@ final class LoginViewControllerTests: UnitTestCase, CompletionSpyFactory {
         super.setUp()
 
         repository = .init()
-        viewModel = .init(store: .init(repository: repository))
+        viewModel = .init(book: .init(repository: repository))
         sut = .init(viewModel: viewModel, services: ServicesFactoryStub())
     }
 

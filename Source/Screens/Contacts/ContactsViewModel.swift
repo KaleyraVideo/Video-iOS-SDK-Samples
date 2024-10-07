@@ -27,7 +27,7 @@ final class ContactsViewModel {
         }
     }
 
-    private let store: ContactsStore
+    private let book: AddressBook
     private let loggedUser: Contact?
     private var filter: String?
 
@@ -36,8 +36,8 @@ final class ContactsViewModel {
 
     private lazy var subscriptions = Set<AnyCancellable>()
 
-    init(store: ContactsStore, loggedUser: Contact? = nil) {
-        self.store = store
+    init(book: AddressBook, loggedUser: Contact? = nil) {
+        self.book = book
         self.loggedUser = loggedUser
     }
 
@@ -45,15 +45,15 @@ final class ContactsViewModel {
         guard !state.isLoading, !state.isLoaded else { return }
 
         state = .loading
-        store.load { [weak self] result in
+        book.load { [weak self] result in
             guard let self else { return }
 
             do {
                 _ = try result.get()
-                self.store.$contacts.dropFirst().sink { [weak self] contacts in
+                self.book.$contacts.dropFirst().sink { [weak self] contacts in
                     self?.setContacts(contacts: contacts)
                 }.store(in: &self.subscriptions)
-                self.setContacts(contacts: store.contacts)
+                self.setContacts(contacts: book.contacts)
             } catch {
                 self.state = .error(description: String(describing: error))
             }
@@ -61,7 +61,7 @@ final class ContactsViewModel {
     }
 
     func update(contact: Contact) {
-        store.update(contact: contact)
+        book.update(contact: contact)
     }
 
     func filter(searchFilter: String) {
@@ -69,7 +69,7 @@ final class ContactsViewModel {
 
         guard state.isLoaded else { return }
 
-        setContacts(contacts: store.contacts)
+        setContacts(contacts: book.contacts)
     }
 
     private func setContacts(contacts: [Contact]) {

@@ -5,7 +5,7 @@ import Foundation
 import Combine
 import KaleyraVideoSDK
 
-final class ContactsStore {
+final class AddressBook {
 
     private let repository: UserRepository
 

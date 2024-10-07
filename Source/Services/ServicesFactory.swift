@@ -7,7 +7,7 @@ import KaleyraVideoSDK
 protocol ServicesFactory {
 
     func makeSettingsRepository() -> SettingsRepository
-    func makeContactsStore(config: Config) -> ContactsStore
+    func makeAddressBook(config: Config) -> AddressBook
     func makeAccessTokenProvider(config: Config) -> AccessTokenProvider
     func makePushTokenRepository(config: Config) -> PushTokenRepository
 
@@ -29,8 +29,8 @@ final class DefaultServicesFactory: ServicesFactory {
         defaultsStore
     }
 
-    func makeContactsStore(config: Config) -> ContactsStore {
-        ContactsStore(repository: makeUserRepository(config: config).mainDecorator())
+    func makeAddressBook(config: Config) -> AddressBook {
+        AddressBook(repository: makeUserRepository(config: config).mainDecorator())
     }
 
     private func makeUserRepository(config: Config) -> UserRepository {
