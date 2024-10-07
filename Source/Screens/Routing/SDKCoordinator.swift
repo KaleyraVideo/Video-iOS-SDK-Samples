@@ -21,7 +21,6 @@ final class SDKCoordinator: BaseCoordinator {
     private let book: AddressBook
     private let appSettings: AppSettings
     private let voipManager: VoIPNotificationsManager
-    private let pushManager: PushManager
     private let tokenProvider: AccessTokenProvider
     private lazy var callWindow: CallWindow = {
         let window = CallWindow(windowScene: controller.view.window!.windowScene!)
@@ -49,7 +48,6 @@ final class SDKCoordinator: BaseCoordinator {
         self.sdk = services.makeSDK()
         self.tokenProvider = services.makeAccessTokenProvider(config: config)
         self.voipManager = services.makeVoIPManager(config: config)
-        self.pushManager = services.makePushManager(config: config)
 
         super.init(services: services)
 
@@ -83,7 +81,6 @@ final class SDKCoordinator: BaseCoordinator {
             voipManager.start(userId: userId) { [weak self] pushPayload in
                 self?.sdk.conference?.handleNotification(pushPayload)
             }
-            pushManager.start(userId: userId)
         }
 
         guard let call = sdk.conference?.registry.calls.first else { return }
@@ -95,7 +92,6 @@ final class SDKCoordinator: BaseCoordinator {
         sdk.disconnect()
         sdk.userDetailsProvider = nil
         voipManager.stop()
-        pushManager.stop()
         subscriptions.removeAll()
     }
 
@@ -177,10 +173,8 @@ final class SDKCoordinator: BaseCoordinator {
 
     override func handle(event: CoordinatorEvent, direction: EventDirection) -> Bool {
         switch event {
-            case .shareLogFiles:
+            case .shareLogFiles, .pushToken:
                 return false
-            case .pushToken(token: let token):
-                pushManager.pushTokenUpdated(token: token)
             case .chatNotification(channelId: let channelId):
                 openChat(channelID: channelId)
             case .startCall(let url):

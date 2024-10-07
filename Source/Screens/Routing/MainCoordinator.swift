@@ -70,6 +70,7 @@ final class MainCoordinator: BaseCoordinator {
     // MARK: - Start
 
     func start() {
+        session.start()
         contactsCoordinator.start(onActionSelected: ({ [weak self] action in
             guard let self else { return }
 
@@ -82,6 +83,19 @@ final class MainCoordinator: BaseCoordinator {
         }
         tabBarController.setViewControllers([contactsCoordinator.navigationController, settingsCoordinator.navigationController], animated: true)
     }
+
+    // MARK: - Events
+
+    @discardableResult
+    override func handle(event: CoordinatorEvent, direction: EventDirection) -> Bool {
+        switch event {
+            case .pushToken(token: let token):
+                session.updatePushToken(token)
+                return true
+            default:
+                return super.handle(event: event, direction: direction)
+        }
+    }
 }
 
 extension MainCoordinator: SettingsCoordinatorDelegate {
@@ -91,6 +105,7 @@ extension MainCoordinator: SettingsCoordinatorDelegate {
             sdkCoordinator.reset()
         }
         onReset?()
+        session.stop()
     }
 
     func settingsCoordinatorDidLogout() {
@@ -98,6 +113,7 @@ extension MainCoordinator: SettingsCoordinatorDelegate {
             sdkCoordinator.stop()
         }
         onLogout?()
+        session.stop()
     }
 }
 

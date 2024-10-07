@@ -17,7 +17,8 @@ final class SettingsCoordinatorTests: UnitTestCase {
         delegate = .init()
         sut = .init(session: .init(config: .init(keys: .any), 
                                    user: .init(alias: .alice),
-                                   addressBook: .init(repository: UserRepositoryDummy())),
+                                   addressBook: .init(repository: UserRepositoryDummy()),
+                                   services: ServicesFactoryStub()),
                     services: ServicesFactoryStub(), delegate: delegate)
     }
 

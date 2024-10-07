@@ -73,7 +73,7 @@ final class AppSetupCoordinator: BaseCoordinator {
 
             guard let user else { return }
 
-            self.onDismiss?(.init(config: config, user: user, addressBook: addressBook))
+            self.onDismiss?(.init(config: config, user: user, addressBook: addressBook, services: services))
         }
         let controller = loginCoordinator.controller
         controller.navigationItem.rightBarButtonItem = .accessLinkButton(action: { [weak self] in
