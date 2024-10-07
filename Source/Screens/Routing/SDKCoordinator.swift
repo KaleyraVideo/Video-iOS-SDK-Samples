@@ -20,7 +20,6 @@ final class SDKCoordinator: BaseCoordinator {
     private let sdk: KaleyraVideo
     private let book: AddressBook
     private let appSettings: AppSettings
-    private let voipManager: VoIPNotificationsManager
     private let tokenProvider: AccessTokenProvider
     private lazy var callWindow: CallWindow = {
         let window = CallWindow(windowScene: controller.view.window!.windowScene!)
@@ -47,7 +46,6 @@ final class SDKCoordinator: BaseCoordinator {
         self.appSettings = appSettings
         self.sdk = services.makeSDK()
         self.tokenProvider = services.makeAccessTokenProvider(config: config)
-        self.voipManager = services.makeVoIPManager(config: config)
 
         super.init(services: services)
 
@@ -77,8 +75,6 @@ final class SDKCoordinator: BaseCoordinator {
             }.store(in: &subscriptions)
 
             try? sdk.connect(userId: userId, provider: tokenProvider)
-
-            voipManager.start(userId: userId)
         }
 
         guard let call = sdk.conference?.registry.calls.first else { return }
@@ -89,7 +85,6 @@ final class SDKCoordinator: BaseCoordinator {
         sdk.conversation?.notificationsCoordinator.stop()
         sdk.disconnect()
         sdk.userDetailsProvider = nil
-        voipManager.stop()
         subscriptions.removeAll()
     }
 
