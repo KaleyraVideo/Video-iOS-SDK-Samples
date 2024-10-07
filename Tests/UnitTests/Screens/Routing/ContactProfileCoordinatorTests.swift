@@ -13,7 +13,7 @@ final class ContactProfileCoordinatorTests: UnitTestCase {
         let sut = makeSUT()
 
         let navController = try unwrap(sut.controller as? UINavigationController)
-        assertThat(navController.viewControllers.first as Any, instanceOf(ContactUpdateTableViewController.self))
+        assertThat(navController.viewControllers.first as Any, instanceOf(ContactProfileViewController.self))
     }
 
     func testComposeSetsNavigationItemPrefersLargeTitleToTrue() throws {

@@ -4,7 +4,7 @@
 import Foundation
 import UIKit
 
-final class ContactUpdateTableViewController: UITableViewController {
+final class ContactProfileViewController: UITableViewController {
 
     private enum Section: Int, CaseIterable {
         case firstname

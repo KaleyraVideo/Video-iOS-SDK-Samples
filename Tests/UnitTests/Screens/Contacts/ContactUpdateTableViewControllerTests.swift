@@ -12,7 +12,7 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
 
     private var contact: Contact!
     private var store: AddressBook!
-    private var sut: ContactUpdateTableViewController!
+    private var sut: ContactProfileViewController!
 
     override func setUp() {
         super.setUp()
@@ -102,7 +102,7 @@ final class ContactUpdateTableViewControllerTests: UnitTestCase, CompletionSpyFa
     }
 }
 
-private extension ContactUpdateTableViewController {
+private extension ContactProfileViewController {
 
     var footer: ButtonTableFooter? {
         tableView.tableFooterView as? ButtonTableFooter

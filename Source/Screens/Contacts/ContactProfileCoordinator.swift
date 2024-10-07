@@ -14,7 +14,7 @@ final class ContactProfileCoordinator: BaseCoordinator {
         return navController
     }()
 
-    private lazy var profileController: ContactUpdateTableViewController = .init(contact: contact, book: book)
+    private lazy var profileController: ContactProfileViewController = .init(contact: contact, book: book)
 
     init(contact: Contact, book: AddressBook, services: ServicesFactory) {
         self.contact = contact
