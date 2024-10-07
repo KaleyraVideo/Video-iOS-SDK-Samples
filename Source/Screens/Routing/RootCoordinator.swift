@@ -7,18 +7,6 @@ import MessageUI
 
 final class RootCoordinator: BaseCoordinator {
 
-    var controller: UIViewController { pageController }
-
-    private lazy var pageController: UIPageViewController = .init(transitionStyle: .scroll, navigationOrientation: .horizontal)
-
-    private let settingsRepository: SettingsRepository
-
-    private var mainCoordinator: MainCoordinator? {
-        children.compactMap({ $0 as? MainCoordinator }).first
-    }
-
-    private lazy var logService: LogServiceProtocol = services.makeLogService()
-
     private enum State {
         case startup(config: Config? = nil)
         case userChange(config: Config)
@@ -41,13 +29,18 @@ final class RootCoordinator: BaseCoordinator {
         }
     }
 
+    var controller: UIViewController { pageController }
+
+    private lazy var pageController: UIPageViewController = .init(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    private let settingsRepository: SettingsRepository
+    private lazy var logService: LogServiceProtocol = services.makeLogService()
+    private var appSettings: AppSettings = .init()
+
     private var state: State = .startup() {
         didSet {
             goToScreenFor(newState: state, oldState: oldValue)
         }
     }
-
-    private var appSettings: AppSettings = .init()
 
     override init(services: ServicesFactory) {
         self.settingsRepository = services.makeSettingsRepository()
