@@ -78,9 +78,7 @@ final class SDKCoordinator: BaseCoordinator {
 
             try? sdk.connect(userId: userId, provider: tokenProvider)
 
-            voipManager.start(userId: userId) { [weak self] pushPayload in
-                self?.sdk.conference?.handleNotification(pushPayload)
-            }
+            voipManager.start(userId: userId)
         }
 
         guard let call = sdk.conference?.registry.calls.first else { return }

@@ -15,8 +15,6 @@ final class VoIPNotificationsManager: NSObject, PKPushRegistryDelegate {
     private var userId: String?
     private lazy var cancellables: Set<AnyCancellable> = .init()
 
-    private var onPush: ((PKPushPayload) -> Void)?
-
     private var isStarted: Bool {
         userId != nil
     }
@@ -30,11 +28,10 @@ final class VoIPNotificationsManager: NSObject, PKPushRegistryDelegate {
         self.sdk = sdk
     }
 
-    func start(userId: String, onPush: @escaping (PKPushPayload) -> Void) {
+    func start(userId: String) {
         guard !isStarted else { return }
 
         self.userId = userId
-        self.onPush = onPush
 
         switch config.voip {
             case .disabled:
@@ -64,7 +61,6 @@ final class VoIPNotificationsManager: NSObject, PKPushRegistryDelegate {
         self.detector?.stop()
         cancellables.removeAll()
         self.userId = nil
-        self.onPush = nil
     }
 
     // MARK: - Token registration / deregistration
@@ -97,7 +93,7 @@ final class VoIPNotificationsManager: NSObject, PKPushRegistryDelegate {
     }
 
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
-        onPush?(payload)
+        sdk.conference?.handleNotification(payload)
         completion()
     }
 }
