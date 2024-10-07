@@ -222,7 +222,7 @@ final class AppSetupViewControllerTests: UnitTestCase {
     }
 
     private func makeSUT(config: Config) -> AppSetupViewController {
-        let sut = AppSetupViewController(model: .init(config: config), services: ServicesFactoryStub())
+        let sut = AppSetupViewController(model: .init(config: config))
         sut.loadViewIfNeeded()
         return sut
     }

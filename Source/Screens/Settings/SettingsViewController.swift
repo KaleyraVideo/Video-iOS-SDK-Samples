@@ -19,7 +19,7 @@ final class SettingsViewController: UIViewController {
 
     private let session: UserSession
     let versions: Versions
-    let settingsStore: UserDefaultsStore
+    let settingsRepository: SettingsRepository
     let contactsStore: ContactsStore
 
     var shareLogsAction: (() -> Void)?
@@ -81,7 +81,7 @@ final class SettingsViewController: UIViewController {
     init(session: UserSession, services: ServicesFactory, versions: Versions = .init()) {
         self.session = session
         self.user = session.user
-        self.settingsStore = services.makeUserDefaultsStore()
+        self.settingsRepository = services.makeSettingsRepository()
         self.contactsStore = session.contactsStore
         self.versions = versions
         super.init(nibName: nil, bundle: nil)
@@ -153,7 +153,7 @@ final class SettingsViewController: UIViewController {
     // MARK: - Reset
 
     private func reset() {
-        settingsStore.reset()
+        settingsRepository.reset()
         delegate?.settingsViewControllerDidReset()
     }
 

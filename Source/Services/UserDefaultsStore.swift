@@ -4,7 +4,7 @@
 import Foundation
 import KaleyraVideoSDK
 
-final class UserDefaultsStore {
+final class UserDefaultsStore: SettingsRepository {
 
     private enum Key: String {
         case loggedUser = "com.kaleyra.logged_user"

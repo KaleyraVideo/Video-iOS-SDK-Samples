@@ -65,7 +65,7 @@ final class SetupCoordinator: BaseCoordinator {
 
     private func goToAdvancedSetup() {
         let model = AppSetupViewController.ViewModel()
-        let controller = factory.makeAdvancedSetupViewController(model: model, services: services)
+        let controller = factory.makeAdvancedSetupViewController(model: model)
         let buttonWrapper = BarButtonItemActionWrapper {
 
         }

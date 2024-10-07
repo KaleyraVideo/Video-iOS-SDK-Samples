@@ -53,7 +53,7 @@ final class AppSetupCoordinator: BaseCoordinator {
         let coordinator = AppConfigurationCoordinator(config: config, services: services)
         addChild(coordinator)
         coordinator.start { [weak self] config in
-            try? self?.services.makeUserDefaultsStore().store(config)
+            try? self?.services.makeSettingsRepository().store(config)
             self?.goToUserSelectionStage(config: config)
         }
         let controller = coordinator.controller

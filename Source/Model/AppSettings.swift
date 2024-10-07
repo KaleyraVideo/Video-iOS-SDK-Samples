@@ -9,7 +9,7 @@ final class AppSettings {
     @Published
     var callSettings: CallSettings = .init()
 
-    func loadFromDefaults(_ userDefaults: UserDefaultsStore) {
-        callSettings = (try? userDefaults.loadSettings()) ?? .init()
+    func loadFromDefaults(_ repository: SettingsRepository) {
+        callSettings = (try? repository.loadSettings()) ?? .init()
     }
 }

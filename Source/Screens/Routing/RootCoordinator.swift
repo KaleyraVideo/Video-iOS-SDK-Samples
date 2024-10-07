@@ -11,7 +11,7 @@ final class RootCoordinator: BaseCoordinator {
 
     private lazy var pageController: UIPageViewController = .init(transitionStyle: .scroll, navigationOrientation: .horizontal)
 
-    private let userDefaultsStore: UserDefaultsStore
+    private let settingsRepository: SettingsRepository
 
     private var mainCoordinator: MainCoordinator? {
         children.compactMap({ $0 as? MainCoordinator }).first
@@ -24,9 +24,9 @@ final class RootCoordinator: BaseCoordinator {
         case userChange(config: Config)
         case configured(config: Config, userId: String)
 
-        mutating func loadFromDefaults(_ store: UserDefaultsStore) {
-            let config = try? store.loadConfig()
-            let user = store.loadLoggedUser()
+        mutating func loadFromDefaults(_ repository: SettingsRepository) {
+            let config = try? repository.loadConfig()
+            let user = repository.loadLoggedUser()
 
             switch (config, user) {
                 case (.none, .none):
@@ -50,13 +50,13 @@ final class RootCoordinator: BaseCoordinator {
     private var appSettings: AppSettings = .init()
 
     override init(services: ServicesFactory) {
-        self.userDefaultsStore = services.makeUserDefaultsStore()
+        self.settingsRepository = services.makeSettingsRepository()
         super.init(services: services)
     }
 
     func start() {
-        appSettings.loadFromDefaults(userDefaultsStore)
-        state.loadFromDefaults(userDefaultsStore)
+        appSettings.loadFromDefaults(settingsRepository)
+        state.loadFromDefaults(settingsRepository)
 
         guard Config.logLevel != .off else { return }
         logService.startLogging()
@@ -81,8 +81,8 @@ final class RootCoordinator: BaseCoordinator {
 
             self.removeChild(coordinator)
             do {
-                try self.userDefaultsStore.store(session.config)
-                self.userDefaultsStore.store(loggedUser: session.user.alias)
+                try self.settingsRepository.store(session.config)
+                self.settingsRepository.store(loggedUser: session.user.alias)
                 self.state = .configured(config: session.config, userId: session.user.alias)
             } catch {
                 self.state = .startup(config: config)
@@ -97,14 +97,14 @@ final class RootCoordinator: BaseCoordinator {
             guard let self else { return }
 
             self.removeChild(coordinator)
-            self.userDefaultsStore.store(loggedUser: nil)
+            self.settingsRepository.store(loggedUser: nil)
             self.state = .userChange(config: session.config)
         }
         coordinator.onReset = { [weak self] in
             guard let self else { return }
 
             self.removeChild(coordinator)
-            self.userDefaultsStore.reset()
+            self.settingsRepository.reset()
             self.state = .startup(config: session.config)
         }
 

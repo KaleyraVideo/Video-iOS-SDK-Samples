@@ -6,7 +6,7 @@ import KaleyraVideoSDK
 
 protocol ServicesFactory {
 
-    func makeUserDefaultsStore() -> UserDefaultsStore
+    func makeSettingsRepository() -> SettingsRepository
     func makeContactsStore(config: Config) -> ContactsStore
     func makeAccessTokenProvider(config: Config) -> AccessTokenProvider
     func makePushTokenRepository(config: Config) -> PushTokenRepository
@@ -25,7 +25,7 @@ final class DefaultServicesFactory: ServicesFactory {
     private lazy var defaultsStore: UserDefaultsStore = .init()
     private lazy var logService = LogService()
 
-    func makeUserDefaultsStore() -> UserDefaultsStore {
+    func makeSettingsRepository() -> SettingsRepository {
         defaultsStore
     }
 
@@ -56,7 +56,7 @@ final class DefaultServicesFactory: ServicesFactory {
     }
 
     func makePushManager(config: Config) -> PushManager {
-        .init(registry: makePushTokenRepository(config: config), store: makeUserDefaultsStore())
+        .init(registry: makePushTokenRepository(config: config), repository: makeSettingsRepository())
     }
 
     @available(iOS 15.0, *)

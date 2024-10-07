@@ -17,7 +17,7 @@ final class CallSettingsViewController: UITableViewController {
 
     private let appSettings: AppSettings
     private let model: ViewModel
-    private let store: UserDefaultsStore
+    private let settingsRepository: SettingsRepository
     private let services: ServicesFactory
     private lazy var dataSource: SectionedTableDataSource = .create(for: model)
 
@@ -26,7 +26,7 @@ final class CallSettingsViewController: UITableViewController {
     init(appSettings: AppSettings, services: ServicesFactory) {
         self.appSettings = appSettings
         self.model = .init(settings: appSettings.callSettings)
-        self.store = services.makeUserDefaultsStore()
+        self.settingsRepository = services.makeSettingsRepository()
         self.services = services
         super.init(style: .insetGrouped)
     }
@@ -59,7 +59,7 @@ final class CallSettingsViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        try? store.store(model.settings)
+        try? settingsRepository.store(model.settings)
         appSettings.callSettings = model.settings
         onDismiss?()
     }

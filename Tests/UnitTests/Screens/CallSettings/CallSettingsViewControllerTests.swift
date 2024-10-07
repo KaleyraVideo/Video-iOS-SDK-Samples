@@ -22,7 +22,7 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
         userDefaults = .testSuite
         store = .init(userDefaults: userDefaults)
         let services = ServicesFactoryStub()
-        services.userDefaultsStore = store
+        services.settingsRepository = store
         sut = .init(appSettings: appSettings, services: services)
     }
 

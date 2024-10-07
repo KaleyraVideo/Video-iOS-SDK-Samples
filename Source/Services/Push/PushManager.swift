@@ -8,7 +8,7 @@ import UserNotifications
 final class PushManager {
 
     private let registry: PushTokenRepository
-    private let store: UserDefaultsStore
+    private let repository: SettingsRepository
     private let center: UNUserNotificationCenter
 
     private var userId: String?
@@ -16,9 +16,9 @@ final class PushManager {
 
     private var isStarted: Bool { userId != nil }
 
-    init(registry: PushTokenRepository, store: UserDefaultsStore, center: UNUserNotificationCenter = .current()) {
+    init(registry: PushTokenRepository, repository: SettingsRepository, center: UNUserNotificationCenter = .current()) {
         self.registry = registry
-        self.store = store
+        self.repository = repository
         self.center = center
     }
 
@@ -35,7 +35,7 @@ final class PushManager {
 
     func pushTokenUpdated(token: String) {
         self.token = token
-        store.store(pushToken: token)
+        repository.store(pushToken: token)
 
         guard let userId else { return }
 

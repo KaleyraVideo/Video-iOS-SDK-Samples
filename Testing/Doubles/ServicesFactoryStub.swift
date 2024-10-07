@@ -7,13 +7,13 @@ import KaleyraVideoSDK
 
 class ServicesFactoryStub: ServicesFactory {
 
-    var userDefaultsStore: UserDefaultsStore = .init()
+    var settingsRepository: UserDefaultsStore = .init()
     var userRepository: UserRepository = UserRepositoryDummy()
     var tokenProvider: AccessTokenProvider = AccessTokenProviderDummy()
     var store: ContactsStore?
 
-    func makeUserDefaultsStore() -> UserDefaultsStore {
-        userDefaultsStore
+    func makeSettingsRepository() -> SettingsRepository {
+        settingsRepository
     }
 
     func makeUserRepository(config: SDK_Sample.Config) -> UserRepository {
@@ -41,7 +41,7 @@ class ServicesFactoryStub: ServicesFactory {
     }
 
     func makePushManager(config: SDK_Sample.Config) -> PushManager {
-        .init(registry: makePushTokenRepository(config: config), store: .init())
+        .init(registry: makePushTokenRepository(config: config), repository: settingsRepository)
     }
 
     func makeLogService() -> LogServiceProtocol {
