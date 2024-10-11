@@ -99,14 +99,6 @@
 "settings.cancel" = "Cancelar";
 "settings.select.font" = "Selecionar fonte";
 
-"color_picker.title" = "Cores";
-"color_picker.grid" = "Grade";
-"color_picker.cursors" = "Cursores";
-"color_picker.red" = "Vermelho";
-"color_picker.green" = "Verde";
-"color_picker.blue" = "Azul";
-"color_picker.opacity" = "Opacidade";
-
 // MARK: - Call settings screen
 
 "call_options.title" = "Opções de Chamada";

@@ -99,14 +99,6 @@
 "settings.cancel" = "Cancel";
 "settings.select.font" = "Select font";
 
-"color_picker.title" = "Colors";
-"color_picker.grid" = "Grid";
-"color_picker.cursors" = "Cursors";
-"color_picker.red" = "Red";
-"color_picker.green" = "Green";
-"color_picker.blue" = "Blue";
-"color_picker.opacity" = "Opacity";
-
 // MARK: - Call settings screen
 
 "call_options.title" = "Call options";

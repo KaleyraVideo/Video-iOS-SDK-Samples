@@ -246,20 +246,6 @@ enum Strings {
         static let selectFontString = NSLocalizedString("settings.select.font", comment: "select font")
     }
 
-    // MARK: - Color picker
-
-    enum ColorPicker {
-
-        static let title = NSLocalizedString("color_picker.title", comment: "Colors")
-        static let grid = NSLocalizedString("color_picker.grid", comment: "Grid")
-        static let cursors = NSLocalizedString("color_picker.cursors", comment: "Cursors")
-        static let red = NSLocalizedString("color_picker.red", comment: "Red")
-        static let green = NSLocalizedString("color_picker.green", comment: "Red")
-        static let blue = NSLocalizedString("color_picker.blue", comment: "Red")
-        static let opacity = NSLocalizedString("color_picker.opacity", comment: "Red")
-
-    }
-
     // MARK: - QR Reader
 
     enum QRReader {
