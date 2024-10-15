@@ -12,12 +12,8 @@ class QRReaderViewController: UIViewController, QRReaderCameraOutputDelegate {
 
     // MARK: - Subviews
 
-    private lazy var cameraView: UIView = {
-        let previewLayer = AVCaptureVideoPreviewLayer(session: camera.session)
-        previewLayer.frame = view.layer.bounds
-        previewLayer.videoGravity = .resizeAspectFill
-        let view = UIView(frame: view.frame)
-        view.layer.addSublayer(previewLayer)
+    private lazy var cameraView: CameraView = {
+        let view = CameraView(camera: camera)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -74,19 +70,25 @@ class QRReaderViewController: UIViewController, QRReaderCameraOutputDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         camera.start()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
+    override func viewDidDisappear(_ animated: Bool) {
         camera.stop()
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
+
+        super.viewDidDisappear(animated)
     }
 
-    // MARK: - Orientation
+    override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
 
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        .portrait
+        coordinator.animate { _ in
+            guard let orientation = UIDevice.current.orientation.videoOrientation else { return }
+
+            self.cameraView.updateOrientation(orientation)
+        }
     }
 
     // MARK: - QRReaderCameraOutputDelegate
@@ -113,6 +115,52 @@ class QRReaderViewController: UIViewController, QRReaderCameraOutputDelegate {
     @objc
     private func dismissButtonTouched(_ sender: UIButton) {
         onDismiss?(nil)
+    }
+
+    private final class CameraView: UIView {
+
+        override class var layerClass: AnyClass { AVCaptureVideoPreviewLayer.self }
+
+        private var previewLayer: AVCaptureVideoPreviewLayer {
+            layer as! AVCaptureVideoPreviewLayer
+        }
+
+        init(camera: QRReaderCamera) {
+            super.init(frame: .zero)
+            setup(camera: camera)
+        }
+
+        @available(*, unavailable)
+        required init?(coder: NSCoder) {
+            fatalError()
+        }
+
+        private func setup(camera: QRReaderCamera) {
+            previewLayer.videoGravity = .resizeAspectFill
+            previewLayer.session = camera.session
+        }
+
+        func updateOrientation(_ orientation: AVCaptureVideoOrientation) {
+            previewLayer.connection?.videoOrientation = orientation
+        }
+    }
+}
+
+private extension UIDeviceOrientation {
+
+    var videoOrientation: AVCaptureVideoOrientation? {
+        switch self {
+            case .portrait:
+                .portrait
+            case .portraitUpsideDown:
+                .portraitUpsideDown
+            case .landscapeLeft:
+                .landscapeRight
+            case .landscapeRight:
+                .landscapeLeft
+            default:
+                nil
+        }
     }
 }
 

@@ -24,15 +24,8 @@ final class QRReaderViewControllerTests: UnitTestCase, QRCodeFixtureFactory {
         let sut = makeSUT()
 
         let view = try unwrap(sut.cameraView)
-        let layer = view.layer.sublayers?.filter({ $0 is AVCaptureVideoPreviewLayer}).first
 
-        assertThat(layer, present())
-    }
-
-    func testSupportedDeviceOrientationIsPortrait() {
-        let sut = makeSUT()
-
-        assertThat(sut.supportedInterfaceOrientations, equalTo([.portrait]))
+        assertThat(view.layer, instanceOf(AVCaptureVideoPreviewLayer.self))
     }
 
     func testCallFailedDelegateWhenTheReadCodeIsNotAnUrl() {
@@ -100,4 +93,3 @@ private class QRReaderViewControllerSpy: QRReaderViewController {
         qrErrorFailedCalls.append(error)
     }
 }
-
