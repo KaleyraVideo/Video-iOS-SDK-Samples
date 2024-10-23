@@ -63,8 +63,8 @@ final class SDKCoordinator: BaseCoordinator {
             sdk.userDetailsProvider = book.userDetailsProvider
         }
 
-        sdk.conversation?.notificationsCoordinator.chatListener = self
-        sdk.conversation?.notificationsCoordinator.start()
+        sdk.conversation?.notifications.delegate = self
+        sdk.conversation?.notifications.start()
 
         if case Authentication.accessToken(userId: let userId) = authentication {
             sdk.conversation?.statePublisher.filter(\.isConnected).receive(on: RunLoop.main).sink { [weak self] state in
@@ -82,7 +82,7 @@ final class SDKCoordinator: BaseCoordinator {
     }
 
     func stop() {
-        sdk.conversation?.notificationsCoordinator.stop()
+        sdk.conversation?.notifications.stop()
         sdk.disconnect()
         sdk.userDetailsProvider = nil
         subscriptions.removeAll()
@@ -190,7 +190,7 @@ final class SDKCoordinator: BaseCoordinator {
 }
 
 @available(iOS 15.0, *)
-extension SDKCoordinator: InAppChatNotificationTouchListener {
+extension SDKCoordinator: InAppNotificationsDelegate {
 
     func onTouch(_ notification: ChatNotification) {
         presentChat(intent: .channel(id: notification.channelId))
