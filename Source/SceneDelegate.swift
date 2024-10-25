@@ -78,7 +78,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
               payload["event"] as? String == "on_message_sent",
               let payloadData = payload["data"] as? [String: AnyObject],
               let channelID = payloadData["channel_id"] as? String else { return }
-        guard !coordinator.handle(event: .chatNotification(channelId: channelID), direction: .toChildren) else { return }
+        guard !coordinator.handle(event: .chatNotification(chatId: channelID), direction: .toChildren) else { return }
         print("Error on handling chat notification")
     }
 }

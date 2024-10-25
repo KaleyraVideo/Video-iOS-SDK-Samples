@@ -27,7 +27,7 @@ final class SDKCoordinator: BaseCoordinator {
         return window
     }()
 
-    private var pendingIntent: ChannelViewController.Intent? {
+    private var pendingIntent: ChatViewController.Intent? {
         didSet {
             handleChatIntentIfPossible()
         }
@@ -95,12 +95,12 @@ final class SDKCoordinator: BaseCoordinator {
 
     // MARK: - Calls
 
-    private func startOutgoingCall(userAliases: [String], type: KaleyraVideoSDK.CallOptions.CallType, channelId: String?) {
-        sdk.conference?.call(callees: userAliases, 
+    private func startOutgoingCall(userAliases: [String], type: KaleyraVideoSDK.CallOptions.CallType, chatId: String?) {
+        sdk.conference?.call(callees: userAliases,
                              options: .init(type: type,
                                             recording: appSettings.callSettings.recording,
                                             duration: appSettings.callSettings.maximumDuration),
-                             channelId: channelId) { result in
+                             chatId: chatId) { result in
             do {
                 try result.get()
             } catch {
@@ -130,8 +130,8 @@ final class SDKCoordinator: BaseCoordinator {
 
     // MARK: - Open chat
 
-    private func openChat(channelID: String) {
-        pendingIntent = .channel(id: channelID)
+    private func openChat(id: String) {
+        pendingIntent = .chat(id: id)
     }
 
     private func openChat(userId: String) {
@@ -146,8 +146,8 @@ final class SDKCoordinator: BaseCoordinator {
         self.pendingIntent = nil
     }
 
-    private func presentChat(intent: ChannelViewController.Intent) {
-        if let presentedController = controller.presentedViewController as? ChannelViewController {
+    private func presentChat(intent: ChatViewController.Intent) {
+        if let presentedController = controller.presentedViewController as? ChatViewController {
             presentedController.dismiss(animated: true) { [weak self] in
                 self?.createAndPresentChatController(intent: intent)
             }
@@ -156,8 +156,8 @@ final class SDKCoordinator: BaseCoordinator {
         }
     }
 
-    private func createAndPresentChatController(intent: ChannelViewController.Intent) {
-        let controller = ChannelViewController(intent: intent, configuration: .init(audioButton: true, videoButton: true))
+    private func createAndPresentChatController(intent: ChatViewController.Intent) {
+        let controller = ChatViewController(intent: intent, configuration: .init(audioButton: true, videoButton: true))
         controller.delegate = self
         self.controller.present(controller, animated: true)
     }
@@ -168,12 +168,12 @@ final class SDKCoordinator: BaseCoordinator {
         switch event {
             case .shareLogFiles, .pushToken:
                 return false
-            case .chatNotification(channelId: let channelId):
-                openChat(channelID: channelId)
+            case .chatNotification(chatId: let id):
+                openChat(id: id)
             case .startCall(let url):
                 startJoinCall(url: url)
             case .startOutgoingCall(type: let type, callees: let callees):
-                startOutgoingCall(userAliases: callees, type: type ?? appSettings.callSettings.type, channelId: nil)
+                startOutgoingCall(userAliases: callees, type: type ?? appSettings.callSettings.type, chatId: nil)
             case .openChat(userId: let userId):
                 openChat(userId: userId)
             case .siri(intent: let intent):
@@ -193,7 +193,7 @@ final class SDKCoordinator: BaseCoordinator {
 extension SDKCoordinator: InAppNotificationsDelegate {
 
     func onTouch(_ notification: ChatNotification) {
-        presentChat(intent: .channel(id: notification.channelId))
+        presentChat(intent: .chat(id: notification.chatId))
     }
 }
 
@@ -210,28 +210,28 @@ extension SDKCoordinator: CallViewControllerDelegate {
 // MARK: - Channel view controller delegate
 
 @available(iOS 15.0, *)
-extension SDKCoordinator: ChannelViewControllerDelegate {
+extension SDKCoordinator: ChatViewControllerDelegate {
 
-    func channelViewControllerDidFinish(_ controller: ChannelViewController) {
+    func chatViewControllerDidFinish(_ controller: ChatViewController) {
         controller.dismiss(animated: true)
     }
 
-    func channelViewControllerDidTapAudioCallButton(_ controller: ChannelViewController) {
+    func chatViewControllerDidTapAudioCallButton(_ controller: ChatViewController) {
         dismiss(channelViewController: controller, thenStartCall: .audioUpgradable)
     }
 
-    func channelViewControllerDidTapVideoCallButton(_ controller: ChannelViewController) {
+    func chatViewControllerDidTapVideoCallButton(_ controller: ChatViewController) {
         dismiss(channelViewController: controller, thenStartCall: .audioVideo)
     }
 
-    private func dismiss(channelViewController: ChannelViewController, thenStartCall type: KaleyraVideoSDK.CallOptions.CallType) {
-        guard let _ = controller.presentedViewController as? ChannelViewController else {
-            startOutgoingCall(userAliases: channelViewController.participants, type: type, channelId: channelViewController.channelId)
+    private func dismiss(channelViewController: ChatViewController, thenStartCall type: KaleyraVideoSDK.CallOptions.CallType) {
+        guard let _ = controller.presentedViewController as? ChatViewController else {
+            startOutgoingCall(userAliases: channelViewController.participants, type: type, chatId: channelViewController.chatId)
             return
         }
 
         channelViewController.dismiss(animated: true) { [weak self] in
-            self?.startOutgoingCall(userAliases: channelViewController.participants, type: type, channelId: channelViewController.channelId)
+            self?.startOutgoingCall(userAliases: channelViewController.participants, type: type, chatId: channelViewController.chatId)
         }
     }
 }

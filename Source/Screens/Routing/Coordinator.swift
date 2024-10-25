@@ -19,7 +19,7 @@ protocol Coordinator: AnyObject {
 }
 
 enum CoordinatorEvent: Equatable {
-    case chatNotification(channelId: String)
+    case chatNotification(chatId: String)
     case pushToken(token: String)
     case startCall(url: URL)
     case startOutgoingCall(type: KaleyraVideoSDK.CallOptions.CallType?, callees: [String])
