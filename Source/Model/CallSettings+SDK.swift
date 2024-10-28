@@ -13,7 +13,7 @@ extension CallSettings.Tools {
                                                                       extensionBundleIdentifier: .extensionIdentifier) : .disabled
         config.fileshare = isFileshareEnabled ? .enabled : .disabled
         config.inAppScreenSharing = isScreenshareEnabled ? .enabled : .disabled
-        config.whiteboard = isWhiteboardEnabled ? .enabled(isUploadEnabled: true) : .disabled
+        config.whiteboard = isWhiteboardEnabled ? .enabled : .disabled
         return config
     }
 }
