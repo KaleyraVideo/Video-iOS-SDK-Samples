@@ -23,7 +23,13 @@ protocol ServicesFactory {
 final class DefaultServicesFactory: ServicesFactory {
 
     private lazy var defaultsStore: UserDefaultsStore = .init()
-    private lazy var logService = LogService()
+    private lazy var logService: LogService = {
+        if #available(iOS 15.0, *) {
+          .init(bandyerSDKType: KaleyraVideo.self)
+        } else {
+          .init()
+        }
+      }()
 
     func makeSettingsRepository() -> SettingsRepository {
         defaultsStore
