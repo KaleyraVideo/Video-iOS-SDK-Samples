@@ -65,20 +65,16 @@ final class SDKCoordinator: BaseCoordinator {
 
         sdk.conversation?.notifications.delegate = self
         sdk.conversation?.notifications.start()
+        sdk.conference?.callPublisher.compactMap({ $0 }).receive(on: RunLoop.main).sink { [weak self] call in
+            self?.present(call: call)
+        }.store(in: &subscriptions)
 
-        if case Authentication.accessToken(userId: let userId) = authentication {
-            sdk.conversation?.statePublisher.filter(\.isConnected).receive(on: RunLoop.main).sink { [weak self] state in
-                self?.handleChatIntentIfPossible()
-            }.store(in: &subscriptions)
-            sdk.conference?.registry.callAddedPublisher.receive(on: RunLoop.main).sink { [weak self] call in
-                self?.present(call: call)
-            }.store(in: &subscriptions)
+        guard case Authentication.accessToken(userId: let userId) = authentication else { return }
 
-            try? sdk.connect(userId: userId, provider: tokenProvider)
-        }
-
-        guard let call = sdk.conference?.registry.calls.first else { return }
-        present(call: call)
+        sdk.conversation?.statePublisher.filter(\.isConnected).receive(on: RunLoop.main).sink { [weak self] state in
+            self?.handleChatIntentIfPossible()
+        }.store(in: &subscriptions)
+        try? sdk.connect(userId: userId, provider: tokenProvider)
     }
 
     func stop() {
@@ -185,7 +181,7 @@ final class SDKCoordinator: BaseCoordinator {
     private func handleSiriIntent(_ intent: INIntent) {
         guard intent is INStartVideoCallIntent else { return }
 
-        sdk.conference?.registry.calls.last?.upgradeToVideo(completion: { _ in })
+        sdk.conference?.call?.upgradeToVideo(completion: { _ in })
     }
 }
 
