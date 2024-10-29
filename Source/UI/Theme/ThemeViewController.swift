@@ -91,12 +91,9 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
                 let darkURL: String?
 
                 switch theme?.logo {
-                    case .static(let url):
-                        lightURL = url.absoluteString
-                        darkURL = url.absoluteString
-                    case .dynamic(let light, let dark):
-                        lightURL = light.absoluteString
-                        darkURL = dark.absoluteString
+                    case .some(let logo):
+                        lightURL = logo.image.light.absoluteString
+                        darkURL = logo.image.dark.absoluteString
                     case nil:
                         lightURL = nil
                         darkURL = nil
@@ -186,55 +183,43 @@ final class ThemeViewController: UITableViewController, UIFontPickerViewControll
     // MARK: - Logo
 
     private func onLightLogoChanged(url: URL?) {
-        let logo: KaleyraVideoSDK.Theme.Logo?
+        let newLogo: KaleyraVideoSDK.Theme.Logo?
 
         switch theme?.logo {
-            case .static(let dark):
+            case .some(let logo) where logo.image.light != logo.image.dark :
                 if let url {
-                    logo = .dynamic(light: url, dark: dark)
+                    newLogo = .init(image: .init(light: url, dark: logo.image.dark))
                 } else {
-                    logo = .static(dark)
+                    newLogo = .init(image: .init(url: logo.image.dark))
                 }
-            case .dynamic(_, let dark):
+            default:
                 if let url {
-                    logo = .dynamic(light: url, dark: dark)
+                    newLogo = .init(image: .init(url: url))
                 } else {
-                    logo = .static(dark)
-                }
-            case nil:
-                if let url {
-                    logo = .static(url)
-                } else {
-                    logo = nil
+                    newLogo = nil
                 }
         }
-        theme?.logo = logo
+        theme?.logo = newLogo
     }
 
     private func onDarkLogoChanged(url: URL?) {
-        let logo: KaleyraVideoSDK.Theme.Logo?
+        let newLogo: KaleyraVideoSDK.Theme.Logo?
 
         switch theme?.logo {
-            case .static(let light):
+            case .some(let logo) where logo.image.light != logo.image.dark :
                 if let url {
-                    logo = .dynamic(light: light, dark: url)
+                    newLogo = .init(image: .init(light: logo.image.light, dark: url))
                 } else {
-                    logo = .static(light)
+                    newLogo = .init(image: .init(url: logo.image.dark))
                 }
-            case .dynamic(let light, _):
+            default:
                 if let url {
-                    logo = .dynamic(light: light, dark: url)
+                    newLogo = .init(image: .init(url: url))
                 } else {
-                    logo = .static(light)
-                }
-            case nil:
-                if let url {
-                    logo = .static(url)
-                } else {
-                    logo = nil
+                    newLogo = nil
                 }
         }
-        theme?.logo = logo
+        theme?.logo = newLogo
     }
 
     // MARK: - Color

@@ -99,7 +99,7 @@ final class SDKCoordinator: BaseCoordinator {
         sdk.conference?.call(callees: userAliases,
                              options: .init(type: type,
                                             recording: appSettings.callSettings.recording,
-                                            duration: appSettings.callSettings.maximumDuration),
+                                            maxDuration: appSettings.callSettings.maximumDuration),
                              chatId: chatId) { result in
             do {
                 try result.get()
