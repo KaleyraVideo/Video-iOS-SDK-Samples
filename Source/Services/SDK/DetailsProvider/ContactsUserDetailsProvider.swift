@@ -24,6 +24,6 @@ private extension Collection where Element == Contact {
 extension Contact {
 
     var userDetails: KaleyraVideoSDK.UserDetails {
-        .init(userID: alias, displayName: fullName, imageURL: imageURL, handle: fullName.map({ .init(type: .generic, value: $0) }))
+        .init(userId: alias, name: fullName, image: imageURL, handle: fullName.map({ .init(type: .generic, value: $0) }))
     }
 }
