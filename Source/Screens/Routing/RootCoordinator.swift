@@ -69,8 +69,9 @@ final class RootCoordinator: BaseCoordinator {
     private func goToSetup(config: Config?, allowReconfiguration: Bool, direction: UIPageViewController.NavigationDirection) {
         let coordinator = AppSetupCoordinator(stage: config.setupStage, allowReconfiguration: allowReconfiguration, appSettings: appSettings, services: services)
         addChild(coordinator)
-        coordinator.start { [weak self] session in
+        coordinator.start { [weak self, weak coordinator] session in
             guard let self else { return }
+            guard let coordinator else { return }
 
             self.removeChild(coordinator)
             do {

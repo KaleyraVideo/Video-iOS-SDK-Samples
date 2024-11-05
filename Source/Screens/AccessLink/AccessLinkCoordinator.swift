@@ -27,9 +27,17 @@ final class AccessLinkCoordinator: BaseCoordinator {
         addChild(coordinator)
         coordinator.start(authentication: .accessLink)
         accessLinkController.onDismiss = { [weak self] in
-            self?.removeChild(coordinator)
-            coordinator.stop()
+            self?.removeChildren()
             onDismiss()
+        }
+    }
+
+    private func removeChildren() {
+        guard #available(iOS 15.0, *) else { return }
+
+        children.compactMap({ $0 as? SDKCoordinator }).forEach {
+            $0.stop()
+            removeChild($0)
         }
     }
 }
