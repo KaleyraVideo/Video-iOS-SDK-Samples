@@ -19,6 +19,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    private lazy var pendingActivities = [NSUserActivity]()
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
 
@@ -33,9 +35,22 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         windowScene(scene, performActionFor: shortcutItem, completionHandler: { _ in })
     }
 
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        guard !pendingActivities.isEmpty else { return }
+
+        pendingActivities.forEach {
+            self.scene(scene, continue: $0)
+        }
+        pendingActivities.removeAll()
+    }
+
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             guard let url = userActivity.webpageURL else { return }
+            guard scene.activationState == .foregroundActive else {
+                pendingActivities.append(userActivity)
+                return
+            }
             guard coordinator.handle(event: .startCall(url: url), direction: .toChildren) else { return }
 
             debugPrint("Could not handle url \(url)")
