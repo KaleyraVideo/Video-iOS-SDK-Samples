@@ -14,7 +14,7 @@ final class AddressBook {
     private(set) var hasLoaded: Bool = false
 
     var userDetailsProvider: UserDetailsProvider {
-        ContactsUserDetailsProvider(contacts: contacts)
+        ContactsUserDetailsProvider(book: self)
     }
 
     init(repository: UserRepository) {

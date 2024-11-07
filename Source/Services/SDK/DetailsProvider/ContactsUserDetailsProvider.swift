@@ -7,10 +7,10 @@ import KaleyraVideoSDK
 
 struct ContactsUserDetailsProvider: UserDetailsProvider {
 
-    let contacts: [Contact]
+    let book: AddressBook
 
     func provideDetails(_ aliases: [String], completion: @escaping (Result<[KaleyraVideoSDK.UserDetails], Error>) -> Void) {
-        completion(.success(aliases.compactMap({ contacts.first(identifiedBy: $0)?.userDetails })))
+        completion(.success(aliases.compactMap({ book.contacts.first(identifiedBy: $0)?.userDetails })))
     }
 }
 
