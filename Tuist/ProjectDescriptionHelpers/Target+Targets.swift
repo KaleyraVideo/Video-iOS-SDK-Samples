@@ -28,6 +28,34 @@ extension Target {
                 dependencies: dependencies
         )
     }
+
+    public static func unitTests() -> Target {
+        .target(
+            name: "KaleyraVideoUnitTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: .bundleId(target: "KaleyraVideoUnitTests"),
+            infoPlist: .default,
+            sources: [.glob(.relativeToRoot("Tests/UnitTests/**")), .glob(.relativeToRoot("Testing/**"))],
+            resources: [],
+            dependencies: [.target(name: "KaleyraVideo"), .sdk(name: "XCTest.framework", type: .framework), .external(name: "SwiftHamcrest")],
+            settings: .settings(base: ["FRAMEWORK_SEARCH_PATHS": ["$(inherited)", "$(PLATFORM_DIR)/Developer/Library/Frameworks"]])
+        )
+    }
+
+    public static func integrationTests() -> Target {
+        .target(
+            name: "KaleyraVideoIntegrationTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: .bundleId(target: "KaleyraVideoIntegrationTests"),
+            infoPlist: .default,
+            sources: [.glob(.relativeToRoot("Tests/IntegrationTests/**")), .glob(.relativeToRoot("Testing/**"))],
+            resources: [],
+            dependencies: [.target(name: "KaleyraVideo"), .sdk(name: "XCTest.framework", type: .framework), .external(name: "SwiftHamcrest")],
+            settings: .settings(base: ["FRAMEWORK_SEARCH_PATHS": ["$(inherited)", "$(PLATFORM_DIR)/Developer/Library/Frameworks"]])
+        )
+    }
 }
 
 extension String {

@@ -7,7 +7,7 @@ import KaleyraVideoSDK
 protocol SDK {
 
     static var logLevel: KaleyraVideoSDK.LogLevel { get set }
-    static var loggers: KaleyraVideoSDK.Loggers { get set }
+    static var loggers: KaleyraVideoSDK.Logger { get set }
 }
 
 @available(iOS 15.0, *)
