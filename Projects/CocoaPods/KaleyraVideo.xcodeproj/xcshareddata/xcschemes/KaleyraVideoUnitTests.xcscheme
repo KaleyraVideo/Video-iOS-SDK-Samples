@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0CC0F3EAE1E989A2F204873"
-               BuildableName = "KaleyraVideo.app"
-               BlueprintName = "KaleyraVideo"
+               BlueprintIdentifier = "F6DAE28CD3D53FF9488C3273"
+               BuildableName = "KaleyraVideoUnitTests.xctest"
+               BlueprintName = "KaleyraVideoUnitTests"
                ReferencedContainer = "container:KaleyraVideo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8A0C9FC7C4CFF7C529BF8D67"
-               BuildableName = "KaleyraVideoIntegrationTests.xctest"
-               BlueprintName = "KaleyraVideoIntegrationTests"
+               BlueprintIdentifier = "F6DAE28CD3D53FF9488C3273"
+               BuildableName = "KaleyraVideoUnitTests.xctest"
+               BlueprintName = "KaleyraVideoUnitTests"
                ReferencedContainer = "container:KaleyraVideo.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -50,16 +50,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0CC0F3EAE1E989A2F204873"
-            BuildableName = "KaleyraVideo.app"
-            BlueprintName = "KaleyraVideo"
+            BlueprintIdentifier = "F6DAE28CD3D53FF9488C3273"
+            BuildableName = "KaleyraVideoUnitTests.xctest"
+            BlueprintName = "KaleyraVideoUnitTests"
             ReferencedContainer = "container:KaleyraVideo.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -67,16 +66,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0CC0F3EAE1E989A2F204873"
-            BuildableName = "KaleyraVideo.app"
-            BlueprintName = "KaleyraVideo"
+            BlueprintIdentifier = "F6DAE28CD3D53FF9488C3273"
+            BuildableName = "KaleyraVideoUnitTests.xctest"
+            BlueprintName = "KaleyraVideoUnitTests"
             ReferencedContainer = "container:KaleyraVideo.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

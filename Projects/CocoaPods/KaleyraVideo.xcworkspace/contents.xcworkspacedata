@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:.."
+      name = "Projects">
+      <FileRef
+         location = "group:CocoaPods/KaleyraVideo.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Dependencies">
+      <FileRef
+         location = "group:../../Tuist/.build/tuist-derived/SwiftHamcrest/SwiftHamcrest.xcodeproj">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:KaleyraVideo.xcodeproj">
    </FileRef>

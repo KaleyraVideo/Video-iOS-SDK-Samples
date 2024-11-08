@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KaleyraVideo/VideoiOSSDK",
       "state" : {
-        "revision" : "af1dec3f847da40941d8fd91bc7a78a2bc63f736",
-        "version" : "4.0.0-alpha.1"
+        "revision" : "38589a800901324be82d6c6b3adfaf6681561c20",
+        "version" : "4.0.0"
       }
     }
   ],

@@ -3,7 +3,7 @@ use_frameworks!
 target 'KaleyraVideo' do
   platform :ios, '15.0'
 
-  pod 'KaleyraVideoSDK', '4.0.0-alpha.1'
+  pod 'KaleyraVideoSDK', '4.0.0'
 end
 
 #target 'SwiftUI-Example' do
@@ -13,7 +13,7 @@ end
 #end
 
 target 'BroadcastExtension' do
-  platform :ios, '12.0'
+  platform :ios, '15.0'
 
   pod 'BandyerBroadcastExtension'
 end

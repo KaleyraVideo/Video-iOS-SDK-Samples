@@ -35,6 +35,48 @@
                ReferencedContainer = "container:KaleyraVideo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8A0C9FC7C4CFF7C529BF8D67"
+               BuildableName = "KaleyraVideoIntegrationTests.xctest"
+               BlueprintName = "KaleyraVideoIntegrationTests"
+               ReferencedContainer = "container:KaleyraVideo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F6DAE28CD3D53FF9488C3273"
+               BuildableName = "KaleyraVideoUnitTests.xctest"
+               BlueprintName = "KaleyraVideoUnitTests"
+               ReferencedContainer = "container:KaleyraVideo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B5692620898D2877D22AA3D6"
+               BuildableName = "SwiftHamcrest.framework"
+               BlueprintName = "SwiftHamcrest"
+               ReferencedContainer = "container:../../Tuist/.build/tuist-derived/SwiftHamcrest/SwiftHamcrest.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -43,6 +85,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8A0C9FC7C4CFF7C529BF8D67"
+               BuildableName = "KaleyraVideoIntegrationTests.xctest"
+               BlueprintName = "KaleyraVideoIntegrationTests"
+               ReferencedContainer = "container:KaleyraVideo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F6DAE28CD3D53FF9488C3273"
+               BuildableName = "KaleyraVideoUnitTests.xctest"
+               BlueprintName = "KaleyraVideoUnitTests"
+               ReferencedContainer = "container:KaleyraVideo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
