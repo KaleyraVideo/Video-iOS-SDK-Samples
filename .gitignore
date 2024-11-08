@@ -19,7 +19,6 @@ Podfile.lock
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -48,7 +47,6 @@ Packages
 .build/
 xcuserdata
 DerivedData/
-*.xcodeproj
 
 
 ### SwiftPM ###
@@ -63,9 +61,6 @@ xcuserdata/
 *.xccheckout
 
 ### Xcode Patch ###
-*.xcodeproj/*
-*.xcworkspace
-*.xcworkspace/*
 /*.gcno
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,cocoapods,swiftpackagemanager,swiftpm,xcodeed files ###
