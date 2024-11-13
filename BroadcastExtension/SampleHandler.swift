@@ -14,8 +14,13 @@ final class SampleHandler: RPBroadcastSampleHandler {
 #if canImport(KaleyraVideoBroadcastExtension)
         BroadcastExtension.logLevel = .all
 #endif
-        BroadcastExtension.instance.start(appGroupIdentifier: "group.com.bandyer.BandyerSDKSample", setupInfo: nil) { [unowned self] error in
-            self.finishBroadcastWithError(error)
+        do {
+            BroadcastExtension.instance.start(appGroupIdentifier: try .init("group.com.bandyer.BandyerSDKSample"),
+                                              setupInfo: nil) { [unowned self] error in
+                self.perform(#selector(finishBroadcastWithError(_:)), with: error)
+            }
+        } catch {
+            finishBroadcastWithError(error)
         }
     }
 
