@@ -30,6 +30,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         coordinator.start()
 
+        connectionOptions.userActivities.forEach({ pendingActivities.append($0) })
+
         guard let shortcutItem = connectionOptions.shortcutItem else { return }
 
         windowScene(scene, performActionFor: shortcutItem, completionHandler: { _ in })
