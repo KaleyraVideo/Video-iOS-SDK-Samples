@@ -96,6 +96,7 @@
 		34D1B718F7A660DBEA169B5C /* woman_76.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 70A5C4C6BE88A74646C8154B /* woman_76.jpg */; };
 		3519525813F2C4AABE88F20E /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C2AA0F60BD3F8068CF6856 /* LoginViewControllerTests.swift */; };
 		359F0A2EDBFEF62448FC818A /* AppSetupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922DC1F1F9938A950FBCEF4B /* AppSetupCoordinator.swift */; };
+		35B53DA6E1F8605FF2D1FB62 /* KaleyraVideoBroadcastExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7AD60B25BAC538E1F31C732 /* KaleyraVideoBroadcastExtension.xcframework */; };
 		367695D308DB5F511D3D0BFF /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7ADF841627CC0275539C33 /* SwitchTableViewCell.swift */; };
 		394BA07F6EA8913A6978BA3E /* woman_32.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C1E24EE538BB38D1FD066F6D /* woman_32.jpg */; };
 		3983FA14062EF786F6847575 /* man_53.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 10A4D294BFEFE78E34005382 /* man_53.jpg */; };
@@ -110,7 +111,6 @@
 		40FBD8AF44A2EF0E90F2EA8C /* UIBarButtonItem+Interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD84DB8810C42FAC8FAD4AD /* UIBarButtonItem+Interaction.swift */; };
 		420D18DD7827E0AF50125020 /* man_69.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F97752B658ED3E3778EA8590 /* man_69.jpg */; };
 		421CF40B33FEBD9AC0A7CDDF /* Config+Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCD178CC29D324D2F1E860F /* Config+Region.swift */; };
-		428683E497CC56C07CA2AA32 /* BandyerBroadcastExtension.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D6F81D5C4050439BB5272AB /* BandyerBroadcastExtension.xcframework */; };
 		42D333FCA122F66A4E836EF4 /* LogServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003F658F36414C37F48FA87A /* LogServiceTests.swift */; };
 		42E6B579570595E1595E3927 /* EnvironmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E196D9C21762FC7F67150E1 /* EnvironmentTests.swift */; };
 		43567E7F5A33BB677376E496 /* woman_79.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3A78C6F03CBC581144289B3E /* woman_79.jpg */; };
@@ -233,7 +233,6 @@
 		88D8D265B00EFB1E8D24835E /* man_6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A20F0B0424CA00472C6F00C8 /* man_6.jpg */; };
 		88EFC68F5CBD255EA491E478 /* UIActivityIndicatorView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FEE6EA07C1CBEE8B4D2D5B /* UIActivityIndicatorView+Extension.swift */; };
 		89F91CF91842D303FD401D21 /* woman_62.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 094A7269AD2B68E19D29A915 /* woman_62.jpg */; };
-		8AB8205C0F25217C1950C0CF /* BandyerBroadcastExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D6F81D5C4050439BB5272AB /* BandyerBroadcastExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8BEA0EF3A283D43A292B6772 /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6595AA03084B6A1ABF51A2 /* MainQueueDispatchDecorator.swift */; };
 		8BFE54060A47A07AFA29F661 /* ServicesFactoryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D0695B0894A9E4375B761E /* ServicesFactoryStub.swift */; };
 		8C196FE6FB55B9805A724B20 /* CallSettingsCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3546EB7C865B95006A44CED1 /* CallSettingsCoordinatorTests.swift */; };
@@ -387,6 +386,7 @@
 		E4B90E70B8833903B3164060 /* String+TrimmingWhitespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683AE53ECC2C2EC6A3C4E289 /* String+TrimmingWhitespace.swift */; };
 		E500106B4F9961F0830498C0 /* woman_34.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5B6C830AC70B3BCA5CD02AB2 /* woman_34.jpg */; };
 		E56F4C32B8B810E82B81F015 /* man_12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F0F883E1AD6F5AB9FB19BE3F /* man_12.jpg */; };
+		E5C7FF85121A10BEACCBCDD7 /* KaleyraVideoBroadcastExtension.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D7AD60B25BAC538E1F31C732 /* KaleyraVideoBroadcastExtension.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E6B01C09F95DA94DF1B6A364 /* woman_68.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 613367D55A3B1F6166E71B78 /* woman_68.jpg */; };
 		E6C89AD68EBDCD76B0785181 /* LocalizationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C070C3826FC09A4BADDE2A5 /* LocalizationsTests.swift */; };
 		E80F504FDA06AC40BA8A4ABC /* man_16.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1C4843D2D4659CD0C6344165 /* man_16.jpg */; };
@@ -483,7 +483,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8AB8205C0F25217C1950C0CF /* BandyerBroadcastExtension.xcframework in Embed Frameworks */,
+				E5C7FF85121A10BEACCBCDD7 /* KaleyraVideoBroadcastExtension.xcframework in Embed Frameworks */,
 				B8326284A9F4534152BAE9F7 /* KaleyraVideoSDK.xcframework in Embed Frameworks */,
 				A1040765FCB99BA0FCB0F07A /* WebRTC.xcframework in Embed Frameworks */,
 			);
@@ -599,7 +599,6 @@
 		37E38B23C3E7EE3E62FE8A26 /* woman_24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_24.jpg; sourceTree = "<group>"; };
 		39603D372BD1EA7544DAD67C /* woman_77.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_77.jpg; sourceTree = "<group>"; };
 		3A78C6F03CBC581144289B3E /* woman_79.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_79.jpg; sourceTree = "<group>"; };
-		3D6F81D5C4050439BB5272AB /* BandyerBroadcastExtension.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = BandyerBroadcastExtension.xcframework; sourceTree = "<group>"; };
 		3D7B69C82250F61CC64A5C6F /* SettingsCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinatorTests.swift; sourceTree = "<group>"; };
 		3E36BB13F9BE7B14CAA61182 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3E3DA09C2415C29818910A54 /* woman_53.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_53.jpg; sourceTree = "<group>"; };
@@ -867,6 +866,7 @@
 		D5F75F694BF6DA22BC35F66A /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		D6E82BFF18515D92ADC06625 /* KaleyraVideoIntegrationTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "KaleyraVideoIntegrationTests-Info.plist"; sourceTree = "<group>"; };
 		D7487ACB86DAE1762479A6DE /* man_44.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_44.jpg; sourceTree = "<group>"; };
+		D7AD60B25BAC538E1F31C732 /* KaleyraVideoBroadcastExtension.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:TQ49746752:Bandyer srl"; lastKnownFileType = wrapper.xcframework; path = KaleyraVideoBroadcastExtension.xcframework; sourceTree = "<group>"; };
 		D7C6CD04897074548442E6E8 /* woman_89.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_89.jpg; sourceTree = "<group>"; };
 		D9087C8CEB5526E618557872 /* CallSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSettingsViewController.swift; sourceTree = "<group>"; };
 		D95DBF803BAF31614C055E11 /* SingleChoiceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleChoiceSelectionViewController.swift; sourceTree = "<group>"; };
@@ -945,7 +945,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				428683E497CC56C07CA2AA32 /* BandyerBroadcastExtension.xcframework in Frameworks */,
+				35B53DA6E1F8605FF2D1FB62 /* KaleyraVideoBroadcastExtension.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,7 +1063,7 @@
 		19B29946FC503E443F18FF9D /* videoiosbroadcastextension */ = {
 			isa = PBXGroup;
 			children = (
-				82FAF661F0D68FE733EED7F2 /* BandyerBroadcastExtension */,
+				4985CB66502192C0FBE01E8D /* KaleyraVideoBroadcastExtension */,
 			);
 			path = videoiosbroadcastextension;
 			sourceTree = "<group>";
@@ -1315,6 +1315,14 @@
 				5D9307BFE0E5C91F2A26AB5E /* UserDefaultsStoreTests.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		4985CB66502192C0FBE01E8D /* KaleyraVideoBroadcastExtension */ = {
+			isa = PBXGroup;
+			children = (
+				D7AD60B25BAC538E1F31C732 /* KaleyraVideoBroadcastExtension.xcframework */,
+			);
+			path = KaleyraVideoBroadcastExtension;
 			sourceTree = "<group>";
 		};
 		4B5A4B87C13B5B6C1F0E5B9C /* VoIP */ = {
@@ -1612,14 +1620,6 @@
 				A1F51A48C961CAD67264E45C /* ContactsViewModel.swift */,
 			);
 			path = Contacts;
-			sourceTree = "<group>";
-		};
-		82FAF661F0D68FE733EED7F2 /* BandyerBroadcastExtension */ = {
-			isa = PBXGroup;
-			children = (
-				3D6F81D5C4050439BB5272AB /* BandyerBroadcastExtension.xcframework */,
-			);
-			path = BandyerBroadcastExtension;
 			sourceTree = "<group>";
 		};
 		85875590FC1E1928D313F91A /* Footers */ = {
@@ -2842,7 +2842,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../Tuist/.build/artifacts/videoiosbroadcastextension/BandyerBroadcastExtension",
+					"$(SRCROOT)/../../Tuist/.build/artifacts/videoiosbroadcastextension/KaleyraVideoBroadcastExtension",
 				);
 				INFOPLIST_FILE = ../../BroadcastExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2991,7 +2991,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../Tuist/.build/artifacts/videoiosbroadcastextension/BandyerBroadcastExtension",
+					"$(SRCROOT)/../../Tuist/.build/artifacts/videoiosbroadcastextension/KaleyraVideoBroadcastExtension",
 				);
 				INFOPLIST_FILE = ../../BroadcastExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

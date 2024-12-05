@@ -25,7 +25,6 @@
 		0A83D5037B45394BA9FA8CA7 /* man_47.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B291B245EEDB687C278D7ABD /* man_47.jpg */; };
 		0AA84866BBA1C0C5DB0752C8 /* woman_37.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FAAFF1010D9680D5FDDBE5DD /* woman_37.jpg */; };
 		0BB5DEB81A485EE160533AD1 /* UIColor+Resolved.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEF785501F328749AE19B4C /* UIColor+Resolved.swift */; };
-		0BC3098C4F22FEAFAD2DA024 /* Pods_KaleyraVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C296565EBD166327026D5FE /* Pods_KaleyraVideo.framework */; };
 		0CC5D435CB85222D552299C2 /* man_67.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73EB7D59F3B48D3788BB0D49 /* man_67.jpg */; };
 		0CC64FA9B5FBB7E4DB17A47F /* ContactsCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC2D0DA480E222780E03739 /* ContactsCoordinatorTests.swift */; };
 		0D9FF952234ED33B2B185C51 /* woman_97.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4BF0475FF08EFC5BE85FE37 /* woman_97.jpg */; };
@@ -103,6 +102,7 @@
 		3A740932D34F1C0CF624D175 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A19C34E892D7B5705E478D5 /* AppDelegate.swift */; };
 		3AB1D79A9424C0FA24095FBC /* man_8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 95B5360DF830E99519BB413C /* man_8.jpg */; };
 		3AD307B910E93310FC9688DB /* woman_88.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 80C9057B7523DDC312F737D4 /* woman_88.jpg */; };
+		3BBD8A473C3F07CC1F2B06BE /* Pods_BroadcastExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8593DDFDDEE444D232384BC2 /* Pods_BroadcastExtension.framework */; };
 		3BD022689305012D00719C0F /* man_32.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 28EB3323DE140A246EE9F144 /* man_32.jpg */; };
 		3CE1FF5BF244D5B0A6A3E900 /* woman_72.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6205DBF9E9E11A27565D9F32 /* woman_72.jpg */; };
 		3E2CCF47E903749588CBA11B /* QRReaderViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE21C2EE2145DD282F8C0D8 /* QRReaderViewControllerTests.swift */; };
@@ -120,6 +120,7 @@
 		45D926BD823B5935FEE907F0 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C98D791702F4CCA01E421B /* Theme.swift */; };
 		46116CA35BBA328569B69B6E /* man_43.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 62472CDAD935A8E33782F554 /* man_43.jpg */; };
 		46685A69CDDD6602EDCA8454 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00212B5066AB07EC253D586 /* Config.swift */; };
+		4677D176EEE6EF9886912E54 /* Pods_KaleyraVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6444ACCC957D9C35927857B5 /* Pods_KaleyraVideo.framework */; };
 		46AE69FC7D04CCD73DD3FE09 /* man_35.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5191510EFEE7774791078B4 /* man_35.jpg */; };
 		46AEA6BDCB76E83EF248B902 /* man_13.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 35C692FD06941CD50F9ED952 /* man_13.jpg */; };
 		46C695CE64E2143F3E933AFC /* CoordinatorDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACC3B20FDB3D2A05799A999 /* CoordinatorDoubles.swift */; };
@@ -258,7 +259,6 @@
 		9BEFA0F7F5110EB3698FD360 /* man_84.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0652E99DCD1773B4E6DC2945 /* man_84.jpg */; };
 		9C407D05814AC774E97EF8A5 /* woman_44.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 616DC016CA0020635AA4A502 /* woman_44.jpg */; };
 		9CB5ADCCBF58DB8CD3E9E97D /* man_91.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4BDEF0FE2AF3CFF0CCA56183 /* man_91.jpg */; };
-		9D1E380D09F559CB155A8FFC /* Pods_BroadcastExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6738B26FA79E6D6DF885759F /* Pods_BroadcastExtension.framework */; };
 		9D6AF8CA6F4DB0C9A8115A1A /* ContactsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A86229A2A4E1616292823 /* ContactsCoordinator.swift */; };
 		9DB3D6BD19336E72DA282F5A /* QRCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBEC1A01AA301935177420D /* QRCodeTests.swift */; };
 		9EAC2064536CD2E270A1739D /* Config+VoIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC7768E4075ADB97D3B8A29 /* Config+VoIP.swift */; };
@@ -570,7 +570,6 @@
 		2AEAEF49D7B64CE750CCA41C /* woman_75.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_75.jpg; sourceTree = "<group>"; };
 		2B451924D704395EFDB17BC0 /* Data+PushToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+PushToken.swift"; sourceTree = "<group>"; };
 		2B5BB65B8C47A3BC1F613DE1 /* RestPushTokenRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestPushTokenRepository.swift; sourceTree = "<group>"; };
-		2C296565EBD166327026D5FE /* Pods_KaleyraVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KaleyraVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C5708456501943046EFB136 /* AddressBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBook.swift; sourceTree = "<group>"; };
 		2D963EA352054EAD25CFE6E3 /* woman_96.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_96.jpg; sourceTree = "<group>"; };
 		2DBF35A0D463A84401B43AA4 /* ThemeCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCoordinatorTests.swift; sourceTree = "<group>"; };
@@ -603,6 +602,7 @@
 		40EEBA61A1D6061F007C814C /* Company.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		412B436D28016D724046BC1C /* man_83.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_83.jpg; sourceTree = "<group>"; };
 		42257FBE801215F7D2358448 /* man_63.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_63.jpg; sourceTree = "<group>"; };
+		459B537CC06D033B546337F1 /* Pods-KaleyraVideo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaleyraVideo.debug.xcconfig"; path = "Target Support Files/Pods-KaleyraVideo/Pods-KaleyraVideo.debug.xcconfig"; sourceTree = "<group>"; };
 		45BE9215E6108CFB6F413000 /* RestAccessTokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestAccessTokenProvider.swift; sourceTree = "<group>"; };
 		45DB0CE82A04CE454430DAC7 /* ButtonTableFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableFooter.swift; sourceTree = "<group>"; };
 		47521F910454F3F9AFFEB3C3 /* SwiftHamcrest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHamcrest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -633,6 +633,7 @@
 		51F13649B1AC858A553FE4F1 /* woman_30.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_30.jpg; sourceTree = "<group>"; };
 		522B705E8BEC4D85C7AACC7F /* woman_8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_8.jpg; sourceTree = "<group>"; };
 		53258E15C5B7AE77F121A969 /* AccessTokenProviderDoubles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenProviderDoubles.swift; sourceTree = "<group>"; };
+		538635BCD502347ACFF5160B /* Pods-BroadcastExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BroadcastExtension.release.xcconfig"; path = "Target Support Files/Pods-BroadcastExtension/Pods-BroadcastExtension.release.xcconfig"; sourceTree = "<group>"; };
 		54E3D9DAE9BF52C004F6C384 /* ColorTableViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTableViewCellTests.swift; sourceTree = "<group>"; };
 		56CABAEFC2D3F2EE8CF0253B /* ThemeViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewControllerTests.swift; sourceTree = "<group>"; };
 		5844194474B1A2C74FE2D4D8 /* woman_10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_10.jpg; sourceTree = "<group>"; };
@@ -661,10 +662,10 @@
 		639B85DDE115E29437CEB4EC /* woman_50.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_50.jpg; sourceTree = "<group>"; };
 		63B1CF830C783FEE0D3C81AB /* man_98.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_98.jpg; sourceTree = "<group>"; };
 		6428FC701143598DAF0E497D /* AppSetupTypePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSetupTypePresenterTests.swift; sourceTree = "<group>"; };
+		6444ACCC957D9C35927857B5 /* Pods_KaleyraVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KaleyraVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65D390B851D8B102A0DE4342 /* ThemeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCoordinator.swift; sourceTree = "<group>"; };
 		6621F66A8945E3E855866055 /* woman_19.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_19.jpg; sourceTree = "<group>"; };
 		670C892D0C09DB1F00EC7454 /* woman_14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_14.jpg; sourceTree = "<group>"; };
-		6738B26FA79E6D6DF885759F /* Pods_BroadcastExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BroadcastExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		683AE53ECC2C2EC6A3C4E289 /* String+TrimmingWhitespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TrimmingWhitespace.swift"; sourceTree = "<group>"; };
 		6896C2EE59C790B8B11CE162 /* man_73.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_73.jpg; sourceTree = "<group>"; };
 		68C1F4CA629B807A51161874 /* woman_83.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_83.jpg; sourceTree = "<group>"; };
@@ -710,13 +711,13 @@
 		81AD8B7DE3C50572BE3531EA /* man_76.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_76.jpg; sourceTree = "<group>"; };
 		856B9FAEA90BB971404FCB68 /* woman_25.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_25.jpg; sourceTree = "<group>"; };
 		8582D985258CDC4A0398E995 /* UISearchBar+SimulatedSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+SimulatedSearch.swift"; sourceTree = "<group>"; };
+		8593DDFDDEE444D232384BC2 /* Pods_BroadcastExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BroadcastExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		859D168F21339C5F9C3F9552 /* woman_70.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_70.jpg; sourceTree = "<group>"; };
 		85ACEC7F8F504A3E7DFA08F1 /* man_36.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_36.jpg; sourceTree = "<group>"; };
 		85F5D824CE8C815BFC63CFA6 /* man_37.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_37.jpg; sourceTree = "<group>"; };
 		8673ACB9C6846C5D6A62AB69 /* woman_31.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_31.jpg; sourceTree = "<group>"; };
 		86E9861685118E9020D31632 /* man_88.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_88.jpg; sourceTree = "<group>"; };
 		87E233D691D61190EC7FB9B7 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		8871CBE7EA26EAC1C51BFF7B /* Pods-KaleyraVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaleyraVideo.release.xcconfig"; path = "Target Support Files/Pods-KaleyraVideo/Pods-KaleyraVideo.release.xcconfig"; sourceTree = "<group>"; };
 		88F79FC611FB5254DFFF83F6 /* SettingsCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCellTests.swift; sourceTree = "<group>"; };
 		890A27A1DC94E3DFDB15DEC1 /* man_41.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_41.jpg; sourceTree = "<group>"; };
 		8AB7DC08C5FCE9624B81C6FB /* man_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_5.jpg; sourceTree = "<group>"; };
@@ -852,11 +853,11 @@
 		CE610DBCF7A0EFB4329C7703 /* woman_21.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_21.jpg; sourceTree = "<group>"; };
 		D0319FE080C28EFC2793EEBE /* MainCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinatorTests.swift; sourceTree = "<group>"; };
 		D08B0833B79BE38CC22F5638 /* ToolsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsSection.swift; sourceTree = "<group>"; };
+		D1FAC74F8C68F7AC9F56DD5E /* Pods-KaleyraVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaleyraVideo.release.xcconfig"; path = "Target Support Files/Pods-KaleyraVideo/Pods-KaleyraVideo.release.xcconfig"; sourceTree = "<group>"; };
 		D27D8F1AAB1BFF0302EA59DD /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		D2DD814471099202E8B281A4 /* AdvancedSettingsSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsSetupViewController.swift; sourceTree = "<group>"; };
 		D3E8CB5CFF798E8F322C9559 /* LoaderViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderViewTests.swift; sourceTree = "<group>"; };
 		D42F972DA39126C4929B577B /* woman_42.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_42.jpg; sourceTree = "<group>"; };
-		D45E4BD2C75E9D7E1CEE87F8 /* Pods-BroadcastExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BroadcastExtension.release.xcconfig"; path = "Target Support Files/Pods-BroadcastExtension/Pods-BroadcastExtension.release.xcconfig"; sourceTree = "<group>"; };
 		D4F45A58395EF84C947EAA16 /* TestingAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingAppDelegate.swift; sourceTree = "<group>"; };
 		D591F76B9CB528C4E2F202DC /* woman_71.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_71.jpg; sourceTree = "<group>"; };
 		D5F75F694BF6DA22BC35F66A /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
@@ -866,7 +867,6 @@
 		D9087C8CEB5526E618557872 /* CallSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSettingsViewController.swift; sourceTree = "<group>"; };
 		D95DBF803BAF31614C055E11 /* SingleChoiceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleChoiceSelectionViewController.swift; sourceTree = "<group>"; };
 		D9840C72305F54A9E937B9C7 /* woman_93.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_93.jpg; sourceTree = "<group>"; };
-		D9F7377641F5554139DD57DC /* Pods-KaleyraVideo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KaleyraVideo.debug.xcconfig"; path = "Target Support Files/Pods-KaleyraVideo/Pods-KaleyraVideo.debug.xcconfig"; sourceTree = "<group>"; };
 		DA207FC361377AA901287BA8 /* man_60.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_60.jpg; sourceTree = "<group>"; };
 		DA5AFDA5280D7901BACB480C /* AdvancedSettingsSetupViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsSetupViewControllerTests.swift; sourceTree = "<group>"; };
 		DAD951CD66456D9DB25143A1 /* woman_16.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_16.jpg; sourceTree = "<group>"; };
@@ -876,6 +876,7 @@
 		DCE6D0BD5A97393060FBB6D3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		DCEEE240E44713D98CECC883 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		DCEF785501F328749AE19B4C /* UIColor+Resolved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Resolved.swift"; sourceTree = "<group>"; };
+		DD5534C5DF0376E92475CD3B /* Pods-BroadcastExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BroadcastExtension.debug.xcconfig"; path = "Target Support Files/Pods-BroadcastExtension/Pods-BroadcastExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		DF0D8DA21B6C04B70E76FB83 /* SingleChoiceTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleChoiceTableViewSection.swift; sourceTree = "<group>"; };
 		DFCD178CC29D324D2F1E860F /* Config+Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Config+Region.swift"; sourceTree = "<group>"; };
 		E11ACD8F054DD759E890C1ED /* VoIPNotificationsDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoIPNotificationsDetector.swift; sourceTree = "<group>"; };
@@ -888,7 +889,6 @@
 		E48DD30DDCF0CC442A16055F /* woman_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_2.jpg; sourceTree = "<group>"; };
 		E4C171E258235BCAAC738256 /* man_61.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = man_61.jpg; sourceTree = "<group>"; };
 		E644AAA068999AD063E9323E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E6F90C256F90FAFFDE05D023 /* Pods-BroadcastExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BroadcastExtension.debug.xcconfig"; path = "Target Support Files/Pods-BroadcastExtension/Pods-BroadcastExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		E8C2EA4F33611DEDB2BD51D9 /* woman_45.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman_45.jpg; sourceTree = "<group>"; };
 		EA4BE82F67CF4DF6F096F5CE /* QRReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderViewController.swift; sourceTree = "<group>"; };
 		EA8272C83E9EC84F05B2A4B8 /* UIColor+ExtUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+ExtUnitTests.swift"; sourceTree = "<group>"; };
@@ -941,7 +941,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D1E380D09F559CB155A8FFC /* Pods_BroadcastExtension.framework in Frameworks */,
+				3BBD8A473C3F07CC1F2B06BE /* Pods_BroadcastExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -949,7 +949,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BC3098C4F22FEAFAD2DA024 /* Pods_KaleyraVideo.framework in Frameworks */,
+				4677D176EEE6EF9886912E54 /* Pods_KaleyraVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -965,6 +965,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01CC9D32E8B812304E232E56 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DD5534C5DF0376E92475CD3B /* Pods-BroadcastExtension.debug.xcconfig */,
+				538635BCD502347ACFF5160B /* Pods-BroadcastExtension.release.xcconfig */,
+				459B537CC06D033B546337F1 /* Pods-KaleyraVideo.debug.xcconfig */,
+				D1FAC74F8C68F7AC9F56DD5E /* Pods-KaleyraVideo.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		04ED8E629E441BBCFA621D4C /* Derived */ = {
 			isa = PBXGroup;
 			children = (
@@ -1112,7 +1124,7 @@
 				233C1ADB39CE5E748FEC52BF /* Project */,
 				B2C4BC9B24C0AC1B486C8B13 /* Products */,
 				44D49A25EF629F4842F66A02 /* Frameworks */,
-				D54C9C73FF8FD669999450D5 /* Pods */,
+				01CC9D32E8B812304E232E56 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1262,8 +1274,8 @@
 			isa = PBXGroup;
 			children = (
 				A37FA06279EF35F1AD5F43FF /* XCTest.framework.framework */,
-				6738B26FA79E6D6DF885759F /* Pods_BroadcastExtension.framework */,
-				2C296565EBD166327026D5FE /* Pods_KaleyraVideo.framework */,
+				8593DDFDDEE444D232384BC2 /* Pods_BroadcastExtension.framework */,
+				6444ACCC957D9C35927857B5 /* Pods_KaleyraVideo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1873,18 +1885,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		D54C9C73FF8FD669999450D5 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				E6F90C256F90FAFFDE05D023 /* Pods-BroadcastExtension.debug.xcconfig */,
-				D45E4BD2C75E9D7E1CEE87F8 /* Pods-BroadcastExtension.release.xcconfig */,
-				D9F7377641F5554139DD57DC /* Pods-KaleyraVideo.debug.xcconfig */,
-				8871CBE7EA26EAC1C51BFF7B /* Pods-KaleyraVideo.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		D5CDE12FDC33BD6CC7AC9A9B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -2053,7 +2053,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 16334F913A1887AF4FC3A7EA /* Build configuration list for PBXNativeTarget "BroadcastExtension" */;
 			buildPhases = (
-				EC206BF22245676E2DFE21E6 /* [CP] Check Pods Manifest.lock */,
+				3B20402CE03B58A841AC5999 /* [CP] Check Pods Manifest.lock */,
 				38F07A3B02882290C6ED9368 /* Sources */,
 				4D379E0CD0E256F6E13B5A05 /* Resources */,
 				CB5283892A7689C7ED220A4D /* Embed Frameworks */,
@@ -2091,13 +2091,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 490D473E3A2908355E5D7EDA /* Build configuration list for PBXNativeTarget "KaleyraVideo" */;
 			buildPhases = (
-				E9E7114D4C8142629366D242 /* [CP] Check Pods Manifest.lock */,
+				301AF0CEEED4CA1CB124B2B0 /* [CP] Check Pods Manifest.lock */,
 				627D9D31198B0B73CFDBEA07 /* Sources */,
 				B688671A2F4C554FEB598623 /* Resources */,
 				BC868C031F5E027BD2A42440 /* Embed Foundation Extensions */,
 				8B36DEFC18F075037FFCCF2D /* Embed Frameworks */,
 				DDEE6662D638C8BA7E652049 /* Frameworks */,
-				C08529AE842D7747755CF075 /* [CP] Embed Pods Frameworks */,
+				2895C1DEBB00DA118FE5A4AC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2404,7 +2404,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C08529AE842D7747755CF075 /* [CP] Embed Pods Frameworks */ = {
+		2895C1DEBB00DA118FE5A4AC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2421,7 +2421,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KaleyraVideo/Pods-KaleyraVideo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E9E7114D4C8142629366D242 /* [CP] Check Pods Manifest.lock */ = {
+		301AF0CEEED4CA1CB124B2B0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2443,7 +2443,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EC206BF22245676E2DFE21E6 /* [CP] Check Pods Manifest.lock */ = {
+		3B20402CE03B58A841AC5999 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2753,7 +2753,7 @@
 /* Begin XCBuildConfiguration section */
 		11EF34A4AB4BD093769CAD0D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D9F7377641F5554139DD57DC /* Pods-KaleyraVideo.debug.xcconfig */;
+			baseConfigurationReference = 459B537CC06D033B546337F1 /* Pods-KaleyraVideo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "../../Entitlements/SDK Sample.entitlements";
@@ -2834,7 +2834,7 @@
 		};
 		654BD757ED302FA5FD7F22D0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D45E4BD2C75E9D7E1CEE87F8 /* Pods-BroadcastExtension.release.xcconfig */;
+			baseConfigurationReference = 538635BCD502347ACFF5160B /* Pods-BroadcastExtension.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ../../BroadcastExtension/BroadcastExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2919,7 +2919,7 @@
 		};
 		768297CE85E4E35EF0AAB98A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8871CBE7EA26EAC1C51BFF7B /* Pods-KaleyraVideo.release.xcconfig */;
+			baseConfigurationReference = D1FAC74F8C68F7AC9F56DD5E /* Pods-KaleyraVideo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "../../Entitlements/SDK Sample.entitlements";
@@ -2976,7 +2976,7 @@
 		};
 		8012CF094D9E57EE5261674C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6F90C256F90FAFFDE05D023 /* Pods-BroadcastExtension.debug.xcconfig */;
+			baseConfigurationReference = DD5534C5DF0376E92475CD3B /* Pods-BroadcastExtension.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ../../BroadcastExtension/BroadcastExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

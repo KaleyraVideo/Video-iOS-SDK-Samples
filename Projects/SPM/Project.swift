@@ -7,7 +7,7 @@ let project = Project(
     options: .options(disableBundleAccessors: true, disableSynthesizedResourceAccessors: true),
     targets: [
         .app(dependencies: [.external(name: "KaleyraVideoSDK")]),
-        .broadcastExtension(dependencies: [.external(name: "BandyerBroadcastExtension")]),
+        .broadcastExtension(dependencies: [.external(name: "KaleyraVideoBroadcastExtension")]),
         .unitTests(),
         .integrationTests()
     ]
