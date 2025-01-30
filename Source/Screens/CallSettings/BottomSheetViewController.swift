@@ -8,11 +8,11 @@ import UIKit
 final class BottomSheetViewController: UIViewController {
 
     private lazy var buttonsCollectionView: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let collection = IntrinsicContentSizeCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
         collection.delegate = self
-        collection.isScrollEnabled = false
+        collection.isScrollEnabled = true
         collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
         collection.backgroundColor = .clear
         return collection
@@ -35,14 +35,13 @@ final class BottomSheetViewController: UIViewController {
         view.addSubview(buttonsCollectionView)
 
         NSLayoutConstraint.activate([
-            containerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 14),
-            containerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
-            containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
-            containerView.heightAnchor.constraint(equalToConstant: 100),
-            buttonsCollectionView.topAnchor.constraint(equalTo: containerView.layoutMarginsGuide.topAnchor),
-            buttonsCollectionView.leftAnchor.constraint(equalTo: containerView.layoutMarginsGuide.leftAnchor),
-            buttonsCollectionView.rightAnchor.constraint(equalTo: containerView.layoutMarginsGuide.rightAnchor),
-            buttonsCollectionView.bottomAnchor.constraint(equalTo: containerView.layoutMarginsGuide.bottomAnchor)
+            containerView.topAnchor.constraint(equalTo: buttonsCollectionView.topAnchor),
+            containerView.leftAnchor.constraint(equalTo: buttonsCollectionView.leftAnchor),
+            containerView.rightAnchor.constraint(equalTo: buttonsCollectionView.rightAnchor),
+            containerView.bottomAnchor.constraint(equalTo: buttonsCollectionView.bottomAnchor),
+            buttonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 14),
+            buttonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
+            buttonsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
         ])
     }
 }
@@ -61,17 +60,17 @@ extension BottomSheetViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath)
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        22
-    }
 }
 
 @available(iOS 15.0, *)
 extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 85, height: 85)
+        .init(width: 68, height: 85)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        0
     }
 }
 
@@ -82,7 +81,7 @@ final class ButtonCell: UICollectionViewCell {
         var config = UIButton.Configuration.plain()
         config.imagePlacement = .top
         config.imagePadding = 18
-        config.contentInsets = .init(top: 11, leading: 4, bottom: 11, trailing: 4)
+        config.contentInsets = .init(top: 12, leading: 4, bottom: 12, trailing: 4)
         config.titleAlignment = .center
         config.titleLineBreakMode = .byTruncatingTail
         config.image = UIImage(systemName: "questionmark")
@@ -170,5 +169,18 @@ private final class ImageTrackingBackgroundView: UIView {
             decorationView.widthAnchor.constraint(equalToConstant: 46),
             decorationView.heightAnchor.constraint(equalTo: decorationView.widthAnchor)
         ])
+    }
+}
+
+private final class IntrinsicContentSizeCollectionView: UICollectionView {
+
+    override var contentSize: CGSize {
+        didSet {
+            invalidateIntrinsicContentSize()
+        }
+    }
+
+    override var intrinsicContentSize: CGSize {
+        contentSize
     }
 }
