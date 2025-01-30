@@ -168,3 +168,72 @@ private final class ImageTrackingBackgroundView: UIView {
         ])
     }
 }
+
+@available(iOS 15.0, *)
+private extension Button {
+
+    var title: String {
+        switch self {
+            case .hangUp:
+                "end"
+            case .microphone:
+                "mute"
+            case .camera:
+                "enable"
+            case .flipCamera:
+                "flip"
+            case .cameraEffects:
+                "effects"
+            case .audioOutput:
+                "audio output"
+            case .fileShare:
+                "fileshare"
+            case .screenShare:
+                "screenshare"
+            case .chat:
+                "chat"
+            case .whiteboard:
+                "board"
+        }
+    }
+
+    var icon: UIImage? {
+        let icon: UIImage? = switch self {
+            case .hangUp:
+                    .init(named: "end-call", in: .sdk, compatibleWith: nil)
+            case .microphone:
+                    .init(named: "mic-off", in: .sdk, compatibleWith: nil)
+            case .camera:
+                    .init(named: "camera-off", in: .sdk, compatibleWith: nil)
+            case .flipCamera:
+                    .init(named: "flipcam", in: .sdk, compatibleWith: nil)
+            case .cameraEffects:
+                    .init(named: "virtual-background", in: .sdk, compatibleWith: nil)
+            case .audioOutput:
+                    .init(named: "speaker-on", in: .sdk, compatibleWith: nil)
+            case .fileShare:
+                    .init(named: "file-share", in: .sdk, compatibleWith: nil)
+            case .screenShare:
+                    .init(named: "screen-share", in: .sdk, compatibleWith: nil)
+            case .chat:
+                    .init(named: "chat", in: .sdk, compatibleWith: nil)
+            case .whiteboard:
+                    .init(named: "whiteboard", in: .sdk, compatibleWith: nil)
+        }
+        return icon ?? .init(systemName: "questionmark")
+    }
+
+    var backgroundColor: UIColor {
+        guard case Button.hangUp = self else {
+            return .init(rgb: 0xE2E2E2)
+        }
+        return .init(rgb: 0xDC2138)
+    }
+
+    var tintColor: UIColor {
+        guard case Button.hangUp = self else {
+            return .init(rgb: 0x1B1B1B)
+        }
+        return .white
+    }
+}
