@@ -163,13 +163,6 @@ extension BottomSheetViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
         let section = indexPath.section * maxNumberOfItemsPerSection
         cell.configure(for: buttons.reversed()[section + (maxNumberOfItemsPerSection * (section + 1) - (indexPath.item + 1)) % maxNumberOfItemsPerSection])
-        cell.configurationUpdateHandler = { cell, state in
-            if state.isEditing {
-                cell.startWobbling()
-            } else {
-                cell.stopWobbling()
-            }
-        }
         return cell
     }
 }

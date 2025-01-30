@@ -24,6 +24,16 @@ final class ButtonCell: UICollectionViewCell {
         return button
     }()
 
+    private lazy var deleteButton: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "xmark.circle")
+        config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .small)
+        let button = UIButton(configuration: config)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .init(rgb: 0x1B1B1B)
+        return button
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -50,6 +60,22 @@ final class ButtonCell: UICollectionViewCell {
         button.configuration?.image = model.icon
         button.configuration?.background.customView?.subviews.first?.backgroundColor = model.backgroundColor
         button.tintColor = model.tintColor
+    }
+
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        super.updateConfiguration(using: state)
+
+        if state.isEditing {
+            startWobbling()
+            contentView.addSubview(deleteButton)
+            NSLayoutConstraint.activate([
+                deleteButton.centerXAnchor.constraint(equalTo: button.leftAnchor, constant: 6),
+                deleteButton.centerYAnchor.constraint(equalTo: button.topAnchor, constant: 1)
+            ])
+        } else {
+            deleteButton.removeFromSuperview()
+            stopWobbling()
+        }
     }
 }
 
