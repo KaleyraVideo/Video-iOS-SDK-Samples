@@ -21,7 +21,6 @@ final class ButtonCell: UICollectionViewCell {
         config.background.customView = ImageTrackingBackgroundView()
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = UIColor(rgb: 0x1B1B1B)
         return button
     }()
 
@@ -47,6 +46,8 @@ final class ButtonCell: UICollectionViewCell {
     func configure(for model: Button) {
         button.configuration?.title = model.title
         button.configuration?.image = model.icon
+        button.configuration?.background.customView?.subviews.first?.backgroundColor = model.backgroundColor
+        button.tintColor = model.tintColor
     }
 }
 

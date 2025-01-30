@@ -101,7 +101,7 @@ internal enum Button {
             case .camera:
                 .init(named: "camera-off", in: .kaleyraVideo, compatibleWith: nil)
             case .flipCamera:
-                .init(named: "flip-cam", in: .kaleyraVideo, compatibleWith: nil)
+                .init(named: "flipcam", in: .kaleyraVideo, compatibleWith: nil)
             case .cameraEffects:
                 .init(named: "virtual-background", in: .kaleyraVideo, compatibleWith: nil)
             case .audioOutput:
@@ -116,6 +116,20 @@ internal enum Button {
                 .init(named: "whiteboard", in: .kaleyraVideo, compatibleWith: nil)
         }
         return icon ?? .init(systemName: "questionmark")
+    }
+
+    var backgroundColor: UIColor {
+        guard case Button.hangUp = self else {
+            return .init(rgb: 0xE2E2E2)
+        }
+        return .init(rgb: 0xDC2138)
+    }
+
+    var tintColor: UIColor {
+        guard case Button.hangUp = self else {
+            return .init(rgb: 0x1B1B1B)
+        }
+        return .white
     }
 }
 
@@ -146,7 +160,8 @@ extension BottomSheetViewController: UICollectionViewDataSource {
             return collectionView.dequeueReusableCell(withReuseIdentifier: "placeholder", for: indexPath)
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
-        cell.configure(for: buttons[itemIndex])
+        let section = indexPath.section * maxNumberOfItemsPerSection
+        cell.configure(for: buttons.reversed()[section + (maxNumberOfItemsPerSection * (section + 1) - (indexPath.item + 1)) % maxNumberOfItemsPerSection])
         return cell
     }
 }
