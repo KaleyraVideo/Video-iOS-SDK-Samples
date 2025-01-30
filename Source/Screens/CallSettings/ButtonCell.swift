@@ -15,9 +15,9 @@ final class ButtonCell: UICollectionViewCell {
         config.titleAlignment = .center
         config.titleLineBreakMode = .byTruncatingTail
         config.image = UIImage(systemName: "questionmark")
-        config.attributedTitle = .init("Title",
-                                       attributes: .init([.foregroundColor : UIColor(rgb: 0x1B1B1B),
-                                                          .font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12))]))
+        config.titleTextAttributesTransformer = .init({ _ in
+            .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)), .foregroundColor : UIColor(rgb: 0x1B1B1B)])
+        })
         config.background.customView = ImageTrackingBackgroundView()
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -42,6 +42,11 @@ final class ButtonCell: UICollectionViewCell {
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             button.widthAnchor.constraint(greaterThanOrEqualToConstant: 46)
         ])
+    }
+
+    func configure(for model: Button) {
+        button.configuration?.title = model.title
+        button.configuration?.image = model.icon
     }
 }
 

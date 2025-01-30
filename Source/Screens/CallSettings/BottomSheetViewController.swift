@@ -3,6 +3,7 @@
 
 import Foundation
 import UIKit
+import KaleyraVideoSDK
 
 @available(iOS 15.0, *)
 final class BottomSheetViewController: UIViewController {
@@ -53,7 +54,8 @@ final class BottomSheetViewController: UIViewController {
     }
 }
 
-private enum Button {
+@available(iOS 15.0, *)
+internal enum Button {
     case hangUp
     case microphone
     case camera
@@ -64,6 +66,63 @@ private enum Button {
     case screenShare
     case chat
     case whiteboard
+
+    var title: String {
+        switch self {
+            case .hangUp:
+                "end"
+            case .microphone:
+                "mute"
+            case .camera:
+                "enable"
+            case .flipCamera:
+                "flip"
+            case .cameraEffects:
+                "effects"
+            case .audioOutput:
+                "audio output"
+            case .fileShare:
+                "fileshare"
+            case .screenShare:
+                "screenshare"
+            case .chat:
+                "chat"
+            case .whiteboard:
+                "board"
+        }
+    }
+
+    var icon: UIImage? {
+        let icon: UIImage? = switch self {
+            case .hangUp:
+                .init(named: "end-call", in: .kaleyraVideo, compatibleWith: nil)
+            case .microphone:
+                .init(named: "mic-off", in: .kaleyraVideo, compatibleWith: nil)
+            case .camera:
+                .init(named: "camera-off", in: .kaleyraVideo, compatibleWith: nil)
+            case .flipCamera:
+                .init(named: "flip-cam", in: .kaleyraVideo, compatibleWith: nil)
+            case .cameraEffects:
+                .init(named: "virtual-background", in: .kaleyraVideo, compatibleWith: nil)
+            case .audioOutput:
+                .init(named: "speaker-on", in: .kaleyraVideo, compatibleWith: nil)
+            case .fileShare:
+                .init(named: "file-share", in: .kaleyraVideo, compatibleWith: nil)
+            case .screenShare:
+                .init(named: "screen-share", in: .kaleyraVideo, compatibleWith: nil)
+            case .chat:
+                .init(named: "chat", in: .kaleyraVideo, compatibleWith: nil)
+            case .whiteboard:
+                .init(named: "whiteboard", in: .kaleyraVideo, compatibleWith: nil)
+        }
+        return icon ?? .init(systemName: "questionmark")
+    }
+}
+
+@available(iOS 15.0, *)
+private extension Bundle {
+
+    static let kaleyraVideo: Bundle = .init(for: KaleyraVideo.self)
 }
 
 @available(iOS 15.0, *)
@@ -86,7 +145,9 @@ extension BottomSheetViewController: UICollectionViewDataSource {
         guard itemIndex < buttons.count else {
             return collectionView.dequeueReusableCell(withReuseIdentifier: "placeholder", for: indexPath)
         }
-        return collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
+        cell.configure(for: buttons[itemIndex])
+        return cell
     }
 }
 
