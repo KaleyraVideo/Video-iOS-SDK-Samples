@@ -13,7 +13,7 @@ final class BottomSheetViewController: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
         collection.delegate = self
-        collection.isScrollEnabled = true
+        collection.isScrollEnabled = false
         collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
         collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "placeholder")
         collection.backgroundColor = .clear
@@ -47,6 +47,7 @@ final class BottomSheetViewController: UIViewController {
             containerView.leftAnchor.constraint(equalTo: buttonsCollectionView.leftAnchor),
             containerView.rightAnchor.constraint(equalTo: buttonsCollectionView.rightAnchor),
             containerView.bottomAnchor.constraint(equalTo: buttonsCollectionView.bottomAnchor),
+            buttonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
             buttonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 14),
             buttonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
             buttonsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
@@ -162,6 +163,13 @@ extension BottomSheetViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
         let section = indexPath.section * maxNumberOfItemsPerSection
         cell.configure(for: buttons.reversed()[section + (maxNumberOfItemsPerSection * (section + 1) - (indexPath.item + 1)) % maxNumberOfItemsPerSection])
+        cell.configurationUpdateHandler = { cell, state in
+            if state.isEditing {
+                cell.startWobbling()
+            } else {
+                cell.stopWobbling()
+            }
+        }
         return cell
     }
 }
@@ -173,8 +181,16 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
         .init(width: 68, height: 85)
     }
 
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        .init(top: 10, left: 4, bottom: 0, right: 4)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        4
+    }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        4
     }
 }
 

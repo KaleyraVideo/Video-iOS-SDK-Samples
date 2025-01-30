@@ -39,7 +39,9 @@ final class ButtonCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            button.widthAnchor.constraint(greaterThanOrEqualToConstant: 46)
+            button.widthAnchor.constraint(greaterThanOrEqualToConstant: 46),
+            button.leftAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leftAnchor),
+            button.rightAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.rightAnchor)
         ])
     }
 
@@ -48,6 +50,27 @@ final class ButtonCell: UICollectionViewCell {
         button.configuration?.image = model.icon
         button.configuration?.background.customView?.subviews.first?.backgroundColor = model.backgroundColor
         button.tintColor = model.tintColor
+    }
+}
+
+extension UICollectionViewCell {
+
+    func startWobbling() {
+        guard layer.animation(forKey: "wobble") == nil else { return }
+
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
+        animation.values = [0.0, -0.025, 0.0, 0.025, 0.0]
+        animation.keyTimes = [0.0, 0.25, 0.5, 0.75, 1.0]
+        animation.duration = 0.4
+        animation.isAdditive = true
+        animation.repeatCount = Float.greatestFiniteMagnitude
+        layer.add(animation, forKey: "wobble")
+    }
+
+    func stopWobbling() {
+        guard layer.animation(forKey: "wobble") != nil else { return }
+
+        layer.removeAnimation(forKey: "wobble")
     }
 }
 
