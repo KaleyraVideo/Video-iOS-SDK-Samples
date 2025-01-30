@@ -14,6 +14,7 @@ final class BottomSheetViewController: UIViewController {
         collection.delegate = self
         collection.isScrollEnabled = true
         collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
+        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "placeholder")
         collection.backgroundColor = .clear
         return collection
     }()
@@ -26,6 +27,12 @@ final class BottomSheetViewController: UIViewController {
         view.layer.masksToBounds = true
         return view
     }()
+
+    private lazy var buttons: [Button] = [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput, .fileShare, .screenShare, .chat, .whiteboard]
+
+    private var maxNumberOfItemsPerSection: Int {
+        traitCollection.userInterfaceIdiom == .pad ? 8 : 5
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,19 +53,40 @@ final class BottomSheetViewController: UIViewController {
     }
 }
 
+private enum Button {
+    case hangUp
+    case microphone
+    case camera
+    case flipCamera
+    case cameraEffects
+    case audioOutput
+    case fileShare
+    case screenShare
+    case chat
+    case whiteboard
+}
+
 @available(iOS 15.0, *)
 extension BottomSheetViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
+        guard !buttons.isEmpty else { return 0 }
+
+        let (quotient, reminder) = buttons.count.quotientAndRemainder(dividingBy: maxNumberOfItemsPerSection)
+        guard reminder != 0 else { return quotient }
+        return quotient + 1
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        maxNumberOfItemsPerSection
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath)
+        let itemIndex = indexPath.section * maxNumberOfItemsPerSection + indexPath.item
+        guard itemIndex < buttons.count else {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "placeholder", for: indexPath)
+        }
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath)
     }
 }
 
