@@ -26,13 +26,19 @@ final class ButtonCell: UICollectionViewCell {
 
     private lazy var deleteButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "xmark.circle")
+        config.image = UIImage(systemName: "minus.circle.fill")
         config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .small)
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .init(rgb: 0x1B1B1B)
+        button.addAction(.init(handler: { [weak self] _ in
+            guard let self else { return }
+            self.deleteAction?(self)
+        }), for: .touchUpInside)
         return button
     }()
+
+    var deleteAction: ((UICollectionViewCell) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -76,6 +82,12 @@ final class ButtonCell: UICollectionViewCell {
             deleteButton.removeFromSuperview()
             stopWobbling()
         }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        deleteAction = nil
     }
 }
 

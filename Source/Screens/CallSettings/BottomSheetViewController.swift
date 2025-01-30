@@ -29,19 +29,81 @@ final class BottomSheetViewController: UIViewController {
         return view
     }()
 
-    private lazy var buttons: [Button] = [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput, .fileShare, .screenShare, .chat, .whiteboard]
+    private struct ViewModel {
 
-    private var maxNumberOfItemsPerSection: Int {
-        traitCollection.userInterfaceIdiom == .pad ? 8 : 5
+        private struct Section {
+            var items: [Button]
+        }
+
+        var maxNumberOfItemsPerSection: Int {
+            didSet {
+                updateSections()
+            }
+        }
+
+        private(set) var buttons: [Button] = [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput, .fileShare, .screenShare, .chat, .whiteboard] {
+            didSet {
+                updateSections()
+            }
+        }
+
+        var numberOfSections: Int {
+            let (quotient, reminder) = buttons.count.quotientAndRemainder(dividingBy: maxNumberOfItemsPerSection)
+            return reminder != 0 ? quotient + 1 : quotient
+        }
+
+        private var sections: [Section] = []
+
+        init(maxNumberOfItemsPerSection: Int) {
+            self.maxNumberOfItemsPerSection = maxNumberOfItemsPerSection
+            updateSections()
+        }
+
+        private mutating func updateSections() {
+            var sections = [Section](repeating: .init(items: []), count: numberOfSections)
+
+            for i in 0 ..< buttons.count {
+                sections[i / maxNumberOfItemsPerSection].items.append(buttons[i])
+            }
+
+            self.sections = sections.reversed()
+        }
+
+        func numberOfItems(in section: Int) -> Int {
+            sections[section].items.count
+        }
+
+        func button(at indexPath: IndexPath) -> Button {
+            sections[indexPath.section].items[indexPath.item]
+        }
+
+        mutating func deleteItem(at indexPath: IndexPath) {
+            sections[indexPath.section].items.remove(at: indexPath.item)
+        }
     }
+
+    private lazy var model: ViewModel = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setup()
+    }
+
+    private func setup() {
         view.backgroundColor = .systemBackground
+        navigationItem.title = "Custom bottom sheet"
+        navigationItem.rightBarButtonItem = editButtonItem
+        setupHierarchy()
+        setupConstraints()
+    }
+
+    private func setupHierarchy() {
         view.addSubview(containerView)
         view.addSubview(buttonsCollectionView)
+    }
 
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: buttonsCollectionView.topAnchor),
             containerView.leftAnchor.constraint(equalTo: buttonsCollectionView.leftAnchor),
@@ -52,6 +114,20 @@ final class BottomSheetViewController: UIViewController {
             buttonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
             buttonsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
         ])
+    }
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+
+        buttonsCollectionView.isEditing = editing
+    }
+
+    private func deleteButton(at indexPath: IndexPath) {
+        model.deleteItem(at: indexPath)
+
+        buttonsCollectionView.performBatchUpdates {
+            buttonsCollectionView.deleteItems(at: [indexPath])
+        }
     }
 }
 
@@ -144,25 +220,20 @@ private extension Bundle {
 extension BottomSheetViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard !buttons.isEmpty else { return 0 }
-
-        let (quotient, reminder) = buttons.count.quotientAndRemainder(dividingBy: maxNumberOfItemsPerSection)
-        guard reminder != 0 else { return quotient }
-        return quotient + 1
+        model.numberOfSections
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        maxNumberOfItemsPerSection
+        model.numberOfItems(in: section)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let itemIndex = indexPath.section * maxNumberOfItemsPerSection + indexPath.item
-        guard itemIndex < buttons.count else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "placeholder", for: indexPath)
-        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
-        let section = indexPath.section * maxNumberOfItemsPerSection
-        cell.configure(for: buttons.reversed()[section + (maxNumberOfItemsPerSection * (section + 1) - (indexPath.item + 1)) % maxNumberOfItemsPerSection])
+        cell.configure(for: model.button(at: indexPath))
+        cell.deleteAction = { [weak self] cell in
+            guard let indexPath = collectionView.indexPath(for: cell) else { return }
+            self?.deleteButton(at: indexPath)
+        }
         return cell
     }
 }
