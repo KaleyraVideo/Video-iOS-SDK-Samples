@@ -8,10 +8,9 @@ import KaleyraVideoSDK
 @available(iOS 15.0, *)
 final class BottomSheetViewController: UIViewController {
 
-    private lazy var availableCollectionView: UICollectionView = {
+    private lazy var availableButtonsCollectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.dataSource = self
         collection.delegate = self
         collection.dragDelegate = self
         collection.dropDelegate = self
@@ -21,10 +20,9 @@ final class BottomSheetViewController: UIViewController {
         return collection
     }()
 
-    private lazy var buttonsCollectionView: UICollectionView = {
+    private lazy var activeButtonsCollectionView: UICollectionView = {
         let collection = IntrinsicContentSizeCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.dataSource = self
         collection.delegate = self
         collection.dragDelegate = self
         collection.dropDelegate = self
@@ -32,6 +30,30 @@ final class BottomSheetViewController: UIViewController {
         collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
         collection.backgroundColor = .clear
         return collection
+    }()
+
+    private lazy var availableButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
+        .init(collectionView: availableButtonsCollectionView) { collectionView, indexPath, button in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
+            cell.configure(for: button, shouldShowTitle: true)
+            cell.deleteAction = { [weak self] cell in
+                guard let indexPath = collectionView.indexPath(for: cell) else { return }
+                self?.deleteButton(in: collectionView, at: indexPath)
+            }
+            return cell
+        }
+    }()
+
+    private lazy var activeButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
+        .init(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
+            cell.configure(for: button, shouldShowTitle: true)
+            cell.deleteAction = { [weak self] cell in
+                guard let indexPath = collectionView.indexPath(for: cell) else { return }
+                self?.deleteButton(in: collectionView, at: indexPath)
+            }
+            return cell
+        }
     }()
 
     private lazy var containerView: UIView = {
@@ -43,109 +65,7 @@ final class BottomSheetViewController: UIViewController {
         return view
     }()
 
-    private struct ViewModel {
-
-        private struct Section {
-            var items: [Button]
-        }
-
-        var maxNumberOfItemsPerSection: Int {
-            didSet {
-                updateSections()
-            }
-        }
-
-        private(set) var buttons: [Button] {
-            didSet {
-                updateSections()
-            }
-        }
-
-        var numberOfSections: Int {
-            let (quotient, reminder) = buttons.count.quotientAndRemainder(dividingBy: maxNumberOfItemsPerSection)
-            return reminder != 0 ? quotient + 1 : quotient
-        }
-
-        private var sections: [Section] = []
-
-        init(maxNumberOfItemsPerSection: Int, buttons: [Button]) {
-            self.maxNumberOfItemsPerSection = maxNumberOfItemsPerSection
-            self.buttons = buttons
-            updateSections()
-        }
-
-        private mutating func updateSections() {
-            var sections = [Section](repeating: .init(items: []), count: numberOfSections)
-
-            for i in 0 ..< buttons.count {
-                sections[i / maxNumberOfItemsPerSection].items.append(buttons[i])
-            }
-
-            self.sections = sections.reversed()
-        }
-
-        func numberOfItems(in section: Int) -> Int {
-            sections[section].items.count
-        }
-
-        func indexPath(for button: Button) -> IndexPath? {
-            for section in 0 ..< sections.count {
-                for item in 0 ..< sections[section].items.count {
-                    guard sections[section].items[item] == button else { continue }
-                    return .init(item: item, section: section)
-                }
-            }
-            return nil
-        }
-
-        func button(at indexPath: IndexPath) -> Button {
-            sections[indexPath.section].items[indexPath.item]
-        }
-
-        mutating func deleteItem(at indexPath: IndexPath) {
-            sections[indexPath.section].items.remove(at: indexPath.item)
-        }
-
-        mutating func moveItem(_ button: Button, to destinationIndexPath: IndexPath) {
-            guard let sourceIndexPath = indexPath(for: button) else { return }
-            sections[sourceIndexPath.section].items.remove(at: sourceIndexPath.item)
-            sections[destinationIndexPath.section].items.insert(button, at: destinationIndexPath.item)
-        }
-
-        mutating func insert(_ button: Button) {
-            buttons.append(button)
-        }
-    }
-
-    private struct AvailableButtons {
-
-        private(set) var buttons: [Button]
-
-        var numberOfSections: Int { 1 }
-
-        init(buttons: [Button]) {
-            self.buttons = buttons
-        }
-
-        func numberOfItems(in section: Int) -> Int {
-            buttons.count
-        }
-
-        func button(at indexPath: IndexPath) -> Button {
-            buttons[indexPath.item]
-        }
-
-        mutating func append(button: Button) {
-            buttons.append(button)
-        }
-
-        mutating func deleteItem(at indexPath: IndexPath) {
-            buttons.remove(at: indexPath.item)
-        }
-    }
-
-    private lazy var model: ViewModel = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5, buttons: [.hangUp, .microphone])
-    private lazy var availableButtons = AvailableButtons(buttons: Button.allCases.filter({ !model.buttons.contains($0) }))
+    private lazy var model: Model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5, activeButtons: [.hangUp, .microphone])
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,6 +74,8 @@ final class BottomSheetViewController: UIViewController {
         setupNavigationItem()
         setupHierarchy()
         setupConstraints()
+        availableButtonsCollectionView.dataSource = availableButtonsDataSource
+        activeButtonsCollectionView.dataSource = activeButtonsDataSource
     }
 
     private func setupNavigationItem() {
@@ -162,90 +84,177 @@ final class BottomSheetViewController: UIViewController {
     }
 
     private func setupHierarchy() {
-        view.addSubview(availableCollectionView)
+        view.addSubview(availableButtonsCollectionView)
         view.addSubview(containerView)
-        view.addSubview(buttonsCollectionView)
+        view.addSubview(activeButtonsCollectionView)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            availableCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            availableCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
-            availableCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
-            availableCollectionView.bottomAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.topAnchor.constraint(equalTo: buttonsCollectionView.topAnchor),
-            containerView.leftAnchor.constraint(equalTo: buttonsCollectionView.leftAnchor),
-            containerView.rightAnchor.constraint(equalTo: buttonsCollectionView.rightAnchor),
-            containerView.bottomAnchor.constraint(equalTo: buttonsCollectionView.bottomAnchor),
-            buttonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
-            buttonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 14),
-            buttonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
-            buttonsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
+            availableButtonsCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            availableButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
+            availableButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
+            availableButtonsCollectionView.bottomAnchor.constraint(equalTo: view.centerYAnchor),
+            containerView.topAnchor.constraint(equalTo: activeButtonsCollectionView.topAnchor),
+            containerView.leftAnchor.constraint(equalTo: activeButtonsCollectionView.leftAnchor),
+            containerView.rightAnchor.constraint(equalTo: activeButtonsCollectionView.rightAnchor),
+            containerView.bottomAnchor.constraint(equalTo: activeButtonsCollectionView.bottomAnchor),
+            activeButtonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
+            activeButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 14),
+            activeButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
+            activeButtonsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
         ])
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        availableButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
+        activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: animated)
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
 
-        buttonsCollectionView.isEditing = editing
+        activeButtonsCollectionView.isEditing = editing
     }
 
     private func deleteButton(in collectionView: UICollectionView, at indexPath: IndexPath) {
-        guard collectionView == buttonsCollectionView else { return }
+        guard collectionView == activeButtonsCollectionView else { return }
 
-        let button = model.button(at: indexPath)
-        availableButtons.append(button: button)
-        availableCollectionView.performBatchUpdates {
-            availableCollectionView.insertItems(at: [.init(item: availableButtons.buttons.endIndex - 1, section: 0)])
-        }
+        model.deactivateButton(at: indexPath)
+        applySnapshots(animatingDifferences: true)
+    }
 
-        model.deleteItem(at: indexPath)
-
-        buttonsCollectionView.performBatchUpdates {
-            buttonsCollectionView.deleteItems(at: [indexPath])
-        }
+    private func applySnapshots(animatingDifferences animated: Bool) {
+        availableButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
+        activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: animated)
     }
 }
 
 @available(iOS 15.0, *)
-extension BottomSheetViewController: UICollectionViewDataSource {
+private extension BottomSheetViewController {
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if collectionView == buttonsCollectionView {
-            model.numberOfSections
-        } else {
-            availableButtons.numberOfSections
-        }
-    }
+    private struct Model {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == buttonsCollectionView {
-            model.numberOfItems(in: section)
-        } else {
-            availableButtons.numberOfItems(in: section)
-        }
-    }
+        private(set) var activeButtons: Buttons
+        private(set) var inactiveButtons: Buttons
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let button = if collectionView == buttonsCollectionView {
-            model.button(at: indexPath)
-        } else {
-            availableButtons.button(at: indexPath)
+        init(maxNumberOfItemsPerSection: Int, activeButtons: [Button]) {
+            self.activeButtons = .init(maxNumberOfItemsPerSection: maxNumberOfItemsPerSection, buttons: activeButtons)
+            self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: Button.allCases.filter({ !activeButtons.contains($0) }))
         }
 
-        let shouldShowTitle = if collectionView == buttonsCollectionView, indexPath.section == model.numberOfSections - 1 {
-            false
-        } else {
-            true
+        mutating func activateButton(_ button: Button) {
+            activeButtons.insert(button)
+            inactiveButtons.remove(button)
         }
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
-        cell.configure(for: button, shouldShowTitle: shouldShowTitle)
-        cell.deleteAction = { [weak self] cell in
-            guard let indexPath = collectionView.indexPath(for: cell) else { return }
-            self?.deleteButton(in: collectionView, at: indexPath)
+        mutating func deactivateButton(_ button: Button) {
+            inactiveButtons.insert(button)
+            activeButtons.remove(button)
         }
-        return cell
+
+        mutating func deactivateButton(at indexPath: IndexPath) {
+            let button = activeButtons.button(at: indexPath)
+            activeButtons.remove(button)
+            inactiveButtons.insert(button)
+        }
+
+        mutating func moveActiveButton(_ button: Button, to destinationIndexPath: IndexPath) {
+            activeButtons.moveItem(button, to: destinationIndexPath)
+        }
+
+        struct Buttons {
+
+            private struct Section {
+                var items: [Button]
+            }
+
+            var maxNumberOfItemsPerSection: Int {
+                didSet {
+                    updateSections()
+                }
+            }
+
+            private(set) var buttons: [Button] {
+                didSet {
+                    updateSections()
+                }
+            }
+
+            var numberOfSections: Int {
+                let (quotient, reminder) = buttons.count.quotientAndRemainder(dividingBy: maxNumberOfItemsPerSection)
+                return reminder != 0 ? quotient + 1 : quotient
+            }
+
+            private var sections: [Section] = []
+
+            init(maxNumberOfItemsPerSection: Int, buttons: [Button]) {
+                self.maxNumberOfItemsPerSection = maxNumberOfItemsPerSection
+                self.buttons = buttons
+                updateSections()
+            }
+
+            private mutating func updateSections() {
+                var sections = [Section](repeating: .init(items: []), count: numberOfSections)
+
+                for i in 0 ..< buttons.count {
+                    sections[i / maxNumberOfItemsPerSection].items.append(buttons[i])
+                }
+
+                self.sections = sections.reversed()
+            }
+
+            func numberOfItems(in section: Int) -> Int {
+                sections[section].items.count
+            }
+
+            func indexPath(for button: Button) -> IndexPath? {
+                for section in 0 ..< sections.count {
+                    for item in 0 ..< sections[section].items.count {
+                        guard sections[section].items[item] == button else { continue }
+                        return .init(item: item, section: section)
+                    }
+                }
+                return nil
+            }
+
+            func button(at indexPath: IndexPath) -> Button {
+                sections[indexPath.section].items[indexPath.item]
+            }
+
+            mutating func moveItem(_ button: Button, to destinationIndexPath: IndexPath) {
+                guard let sourceIndexPath = indexPath(for: button) else { return }
+                sections[sourceIndexPath.section].items.remove(at: sourceIndexPath.item)
+                sections[destinationIndexPath.section].items.insert(button, at: destinationIndexPath.item)
+            }
+
+            mutating func insert(_ button: Button) {
+                buttons.append(button)
+            }
+
+            mutating func remove(_ button: Button) {
+                guard let indexPath = indexPath(for: button) else { return }
+
+                deleteItem(at: indexPath)
+            }
+
+            mutating func deleteItem(at indexPath: IndexPath) {
+                sections[indexPath.section].items.remove(at: indexPath.item)
+            }
+
+            func snapshot() -> NSDiffableDataSourceSnapshot<Int, Button> {
+                var snapshot = NSDiffableDataSourceSnapshot<Int, Button>()
+                snapshot.appendSections(sections.indices.map({ $0 }))
+
+                sections.enumerated().forEach { (index, section) in
+                    snapshot.appendItems(section.items, toSection: index)
+                }
+
+                return snapshot
+            }
+        }
     }
 }
 
@@ -253,20 +262,20 @@ extension BottomSheetViewController: UICollectionViewDataSource {
 extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard collectionView == buttonsCollectionView else { return .init(width: 68, height: 85) }
-        guard indexPath.section == model.numberOfSections - 1 else { return .init(width: 68, height: 85) }
+        guard collectionView == activeButtonsCollectionView else { return .init(width: 68, height: 85) }
+        guard indexPath.section == model.activeButtons.numberOfSections - 1 else { return .init(width: 68, height: 85) }
         return .init(width: 68, height: 46)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard collectionView == buttonsCollectionView else { return .zero }
+        guard collectionView == activeButtonsCollectionView else { return .zero }
         let topInset: CGFloat = section == 0 ? 10 : 0
-        let bottomInset: CGFloat = section == model.numberOfSections - 1 ? 10 : 0
+        let bottomInset: CGFloat = section == model.activeButtons.numberOfSections - 1 ? 10 : 0
         return .init(top: topInset, left: 4, bottom: bottomInset, right: 4)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        guard collectionView == buttonsCollectionView else { return .zero }
+        guard collectionView == activeButtonsCollectionView else { return .zero }
         return 4
     }
 
@@ -279,10 +288,10 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
 extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionViewDropDelegate {
 
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        let button = if collectionView == buttonsCollectionView {
-            model.button(at: indexPath)
+        let button = if collectionView == activeButtonsCollectionView {
+            model.activeButtons.button(at: indexPath)
         } else {
-            availableButtons.button(at: indexPath)
+            model.inactiveButtons.button(at: indexPath)
         }
 
         let itemProvider = NSItemProvider(object: button.identifier as NSString)
@@ -298,7 +307,7 @@ extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         guard let item = session.items.first?.localObject as? DragItem else { return .init(operation: .cancel) }
 
-        if item.collectionView == buttonsCollectionView, collectionView == item.collectionView, destinationIndexPath != nil {
+        if item.collectionView == activeButtonsCollectionView, collectionView == item.collectionView, destinationIndexPath != nil {
             return .init(operation: .move, intent: .insertAtDestinationIndexPath)
         } else if collectionView != item.collectionView {
             return .init(operation: .copy)
@@ -312,41 +321,32 @@ extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionV
             guard let dragItem = item.dragItem.localObject as? DragItem else { continue }
 
             if coordinator.proposal.operation == .copy {
-                if dragItem.collectionView == buttonsCollectionView {
-                    model.deleteItem(at: dragItem.indexPath)
+                if dragItem.collectionView == activeButtonsCollectionView {
+                    model.deactivateButton(dragItem.button)
 
-                    buttonsCollectionView.performBatchUpdates {
-                        buttonsCollectionView.deleteItems(at: [dragItem.indexPath])
-                    }
-                    availableButtons.append(button: dragItem.button)
-                    let destinationIndexPath = IndexPath(item: availableButtons.numberOfItems(in: 0) - 1, section: 0)
-                    availableCollectionView.performBatchUpdates {
-                        availableCollectionView.insertItems(at: [destinationIndexPath])
-                    }
-                    coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                    applySnapshots(animatingDifferences: true)
+
+                    guard let indexPath = model.inactiveButtons.indexPath(for: dragItem.button) else { return }
+
+                    coordinator.drop(item.dragItem, toItemAt: indexPath)
                 } else {
-                    availableButtons.deleteItem(at: dragItem.indexPath)
+                    model.activateButton(dragItem.button)
 
-                    availableCollectionView.performBatchUpdates {
-                        availableCollectionView.deleteItems(at: [dragItem.indexPath])
-                    }
-                    model.insert(dragItem.button)
-                    // TODO: Crashes when trying to insert a new section
-                    let destinationIndexPath = IndexPath(item: model.numberOfItems(in: 0) - 1, section: 0)
+                    applySnapshots(animatingDifferences: true)
 
-                    buttonsCollectionView.performBatchUpdates {
-                        buttonsCollectionView.insertItems(at: [destinationIndexPath])
-                    }
-                    coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                    guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { return }
+
+                    coordinator.drop(item.dragItem, toItemAt: indexPath)
                 }
             } else if coordinator.proposal.operation == .move, let destinationIndexPath = coordinator.destinationIndexPath {
-                if dragItem.collectionView == buttonsCollectionView {
-                    model.moveItem(dragItem.button, to: destinationIndexPath)
+                if dragItem.collectionView == activeButtonsCollectionView {
+                    model.moveActiveButton(dragItem.button, to: destinationIndexPath)
 
-                    buttonsCollectionView.performBatchUpdates {
-                        buttonsCollectionView.deleteItems(at: [dragItem.indexPath])
-                        buttonsCollectionView.insertItems(at: [destinationIndexPath])
-                    }
+                    activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: true)
+
+                    guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { return }
+
+                    coordinator.drop(item.dragItem, toItemAt: indexPath)
                 }
             }
         }
