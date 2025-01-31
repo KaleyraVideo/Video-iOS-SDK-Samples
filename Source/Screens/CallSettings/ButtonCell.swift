@@ -61,8 +61,8 @@ final class ButtonCell: UICollectionViewCell {
         ])
     }
 
-    func configure(for model: Button) {
-        button.configuration?.title = model.title
+    func configure(for model: Button, shouldShowTitle: Bool) {
+        button.configuration?.title = shouldShowTitle ? model.title : nil
         button.configuration?.image = model.icon
         button.configuration?.background.customView?.subviews.first?.backgroundColor = model.backgroundColor
         button.tintColor = model.tintColor

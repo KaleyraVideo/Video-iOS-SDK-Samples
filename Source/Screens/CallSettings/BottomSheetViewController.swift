@@ -209,8 +209,14 @@ extension BottomSheetViewController: UICollectionViewDataSource {
             availableButtons.button(at: indexPath)
         }
 
+        let shouldShowTitle = if collectionView == buttonsCollectionView, indexPath.section == model.numberOfSections - 1 {
+            false
+        } else {
+            true
+        }
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
-        cell.configure(for: button)
+        cell.configure(for: button, shouldShowTitle: shouldShowTitle)
         cell.deleteAction = { [weak self] cell in
             guard let indexPath = collectionView.indexPath(for: cell) else { return }
             self?.deleteButton(in: collectionView, at: indexPath)
@@ -223,12 +229,16 @@ extension BottomSheetViewController: UICollectionViewDataSource {
 extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 68, height: 85)
+        guard collectionView == buttonsCollectionView else { return .init(width: 68, height: 85) }
+        guard indexPath.section == model.numberOfSections - 1 else { return .init(width: 68, height: 85) }
+        return .init(width: 68, height: 46)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         guard collectionView == buttonsCollectionView else { return .zero }
-        return .init(top: 10, left: 4, bottom: 0, right: 4)
+        let topInset: CGFloat = section == 0 ? 10 : 0
+        let bottomInset: CGFloat = section == model.numberOfSections - 1 ? 10 : 0
+        return .init(top: topInset, left: 4, bottom: bottomInset, right: 4)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
