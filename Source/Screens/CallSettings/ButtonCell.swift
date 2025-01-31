@@ -8,18 +8,7 @@ import UIKit
 final class ButtonCell: UICollectionViewCell {
 
     private lazy var button: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.imagePlacement = .top
-        config.imagePadding = 18
-        config.contentInsets = .init(top: 12, leading: 4, bottom: 12, trailing: 4)
-        config.titleAlignment = .center
-        config.titleLineBreakMode = .byTruncatingTail
-        config.image = UIImage(systemName: "questionmark")
-        config.titleTextAttributesTransformer = .init({ _ in
-            .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)), .foregroundColor : UIColor(rgb: 0x1B1B1B)])
-        })
-        config.background.customView = ImageTrackingBackgroundView()
-        let button = UIButton(configuration: config)
+        let button = UIButton(button: nil)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -62,10 +51,7 @@ final class ButtonCell: UICollectionViewCell {
     }
 
     func configure(for model: Button, shouldShowTitle: Bool) {
-        button.configuration?.title = shouldShowTitle ? model.title : nil
-        button.configuration?.image = model.icon
-        button.configuration?.background.customView?.subviews.first?.backgroundColor = model.backgroundColor
-        button.tintColor = model.tintColor
+        button.updateFor(model, shouldShowTitle: shouldShowTitle)
     }
 
     override func updateConfiguration(using state: UICellConfigurationState) {
@@ -109,6 +95,35 @@ extension UICollectionViewCell {
         guard layer.animation(forKey: "wobble") != nil else { return }
 
         layer.removeAnimation(forKey: "wobble")
+    }
+}
+
+@available(iOS 15.0, *)
+extension UIButton {
+
+    convenience init(button: Button?) {
+        var config = UIButton.Configuration.plain()
+        config.imagePlacement = .top
+        config.imagePadding = 18
+        config.contentInsets = .init(top: 12, leading: 4, bottom: 12, trailing: 4)
+        config.titleAlignment = .center
+        config.titleLineBreakMode = .byTruncatingTail
+        config.title = button?.title
+        config.image = button?.icon ?? .init(systemName: "questionmark")
+        config.titleTextAttributesTransformer = .init({ _ in
+            .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
+                   .foregroundColor : button?.tintColor ?? UIColor(rgb: 0x1B1B1B)])
+        })
+        config.background.customView = ImageTrackingBackgroundView()
+        self.init(configuration: config)
+        tintColor = button?.tintColor
+    }
+
+    func updateFor(_ model: Button, shouldShowTitle: Bool) {
+        configuration?.title = shouldShowTitle ? model.title : nil
+        configuration?.image = model.icon
+        configuration?.background.customView?.subviews.first?.backgroundColor = model.backgroundColor
+        tintColor = model.tintColor
     }
 }
 

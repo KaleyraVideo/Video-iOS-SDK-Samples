@@ -13,6 +13,8 @@ final class BottomSheetViewController: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
         collection.delegate = self
+        collection.dragDelegate = self
+        collection.dropDelegate = self
         collection.isScrollEnabled = false
         collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
         collection.backgroundColor = .clear
@@ -24,6 +26,8 @@ final class BottomSheetViewController: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
         collection.delegate = self
+        collection.dragDelegate = self
+        collection.dropDelegate = self
         collection.isScrollEnabled = false
         collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
         collection.backgroundColor = .clear
@@ -84,12 +88,32 @@ final class BottomSheetViewController: UIViewController {
             sections[section].items.count
         }
 
+        func indexPath(for button: Button) -> IndexPath? {
+            for section in 0 ..< sections.count {
+                for item in 0 ..< sections[section].items.count {
+                    guard sections[section].items[item] == button else { continue }
+                    return .init(item: item, section: section)
+                }
+            }
+            return nil
+        }
+
         func button(at indexPath: IndexPath) -> Button {
             sections[indexPath.section].items[indexPath.item]
         }
 
         mutating func deleteItem(at indexPath: IndexPath) {
             sections[indexPath.section].items.remove(at: indexPath.item)
+        }
+
+        mutating func moveItem(_ button: Button, to destinationIndexPath: IndexPath) {
+            guard let sourceIndexPath = indexPath(for: button) else { return }
+            sections[sourceIndexPath.section].items.remove(at: sourceIndexPath.item)
+            sections[destinationIndexPath.section].items.insert(button, at: destinationIndexPath.item)
+        }
+
+        mutating func insert(_ button: Button) {
+            buttons.append(button)
         }
     }
 
@@ -120,7 +144,7 @@ final class BottomSheetViewController: UIViewController {
         }
     }
 
-    private lazy var model: ViewModel = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5, buttons: Button.allCases)
+    private lazy var model: ViewModel = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5, buttons: [.hangUp, .microphone])
     private lazy var availableButtons = AvailableButtons(buttons: Button.allCases.filter({ !model.buttons.contains($0) }))
 
     override func viewDidLoad() {
@@ -248,6 +272,90 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         4
+    }
+}
+
+@available(iOS 15.0, *)
+extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionViewDropDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        let button = if collectionView == buttonsCollectionView {
+            model.button(at: indexPath)
+        } else {
+            availableButtons.button(at: indexPath)
+        }
+
+        let itemProvider = NSItemProvider(object: button.identifier as NSString)
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        dragItem.localObject = DragItem(indexPath: indexPath, collectionView: collectionView, button: button)
+        return [dragItem]
+    }
+
+    func collectionView(_ collectionView: UICollectionView, dragSessionIsRestrictedToDraggingApplication session: UIDragSession) -> Bool {
+        true
+    }
+
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        guard let item = session.items.first?.localObject as? DragItem else { return .init(operation: .cancel) }
+
+        if item.collectionView == buttonsCollectionView, collectionView == item.collectionView, destinationIndexPath != nil {
+            return .init(operation: .move, intent: .insertAtDestinationIndexPath)
+        } else if collectionView != item.collectionView {
+            return .init(operation: .copy)
+        } else {
+            return .init(operation: .forbidden)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        for item in coordinator.items {
+            guard let dragItem = item.dragItem.localObject as? DragItem else { continue }
+
+            if coordinator.proposal.operation == .copy {
+                if dragItem.collectionView == buttonsCollectionView {
+                    model.deleteItem(at: dragItem.indexPath)
+
+                    buttonsCollectionView.performBatchUpdates {
+                        buttonsCollectionView.deleteItems(at: [dragItem.indexPath])
+                    }
+                    availableButtons.append(button: dragItem.button)
+                    let destinationIndexPath = IndexPath(item: availableButtons.numberOfItems(in: 0) - 1, section: 0)
+                    availableCollectionView.performBatchUpdates {
+                        availableCollectionView.insertItems(at: [destinationIndexPath])
+                    }
+                    coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                } else {
+                    availableButtons.deleteItem(at: dragItem.indexPath)
+
+                    availableCollectionView.performBatchUpdates {
+                        availableCollectionView.deleteItems(at: [dragItem.indexPath])
+                    }
+                    model.insert(dragItem.button)
+                    // TODO: Crashes when trying to insert a new section
+                    let destinationIndexPath = IndexPath(item: model.numberOfItems(in: 0) - 1, section: 0)
+
+                    buttonsCollectionView.performBatchUpdates {
+                        buttonsCollectionView.insertItems(at: [destinationIndexPath])
+                    }
+                    coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+                }
+            } else if coordinator.proposal.operation == .move, let destinationIndexPath = coordinator.destinationIndexPath {
+                if dragItem.collectionView == buttonsCollectionView {
+                    model.moveItem(dragItem.button, to: destinationIndexPath)
+
+                    buttonsCollectionView.performBatchUpdates {
+                        buttonsCollectionView.deleteItems(at: [dragItem.indexPath])
+                        buttonsCollectionView.insertItems(at: [destinationIndexPath])
+                    }
+                }
+            }
+        }
+    }
+
+    private struct DragItem {
+        let indexPath: IndexPath
+        let collectionView: UICollectionView
+        let button: Button
     }
 }
 
