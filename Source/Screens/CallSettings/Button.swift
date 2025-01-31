@@ -4,7 +4,7 @@
 import Foundation
 
 @available(iOS 15.0, *)
-internal enum Button {
+internal enum Button: Equatable, CaseIterable {
     case hangUp
     case microphone
     case camera

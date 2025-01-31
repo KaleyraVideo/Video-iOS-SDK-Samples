@@ -8,6 +8,17 @@ import KaleyraVideoSDK
 @available(iOS 15.0, *)
 final class BottomSheetViewController: UIViewController {
 
+    private lazy var availableCollectionView: UICollectionView = {
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.dataSource = self
+        collection.delegate = self
+        collection.isScrollEnabled = false
+        collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
+        collection.backgroundColor = .clear
+        return collection
+    }()
+
     private lazy var buttonsCollectionView: UICollectionView = {
         let collection = IntrinsicContentSizeCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -15,7 +26,6 @@ final class BottomSheetViewController: UIViewController {
         collection.delegate = self
         collection.isScrollEnabled = false
         collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
-        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "placeholder")
         collection.backgroundColor = .clear
         return collection
     }()
@@ -41,7 +51,7 @@ final class BottomSheetViewController: UIViewController {
             }
         }
 
-        private(set) var buttons: [Button] = [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput, .fileShare, .screenShare, .chat, .whiteboard] {
+        private(set) var buttons: [Button] {
             didSet {
                 updateSections()
             }
@@ -54,8 +64,9 @@ final class BottomSheetViewController: UIViewController {
 
         private var sections: [Section] = []
 
-        init(maxNumberOfItemsPerSection: Int) {
+        init(maxNumberOfItemsPerSection: Int, buttons: [Button]) {
             self.maxNumberOfItemsPerSection = maxNumberOfItemsPerSection
+            self.buttons = buttons
             updateSections()
         }
 
@@ -82,29 +93,58 @@ final class BottomSheetViewController: UIViewController {
         }
     }
 
-    private lazy var model: ViewModel = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5)
+    private struct AvailableButtons {
+
+        private(set) var buttons: [Button]
+
+        var numberOfSections: Int { 1 }
+
+        init(buttons: [Button]) {
+            self.buttons = buttons
+        }
+
+        func numberOfItems(in section: Int) -> Int {
+            buttons.count
+        }
+
+        func button(at indexPath: IndexPath) -> Button {
+            buttons[indexPath.item]
+        }
+
+        mutating func deleteItem(at indexPath: IndexPath) {
+            buttons.remove(at: indexPath.item)
+        }
+    }
+
+    private lazy var model: ViewModel = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5, buttons: Button.allCases)
+    private lazy var availableButtons = AvailableButtons(buttons: Button.allCases.filter({ !model.buttons.contains($0) }))
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setup()
-    }
-
-    private func setup() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Custom bottom sheet"
-        navigationItem.rightBarButtonItem = editButtonItem
+        setupNavigationItem()
         setupHierarchy()
         setupConstraints()
     }
 
+    private func setupNavigationItem() {
+        navigationItem.title = "Custom bottom sheet"
+        navigationItem.rightBarButtonItem = editButtonItem
+    }
+
     private func setupHierarchy() {
+        view.addSubview(availableCollectionView)
         view.addSubview(containerView)
         view.addSubview(buttonsCollectionView)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            availableCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            availableCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
+            availableCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
+            availableCollectionView.bottomAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.topAnchor.constraint(equalTo: buttonsCollectionView.topAnchor),
             containerView.leftAnchor.constraint(equalTo: buttonsCollectionView.leftAnchor),
             containerView.rightAnchor.constraint(equalTo: buttonsCollectionView.rightAnchor),
@@ -122,7 +162,9 @@ final class BottomSheetViewController: UIViewController {
         buttonsCollectionView.isEditing = editing
     }
 
-    private func deleteButton(at indexPath: IndexPath) {
+    private func deleteButton(in collectionView: UICollectionView, at indexPath: IndexPath) {
+        guard collectionView == buttonsCollectionView else { return }
+
         model.deleteItem(at: indexPath)
 
         buttonsCollectionView.performBatchUpdates {
@@ -135,19 +177,33 @@ final class BottomSheetViewController: UIViewController {
 extension BottomSheetViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        model.numberOfSections
+        if collectionView == buttonsCollectionView {
+            model.numberOfSections
+        } else {
+            availableButtons.numberOfSections
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        model.numberOfItems(in: section)
+        if collectionView == buttonsCollectionView {
+            model.numberOfItems(in: section)
+        } else {
+            availableButtons.numberOfItems(in: section)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let button = if collectionView == buttonsCollectionView {
+            model.button(at: indexPath)
+        } else {
+            availableButtons.button(at: indexPath)
+        }
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
-        cell.configure(for: model.button(at: indexPath))
+        cell.configure(for: button)
         cell.deleteAction = { [weak self] cell in
             guard let indexPath = collectionView.indexPath(for: cell) else { return }
-            self?.deleteButton(at: indexPath)
+            self?.deleteButton(in: collectionView, at: indexPath)
         }
         return cell
     }
@@ -161,11 +217,13 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 10, left: 4, bottom: 0, right: 4)
+        guard collectionView == buttonsCollectionView else { return .zero }
+        return .init(top: 10, left: 4, bottom: 0, right: 4)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        4
+        guard collectionView == buttonsCollectionView else { return .zero }
+        return 4
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
