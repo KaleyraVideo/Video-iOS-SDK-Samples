@@ -2,6 +2,7 @@
 // See LICENSE for licensing information
 
 import Foundation
+import KaleyraVideoSDK
 
 @available(iOS 15.0, *)
 internal enum Button: Equatable, CaseIterable {
@@ -59,6 +60,25 @@ extension Button {
                 self = .whiteboard
             default:
                 return nil
+        }
+    }
+}
+
+@available(iOS 15.0, *)
+extension Button {
+
+    var callButton: CallButton {
+        switch self {
+            case .hangUp: .hangUp
+            case .microphone: .microphone
+            case .camera: .camera
+            case .flipCamera: .flipCamera
+            case .cameraEffects: .cameraEffects
+            case .audioOutput: .audioOutput
+            case .fileShare: .fileShare
+            case .screenShare: .screenShare
+            case .chat: .chat
+            case .whiteboard: .whiteboard
         }
     }
 }

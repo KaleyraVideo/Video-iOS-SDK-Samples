@@ -15,7 +15,7 @@ final class ButtonCell: UICollectionViewCell {
 
     private lazy var deleteButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "minus.circle.fill")
+        config.image = Icons.removeButton
         config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .small)
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -109,7 +109,7 @@ extension UIButton {
         config.titleAlignment = .center
         config.titleLineBreakMode = .byTruncatingTail
         config.title = button?.title
-        config.image = button?.icon ?? .init(systemName: "questionmark")
+        config.image = button?.icon ?? Icons.questionMark
         config.titleTextAttributesTransformer = .init({ _ in
             .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
                    .foregroundColor : button?.tintColor ?? UIColor(rgb: 0x1B1B1B)])
@@ -189,53 +189,33 @@ private extension Button {
 
     var title: String {
         switch self {
-            case .hangUp:
-                "end"
-            case .microphone:
-                "mute"
-            case .camera:
-                "enable"
-            case .flipCamera:
-                "flip"
-            case .cameraEffects:
-                "effects"
-            case .audioOutput:
-                "audio output"
-            case .fileShare:
-                "fileshare"
-            case .screenShare:
-                "screenshare"
-            case .chat:
-                "chat"
-            case .whiteboard:
-                "board"
+            case .hangUp: "end"
+            case .microphone: "mute"
+            case .camera: "enable"
+            case .flipCamera: "flip"
+            case .cameraEffects: "effects"
+            case .audioOutput: "audio output"
+            case .fileShare: "fileshare"
+            case .screenShare: "screenshare"
+            case .chat: "chat"
+            case .whiteboard: "board"
         }
     }
 
     var icon: UIImage? {
         let icon: UIImage? = switch self {
-            case .hangUp:
-                    .init(named: "end-call", in: .sdk, compatibleWith: nil)
-            case .microphone:
-                    .init(named: "mic-off", in: .sdk, compatibleWith: nil)
-            case .camera:
-                    .init(named: "camera-off", in: .sdk, compatibleWith: nil)
-            case .flipCamera:
-                    .init(named: "flipcam", in: .sdk, compatibleWith: nil)
-            case .cameraEffects:
-                    .init(named: "virtual-background", in: .sdk, compatibleWith: nil)
-            case .audioOutput:
-                    .init(named: "speaker-on", in: .sdk, compatibleWith: nil)
-            case .fileShare:
-                    .init(named: "file-share", in: .sdk, compatibleWith: nil)
-            case .screenShare:
-                    .init(named: "screen-share", in: .sdk, compatibleWith: nil)
-            case .chat:
-                    .init(named: "chat", in: .sdk, compatibleWith: nil)
-            case .whiteboard:
-                    .init(named: "whiteboard", in: .sdk, compatibleWith: nil)
+            case .hangUp: Icons.end
+            case .microphone: Icons.micOff
+            case .camera: Icons.cameraOff
+            case .flipCamera: Icons.flipCamera
+            case .cameraEffects: Icons.cameraEffects
+            case .audioOutput: Icons.speakerOn
+            case .fileShare: Icons.fileShare
+            case .screenShare: Icons.screenShare
+            case .chat: Icons.chat
+            case .whiteboard: Icons.whiteboard
         }
-        return icon ?? .init(systemName: "questionmark")
+        return icon ?? Icons.questionMark
     }
 
     var backgroundColor: UIColor {

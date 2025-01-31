@@ -57,4 +57,62 @@ enum Icons {
     static var logShortcut: UIApplicationShortcutIcon? {
         .init(systemImageName: "ladybug")
     }
+
+    @available(iOS 15.0, *)
+    static var end: UIImage? {
+        .init(named: "end-call", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var micOff: UIImage? {
+        .init(named: "mic-off", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var cameraOff: UIImage? {
+        .init(named: "camera-off", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var flipCamera: UIImage? {
+        .init(named: "flipcam", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var cameraEffects: UIImage? {
+        .init(named: "virtual-background", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var speakerOn: UIImage? {
+        .init(named: "speaker-on", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var fileShare: UIImage? {
+        .init(named: "file-share", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var screenShare: UIImage? {
+        .init(named: "screen-share", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var chat: UIImage? {
+        .init(named: "chat", in: .sdk, compatibleWith: nil)
+    }
+
+    @available(iOS 15.0, *)
+    static var whiteboard: UIImage? {
+        .init(named: "whiteboard", in: .sdk, compatibleWith: nil)
+    }
+
+    static var questionMark: UIImage? {
+        .init(systemName: "questionmark")
+    }
+
+    static var removeButton: UIImage? {
+        .init(systemName: "minus.circle.fill")
+    }
 }
