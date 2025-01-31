@@ -14,7 +14,7 @@ final class BottomSheetViewController: UIViewController {
 
     private lazy var inactiveButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
         .init(collectionView: inactiveButtonsCollectionView) { collectionView, indexPath, button in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
+            let cell = collectionView.dequeueReusableCell(ButtonCell.self, for: indexPath)
             cell.configure(for: button, shouldShowTitle: true)
             return cell
         }
@@ -22,7 +22,7 @@ final class BottomSheetViewController: UIViewController {
 
     private lazy var activeButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
         .init(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
+            let cell = collectionView.dequeueReusableCell(ButtonCell.self, for: indexPath)
             cell.configure(for: button, shouldShowTitle: indexPath.section != collectionView.numberOfSections - 1)
             cell.deleteAction = { [weak self] cell in
                 self?.deleteCell(cell, from: collectionView)
@@ -357,7 +357,7 @@ private extension UICollectionView {
         self.dragDelegate = delegate
         self.dropDelegate = delegate
         self.isScrollEnabled = false
-        self.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
+        self.registerReusableCell(ButtonCell.self)
         self.backgroundColor = .clear
     }
 }
