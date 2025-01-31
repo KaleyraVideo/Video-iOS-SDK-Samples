@@ -8,29 +8,9 @@ import KaleyraVideoSDK
 @available(iOS 15.0, *)
 final class BottomSheetViewController: UIViewController {
 
-    private lazy var inactiveButtonsCollectionView: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.delegate = self
-        collection.dragDelegate = self
-        collection.dropDelegate = self
-        collection.isScrollEnabled = false
-        collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
-        collection.backgroundColor = .clear
-        return collection
-    }()
+    private lazy var inactiveButtonsCollectionView: UICollectionView = .init(delegate: self)
 
-    private lazy var activeButtonsCollectionView: UICollectionView = {
-        let collection = IntrinsicContentSizeCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.delegate = self
-        collection.dragDelegate = self
-        collection.dropDelegate = self
-        collection.isScrollEnabled = false
-        collection.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
-        collection.backgroundColor = .clear
-        return collection
-    }()
+    private lazy var activeButtonsCollectionView: IntrinsicContentSizeCollectionView = .init(delegate: self)
 
     private lazy var inactiveButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
         .init(collectionView: inactiveButtonsCollectionView) { collectionView, indexPath, button in
@@ -60,7 +40,8 @@ final class BottomSheetViewController: UIViewController {
         return view
     }()
 
-    private lazy var model: Model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5, activeButtons: [.hangUp, .microphone])
+    private lazy var model: Model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
+                                          activeButtons: [.hangUp, .microphone])
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -301,6 +282,10 @@ extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionV
         true
     }
 
+    func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
+        setEditing(true, animated: true)
+    }
+
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         guard let item = session.items.first?.localObject as? DragItem else { return .init(operation: .cancel) }
 
@@ -322,22 +307,22 @@ extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionV
                     model.deactivateButton(dragItem.button)
                     applySnapshots(animatingDifferences: true)
 
-                    guard let indexPath = model.inactiveButtons.indexPath(for: dragItem.button) else { return }
+                    guard let indexPath = model.inactiveButtons.indexPath(for: dragItem.button) else { continue }
                     coordinator.drop(item.dragItem, toItemAt: indexPath)
                 } else {
                     model.activateButton(dragItem.button)
                     applySnapshots(animatingDifferences: true)
 
-                    guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { return }
+                    guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { continue }
                     coordinator.drop(item.dragItem, toItemAt: indexPath)
                 }
             } else if coordinator.proposal.operation == .move, let destinationIndexPath = coordinator.destinationIndexPath {
-                guard dragItem.collectionView == activeButtonsCollectionView else { return }
+                guard dragItem.collectionView == activeButtonsCollectionView else { continue }
 
                 model.moveActiveButton(dragItem.button, to: destinationIndexPath)
                 activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: true)
 
-                guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { return }
+                guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { continue }
                 coordinator.drop(item.dragItem, toItemAt: indexPath)
             }
         }
@@ -359,5 +344,20 @@ private final class IntrinsicContentSizeCollectionView: UICollectionView {
 
     override var intrinsicContentSize: CGSize {
         contentSize
+    }
+}
+
+@available(iOS 15.0, *)
+private extension UICollectionView {
+
+    convenience init(delegate: UICollectionViewDragDelegate & UICollectionViewDropDelegate & UICollectionViewDelegateFlowLayout) {
+        self.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.delegate = delegate
+        self.dragDelegate = delegate
+        self.dropDelegate = delegate
+        self.isScrollEnabled = false
+        self.register(ButtonCell.self, forCellWithReuseIdentifier: "\(ButtonCell.self)")
+        self.backgroundColor = .clear
     }
 }
