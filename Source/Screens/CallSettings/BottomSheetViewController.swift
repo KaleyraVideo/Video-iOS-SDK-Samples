@@ -111,6 +111,10 @@ final class BottomSheetViewController: UIViewController {
             buttons[indexPath.item]
         }
 
+        mutating func append(button: Button) {
+            buttons.append(button)
+        }
+
         mutating func deleteItem(at indexPath: IndexPath) {
             buttons.remove(at: indexPath.item)
         }
@@ -164,6 +168,12 @@ final class BottomSheetViewController: UIViewController {
 
     private func deleteButton(in collectionView: UICollectionView, at indexPath: IndexPath) {
         guard collectionView == buttonsCollectionView else { return }
+
+        let button = model.button(at: indexPath)
+        availableButtons.append(button: button)
+        availableCollectionView.performBatchUpdates {
+            availableCollectionView.insertItems(at: [.init(item: availableButtons.buttons.endIndex - 1, section: 0)])
+        }
 
         model.deleteItem(at: indexPath)
 
