@@ -8,7 +8,7 @@ import KaleyraVideoSDK
 @available(iOS 15.0, *)
 final class BottomSheetViewController: UIViewController {
 
-    private lazy var availableButtonsCollectionView: UICollectionView = {
+    private lazy var inactiveButtonsCollectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.delegate = self
@@ -32,14 +32,10 @@ final class BottomSheetViewController: UIViewController {
         return collection
     }()
 
-    private lazy var availableButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
-        .init(collectionView: availableButtonsCollectionView) { collectionView, indexPath, button in
+    private lazy var inactiveButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
+        .init(collectionView: inactiveButtonsCollectionView) { collectionView, indexPath, button in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
             cell.configure(for: button, shouldShowTitle: true)
-            cell.deleteAction = { [weak self] cell in
-                guard let indexPath = collectionView.indexPath(for: cell) else { return }
-                self?.deleteButton(in: collectionView, at: indexPath)
-            }
             return cell
         }
     }()
@@ -47,10 +43,9 @@ final class BottomSheetViewController: UIViewController {
     private lazy var activeButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
         .init(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(ButtonCell.self)", for: indexPath) as! ButtonCell
-            cell.configure(for: button, shouldShowTitle: true)
+            cell.configure(for: button, shouldShowTitle: indexPath.section != collectionView.numberOfSections - 1)
             cell.deleteAction = { [weak self] cell in
-                guard let indexPath = collectionView.indexPath(for: cell) else { return }
-                self?.deleteButton(in: collectionView, at: indexPath)
+                self?.deleteCell(cell, from: collectionView)
             }
             return cell
         }
@@ -74,7 +69,7 @@ final class BottomSheetViewController: UIViewController {
         setupNavigationItem()
         setupHierarchy()
         setupConstraints()
-        availableButtonsCollectionView.dataSource = availableButtonsDataSource
+        inactiveButtonsCollectionView.dataSource = inactiveButtonsDataSource
         activeButtonsCollectionView.dataSource = activeButtonsDataSource
     }
 
@@ -84,21 +79,22 @@ final class BottomSheetViewController: UIViewController {
     }
 
     private func setupHierarchy() {
-        view.addSubview(availableButtonsCollectionView)
+        view.addSubview(inactiveButtonsCollectionView)
         view.addSubview(containerView)
         view.addSubview(activeButtonsCollectionView)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            availableButtonsCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            availableButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
-            availableButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
-            availableButtonsCollectionView.bottomAnchor.constraint(equalTo: view.centerYAnchor),
+            inactiveButtonsCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            inactiveButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
+            inactiveButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
+            inactiveButtonsCollectionView.bottomAnchor.constraint(equalTo: view.centerYAnchor),
             containerView.topAnchor.constraint(equalTo: activeButtonsCollectionView.topAnchor),
             containerView.leftAnchor.constraint(equalTo: activeButtonsCollectionView.leftAnchor),
             containerView.rightAnchor.constraint(equalTo: activeButtonsCollectionView.rightAnchor),
             containerView.bottomAnchor.constraint(equalTo: activeButtonsCollectionView.bottomAnchor),
+            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 66),
             activeButtonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
             activeButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 14),
             activeButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
@@ -109,7 +105,7 @@ final class BottomSheetViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        availableButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
+        inactiveButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
         activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: animated)
     }
 
@@ -119,15 +115,16 @@ final class BottomSheetViewController: UIViewController {
         activeButtonsCollectionView.isEditing = editing
     }
 
-    private func deleteButton(in collectionView: UICollectionView, at indexPath: IndexPath) {
+    private func deleteCell(_ cell: UICollectionViewCell, from collectionView: UICollectionView) {
         guard collectionView == activeButtonsCollectionView else { return }
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
 
         model.deactivateButton(at: indexPath)
         applySnapshots(animatingDifferences: true)
     }
 
     private func applySnapshots(animatingDifferences animated: Bool) {
-        availableButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
+        inactiveButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
         activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: animated)
     }
 }
@@ -296,7 +293,7 @@ extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionV
 
         let itemProvider = NSItemProvider(object: button.identifier as NSString)
         let dragItem = UIDragItem(itemProvider: itemProvider)
-        dragItem.localObject = DragItem(indexPath: indexPath, collectionView: collectionView, button: button)
+        dragItem.localObject = DragItem(collectionView: collectionView, button: button)
         return [dragItem]
     }
 
@@ -323,37 +320,30 @@ extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionV
             if coordinator.proposal.operation == .copy {
                 if dragItem.collectionView == activeButtonsCollectionView {
                     model.deactivateButton(dragItem.button)
-
                     applySnapshots(animatingDifferences: true)
 
                     guard let indexPath = model.inactiveButtons.indexPath(for: dragItem.button) else { return }
-
                     coordinator.drop(item.dragItem, toItemAt: indexPath)
                 } else {
                     model.activateButton(dragItem.button)
-
                     applySnapshots(animatingDifferences: true)
 
                     guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { return }
-
                     coordinator.drop(item.dragItem, toItemAt: indexPath)
                 }
             } else if coordinator.proposal.operation == .move, let destinationIndexPath = coordinator.destinationIndexPath {
-                if dragItem.collectionView == activeButtonsCollectionView {
-                    model.moveActiveButton(dragItem.button, to: destinationIndexPath)
+                guard dragItem.collectionView == activeButtonsCollectionView else { return }
 
-                    activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: true)
+                model.moveActiveButton(dragItem.button, to: destinationIndexPath)
+                activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: true)
 
-                    guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { return }
-
-                    coordinator.drop(item.dragItem, toItemAt: indexPath)
-                }
+                guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { return }
+                coordinator.drop(item.dragItem, toItemAt: indexPath)
             }
         }
     }
 
     private struct DragItem {
-        let indexPath: IndexPath
         let collectionView: UICollectionView
         let button: Button
     }
