@@ -151,15 +151,17 @@ private extension BottomSheetViewController {
             inactiveButtons.remove(button)
         }
 
+        mutating func activateButton(at indexPath: IndexPath) {
+            activateButton(inactiveButtons.button(at: indexPath))
+        }
+
         mutating func deactivateButton(_ button: Button) {
             inactiveButtons.insert(button)
             activeButtons.remove(button)
         }
 
         mutating func deactivateButton(at indexPath: IndexPath) {
-            let button = activeButtons.button(at: indexPath)
-            activeButtons.remove(button)
-            inactiveButtons.insert(button)
+            deactivateButton(activeButtons.button(at: indexPath))
         }
 
         mutating func moveActiveButton(_ button: Button, to destinationIndexPath: IndexPath) {
@@ -265,6 +267,13 @@ private extension BottomSheetViewController {
 
 @available(iOS 15.0, *)
 extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard collectionView == inactiveButtonsCollectionView else { return }
+
+        model.activateButton(at: indexPath)
+        applySnapshots(animatingDifferences: true)
+    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard collectionView == activeButtonsCollectionView else { return .init(width: 68, height: 85) }

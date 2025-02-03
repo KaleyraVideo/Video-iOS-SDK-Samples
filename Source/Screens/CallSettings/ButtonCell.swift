@@ -10,6 +10,7 @@ final class ButtonCell: UICollectionViewCell {
     private lazy var button: UIButton = {
         let button = UIButton(button: nil)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isUserInteractionEnabled = false
         return button
     }()
 
