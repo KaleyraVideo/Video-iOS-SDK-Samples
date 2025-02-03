@@ -13,6 +13,9 @@ final class ColorTableViewCell : UITableViewCell {
     @Proxy(\.colorWell.selectedColor)
     var color: UIColor?
 
+    @Proxy(\.colorWell.title)
+    var pickerTitle: String?
+
     var onColorChanged: ((UIColor?) -> Void)?
 
     private lazy var label: UILabel = {

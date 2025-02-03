@@ -162,6 +162,7 @@ extension EditButtonViewController: UITableViewDataSource {
                         let cell = tableView.dequeueReusableCell(ColorTableViewCell.self, for: indexPath)
                         cell.title = "Tint color"
                         cell.color = button.tint
+                        cell.pickerTitle = "Tint color"
                         cell.onColorChanged = { [weak self] color in
                             self?.button.tint = color
                         }
@@ -170,6 +171,7 @@ extension EditButtonViewController: UITableViewDataSource {
                         let cell = tableView.dequeueReusableCell(ColorTableViewCell.self, for: indexPath)
                         cell.title = "Background color"
                         cell.color = button.background
+                        cell.pickerTitle = "Background color"
                         cell.onColorChanged = { [weak self] color in
                             self?.button.background = color
                         }
