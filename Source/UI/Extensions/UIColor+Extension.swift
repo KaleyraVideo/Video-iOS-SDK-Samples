@@ -5,13 +5,17 @@ import UIKit
 
 extension UIColor {
 
-    // swiftlint:disable identifier_name
-    var rgba: (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat)? {
+    var argb: UInt {
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
         guard self.getRed(&r, green: &g, blue: &b, alpha: &a) else {
-            return nil
+            return 0
         }
-        return (r: r, g: g, b: b, a: a)
+        let alpha = UInt(a * 255.0)
+        let red = UInt(r * 255.0)
+        let green = UInt(g * 255.0)
+        let blue = UInt(b * 255.0)
+
+        return (alpha << 24) + (red << 16) + (green << 8) + blue
     }
 
     var resolvedLight: UIColor {

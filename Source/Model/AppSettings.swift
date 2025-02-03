@@ -9,7 +9,11 @@ final class AppSettings {
     @Published
     var callSettings: CallSettings = .init()
 
+    @Published
+    var customButtons: [Button.Custom] = []
+
     func loadFromDefaults(_ repository: SettingsRepository) {
         callSettings = (try? repository.loadSettings()) ?? .init()
+        customButtons = (try? repository.loadCustomButtons()) ?? []
     }
 }

@@ -35,6 +35,7 @@ struct CallSettings: Equatable {
     var presentationMode: PresentationMode
     var cameraPosition: CameraPosition
     var speakerOverride: ConferenceSettings.SpeakerOverride
+    var buttons: [KaleyraVideoSDK.CallButton]?
 
     init() {
         type = .audioVideo

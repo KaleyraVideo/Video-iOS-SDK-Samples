@@ -11,6 +11,7 @@ final class UserDefaultsStore: SettingsRepository {
         case pushDeviceToken = "com.kaleyra.push_token"
         case callSettings = "com.kaleyra.call_settings"
         case config = "com.kaleyra.config"
+        case customButtons = "com.kaleyra.custom_buttons"
     }
 
     private enum Errors: Error {
@@ -44,6 +45,11 @@ final class UserDefaultsStore: SettingsRepository {
         defaults.synchronize()
     }
 
+    func store(_ buttons: [Button.Custom]) throws {
+        try store(buttons, key: .customButtons)
+        defaults.synchronize()
+    }
+
     func store(_ config: Config) throws {
         try store(config, key: .config)
         defaults.synchronize()
@@ -51,6 +57,10 @@ final class UserDefaultsStore: SettingsRepository {
 
     func loadSettings() throws -> CallSettings {
         try load(key: .callSettings)
+    }
+
+    func loadCustomButtons() throws -> [Button.Custom] {
+        try load(key: .customButtons)
     }
 
     func loadConfig() throws -> Config {

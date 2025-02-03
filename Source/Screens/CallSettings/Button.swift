@@ -4,7 +4,6 @@
 import Foundation
 import KaleyraVideoSDK
 
-@available(iOS 15.0, *)
 internal enum Button: Hashable, CaseIterable {
     case hangUp
     case microphone
@@ -22,21 +21,54 @@ internal enum Button: Hashable, CaseIterable {
     static var allCases: [Button] {
         [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput,.fileShare, .screenShare, .chat, .whiteboard, .addCustom]
     }
+
+    static var `default`: [Button] {
+        allCases.filter({
+            switch $0 {
+                case .addCustom:
+                    false
+                case .custom:
+                    false
+                default:
+                    true
+            }
+        })
+    }
 }
 
-@available(iOS 15.0, *)
 extension Button {
 
     struct Custom: Hashable {
-        let identifier: UUID = .init()
+
+        let identifier: UUID
         var title: String?
         var icon: UIImage?
-        var isEnabled: Bool = true
+        var isEnabled: Bool
         var accessibilityLabel: String?
         var badge: UInt?
         var tint: UIColor?
         var background: UIColor?
         var action: Action?
+
+        internal init(identifier: UUID = .init(),
+                      title: String? = nil,
+                      icon: UIImage? = nil,
+                      isEnabled: Bool = true,
+                      accessibilityLabel: String? = nil,
+                      badge: UInt? = nil,
+                      tint: UIColor? = nil,
+                      background: UIColor? = nil,
+                      action: Button.Custom.Action? = nil) {
+            self.identifier = identifier
+            self.title = title
+            self.icon = icon
+            self.isEnabled = isEnabled
+            self.accessibilityLabel = accessibilityLabel
+            self.badge = badge
+            self.tint = tint
+            self.background = background
+            self.action = action
+        }
 
         func hash(into hasher: inout Hasher) {
             hasher.combine(identifier.uuidString)
@@ -44,7 +76,6 @@ extension Button {
     }
 }
 
-@available(iOS 15.0, *)
 extension Button.Custom {
 
     enum Action {
@@ -53,7 +84,6 @@ extension Button.Custom {
     }
 }
 
-@available(iOS 15.0, *)
 extension Button {
 
     var identifier: String {
@@ -101,6 +131,49 @@ extension Button {
     }
 }
 
+extension Button.Custom: Codable {
+
+    private enum RootKeys: CodingKey {
+        case id
+        case title
+        case icon
+        case isEnabled
+        case accessibilityLabel
+        case badge
+        case tint
+        case background
+        case action
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: RootKeys.self)
+        self.identifier = try container.decode(UUID.self, forKey: .id)
+        self.title = try container.decodeIfPresent(String.self, forKey: .title)
+//        self.icon = try container.decodeIfPresent(Image.self, forKey: .icon)
+        self.isEnabled = try container.decode(Bool.self, forKey: .isEnabled)
+        self.accessibilityLabel = try container.decodeIfPresent(String.self, forKey: .accessibilityLabel)
+        self.badge = try container.decodeIfPresent(UInt.self, forKey: .badge)
+        self.tint = try container.decodeIfPresent(UInt.self, forKey: .tint).map({ .init(argb: $0) })
+        self.background = try container.decodeIfPresent(UInt.self, forKey: .background).map({ .init(argb: $0) })
+        self.action = try container.decodeIfPresent(Action.self, forKey: .action)
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: RootKeys.self)
+        try container.encode(identifier, forKey: .id)
+        try container.encodeIfPresent(title, forKey: .title)
+//        try container.encodeIfPresent(icon, forKey: .icon)
+        try container.encode(isEnabled, forKey: .isEnabled)
+        try container.encodeIfPresent(accessibilityLabel, forKey: .accessibilityLabel)
+        try container.encodeIfPresent(badge, forKey: .badge)
+        try container.encodeIfPresent(tint?.argb, forKey: .tint)
+        try container.encodeIfPresent(background?.argb, forKey: .background)
+        try container.encodeIfPresent(action, forKey: .action)
+    }
+}
+
+extension Button.Custom.Action: Codable {}
+
 @available(iOS 15.0, *)
 extension Button {
 
@@ -118,5 +191,24 @@ extension Button {
             case .whiteboard: .whiteboard
             default: nil
         }
+    }
+}
+
+@available(iOS 15.0, *)
+extension Button.Custom {
+
+    var callButton: CallButton.Configuration {
+        .init(text: title,
+              icon: icon ?? Icons.questionMark,
+              badgeValue: badge ?? 0,
+              isEnabled: isEnabled,
+              accessibilityLabel: accessibilityLabel,
+              appearance: appearance,
+              action: {})
+    }
+
+    var appearance: CallButton.Configuration.Appearance? {
+        guard let tint, let background else { return nil }
+        return .init(background: background, tint: tint)
     }
 }
