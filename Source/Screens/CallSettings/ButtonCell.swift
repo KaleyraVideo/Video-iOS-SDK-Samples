@@ -20,7 +20,7 @@ final class ButtonCell: UICollectionViewCell {
         config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .small)
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = .init(rgb: 0x1B1B1B)
+        button.tintColor = Theme.Color.defaultButtonTint
         button.addAction(.init(handler: { [weak self] _ in
             guard let self else { return }
             self.deleteAction?(self)
@@ -88,7 +88,7 @@ extension UIButton {
         let tintColor = button?.tintColor
         config.titleTextAttributesTransformer = .init({ [tintColor] _ in
             .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
-                   .foregroundColor : tintColor ?? UIColor(rgb: 0x1B1B1B)])
+                   .foregroundColor : tintColor ?? Theme.Color.defaultButtonTint])
         })
         let backgroundView = ImageTrackingButtonBackgroundView()
         backgroundView.backgroundColor = button?.backgroundColor
@@ -143,14 +143,14 @@ private extension Button {
 
     var backgroundColor: UIColor {
         guard case Button.hangUp = self else {
-            return .init(rgb: 0xE2E2E2)
+            return Theme.Color.defaultButtonBackground
         }
         return .init(rgb: 0xDC2138)
     }
 
     var tintColor: UIColor {
         guard case Button.hangUp = self else {
-            return .init(rgb: 0x1B1B1B)
+            return Theme.Color.defaultButtonTint
         }
         return .white
     }

@@ -11,7 +11,6 @@ final class ImageTrackingButtonBackgroundView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 18
-        view.backgroundColor = .init(rgb: 0xE2E2E2)
         return view
     }()
 

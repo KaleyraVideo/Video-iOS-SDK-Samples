@@ -24,7 +24,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     private lazy var preview: UIButton = {
         var config = UIButton.Configuration.bottomSheetButton()
         config.image = button.icon ?? Icons.questionMark
-        config.title = button.title
+        config.title = button.title ?? "Title"
         config.background.customView = ImageTrackingButtonBackgroundView()
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +43,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         return table
     }()
 
-    private var button: CustomButton = .init() {
+    private var button: CustomButton = .init(tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground) {
         didSet {
             updatePreview()
         }
@@ -83,12 +83,12 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
 
     private func updatePreview() {
         var config = preview.configuration
-        config?.title = button.title
+        config?.title = button.title ?? "Title"
         config?.image = button.icon ?? Icons.questionMark
         let tintColor = button.tint
         config?.titleTextAttributesTransformer = .init({ [tintColor] _ in
                 .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
-                       .foregroundColor : tintColor ?? UIColor(rgb: 0x1B1B1B)])
+                       .foregroundColor : tintColor as Any])
         })
         config?.background.customView?.backgroundColor = button.background
         preview.tintColor = button.tint
