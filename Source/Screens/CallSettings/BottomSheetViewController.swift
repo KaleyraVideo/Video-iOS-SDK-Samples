@@ -8,8 +8,15 @@ import KaleyraVideoSDK
 @available(iOS 15.0, *)
 final class BottomSheetViewController: UIViewController {
 
-    private lazy var inactiveButtonsCollectionView: IntrinsicContentSizeCollectionView = .init(delegate: self)
+    private lazy var addButtonLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Tap a button to add it to the bottom sheet below"
+        label.textAlignment = .center
+        return label
+    }()
 
+    private lazy var inactiveButtonsCollectionView: IntrinsicContentSizeCollectionView = .init(delegate: self)
     private lazy var activeButtonsCollectionView: IntrinsicContentSizeCollectionView = .init(delegate: self)
 
     private lazy var inactiveButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
@@ -51,16 +58,19 @@ final class BottomSheetViewController: UIViewController {
     }
 
     private func setupHierarchy() {
+        view.addSubview(addButtonLabel)
         view.addSubview(inactiveButtonsCollectionView)
         view.addSubview(activeButtonsCollectionView)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            inactiveButtonsCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            addButtonLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            addButtonLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            inactiveButtonsCollectionView.topAnchor.constraint(equalTo: addButtonLabel.bottomAnchor, constant: 8),
             inactiveButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
             inactiveButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
-            inactiveButtonsCollectionView.bottomAnchor.constraint(equalTo: view.centerYAnchor),
+            inactiveButtonsCollectionView.bottomAnchor.constraint(lessThanOrEqualTo: activeButtonsCollectionView.topAnchor, constant: -8),
             activeButtonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
             activeButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 14),
             activeButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
