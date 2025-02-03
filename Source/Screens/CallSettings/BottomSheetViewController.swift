@@ -8,7 +8,7 @@ import KaleyraVideoSDK
 @available(iOS 15.0, *)
 final class BottomSheetViewController: UIViewController {
 
-    private lazy var inactiveButtonsCollectionView: UICollectionView = .init(delegate: self)
+    private lazy var inactiveButtonsCollectionView: IntrinsicContentSizeCollectionView = .init(delegate: self)
 
     private lazy var activeButtonsCollectionView: IntrinsicContentSizeCollectionView = .init(delegate: self)
 
@@ -29,15 +29,6 @@ final class BottomSheetViewController: UIViewController {
             }
             return cell
         }
-    }()
-
-    private lazy var containerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .init(rgb: 0xEEEEEE)
-        view.layer.cornerRadius = 22
-        view.layer.masksToBounds = true
-        return view
     }()
 
     private lazy var model: Model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
@@ -61,7 +52,6 @@ final class BottomSheetViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(inactiveButtonsCollectionView)
-        view.addSubview(containerView)
         view.addSubview(activeButtonsCollectionView)
     }
 
@@ -71,15 +61,11 @@ final class BottomSheetViewController: UIViewController {
             inactiveButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
             inactiveButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
             inactiveButtonsCollectionView.bottomAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.topAnchor.constraint(equalTo: activeButtonsCollectionView.topAnchor),
-            containerView.leftAnchor.constraint(equalTo: activeButtonsCollectionView.leftAnchor),
-            containerView.rightAnchor.constraint(equalTo: activeButtonsCollectionView.rightAnchor),
-            containerView.bottomAnchor.constraint(equalTo: activeButtonsCollectionView.bottomAnchor),
-            containerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 66),
             activeButtonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
             activeButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 14),
             activeButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -14),
             activeButtonsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
+            activeButtonsCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 66)
         ])
     }
 
@@ -354,6 +340,11 @@ private extension UICollectionView {
         self.dropDelegate = delegate
         self.isScrollEnabled = false
         self.registerReusableCell(ButtonCell.self)
-        self.backgroundColor = .clear
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .init(rgb: 0xEEEEEE)
+        view.layer.cornerRadius = 22
+        view.layer.masksToBounds = true
+        self.backgroundView = view
     }
 }
