@@ -28,7 +28,7 @@ final class BottomSheetViewController: UIViewController {
     }()
 
     private lazy var activeButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
-        .init(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
+        var dataSource = UICollectionViewDiffableDataSource<Int, Button>(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
             let cell = collectionView.dequeueReusableCell(ButtonCell.self, for: indexPath)
             cell.configure(for: button, shouldShowTitle: indexPath.section != collectionView.numberOfSections - 1)
             cell.deleteAction = { [weak self] cell in
@@ -36,6 +36,17 @@ final class BottomSheetViewController: UIViewController {
             }
             return cell
         }
+        dataSource.reorderingHandlers.canReorderItem = { _ in true }
+        dataSource.reorderingHandlers.didReorder = { [weak self] transaction in
+            guard let self else { return }
+
+            self.model.updateActiveButtons(from: transaction.finalSnapshot)
+        }
+        return dataSource
+    }()
+
+    private lazy var longPressRecognizer: UILongPressGestureRecognizer = {
+        UILongPressGestureRecognizer(target: self, action: #selector(onLongPress(_:)))
     }()
 
     private lazy var model: Model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
@@ -50,6 +61,7 @@ final class BottomSheetViewController: UIViewController {
         setupConstraints()
         inactiveButtonsCollectionView.dataSource = inactiveButtonsDataSource
         activeButtonsCollectionView.dataSource = activeButtonsDataSource
+        activeButtonsCollectionView.addGestureRecognizer(longPressRecognizer)
     }
 
     private func setupNavigationItem() {
@@ -104,6 +116,21 @@ final class BottomSheetViewController: UIViewController {
         inactiveButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
         activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: animated)
     }
+
+    @objc
+    private func onLongPress(_ recognizer: UILongPressGestureRecognizer) {
+        switch recognizer.state {
+            case .began:
+                guard let indexPath = activeButtonsCollectionView.indexPathForItem(at: recognizer.location(in: activeButtonsCollectionView)) else { return }
+                activeButtonsCollectionView.beginInteractiveMovementForItem(at: indexPath)
+            case .changed:
+                activeButtonsCollectionView.updateInteractiveMovementTargetPosition(recognizer.location(in: activeButtonsCollectionView))
+            case .ended:
+                activeButtonsCollectionView.endInteractiveMovement()
+            default:
+                activeButtonsCollectionView.cancelInteractiveMovement()
+        }
+    }
 }
 
 @available(iOS 15.0, *)
@@ -137,6 +164,10 @@ private extension BottomSheetViewController {
 
         mutating func moveActiveButton(_ button: Button, to destinationIndexPath: IndexPath) {
             activeButtons.moveItem(button, to: destinationIndexPath)
+        }
+
+        mutating func updateActiveButtons(from snapshot: NSDiffableDataSourceSnapshot<Int, Button>) {
+            activeButtons.update(from: snapshot)
         }
 
         struct Buttons {
@@ -224,6 +255,10 @@ private extension BottomSheetViewController {
 
                 return snapshot
             }
+
+            mutating func update(from snapshot: NSDiffableDataSourceSnapshot<Int, Button>) {
+                buttons = snapshot.itemIdentifiers
+            }
         }
     }
 }
@@ -254,78 +289,6 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-@available(iOS 15.0, *)
-extension BottomSheetViewController: UICollectionViewDragDelegate, UICollectionViewDropDelegate {
-
-    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        let button = if collectionView == activeButtonsCollectionView {
-            model.activeButtons.button(at: indexPath)
-        } else {
-            model.inactiveButtons.button(at: indexPath)
-        }
-
-        let itemProvider = NSItemProvider(object: button.identifier as NSString)
-        let dragItem = UIDragItem(itemProvider: itemProvider)
-        dragItem.localObject = DragItem(collectionView: collectionView, button: button)
-        return [dragItem]
-    }
-
-    func collectionView(_ collectionView: UICollectionView, dragSessionIsRestrictedToDraggingApplication session: UIDragSession) -> Bool {
-        true
-    }
-
-    func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
-        setEditing(true, animated: true)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-        guard let item = session.items.first?.localObject as? DragItem else { return .init(operation: .cancel) }
-
-        if item.collectionView == activeButtonsCollectionView, collectionView == item.collectionView, destinationIndexPath != nil {
-            return .init(operation: .move, intent: .insertAtDestinationIndexPath)
-        } else if collectionView != item.collectionView {
-            return .init(operation: .copy)
-        } else {
-            return .init(operation: .forbidden)
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        for item in coordinator.items {
-            guard let dragItem = item.dragItem.localObject as? DragItem else { continue }
-
-            if coordinator.proposal.operation == .copy {
-                if dragItem.collectionView == activeButtonsCollectionView {
-                    model.deactivateButton(dragItem.button)
-                    applySnapshots(animatingDifferences: true)
-
-                    guard let indexPath = model.inactiveButtons.indexPath(for: dragItem.button) else { continue }
-                    coordinator.drop(item.dragItem, toItemAt: indexPath)
-                } else {
-                    model.activateButton(dragItem.button)
-                    applySnapshots(animatingDifferences: true)
-
-                    guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { continue }
-                    coordinator.drop(item.dragItem, toItemAt: indexPath)
-                }
-            } else if coordinator.proposal.operation == .move, let destinationIndexPath = coordinator.destinationIndexPath {
-                guard dragItem.collectionView == activeButtonsCollectionView else { continue }
-
-                model.moveActiveButton(dragItem.button, to: destinationIndexPath)
-                activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: true)
-
-                guard let indexPath = model.activeButtons.indexPath(for: dragItem.button) else { continue }
-                coordinator.drop(item.dragItem, toItemAt: indexPath)
-            }
-        }
-    }
-
-    private struct DragItem {
-        let collectionView: UICollectionView
-        let button: Button
-    }
-}
-
 private final class IntrinsicContentSizeCollectionView: UICollectionView {
 
     override var contentSize: CGSize {
@@ -342,12 +305,10 @@ private final class IntrinsicContentSizeCollectionView: UICollectionView {
 @available(iOS 15.0, *)
 private extension UICollectionView {
 
-    convenience init(delegate: UICollectionViewDragDelegate & UICollectionViewDropDelegate & UICollectionViewDelegateFlowLayout) {
+    convenience init(delegate: UICollectionViewDelegateFlowLayout) {
         self.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         self.translatesAutoresizingMaskIntoConstraints = false
         self.delegate = delegate
-        self.dragDelegate = delegate
-        self.dropDelegate = delegate
         self.isScrollEnabled = false
         self.registerReusableCell(ButtonCell.self)
         let view = UIView()
