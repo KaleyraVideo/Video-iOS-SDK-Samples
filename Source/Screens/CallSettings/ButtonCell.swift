@@ -200,6 +200,7 @@ private extension Button {
             case .screenShare: "screenshare"
             case .chat: "chat"
             case .whiteboard: "board"
+            case .addCustom: "new"
         }
     }
 
@@ -215,6 +216,7 @@ private extension Button {
             case .screenShare: Icons.screenShare
             case .chat: Icons.chat
             case .whiteboard: Icons.whiteboard
+            case .addCustom: Icons.addButton
         }
         return icon ?? Icons.questionMark
     }

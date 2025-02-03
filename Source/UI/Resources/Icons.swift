@@ -108,6 +108,10 @@ enum Icons {
         .init(named: "whiteboard", in: .sdk, compatibleWith: nil)
     }
 
+    static var addButton: UIImage? {
+        .init(systemName: "plus")
+    }
+
     static var questionMark: UIImage? {
         .init(systemName: "questionmark")
     }

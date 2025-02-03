@@ -5,7 +5,7 @@ import Foundation
 import KaleyraVideoSDK
 
 @available(iOS 15.0, *)
-internal enum Button: Equatable, CaseIterable {
+internal enum Button: Hashable, CaseIterable {
     case hangUp
     case microphone
     case camera
@@ -16,6 +16,7 @@ internal enum Button: Equatable, CaseIterable {
     case screenShare
     case chat
     case whiteboard
+    case addCustom
 }
 
 @available(iOS 15.0, *)
@@ -33,6 +34,7 @@ extension Button {
             case .screenShare: "screenshare"
             case .chat: "chat"
             case .whiteboard: "whiteboard"
+            case .addCustom: "addCustom"
         }
     }
 
@@ -67,7 +69,7 @@ extension Button {
 @available(iOS 15.0, *)
 extension Button {
 
-    var callButton: CallButton {
+    var callButton: CallButton? {
         switch self {
             case .hangUp: .hangUp
             case .microphone: .microphone
@@ -79,6 +81,7 @@ extension Button {
             case .screenShare: .screenShare
             case .chat: .chat
             case .whiteboard: .whiteboard
+            default: nil
         }
     }
 }
