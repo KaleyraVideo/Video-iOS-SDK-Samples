@@ -5,7 +5,7 @@ import Foundation
 import UIKit
 
 @available(iOS 15.0, *)
-final class EditButtonViewController: UIViewController {
+final class EditButtonViewController: UIViewController, UITableViewDelegate {
 
     private enum SectionType: Int {
         case properties = 0
@@ -17,12 +17,16 @@ final class EditButtonViewController: UIViewController {
     private lazy var header: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(buttonPreview)
+        view.addSubview(preview)
         return view
     }()
 
-    private lazy var buttonPreview: UIButton = {
-        let button = UIButton()
+    private lazy var preview: UIButton = {
+        var config = UIButton.Configuration.bottomSheetButton()
+        config.image = button.icon ?? Icons.questionMark
+        config.title = button.title
+        config.background.customView = ImageTrackingButtonBackgroundView()
+        let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -31,6 +35,7 @@ final class EditButtonViewController: UIViewController {
         let table = UITableView(frame: .zero, style: .insetGrouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
+        table.delegate = self
         table.registerReusableCell(TextFieldTableViewCell.self)
         table.registerReusableCell(SwitchTableViewCell.self)
         table.registerReusableCell(UITableViewCell.self)
@@ -38,14 +43,20 @@ final class EditButtonViewController: UIViewController {
         return table
     }()
 
-    private var button: CustomButton = .init()
+    private var button: CustomButton = .init() {
+        didSet {
+            updatePreview()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.title = "Edit button"
         view.backgroundColor = .systemBackground
         setupHierarchy()
         setupConstraints()
+        updatePreview()
     }
 
     private func setupHierarchy() {
@@ -59,13 +70,31 @@ final class EditButtonViewController: UIViewController {
             header.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             header.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             header.heightAnchor.constraint(equalToConstant: 100),
-            buttonPreview.centerXAnchor.constraint(equalTo: header.centerXAnchor),
-            buttonPreview.centerYAnchor.constraint(equalTo: header.centerYAnchor),
+            preview.centerXAnchor.constraint(equalTo: header.centerXAnchor),
+            preview.centerYAnchor.constraint(equalTo: header.centerYAnchor),
+            preview.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
+            preview.widthAnchor.constraint(greaterThanOrEqualToConstant: 46),
             tableView.topAnchor.constraint(equalTo: header.bottomAnchor),
             tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+
+    private func updatePreview() {
+        var config = preview.configuration
+        config?.title = button.title
+        config?.image = button.icon ?? Icons.questionMark
+        let tintColor = button.tint
+        config?.titleTextAttributesTransformer = .init({ [tintColor] _ in
+                .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
+                       .foregroundColor : tintColor ?? UIColor(rgb: 0x1B1B1B)])
+        })
+        config?.background.customView?.backgroundColor = button.background
+        preview.tintColor = button.tint
+        preview.isEnabled = button.isEnabled
+        preview.configuration = config
+        preview.accessibilityLabel = button.accessibilityLabel
     }
 }
 
@@ -81,7 +110,7 @@ extension EditButtonViewController: UITableViewDataSource {
             case .properties: 3
             case .appearance: 2
             case .accessibility: 1
-            case .action: 2
+            case .action: 3
             default: 0
         }
     }
@@ -94,6 +123,9 @@ extension EditButtonViewController: UITableViewDataSource {
                         let cell = tableView.dequeueReusableCell(TextFieldTableViewCell.self, for: indexPath)
                         cell.placeholder = "Title"
                         cell.text = button.title
+                        cell.onTextChanged = { [weak self] title in
+                            self?.button.title = title
+                        }
                         return cell
                     case 1:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
@@ -108,6 +140,9 @@ extension EditButtonViewController: UITableViewDataSource {
                         content.text = "Enabled"
                         cell.isOn = button.isEnabled
                         cell.contentConfiguration = content
+                        cell.onSwitchValueChange = { [weak self] cell in
+                            self?.button.isEnabled = cell.isOn
+                        }
                         return cell
                     default:
                         fatalError()
@@ -117,12 +152,18 @@ extension EditButtonViewController: UITableViewDataSource {
                     case 0:
                         let cell = tableView.dequeueReusableCell(ColorTableViewCell.self, for: indexPath)
                         cell.title = "Tint color"
-                        cell.color = button.appearance?.tintColor
+                        cell.color = button.tint
+                        cell.onColorChanged = { [weak self] color in
+                            self?.button.tint = color
+                        }
                         return cell
                     case 1:
                         let cell = tableView.dequeueReusableCell(ColorTableViewCell.self, for: indexPath)
                         cell.title = "Background color"
-                        cell.color = button.appearance?.backgroundColor
+                        cell.color = button.background
+                        cell.onColorChanged = { [weak self] color in
+                            self?.button.background = color
+                        }
                         return cell
                     default:
                         fatalError()
@@ -133,6 +174,9 @@ extension EditButtonViewController: UITableViewDataSource {
                         let cell = tableView.dequeueReusableCell(TextFieldTableViewCell.self, for: indexPath)
                         cell.placeholder = "Accessibility label"
                         cell.text = button.accessibilityLabel
+                        cell.onTextChanged = { [weak self] label in
+                            self?.button.accessibilityLabel = label
+                        }
                         return cell
                     default:
                         fatalError()
@@ -153,6 +197,13 @@ extension EditButtonViewController: UITableViewDataSource {
                         cell.contentConfiguration = content
                         cell.accessoryType = button.action == .openURL ? .checkmark : .none
                         return cell
+                    case 2:
+                        let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
+                        var content = UIListContentConfiguration.cell()
+                        content.text = "None"
+                        cell.contentConfiguration = content
+                        cell.accessoryType = button.action == nil ? .checkmark : .none
+                        return cell
                     default:
                         fatalError()
                 }
@@ -169,5 +220,21 @@ extension EditButtonViewController: UITableViewDataSource {
             case .action: "Action"
             default: nil
         }
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard SectionType(rawValue: indexPath.section) == .action else { return }
+
+        switch indexPath.item {
+            case 0:
+                button.action = .openMaps
+            case 1:
+                button.action = .openURL
+            case 2:
+                button.action = nil
+            default:
+                return
+        }
+        tableView.reloadSections(.init(integer: SectionType.action.rawValue), with: .automatic)
     }
 }

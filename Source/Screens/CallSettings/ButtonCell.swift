@@ -78,110 +78,30 @@ final class ButtonCell: UICollectionViewCell {
     }
 }
 
-extension UICollectionViewCell {
-
-    func startWobbling() {
-        guard layer.animation(forKey: "wobble") == nil else { return }
-
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
-        animation.values = [0.0, -0.025, 0.0, 0.025, 0.0]
-        animation.keyTimes = [0.0, 0.25, 0.5, 0.75, 1.0]
-        animation.duration = 0.4
-        animation.isAdditive = true
-        animation.repeatCount = Float.greatestFiniteMagnitude
-        layer.add(animation, forKey: "wobble")
-    }
-
-    func stopWobbling() {
-        guard layer.animation(forKey: "wobble") != nil else { return }
-
-        layer.removeAnimation(forKey: "wobble")
-    }
-}
-
 @available(iOS 15.0, *)
 extension UIButton {
 
     convenience init(button: Button?) {
-        var config = UIButton.Configuration.plain()
-        config.imagePlacement = .top
-        config.imagePadding = 18
-        config.contentInsets = .init(top: 12, leading: 4, bottom: 12, trailing: 4)
-        config.titleAlignment = .center
-        config.titleLineBreakMode = .byTruncatingTail
+        var config = UIButton.Configuration.bottomSheetButton()
         config.title = button?.title
         config.image = button?.icon ?? Icons.questionMark
-        config.titleTextAttributesTransformer = .init({ _ in
+        let tintColor = button?.tintColor
+        config.titleTextAttributesTransformer = .init({ [tintColor] _ in
             .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
-                   .foregroundColor : button?.tintColor ?? UIColor(rgb: 0x1B1B1B)])
+                   .foregroundColor : tintColor ?? UIColor(rgb: 0x1B1B1B)])
         })
-        config.background.customView = ImageTrackingBackgroundView()
+        let backgroundView = ImageTrackingButtonBackgroundView()
+        backgroundView.backgroundColor = button?.backgroundColor
+        config.background.customView = backgroundView
         self.init(configuration: config)
-        tintColor = button?.tintColor
+        self.tintColor = tintColor
     }
 
     func updateFor(_ model: Button, shouldShowTitle: Bool) {
         configuration?.title = shouldShowTitle ? model.title : nil
         configuration?.image = model.icon
-        configuration?.background.customView?.subviews.first?.backgroundColor = model.backgroundColor
+        configuration?.background.customView?.backgroundColor = model.backgroundColor
         tintColor = model.tintColor
-    }
-}
-
-private final class ImageTrackingBackgroundView: UIView {
-
-    private lazy var decorationView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 18
-        view.backgroundColor = .init(rgb: 0xE2E2E2)
-        return view
-    }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setup()
-    }
-
-    private func setup() {
-        addSubview(decorationView)
-    }
-
-    override func willMove(toSuperview newSuperview: UIView?) {
-        super.willMove(toSuperview: newSuperview)
-
-        guard let button = newSuperview?.superview as? UIButton else { return }
-
-        setupConstraintsToImageViewIfNeeded(button)
-    }
-
-    override func willMove(toWindow newWindow: UIWindow?) {
-        super.willMove(toWindow: newWindow)
-
-        guard let button = superview?.superview as? UIButton else { return }
-
-        setupConstraintsToImageViewIfNeeded(button)
-    }
-
-    private func setupConstraintsToImageViewIfNeeded(_ button: UIButton) {
-        guard let imageView = button.imageView else { return }
-        guard imageView.isDescendant(of: button) else { return }
-        guard imageView.image != nil else { return }
-        guard isDescendant(of: button) else { return }
-        guard imageView.constraints.isEmpty else { return }
-
-        NSLayoutConstraint.activate([
-            decorationView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            decorationView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-            decorationView.widthAnchor.constraint(equalToConstant: 46),
-            decorationView.heightAnchor.constraint(equalTo: decorationView.widthAnchor)
-        ])
     }
 }
 

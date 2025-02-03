@@ -11,16 +11,12 @@ struct CustomButton {
     var isEnabled: Bool = true
     var accessibilityLabel: String?
     var badge: UInt?
-    var appearance: Appearance?
+    var tint: UIColor?
+    var background: UIColor?
     var action: Action?
 }
 
 extension CustomButton {
-
-    struct Appearance {
-        var tintColor: UIColor?
-        var backgroundColor: UIColor?
-    }
 
     enum Action {
         case openMaps
