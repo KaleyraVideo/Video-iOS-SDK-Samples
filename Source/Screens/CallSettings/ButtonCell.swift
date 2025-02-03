@@ -121,6 +121,7 @@ private extension Button {
             case .chat: "chat"
             case .whiteboard: "board"
             case .addCustom: "new"
+            case .custom(let button): button.title ?? "N/A"
         }
     }
 
@@ -137,21 +138,24 @@ private extension Button {
             case .chat: Icons.chat
             case .whiteboard: Icons.whiteboard
             case .addCustom: Icons.addButton
+            case .custom(let button): button.icon
         }
         return icon ?? Icons.questionMark
     }
 
     var backgroundColor: UIColor {
-        guard case Button.hangUp = self else {
-            return Theme.Color.defaultButtonBackground
+        switch self {
+            case .hangUp: .init(rgb: 0xDC2138)
+            case .custom(let button): button.background ?? Theme.Color.defaultButtonBackground
+            default: Theme.Color.defaultButtonBackground
         }
-        return .init(rgb: 0xDC2138)
     }
 
     var tintColor: UIColor {
-        guard case Button.hangUp = self else {
-            return Theme.Color.defaultButtonTint
+        switch self {
+            case .hangUp: .white
+            case .custom(let button): button.tint ?? Theme.Color.defaultButtonTint
+            default: Theme.Color.defaultButtonTint
         }
-        return .white
     }
 }

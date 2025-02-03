@@ -43,7 +43,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         return table
     }()
 
-    private var button: CustomButton = .init(tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground) {
+    private var button: Button.Custom = .init(tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground) {
         didSet {
             updatePreview()
         }

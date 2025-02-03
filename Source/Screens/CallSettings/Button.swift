@@ -17,6 +17,40 @@ internal enum Button: Hashable, CaseIterable {
     case chat
     case whiteboard
     case addCustom
+    case custom(Custom)
+
+    static var allCases: [Button] {
+        [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput,.fileShare, .screenShare, .chat, .whiteboard, .addCustom]
+    }
+}
+
+@available(iOS 15.0, *)
+extension Button {
+
+    struct Custom: Hashable {
+        let identifier: UUID = .init()
+        var title: String?
+        var icon: UIImage?
+        var isEnabled: Bool = true
+        var accessibilityLabel: String?
+        var badge: UInt?
+        var tint: UIColor?
+        var background: UIColor?
+        var action: Action?
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(identifier.uuidString)
+        }
+    }
+}
+
+@available(iOS 15.0, *)
+extension Button.Custom {
+
+    enum Action {
+        case openMaps
+        case openURL
+    }
 }
 
 @available(iOS 15.0, *)
@@ -35,6 +69,7 @@ extension Button {
             case .chat: "chat"
             case .whiteboard: "whiteboard"
             case .addCustom: "addCustom"
+            case .custom(let custom): custom.identifier.uuidString
         }
     }
 
