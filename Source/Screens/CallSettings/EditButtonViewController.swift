@@ -7,6 +7,13 @@ import UIKit
 @available(iOS 15.0, *)
 final class EditButtonViewController: UIViewController {
 
+    private enum SectionType: Int {
+        case properties = 0
+        case appearance
+        case accessibility
+        case action
+    }
+
     private lazy var header: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +37,8 @@ final class EditButtonViewController: UIViewController {
         table.registerReusableCell(ColorTableViewCell.self)
         return table
     }()
+
+    private var button: CustomButton = .init()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,78 +77,81 @@ extension EditButtonViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-            case 0: 3
-            case 1: 2
-            case 2: 1
-            case 3: 2
+        switch SectionType(rawValue: section) {
+            case .properties: 3
+            case .appearance: 2
+            case .accessibility: 1
+            case .action: 2
             default: 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = indexPath.section
-
-        switch section {
-            case 0:
+        switch SectionType(rawValue: indexPath.section) {
+            case .properties:
                 switch indexPath.item {
                     case 0:
                         let cell = tableView.dequeueReusableCell(TextFieldTableViewCell.self, for: indexPath)
                         cell.placeholder = "Title"
+                        cell.text = button.title
                         return cell
                     case 1:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
                         content.text = "Icon"
                         cell.contentConfiguration = content
-                        cell.accessoryView = UIImageView(image: Icons.questionMark)
+                        cell.accessoryView = UIImageView(image: button.icon ?? Icons.questionMark)
                         return cell
                     case 2:
                         let cell = tableView.dequeueReusableCell(SwitchTableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
                         content.text = "Enabled"
+                        cell.isOn = button.isEnabled
                         cell.contentConfiguration = content
                         return cell
                     default:
                         fatalError()
                 }
-            case 1:
+            case .appearance:
                 switch indexPath.item {
                     case 0:
                         let cell = tableView.dequeueReusableCell(ColorTableViewCell.self, for: indexPath)
                         cell.title = "Tint color"
+                        cell.color = button.appearance?.tintColor
                         return cell
                     case 1:
                         let cell = tableView.dequeueReusableCell(ColorTableViewCell.self, for: indexPath)
                         cell.title = "Background color"
+                        cell.color = button.appearance?.backgroundColor
                         return cell
                     default:
                         fatalError()
                 }
-            case 2:
+            case .accessibility:
                 switch indexPath.item {
                     case 0:
                         let cell = tableView.dequeueReusableCell(TextFieldTableViewCell.self, for: indexPath)
                         cell.placeholder = "Accessibility label"
+                        cell.text = button.accessibilityLabel
                         return cell
                     default:
                         fatalError()
                 }
-            case 3:
+            case .action:
                 switch indexPath.item {
                     case 0:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
                         content.text = "Open maps"
                         cell.contentConfiguration = content
-                        cell.accessoryType = .checkmark
+                        cell.accessoryType = button.action == .openMaps ? .checkmark : .none
                         return cell
                     case 1:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
                         content.text = "Open Link"
                         cell.contentConfiguration = content
-                        cell.accessoryType = .checkmark
+                        cell.accessoryType = button.action == .openURL ? .checkmark : .none
                         return cell
                     default:
                         fatalError()
@@ -150,17 +162,12 @@ extension EditButtonViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-            case 0:
-                "Properties"
-            case 1:
-                "Appearance"
-            case 2:
-                "Accessibility"
-            case 3:
-                "Action"
-            default:
-                nil
+        switch SectionType(rawValue: section) {
+            case .properties: "Properties"
+            case .appearance: "Appearance"
+            case .accessibility: "Accessibility"
+            case .action: "Action"
+            default: nil
         }
     }
 }
