@@ -108,7 +108,7 @@ private extension SectionedTableDataSource {
     }
 
     private enum RecordingPresenter {
-        
+
         static func optionName(_ type: CallOptions.RecordingType?) -> String {
             switch type {
                 case nil:

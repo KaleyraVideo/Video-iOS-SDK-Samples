@@ -182,7 +182,7 @@ private class SettingsTableDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard section >= 0 && section < dataset.numberOfSections() else { return 0 }
 
-        return dataset.section(at: section).numberOfItems()
+        return dataset.section(at: section).numberOfItems
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -287,26 +287,8 @@ private struct SettingsDataset {
         guard indexPath.section < numberOfSections() else { return nil }
 
         let section = sections[indexPath.section]
-        guard indexPath.row < section.numberOfItems() else { return nil }
+        guard indexPath.row < section.numberOfItems else { return nil }
         return section.item(at: indexPath.row)
-    }
-
-}
-
-private struct Section<Item> {
-
-    private let items: [Item]
-
-    init(items: [Item]) {
-        self.items = items
-    }
-
-    func numberOfItems() -> Int {
-        items.count
-    }
-
-    func item(at index: Int) -> Item {
-        items[index]
     }
 
 }

@@ -14,7 +14,7 @@ final class ContactsUserDetailsProviderTests: UnitTestCase {
 
     func testProvideDetailsShouldReturnUserDetailsFilledWithInformationFromContact() {
         let contacts = Contact.makeRandomContacts(aliases: [.alice, .bob, .charlie])
-        let sut = ContactsUserDetailsProvider(contacts: contacts)
+        let sut = ContactsUserDetailsProvider(book: .init(repository: UserRepositoryMock()))
         let completion = CompletionSpy<Result<[KaleyraVideoSDK.UserDetails], Error>>()
 
         sut.provideDetails([.alice], completion: completion.callAsFunction)

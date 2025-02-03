@@ -145,10 +145,6 @@ private extension BottomSheetViewController {
 
         struct Buttons {
 
-            private struct Section {
-                var items: [Button]
-            }
-
             var maxNumberOfItemsPerSection: Int {
                 didSet {
                     updateSections()
@@ -166,7 +162,7 @@ private extension BottomSheetViewController {
                 return reminder != 0 ? quotient + 1 : quotient
             }
 
-            private var sections: [Section] = []
+            private var sections: [Section<Button>] = []
 
             init(maxNumberOfItemsPerSection: Int, buttons: [Button]) {
                 self.maxNumberOfItemsPerSection = maxNumberOfItemsPerSection
@@ -175,7 +171,7 @@ private extension BottomSheetViewController {
             }
 
             private mutating func updateSections() {
-                var sections = [Section](repeating: .init(items: []), count: numberOfSections)
+                var sections = [Section<Button>](repeating: .init(items: []), count: numberOfSections)
 
                 for i in 0 ..< buttons.count {
                     sections[i / maxNumberOfItemsPerSection].items.append(buttons[i])
