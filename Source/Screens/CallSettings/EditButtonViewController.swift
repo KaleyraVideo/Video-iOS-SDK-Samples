@@ -107,7 +107,7 @@ extension EditButtonViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch SectionType(rawValue: section) {
-            case .properties: 3
+            case .properties: 4
             case .appearance: 2
             case .accessibility: 1
             case .action: 3
@@ -142,6 +142,15 @@ extension EditButtonViewController: UITableViewDataSource {
                         cell.contentConfiguration = content
                         cell.onSwitchValueChange = { [weak self] cell in
                             self?.button.isEnabled = cell.isOn
+                        }
+                        return cell
+                    case 3:
+                        let cell = tableView.dequeueReusableCell(TextFieldTableViewCell.self, for: indexPath)
+                        cell.placeholder = "Badge"
+                        cell.text = button.badge.map({ "\($0)" })
+                        cell.keyboardType = .numberPad
+                        cell.onTextChanged = { [weak self] title in
+                            self?.button.badge = title.map({ UInt($0) }) ?? nil
                         }
                         return cell
                     default:

@@ -124,7 +124,7 @@ private extension Button {
         }
     }
 
-    var icon: UIImage? {
+    var icon: UIImage {
         let icon: UIImage? = switch self {
             case .hangUp: Icons.end
             case .microphone: Icons.micOff

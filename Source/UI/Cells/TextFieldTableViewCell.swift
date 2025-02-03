@@ -12,6 +12,9 @@ final class TextFieldTableViewCell: UITableViewCell {
     @Proxy(\.textField.placeholder)
     var placeholder: String?
 
+    @Proxy(\.textField.keyboardType)
+    var keyboardType: UIKeyboardType
+
     var onTextChanged: ((String?) -> Void)?
 
     // MARK: - Field
