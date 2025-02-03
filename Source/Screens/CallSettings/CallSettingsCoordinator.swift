@@ -13,7 +13,7 @@ final class CallSettingsCoordinator: BaseCoordinator {
     private var bottomSheetController: UIViewController {
         let controller = BottomSheetViewController()
         controller.addButtonAction = { [weak self] in
-            self?.controller.pushViewController(EditCustomButtonViewController(), animated: true)
+            self?.controller.pushViewController(EditButtonViewController(), animated: true)
         }
         return controller
     }
