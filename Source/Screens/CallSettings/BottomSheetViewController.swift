@@ -52,6 +52,8 @@ final class BottomSheetViewController: UIViewController {
     private lazy var model: Model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
                                           activeButtons: [.hangUp, .microphone])
 
+    var addButtonAction: (() -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -271,9 +273,14 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard collectionView == inactiveButtonsCollectionView else { return }
+        let selectedButton = model.inactiveButtons.button(at: indexPath)
 
-        model.activateButton(at: indexPath)
-        applySnapshots(animatingDifferences: true)
+        if selectedButton == .addCustom {
+            addButtonAction?()
+        } else {
+            model.activateButton(at: indexPath)
+            applySnapshots(animatingDifferences: true)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

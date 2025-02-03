@@ -9,8 +9,22 @@ final class CallSettingsCoordinator: BaseCoordinator {
     private let appSettings: AppSettings
     private lazy var settingsController: CallSettingsViewController = .init(appSettings: appSettings, services: services)
 
-    private(set) lazy var controller: UIViewController = {
-        let navController = UINavigationController(rootViewController: settingsController)
+    @available(iOS 15.0, *)
+    private var bottomSheetController: UIViewController {
+        let controller = BottomSheetViewController()
+        controller.addButtonAction = { [weak self] in
+            self?.controller.pushViewController(EditCustomButtonViewController(), animated: true)
+        }
+        return controller
+    }
+
+    private(set) lazy var controller: UINavigationController = {
+        let controller = if #available(iOS 15.0, *) {
+            bottomSheetController
+        } else {
+            settingsController
+        }
+        let navController = UINavigationController(rootViewController: controller)
         navController.navigationBar.prefersLargeTitles = true
         return navController
     }()
