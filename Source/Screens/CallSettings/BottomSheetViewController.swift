@@ -219,8 +219,9 @@ private extension BottomSheetViewController {
         init(traits: UITraitCollection, activeButtons: [Button], customButtons: [Button.Custom]) {
             self.customButtons = customButtons
             self.maxItemsPerSection = traits.userInterfaceIdiom == .pad ? 8 : 5
-            self.activeButtons = .init(maxNumberOfItemsPerSection: traits.userInterfaceIdiom == .pad ? 8 : 5, buttons: activeButtons)
-            self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: (Button.allCases + customButtons.map({ .custom($0) })).filter({ !activeButtons.contains($0) }))
+            self.activeButtons = .init(maxNumberOfItemsPerSection: .max, buttons: [])
+            self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: [])
+            update()
         }
 
         mutating func update() {
@@ -321,7 +322,11 @@ private extension BottomSheetViewController {
             }
 
             mutating func insert(_ button: Button) {
-                buttons.append(button)
+                guard let index = buttons.firstIndex(of: .addCustom) else {
+                    buttons.append(button)
+                    return
+                }
+                buttons.insert(button, at: index)
             }
 
             mutating func remove(_ button: Button) {
