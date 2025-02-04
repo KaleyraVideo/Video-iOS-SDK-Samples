@@ -46,7 +46,27 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     private var button: Button.Custom = .init(tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground) {
         didSet {
             updatePreview()
+            defer { try? repository.store(settings.customButtons) }
+            guard let index = settings.customButtons.firstIndex(where: { $0.identifier == button.identifier }) else {
+                settings.customButtons.append(button)
+                return
+            }
+            settings.customButtons[index] = button
         }
+    }
+
+    private let settings: AppSettings
+    private let repository: SettingsRepository
+
+    init(settings: AppSettings, services: ServicesFactory) {
+        self.settings = settings
+        self.repository = services.makeSettingsRepository()
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError()
     }
 
     override func viewDidLoad() {

@@ -3,6 +3,7 @@
 
 import Foundation
 import UIKit
+import Combine
 import KaleyraVideoSDK
 
 @available(iOS 15.0, *)
@@ -49,10 +50,26 @@ final class BottomSheetViewController: UIViewController {
         UILongPressGestureRecognizer(target: self, action: #selector(onLongPress(_:)))
     }()
 
-    private lazy var model: Model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
-                                          activeButtons: [.hangUp, .microphone])
+    private lazy var model: Model = {
+        .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
+              activeButtons: [.hangUp, .microphone],
+              customButtons: settings.customButtons)
+    }()
+
+    private let settings: AppSettings
+    private lazy var subscriptions = Set<AnyCancellable>()
 
     var addButtonAction: (() -> Void)?
+
+    init(settings: AppSettings) {
+        self.settings = settings
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +81,10 @@ final class BottomSheetViewController: UIViewController {
         inactiveButtonsCollectionView.dataSource = inactiveButtonsDataSource
         activeButtonsCollectionView.dataSource = activeButtonsDataSource
         activeButtonsCollectionView.addGestureRecognizer(longPressRecognizer)
+        settings.$customButtons.sink { [weak self] customButtons in
+            guard let self else { return }
+            self.model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5, activeButtons: [.hangUp, .microphone], customButtons: customButtons)
+        }.store(in: &subscriptions)
     }
 
     private func setupNavigationItem() {
@@ -144,9 +165,9 @@ private extension BottomSheetViewController {
         private(set) var activeButtons: Buttons
         private(set) var inactiveButtons: Buttons
 
-        init(maxNumberOfItemsPerSection: Int, activeButtons: [Button]) {
+        init(maxNumberOfItemsPerSection: Int, activeButtons: [Button], customButtons: [Button.Custom]) {
             self.activeButtons = .init(maxNumberOfItemsPerSection: maxNumberOfItemsPerSection, buttons: activeButtons)
-            self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: Button.allCases.filter({ !activeButtons.contains($0) }))
+            self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: (Button.allCases + customButtons.map({ .custom($0) })).filter({ !activeButtons.contains($0) }))
         }
 
         mutating func activateButton(_ button: Button) {
