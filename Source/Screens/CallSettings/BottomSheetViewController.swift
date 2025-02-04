@@ -23,7 +23,11 @@ final class BottomSheetViewController: UIViewController {
     private lazy var inactiveButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
         .init(collectionView: inactiveButtonsCollectionView) { collectionView, indexPath, button in
             let cell = collectionView.dequeueReusableCell(ButtonCell.self, for: indexPath)
+            cell.deleteConfig = .delete
             cell.configure(for: button, shouldShowTitle: true)
+            cell.deleteAction = { [weak self] cell in
+                self?.deleteCell(cell, from: collectionView)
+            }
             return cell
         }
     }()
@@ -31,6 +35,7 @@ final class BottomSheetViewController: UIViewController {
     private lazy var activeButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
         var dataSource = UICollectionViewDiffableDataSource<Int, Button>(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
             let cell = collectionView.dequeueReusableCell(ButtonCell.self, for: indexPath)
+            cell.deleteConfig = .remove
             cell.configure(for: button, shouldShowTitle: indexPath.section != collectionView.numberOfSections - 1)
             cell.deleteAction = { [weak self] cell in
                 self?.deleteCell(cell, from: collectionView)
@@ -57,12 +62,14 @@ final class BottomSheetViewController: UIViewController {
     }()
 
     private let settings: AppSettings
+    private let repository: SettingsRepository
     private lazy var subscriptions = Set<AnyCancellable>()
 
     var addButtonAction: (() -> Void)?
 
-    init(settings: AppSettings) {
+    init(settings: AppSettings, services: ServicesFactory) {
         self.settings = settings
+        self.repository = services.makeSettingsRepository()
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -81,9 +88,11 @@ final class BottomSheetViewController: UIViewController {
         inactiveButtonsCollectionView.dataSource = inactiveButtonsDataSource
         activeButtonsCollectionView.dataSource = activeButtonsDataSource
         activeButtonsCollectionView.addGestureRecognizer(longPressRecognizer)
-        settings.$customButtons.sink { [weak self] customButtons in
+        settings.$customButtons.receive(on: RunLoop.main).sink { [weak self] customButtons in
             guard let self else { return }
-            self.model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5, activeButtons: [.hangUp, .microphone], customButtons: customButtons)
+            self.model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
+                               activeButtons: self.model.activeButtons.buttons,
+                               customButtons: customButtons)
         }.store(in: &subscriptions)
     }
 
@@ -126,13 +135,25 @@ final class BottomSheetViewController: UIViewController {
         super.setEditing(editing, animated: animated)
 
         activeButtonsCollectionView.isEditing = editing
+        inactiveButtonsCollectionView.isEditing = editing
     }
 
     private func deleteCell(_ cell: UICollectionViewCell, from collectionView: UICollectionView) {
-        guard collectionView == activeButtonsCollectionView else { return }
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        if collectionView == activeButtonsCollectionView {
+            guard let indexPath = collectionView.indexPath(for: cell) else { return }
 
-        model.deactivateButton(at: indexPath)
+            model.deactivateButton(at: indexPath)
+
+        } else {
+            guard let indexPath = collectionView.indexPath(for: cell) else { return }
+
+            let button = model.inactiveButtons.button(at: indexPath)
+            guard case Button.custom(let customButton) = button else { return }
+
+            settings.customButtons.removeAll(where: { customButton.identifier == $0.identifier })
+            try? repository.store(settings.customButtons)
+        }
+
         applySnapshots(animatingDifferences: true)
     }
 
@@ -291,6 +312,13 @@ private extension BottomSheetViewController {
 
 @available(iOS 15.0, *)
 extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, canEditItemAt indexPath: IndexPath) -> Bool {
+        guard collectionView == inactiveButtonsCollectionView else { return true }
+        let item = model.inactiveButtons.button(at: indexPath)
+        guard case Button.custom = item else { return false }
+        return true
+    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard collectionView == inactiveButtonsCollectionView else { return }

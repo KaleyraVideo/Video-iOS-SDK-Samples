@@ -7,6 +7,29 @@ import UIKit
 @available(iOS 15.0, *)
 final class ButtonCell: UICollectionViewCell {
 
+    enum DeleteConfig {
+        case remove
+        case delete
+
+        var image: UIImage {
+            switch self {
+                case .remove:
+                    Icons.minus
+                case .delete:
+                    Icons.trash
+            }
+        }
+
+        var backgroundColor: UIColor {
+            switch self {
+                case .remove:
+                    .systemGray
+                case .delete:
+                    .systemRed
+            }
+        }
+    }
+
     private lazy var button: UIButton = {
         let button = UIButton(button: nil)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -14,13 +37,24 @@ final class ButtonCell: UICollectionViewCell {
         return button
     }()
 
+    var deleteConfig: DeleteConfig = .delete {
+        didSet {
+            guard deleteConfig != oldValue else { return }
+
+            deleteButton.configuration?.background.backgroundColor = deleteConfig.backgroundColor
+            deleteButton.configuration?.image = deleteConfig.image
+        }
+    }
+
     private lazy var deleteButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.image = Icons.removeButton
+        var config = UIButton.Configuration.tinted()
+        config.cornerStyle = .capsule
+        config.background.backgroundColor = deleteConfig.backgroundColor
+        config.image = deleteConfig.image
         config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .small)
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = Theme.Color.defaultButtonTint
+        button.tintColor = .white
         button.addAction(.init(handler: { [weak self] _ in
             guard let self else { return }
             self.deleteAction?(self)
@@ -63,7 +97,9 @@ final class ButtonCell: UICollectionViewCell {
             contentView.addSubview(deleteButton)
             NSLayoutConstraint.activate([
                 deleteButton.centerXAnchor.constraint(equalTo: button.leftAnchor, constant: 6),
-                deleteButton.centerYAnchor.constraint(equalTo: button.topAnchor, constant: 1)
+                deleteButton.centerYAnchor.constraint(equalTo: button.topAnchor, constant: 1),
+                deleteButton.widthAnchor.constraint(lessThanOrEqualToConstant: 24),
+                deleteButton.heightAnchor.constraint(lessThanOrEqualToConstant: 24)
             ])
         } else {
             deleteButton.removeFromSuperview()

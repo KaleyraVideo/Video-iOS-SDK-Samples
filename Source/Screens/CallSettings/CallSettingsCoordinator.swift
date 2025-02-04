@@ -11,7 +11,7 @@ final class CallSettingsCoordinator: BaseCoordinator {
 
     @available(iOS 15.0, *)
     private var bottomSheetController: UIViewController {
-        let controller = BottomSheetViewController(settings: appSettings)
+        let controller = BottomSheetViewController(settings: appSettings, services: services)
         controller.addButtonAction = { [weak self] in
             self?.presentEditButtonController()
         }

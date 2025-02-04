@@ -116,7 +116,11 @@ enum Icons {
         .init(systemName: "questionmark")!
     }
 
-    static var removeButton: UIImage {
-        .init(systemName: "minus.circle.fill")!
+    static var minus: UIImage {
+        .init(systemName: "minus")!
+    }
+
+    static var trash: UIImage {
+        .init(systemName: "trash")!
     }
 }
