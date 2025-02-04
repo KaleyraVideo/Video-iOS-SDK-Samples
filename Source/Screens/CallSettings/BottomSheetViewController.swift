@@ -15,6 +15,17 @@ final class BottomSheetViewController: UIViewController {
         label.text = "Tap a button to add it to the bottom sheet below"
         label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: UIFont.systemFont(ofSize: 16))
         label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private lazy var reorderLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Tap a button to remove it. Long press and drag to reorder the buttons"
+        label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: UIFont.systemFont(ofSize: 16))
+        label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 
@@ -101,6 +112,7 @@ final class BottomSheetViewController: UIViewController {
     private func setupHierarchy() {
         view.addSubview(addButtonLabel)
         view.addSubview(inactiveButtonsCollectionView)
+        view.addSubview(reorderLabel)
         view.addSubview(activeButtonsCollectionView)
     }
 
@@ -113,6 +125,10 @@ final class BottomSheetViewController: UIViewController {
             inactiveButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
             inactiveButtonsCollectionView.bottomAnchor.constraint(lessThanOrEqualTo: activeButtonsCollectionView.topAnchor, constant: -8),
             inactiveButtonsCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 66),
+            reorderLabel.bottomAnchor.constraint(equalTo: activeButtonsCollectionView.topAnchor, constant: -16),
+            reorderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            reorderLabel.leftAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
+            reorderLabel.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
             activeButtonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
             activeButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
             activeButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
