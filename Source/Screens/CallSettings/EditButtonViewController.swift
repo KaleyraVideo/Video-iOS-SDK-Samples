@@ -18,17 +18,51 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(preview)
+        view.layoutMargins.left = 12
+        view.layoutMargins.right = 12
         return view
     }()
 
-    private lazy var preview: UIButton = {
-        var config = UIButton.Configuration.bottomSheetButton()
+    private lazy var horizontalPreview: UIButton = {
+        var config = UIButton.Configuration.bottomSheetHorizontalButton()
+        config.image = button.icon ?? Icons.questionMark
+        config.title = button.title ?? "Title"
+        let button = UIButton(configuration: config)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setContentHuggingPriority(.defaultLow - 1, for: .horizontal)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(greaterThanOrEqualToConstant: 46)
+        ])
+        return button
+    }()
+
+    private lazy var verticalPreview: UIButton = {
+        var config = UIButton.Configuration.bottomSheetVerticalButton()
         config.image = button.icon ?? Icons.questionMark
         config.title = button.title ?? "Title"
         config.background.customView = ImageTrackingButtonBackgroundView()
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(greaterThanOrEqualToConstant: 46)
+        ])
         return button
+    }()
+
+    private lazy var preview: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [verticalPreview, horizontalPreview])
+        stack.axis = .horizontal
+        stack.alignment = .top
+        stack.distribution = .fill
+        stack.spacing = 25
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = .init(top: 14, left: 14, bottom: 14, right: 14)
+        stack.backgroundColor = .init(rgb: 0xEEEEEE)
+        stack.layer.masksToBounds = true
+        stack.layer.cornerRadius = 22
+        return stack
     }()
 
     private lazy var tableView: UITableView = {
@@ -45,7 +79,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
 
     private var button: Button.Custom = .init(tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground) {
         didSet {
-            updatePreview()
+            updatePreviews()
             defer { try? repository.store(settings.customButtons) }
             guard let index = settings.customButtons.firstIndex(where: { $0.identifier == button.identifier }) else {
                 settings.customButtons.append(button)
@@ -76,7 +110,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         view.backgroundColor = .systemBackground
         setupHierarchy()
         setupConstraints()
-        updatePreview()
+        updatePreviews()
     }
 
     private func setupHierarchy() {
@@ -90,31 +124,51 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
             header.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             header.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             header.heightAnchor.constraint(equalToConstant: 100),
-            preview.centerXAnchor.constraint(equalTo: header.centerXAnchor),
+            preview.leftAnchor.constraint(equalTo: header.layoutMarginsGuide.leftAnchor),
+            preview.rightAnchor.constraint(equalTo: header.layoutMarginsGuide.rightAnchor),
             preview.centerYAnchor.constraint(equalTo: header.centerYAnchor),
-            preview.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
-            preview.widthAnchor.constraint(greaterThanOrEqualToConstant: 46),
-            tableView.topAnchor.constraint(equalTo: header.bottomAnchor),
+            preview.heightAnchor.constraint(equalToConstant: 95),
+            tableView.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 12),
             tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
-    private func updatePreview() {
-        var config = preview.configuration
+    private func updatePreviews() {
+        updateVerticalPreview()
+        updateHorizontalPreview()
+    }
+
+    private func updateVerticalPreview() {
+        var config = verticalPreview.configuration
+        config?.title = button.title ?? "Title"
+        config?.image = button.icon ?? Icons.questionMark
+        config?.titleTextAttributesTransformer = .init({ _ in
+            .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
+                   .foregroundColor : Theme.Color.defaultButtonTint])
+        })
+        config?.background.customView?.backgroundColor = button.background
+        verticalPreview.tintColor = button.tint
+        verticalPreview.isEnabled = button.isEnabled
+        verticalPreview.configuration = config
+        verticalPreview.accessibilityLabel = button.accessibilityLabel
+    }
+
+    private func updateHorizontalPreview() {
+        var config = horizontalPreview.configuration
         config?.title = button.title ?? "Title"
         config?.image = button.icon ?? Icons.questionMark
         let tintColor = button.tint
         config?.titleTextAttributesTransformer = .init({ [tintColor] _ in
-                .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
-                       .foregroundColor : tintColor as Any])
+            .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 14)),
+                   .foregroundColor : tintColor as Any])
         })
-        config?.background.customView?.backgroundColor = button.background
-        preview.tintColor = button.tint
-        preview.isEnabled = button.isEnabled
-        preview.configuration = config
-        preview.accessibilityLabel = button.accessibilityLabel
+        config?.background.backgroundColor = button.background
+        horizontalPreview.tintColor = button.tint
+        horizontalPreview.isEnabled = button.isEnabled
+        horizontalPreview.configuration = config
+        horizontalPreview.accessibilityLabel = button.accessibilityLabel
     }
 }
 

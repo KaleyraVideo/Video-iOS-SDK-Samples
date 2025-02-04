@@ -13,7 +13,7 @@ final class AppSettings {
     var customButtons: [Button.Custom] = []
 
     func loadFromDefaults(_ repository: SettingsRepository) {
-        callSettings = (try? repository.loadSettings()) ?? .init()
         customButtons = (try? repository.loadCustomButtons()) ?? []
+        callSettings = (try? repository.loadSettings()) ?? .init()
     }
 }

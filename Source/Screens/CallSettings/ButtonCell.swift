@@ -13,19 +13,15 @@ final class ButtonCell: UICollectionViewCell {
 
         var image: UIImage {
             switch self {
-                case .remove:
-                    Icons.minus
-                case .delete:
-                    Icons.trash
+                case .remove: Icons.minus
+                case .delete: Icons.trash
             }
         }
 
         var backgroundColor: UIColor {
             switch self {
-                case .remove:
-                    .systemGray
-                case .delete:
-                    .systemRed
+                case .remove: .systemGray
+                case .delete: .systemRed
             }
         }
     }
@@ -118,7 +114,7 @@ final class ButtonCell: UICollectionViewCell {
 extension UIButton {
 
     convenience init(button: Button?) {
-        var config = UIButton.Configuration.bottomSheetButton()
+        var config = UIButton.Configuration.bottomSheetVerticalButton()
         config.title = button?.title
         config.image = button?.icon ?? Icons.questionMark
         let tintColor = button?.tintColor
