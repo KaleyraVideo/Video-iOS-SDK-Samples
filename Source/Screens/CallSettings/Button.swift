@@ -19,7 +19,7 @@ internal enum Button: Hashable, CaseIterable {
     case custom(Custom)
 
     static var allCases: [Button] {
-        [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput,.fileShare, .screenShare, .chat, .whiteboard, .addCustom]
+        [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput, .fileShare, .screenShare, .chat, .whiteboard]
     }
 
     static var `default`: [Button] {
@@ -33,6 +33,10 @@ internal enum Button: Hashable, CaseIterable {
                     true
             }
         })
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
     }
 }
 
@@ -50,15 +54,15 @@ extension Button {
         var background: UIColor?
         var action: Action?
 
-        internal init(identifier: UUID = .init(),
-                      title: String? = nil,
-                      icon: UIImage? = nil,
-                      isEnabled: Bool = true,
-                      accessibilityLabel: String? = nil,
-                      badge: UInt? = nil,
-                      tint: UIColor? = nil,
-                      background: UIColor? = nil,
-                      action: Button.Custom.Action? = nil) {
+        init(identifier: UUID = .init(),
+             title: String? = nil,
+             icon: UIImage? = nil,
+             isEnabled: Bool = true,
+             accessibilityLabel: String? = nil,
+             badge: UInt? = nil,
+             tint: UIColor? = nil,
+             background: UIColor? = nil,
+             action: Button.Custom.Action? = nil) {
             self.identifier = identifier
             self.title = title
             self.icon = icon
@@ -72,6 +76,10 @@ extension Button {
 
         func hash(into hasher: inout Hasher) {
             hasher.combine(identifier.uuidString)
+        }
+
+        static var new: Custom {
+            .init(title: "Title", icon: Icons.questionMark, tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground)
         }
     }
 }

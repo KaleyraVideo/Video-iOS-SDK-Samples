@@ -92,7 +92,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     private let settings: AppSettings
     private let repository: SettingsRepository
 
-    init(settings: AppSettings, services: ServicesFactory) {
+    init(settings: AppSettings, services: ServicesFactory, button: Button.Custom) {
         self.settings = settings
         self.repository = services.makeSettingsRepository()
         super.init(nibName: nil, bundle: nil)

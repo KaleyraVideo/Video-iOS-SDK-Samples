@@ -68,14 +68,14 @@ final class BottomSheetViewController: UIViewController {
     }()
 
     private lazy var model: Model = {
-        .init(traits: traitCollection, activeButtons: [.hangUp, .microphone], customButtons: settings.customButtons)
+        .init(traits: traitCollection, activeButtons: settings.callSettings.buttons ?? [], customButtons: settings.customButtons)
     }()
 
     private let settings: AppSettings
     private let repository: SettingsRepository
     private lazy var subscriptions = Set<AnyCancellable>()
 
-    var addButtonAction: (() -> Void)?
+    var onEditButtonAction: ((Button.Custom) -> Void)?
 
     init(settings: AppSettings, services: ServicesFactory) {
         self.settings = settings
@@ -100,8 +100,10 @@ final class BottomSheetViewController: UIViewController {
         activeButtonsCollectionView.addGestureRecognizer(longPressRecognizer)
         settings.$customButtons.receive(on: RunLoop.main).sink { [weak self] customButtons in
             guard let self else { return }
-            self.model = .init(traits: traitCollection, activeButtons: self.model.activeButtons.buttons, customButtons: customButtons)
+            self.model.customButtons = customButtons
+            self.applySnapshots(animatingDifferences: true)
         }.store(in: &subscriptions)
+        setEditing(true, animated: false)
     }
 
     private func setupNavigationItem() {
@@ -149,6 +151,8 @@ final class BottomSheetViewController: UIViewController {
 
         activeButtonsCollectionView.isEditing = editing
         inactiveButtonsCollectionView.isEditing = editing
+        model.isEditing = editing
+        applySnapshots(animatingDifferences: animated)
     }
 
     private func deleteCell(_ cell: UICollectionViewCell, from collectionView: UICollectionView) {
@@ -198,9 +202,37 @@ private extension BottomSheetViewController {
         private(set) var activeButtons: Buttons
         private(set) var inactiveButtons: Buttons
 
+        private let maxItemsPerSection: Int
+
+        var isEditing: Bool = false {
+            didSet {
+                update()
+            }
+        }
+
+        var customButtons: [Button.Custom] {
+            didSet {
+                update()
+            }
+        }
+
         init(traits: UITraitCollection, activeButtons: [Button], customButtons: [Button.Custom]) {
+            self.customButtons = customButtons
+            self.maxItemsPerSection = traits.userInterfaceIdiom == .pad ? 8 : 5
             self.activeButtons = .init(maxNumberOfItemsPerSection: traits.userInterfaceIdiom == .pad ? 8 : 5, buttons: activeButtons)
             self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: (Button.allCases + customButtons.map({ .custom($0) })).filter({ !activeButtons.contains($0) }))
+        }
+
+        mutating func update() {
+            let currentActiveButtons = activeButtons.buttons
+            var inactiveButtons = Button.allCases + customButtons.map({ .custom($0) }).filter({ !currentActiveButtons.contains($0) })
+            if isEditing {
+                inactiveButtons.append(.addCustom)
+            } else {
+                inactiveButtons.removeAll(where: { $0 == .addCustom })
+            }
+            self.activeButtons = .init(maxNumberOfItemsPerSection: maxItemsPerSection, buttons: currentActiveButtons)
+            self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: inactiveButtons)
         }
 
         mutating func activateButton(_ button: Button) {
@@ -333,13 +365,20 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard collectionView == inactiveButtonsCollectionView else { return }
-        let selectedButton = model.inactiveButtons.button(at: indexPath)
+        if collectionView == inactiveButtonsCollectionView {
+            let selectedButton = model.inactiveButtons.button(at: indexPath)
 
-        if selectedButton == .addCustom {
-            addButtonAction?()
+            switch selectedButton {
+                case .addCustom:
+                    onEditButtonAction?(.new)
+                case .custom(let custom) where !isEditing:
+                    onEditButtonAction?(custom)
+                default:
+                    model.activateButton(selectedButton)
+                    applySnapshots(animatingDifferences: true)
+            }
         } else {
-            model.activateButton(at: indexPath)
+            model.deactivateButton(model.activeButtons.button(at: indexPath))
             applySnapshots(animatingDifferences: true)
         }
     }
@@ -388,6 +427,7 @@ private extension UICollectionView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.delegate = delegate
         self.isScrollEnabled = false
+        self.allowsSelectionDuringEditing = true
         self.registerReusableCell(ButtonCell.self)
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false

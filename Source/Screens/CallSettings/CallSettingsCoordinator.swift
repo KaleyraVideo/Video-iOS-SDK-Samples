@@ -12,8 +12,8 @@ final class CallSettingsCoordinator: BaseCoordinator {
     @available(iOS 15.0, *)
     private var bottomSheetController: UIViewController {
         let controller = BottomSheetViewController(settings: appSettings, services: services)
-        controller.addButtonAction = { [weak self] in
-            self?.presentEditButtonController()
+        controller.onEditButtonAction = { [weak self] button in
+            self?.presentEditButtonController(button)
         }
         return controller
     }
@@ -39,7 +39,7 @@ final class CallSettingsCoordinator: BaseCoordinator {
     }
 
     @available(iOS 15.0, *)
-    func presentEditButtonController() {
-        controller.pushViewController(EditButtonViewController(settings: appSettings, services: services), animated: true)
+    func presentEditButtonController(_ button: Button.Custom) {
+        controller.pushViewController(EditButtonViewController(settings: appSettings, services: services, button: button), animated: true)
     }
 }

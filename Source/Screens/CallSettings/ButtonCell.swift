@@ -144,7 +144,7 @@ private extension Button {
         switch self {
             case .hangUp: "end"
             case .microphone: "mute"
-            case .camera: "enable"
+            case .camera: "camera"
             case .flipCamera: "flip"
             case .cameraEffects: "effects"
             case .audioOutput: "audio output"
