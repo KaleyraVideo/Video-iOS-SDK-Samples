@@ -4,7 +4,7 @@
 import Foundation
 import KaleyraVideoSDK
 
-internal enum Button: Hashable, CaseIterable {
+enum Button: Hashable, CaseIterable {
     case hangUp
     case microphone
     case camera

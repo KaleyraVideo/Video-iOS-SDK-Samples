@@ -225,11 +225,9 @@ private extension BottomSheetViewController {
 
         mutating func update() {
             let currentActiveButtons = activeButtons.buttons
-            var inactiveButtons = Button.allCases + customButtons.map({ .custom($0) }).filter({ !currentActiveButtons.contains($0) })
+            var inactiveButtons = (Button.allCases + customButtons.map({ .custom($0) })).filter({ !currentActiveButtons.contains($0) })
             if isEditing {
                 inactiveButtons.append(.addCustom)
-            } else {
-                inactiveButtons.removeAll(where: { $0 == .addCustom })
             }
             self.activeButtons = .init(maxNumberOfItemsPerSection: maxItemsPerSection, buttons: currentActiveButtons)
             self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: inactiveButtons)
@@ -327,13 +325,7 @@ private extension BottomSheetViewController {
             }
 
             mutating func remove(_ button: Button) {
-                guard let indexPath = indexPath(for: button) else { return }
-
-                deleteItem(at: indexPath)
-            }
-
-            mutating func deleteItem(at indexPath: IndexPath) {
-                sections[indexPath.section].items.remove(at: indexPath.item)
+                buttons.removeAll(where: { $0 == button })
             }
 
             func snapshot() -> NSDiffableDataSourceSnapshot<Int, Button> {
