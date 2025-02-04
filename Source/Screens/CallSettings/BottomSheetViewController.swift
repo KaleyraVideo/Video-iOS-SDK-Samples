@@ -13,6 +13,7 @@ final class BottomSheetViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Tap a button to add it to the bottom sheet below"
+        label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: UIFont.systemFont(ofSize: 16))
         label.textAlignment = .center
         return label
     }()
@@ -56,9 +57,7 @@ final class BottomSheetViewController: UIViewController {
     }()
 
     private lazy var model: Model = {
-        .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
-              activeButtons: [.hangUp, .microphone],
-              customButtons: settings.customButtons)
+        .init(traits: traitCollection, activeButtons: [.hangUp, .microphone], customButtons: settings.customButtons)
     }()
 
     private let settings: AppSettings
@@ -90,9 +89,7 @@ final class BottomSheetViewController: UIViewController {
         activeButtonsCollectionView.addGestureRecognizer(longPressRecognizer)
         settings.$customButtons.receive(on: RunLoop.main).sink { [weak self] customButtons in
             guard let self else { return }
-            self.model = .init(maxNumberOfItemsPerSection: traitCollection.userInterfaceIdiom == .pad ? 8 : 5,
-                               activeButtons: self.model.activeButtons.buttons,
-                               customButtons: customButtons)
+            self.model = .init(traits: traitCollection, activeButtons: self.model.activeButtons.buttons, customButtons: customButtons)
         }.store(in: &subscriptions)
     }
 
@@ -109,9 +106,9 @@ final class BottomSheetViewController: UIViewController {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            addButtonLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            addButtonLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             addButtonLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            inactiveButtonsCollectionView.topAnchor.constraint(equalTo: addButtonLabel.bottomAnchor, constant: 8),
+            inactiveButtonsCollectionView.topAnchor.constraint(equalTo: addButtonLabel.bottomAnchor, constant: 20),
             inactiveButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
             inactiveButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
             inactiveButtonsCollectionView.bottomAnchor.constraint(lessThanOrEqualTo: activeButtonsCollectionView.topAnchor, constant: -8),
@@ -143,7 +140,6 @@ final class BottomSheetViewController: UIViewController {
             guard let indexPath = collectionView.indexPath(for: cell) else { return }
 
             model.deactivateButton(at: indexPath)
-
         } else {
             guard let indexPath = collectionView.indexPath(for: cell) else { return }
 
@@ -186,8 +182,8 @@ private extension BottomSheetViewController {
         private(set) var activeButtons: Buttons
         private(set) var inactiveButtons: Buttons
 
-        init(maxNumberOfItemsPerSection: Int, activeButtons: [Button], customButtons: [Button.Custom]) {
-            self.activeButtons = .init(maxNumberOfItemsPerSection: maxNumberOfItemsPerSection, buttons: activeButtons)
+        init(traits: UITraitCollection, activeButtons: [Button], customButtons: [Button.Custom]) {
+            self.activeButtons = .init(maxNumberOfItemsPerSection: traits.userInterfaceIdiom == .pad ? 8 : 5, buttons: activeButtons)
             self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: (Button.allCases + customButtons.map({ .custom($0) })).filter({ !activeButtons.contains($0) }))
         }
 
