@@ -25,7 +25,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
 
     private lazy var horizontalPreview: UIButton = {
         var config = UIButton.Configuration.bottomSheetHorizontalButton()
-        config.image = button.icon ?? Icons.questionMark
+        config.image = button.icon
         config.title = button.title ?? "Title"
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
 
     private lazy var verticalPreview: UIButton = {
         var config = UIButton.Configuration.bottomSheetVerticalButton()
-        config.image = button.icon ?? Icons.questionMark
+        config.image = button.icon
         config.title = button.title ?? "Title"
         config.background.customView = ImageTrackingButtonBackgroundView()
         let button = UIButton(configuration: config)
@@ -140,7 +140,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     private func updateVerticalPreview() {
         var config = verticalPreview.configuration
         config?.title = button.title ?? "Title"
-        config?.image = button.icon ?? Icons.questionMark
+        config?.image = button.icon
         config?.titleTextAttributesTransformer = .init({ _ in
             .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
                    .foregroundColor : Theme.Color.defaultButtonTint])
@@ -155,7 +155,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     private func updateHorizontalPreview() {
         var config = horizontalPreview.configuration
         config?.title = button.title ?? "Title"
-        config?.image = button.icon ?? Icons.questionMark
+        config?.image = button.icon
         let tintColor = button.tint
         config?.titleTextAttributesTransformer = .init({ [tintColor] _ in
             .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 14)),
@@ -203,7 +203,9 @@ extension EditButtonViewController: UITableViewDataSource {
                         var content = UIListContentConfiguration.cell()
                         content.text = "Icon"
                         cell.contentConfiguration = content
-                        cell.accessoryView = UIImageView(image: button.icon ?? Icons.questionMark)
+                        let imageView = UIImageView(image: button.icon)
+                        imageView.tintColor = .label
+                        cell.accessoryView = imageView
                         return cell
                     case 2:
                         let cell = tableView.dequeueReusableCell(SwitchTableViewCell.self, for: indexPath)
@@ -312,7 +314,9 @@ extension EditButtonViewController: UITableViewDataSource {
                 guard indexPath.item == 1 else { return }
                 let picker = SymbolPickerViewController()
                 let controller = UINavigationController(rootViewController: picker)
-                picker.onSymbolSelected = { [weak self] _ in
+                picker.onSymbolSelected = { [weak self] symbol in
+                    self?.button.symbol = symbol
+                    self?.tableView.reloadRows(at: [.init(row: 1, section: 0)], with: .automatic)
                     self?.dismiss(animated: true)
                 }
                 present(controller, animated: true)

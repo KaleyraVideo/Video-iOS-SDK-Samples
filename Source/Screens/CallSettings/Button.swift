@@ -2,6 +2,7 @@
 // See LICENSE for licensing information
 
 import Foundation
+import UIKit
 import KaleyraVideoSDK
 
 enum Button: Hashable, CaseIterable {
@@ -46,7 +47,7 @@ extension Button {
 
         let identifier: UUID
         var title: String?
-        var icon: UIImage?
+        var symbol: String?
         var isEnabled: Bool
         var accessibilityLabel: String?
         var badge: UInt?
@@ -54,9 +55,14 @@ extension Button {
         var background: UIColor?
         var action: Action?
 
+        var icon: UIImage {
+            guard let symbol, let image = UIImage(systemName: symbol) else { return Icons.questionMark }
+            return image
+        }
+
         init(identifier: UUID = .init(),
              title: String? = nil,
-             icon: UIImage? = nil,
+             symbol: String? = nil,
              isEnabled: Bool = true,
              accessibilityLabel: String? = nil,
              badge: UInt? = nil,
@@ -65,7 +71,7 @@ extension Button {
              action: Button.Custom.Action? = nil) {
             self.identifier = identifier
             self.title = title
-            self.icon = icon
+            self.symbol = symbol
             self.isEnabled = isEnabled
             self.accessibilityLabel = accessibilityLabel
             self.badge = badge
@@ -79,7 +85,7 @@ extension Button {
         }
 
         static var new: Custom {
-            .init(title: "Title", icon: Icons.questionMark, tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground)
+            .init(title: "Title", symbol: "questionmark", tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground)
         }
     }
 }
@@ -159,7 +165,7 @@ extension Button.Custom: Codable {
         let container = try decoder.container(keyedBy: RootKeys.self)
         self.identifier = try container.decode(UUID.self, forKey: .id)
         self.title = try container.decodeIfPresent(String.self, forKey: .title)
-//        self.icon = try container.decodeIfPresent(Image.self, forKey: .icon)
+        self.symbol = try container.decodeIfPresent(String.self, forKey: .icon)
         self.isEnabled = try container.decode(Bool.self, forKey: .isEnabled)
         self.accessibilityLabel = try container.decodeIfPresent(String.self, forKey: .accessibilityLabel)
         self.badge = try container.decodeIfPresent(UInt.self, forKey: .badge)
@@ -172,7 +178,7 @@ extension Button.Custom: Codable {
         var container = encoder.container(keyedBy: RootKeys.self)
         try container.encode(identifier, forKey: .id)
         try container.encodeIfPresent(title, forKey: .title)
-//        try container.encodeIfPresent(icon, forKey: .icon)
+        try container.encodeIfPresent(symbol, forKey: .icon)
         try container.encode(isEnabled, forKey: .isEnabled)
         try container.encodeIfPresent(accessibilityLabel, forKey: .accessibilityLabel)
         try container.encodeIfPresent(badge, forKey: .badge)
