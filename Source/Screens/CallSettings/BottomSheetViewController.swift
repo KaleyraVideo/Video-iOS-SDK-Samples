@@ -112,13 +112,6 @@ final class BottomSheetViewController: UIViewController {
         setEditing(true, animated: false)
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        settings.callSettings.buttons = model.activeButtons.buttons
-        try? repository.store(settings.callSettings)
-    }
-
     private func setupNavigationItem() {
         navigationItem.title = "Custom bottom sheet"
         navigationItem.rightBarButtonItem = editButtonItem
@@ -157,6 +150,13 @@ final class BottomSheetViewController: UIViewController {
 
         inactiveButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
         activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        settings.callSettings.buttons = model.activeButtons.buttons
+        try? repository.store(settings.callSettings)
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {

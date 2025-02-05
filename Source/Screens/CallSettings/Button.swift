@@ -139,6 +139,8 @@ extension Button {
     }
 }
 
+extension Button: Codable {}
+
 extension Button.Custom: Codable {
 
     private enum RootKeys: CodingKey {

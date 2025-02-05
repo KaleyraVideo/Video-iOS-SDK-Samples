@@ -16,6 +16,8 @@ extension CallSettings: Codable {
         case presentationMode
         case camera
         case speaker
+        case enableCustomButtons
+        case customButtons
     }
 
     init(from decoder: Decoder) throws {
@@ -29,8 +31,8 @@ extension CallSettings: Codable {
         self.presentationMode = .init(try container.decodeIfPresent(String.self, forKey: .presentationMode) ?? "") ?? .fullscreen
         self.cameraPosition = .init(try container.decodeIfPresent(String.self, forKey: .camera) ?? "") ?? .front
         self.speakerOverride = .init(try container.decodeIfPresent(String.self, forKey: .speaker) ?? "") ?? .default
-        self.enableCustomButtons = false
-        self.buttons = []
+        self.enableCustomButtons = try container.decodeIfPresent(Bool.self, forKey: .enableCustomButtons) ?? false
+        self.buttons = (try? .init(from: decoder)) ?? Button.default
     }
 
     func encode(to encoder: any Encoder) throws {
@@ -44,6 +46,8 @@ extension CallSettings: Codable {
         try container.encode(presentationMode, forKey: .presentationMode)
         try container.encode(cameraPosition, forKey: .camera)
         try container.encode(speakerOverride.value, forKey: .speaker)
+        try container.encode(enableCustomButtons, forKey: .enableCustomButtons)
+        try container.encode(buttons, forKey: .customButtons)
     }
 }
 
