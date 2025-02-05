@@ -7,21 +7,21 @@ import UIKit
 @available(iOS 15.0, *)
 final class ButtonCell: UICollectionViewCell {
 
-    enum DeleteConfig {
-        case remove
+    enum SecondaryAction {
+        case edit
         case delete
 
         var image: UIImage {
             switch self {
-                case .remove: Icons.minus
+                case .edit: Icons.pencil
                 case .delete: Icons.trash
             }
         }
 
         var backgroundColor: UIColor {
             switch self {
-                case .remove: .systemGray
-                case .delete: .systemRed
+                case .edit: .systemBlue
+                case .delete: .init(rgb: 0xDC2138)
             }
         }
     }
@@ -33,32 +33,46 @@ final class ButtonCell: UICollectionViewCell {
         return button
     }()
 
-    var deleteConfig: DeleteConfig = .delete {
+    var secondaryAction: SecondaryAction? = nil {
         didSet {
-            guard deleteConfig != oldValue else { return }
+            guard secondaryAction != oldValue else { return }
 
-            deleteButton.configuration?.background.backgroundColor = deleteConfig.backgroundColor
-            deleteButton.configuration?.image = deleteConfig.image
+            if secondaryAction != nil, secondaryButton.superview == nil {
+                contentView.addSubview(secondaryButton)
+                NSLayoutConstraint.activate([
+                    secondaryButton.centerXAnchor.constraint(equalTo: button.leftAnchor, constant: 11),
+                    secondaryButton.centerYAnchor.constraint(equalTo: button.topAnchor, constant: 6),
+                    secondaryButton.widthAnchor.constraint(lessThanOrEqualToConstant: 34),
+                    secondaryButton.heightAnchor.constraint(lessThanOrEqualToConstant: 34)
+                ])
+            } else if secondaryAction == nil, secondaryButton.superview != nil {
+                secondaryButton.removeFromSuperview()
+            }
+
+            guard let secondaryAction else { return }
+
+            secondaryButton.configuration?.background.backgroundColor = secondaryAction.backgroundColor
+            secondaryButton.configuration?.image = secondaryAction.image
         }
     }
 
-    private lazy var deleteButton: UIButton = {
+    private lazy var secondaryButton: UIButton = {
         var config = UIButton.Configuration.tinted()
         config.cornerStyle = .capsule
-        config.background.backgroundColor = deleteConfig.backgroundColor
-        config.image = deleteConfig.image
+        config.background.backgroundColor = secondaryAction?.backgroundColor
+        config.image = secondaryAction?.image
         config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .small)
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .white
         button.addAction(.init(handler: { [weak self] _ in
             guard let self else { return }
-            self.deleteAction?(self)
+            self.onSecondaryAction?(self)
         }), for: .touchUpInside)
         return button
     }()
 
-    var deleteAction: ((UICollectionViewCell) -> Void)?
+    var onSecondaryAction: ((UICollectionViewCell) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -90,17 +104,11 @@ final class ButtonCell: UICollectionViewCell {
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
 
+        guard secondaryAction != nil else { return }
+
         if state.isEditing {
             startWobbling()
-            contentView.addSubview(deleteButton)
-            NSLayoutConstraint.activate([
-                deleteButton.centerXAnchor.constraint(equalTo: button.leftAnchor, constant: 6),
-                deleteButton.centerYAnchor.constraint(equalTo: button.topAnchor, constant: 1),
-                deleteButton.widthAnchor.constraint(lessThanOrEqualToConstant: 24),
-                deleteButton.heightAnchor.constraint(lessThanOrEqualToConstant: 24)
-            ])
         } else {
-            deleteButton.removeFromSuperview()
             stopWobbling()
         }
     }
@@ -108,7 +116,7 @@ final class ButtonCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        deleteAction = nil
+        secondaryAction = nil
     }
 }
 

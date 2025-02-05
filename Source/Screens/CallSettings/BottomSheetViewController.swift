@@ -35,9 +35,19 @@ final class BottomSheetViewController: UIViewController {
     private lazy var inactiveButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
         .init(collectionView: inactiveButtonsCollectionView) { collectionView, indexPath, button in
             let cell = collectionView.dequeueReusableCell(ButtonCell.self, for: indexPath)
-            cell.deleteConfig = .delete
+
+            cell.configurationUpdateHandler = { cell, state in
+                guard let cell = cell as? ButtonCell else { return }
+
+                if case Button.custom = button {
+                    cell.secondaryAction = state.isEditing ? .delete : .edit
+                } else {
+                    cell.secondaryAction = nil
+                }
+            }
             cell.configure(for: button, shouldShowTitle: true)
-            cell.deleteAction = { [weak self] cell in
+            cell.onSecondaryAction = { [weak self] cell in
+                guard collectionView.isEditing else { return }
                 self?.deleteCell(cell, from: collectionView)
             }
             return cell
@@ -47,11 +57,7 @@ final class BottomSheetViewController: UIViewController {
     private lazy var activeButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
         var dataSource = UICollectionViewDiffableDataSource<Int, Button>(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
             let cell = collectionView.dequeueReusableCell(ButtonCell.self, for: indexPath)
-            cell.deleteConfig = .remove
             cell.configure(for: button, shouldShowTitle: indexPath.section != collectionView.numberOfSections - 1)
-            cell.deleteAction = { [weak self] cell in
-                self?.deleteCell(cell, from: collectionView)
-            }
             return cell
         }
         dataSource.reorderingHandlers.canReorderItem = { _ in true }

@@ -116,6 +116,10 @@ enum Icons {
         .init(systemName: "questionmark")!
     }
 
+    static var pencil: UIImage {
+        .init(systemName: "pencil")!
+    }
+
     static var minus: UIImage {
         .init(systemName: "minus")!
     }
