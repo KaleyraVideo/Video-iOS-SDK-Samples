@@ -92,7 +92,7 @@ private extension SectionedTableDataSource {
                                          onChange: { model.settings.cameraPosition = $0 }),
             ConfigurableSection(rows: [
                 ToggleRow(title: "Enable custom buttons", value: model, keypath: \.settings.enableCustomButtons, onChange: nil),
-                DisclosureRow(title: "Customize call buttons", onSelect: onEditButtons)
+                DisclosureRow(title: "Customize buttons", onSelect: onEditButtons)
             ], header: "Custom buttons"),
             ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: model.settings.showsRating, onChange: { model.settings.showsRating = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: model.settings.presentationMode, optionName: PresentationModePresenter.optionName, onChange: { model.settings.presentationMode = $0 }),

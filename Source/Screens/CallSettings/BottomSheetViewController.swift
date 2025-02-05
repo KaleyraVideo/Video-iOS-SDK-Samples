@@ -74,7 +74,7 @@ final class BottomSheetViewController: UIViewController {
     }()
 
     private lazy var model: Model = {
-        .init(traits: traitCollection, activeButtons: settings.callSettings.buttons ?? [], customButtons: settings.customButtons)
+        .init(traits: traitCollection, activeButtons: settings.callSettings.buttons, customButtons: settings.customButtons)
     }()
 
     private let settings: AppSettings
@@ -110,6 +110,13 @@ final class BottomSheetViewController: UIViewController {
             self.applySnapshots(animatingDifferences: true)
         }.store(in: &subscriptions)
         setEditing(true, animated: false)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        settings.callSettings.buttons = model.activeButtons.buttons
+        try? repository.store(settings.callSettings)
     }
 
     private func setupNavigationItem() {
