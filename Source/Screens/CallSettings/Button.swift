@@ -217,6 +217,6 @@ extension Button.Custom {
 
     var appearance: CallButton.Configuration.Appearance? {
         guard let tint, let background else { return nil }
-        return .init(background: background, tint: tint)
+        return .init(background: background, content: tint)
     }
 }

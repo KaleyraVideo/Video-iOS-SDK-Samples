@@ -29,6 +29,8 @@ extension CallSettings: Codable {
         self.presentationMode = .init(try container.decodeIfPresent(String.self, forKey: .presentationMode) ?? "") ?? .fullscreen
         self.cameraPosition = .init(try container.decodeIfPresent(String.self, forKey: .camera) ?? "") ?? .front
         self.speakerOverride = .init(try container.decodeIfPresent(String.self, forKey: .speaker) ?? "") ?? .default
+        self.enableCustomButtons = false
+        self.buttons = []
     }
 
     func encode(to encoder: any Encoder) throws {

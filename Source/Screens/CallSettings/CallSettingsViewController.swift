@@ -19,9 +19,12 @@ final class CallSettingsViewController: UITableViewController {
     private let model: ViewModel
     private let settingsRepository: SettingsRepository
     private let services: ServicesFactory
-    private lazy var dataSource: SectionedTableDataSource = .create(for: model)
+    private lazy var dataSource: SectionedTableDataSource = {
+        .create(for: model, onEditButtons: onEditButtons)
+    }()
 
     var onDismiss: (() -> Void)?
+    var onEditButtons: (() -> Void)?
 
     init(appSettings: AppSettings, services: ServicesFactory) {
         self.appSettings = appSettings
@@ -67,7 +70,7 @@ final class CallSettingsViewController: UITableViewController {
 
 private extension SectionedTableDataSource {
 
-    static func create(for model: CallSettingsViewController.ViewModel) -> SectionedTableDataSource {
+    static func create(for model: CallSettingsViewController.ViewModel, onEditButtons: (() -> Void)?) -> SectionedTableDataSource {
         .init(sections: [
             SingleChoiceTableViewSection(header: Strings.CallSettings.CallTypeSection.title,
                                          options: [CallOptions.CallType.audioVideo, CallOptions.CallType.audioUpgradable, CallOptions.CallType.audioOnly],
@@ -87,6 +90,10 @@ private extension SectionedTableDataSource {
                                          selected: model.settings.cameraPosition,
                                          optionName: CameraPositionPresenter.optionName,
                                          onChange: { model.settings.cameraPosition = $0 }),
+            ConfigurableSection(rows: [
+                ToggleRow(title: "Enable custom buttons", value: model, keypath: \.settings.enableCustomButtons, onChange: nil),
+                DisclosureRow(title: "Customize call buttons", onSelect: onEditButtons)
+            ], header: "Custom buttons"),
             ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: model.settings.showsRating, onChange: { model.settings.showsRating = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: model.settings.presentationMode, optionName: PresentationModePresenter.optionName, onChange: { model.settings.presentationMode = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.SpeakerSection.title, options: [KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.always, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.video, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.videoForeground, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.never], selected: model.settings.speakerOverride, optionName: SpeakerOverridePresenter.optionName, onChange: { model.settings.speakerOverride = $0 })

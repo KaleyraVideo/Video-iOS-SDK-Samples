@@ -35,7 +35,8 @@ struct CallSettings: Equatable {
     var presentationMode: PresentationMode
     var cameraPosition: CameraPosition
     var speakerOverride: ConferenceSettings.SpeakerOverride
-    var buttons: [Button]?
+    var enableCustomButtons: Bool
+    var buttons: [Button]
 
     init() {
         type = .audioVideo
@@ -47,6 +48,8 @@ struct CallSettings: Equatable {
         presentationMode = .fullscreen
         cameraPosition = .front
         speakerOverride = .default
+        enableCustomButtons = false
+        buttons = Button.default
     }
 }
 
