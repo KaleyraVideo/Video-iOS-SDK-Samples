@@ -123,17 +123,17 @@ final class BottomSheetViewController: UIViewController {
             addButtonLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             addButtonLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             inactiveButtonsCollectionView.topAnchor.constraint(equalTo: addButtonLabel.bottomAnchor, constant: 20),
-            inactiveButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
-            inactiveButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
+            inactiveButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
+            inactiveButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
             inactiveButtonsCollectionView.bottomAnchor.constraint(lessThanOrEqualTo: activeButtonsCollectionView.topAnchor, constant: -8),
             inactiveButtonsCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 66),
             reorderLabel.bottomAnchor.constraint(equalTo: activeButtonsCollectionView.topAnchor, constant: -16),
             reorderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            reorderLabel.leftAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
-            reorderLabel.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
+            reorderLabel.leftAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
+            reorderLabel.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
             activeButtonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
-            activeButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
-            activeButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8),
+            activeButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
+            activeButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
             activeButtonsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
             activeButtonsCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 66)
         ])
@@ -383,14 +383,11 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard collectionView == activeButtonsCollectionView else { return .init(width: 68, height: 85) }
         guard indexPath.section == model.activeButtons.numberOfSections - 1 else { return .init(width: 68, height: 85) }
-        return .init(width: 68, height: 46)
+        return .init(width: 68, height: 56)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard collectionView == activeButtonsCollectionView else { return .zero }
-        let topInset: CGFloat = section == 0 ? 10 : 0
-        let bottomInset: CGFloat = section == model.activeButtons.numberOfSections - 1 ? 10 : 0
-        return .init(top: topInset, left: 4, bottom: bottomInset, right: 4)
+        .init(top: 0, left: 4, bottom: 0, right: 4)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

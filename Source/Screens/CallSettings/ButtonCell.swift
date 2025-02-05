@@ -76,8 +76,10 @@ final class ButtonCell: UICollectionViewCell {
             button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             button.widthAnchor.constraint(greaterThanOrEqualToConstant: 46),
-            button.leftAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leftAnchor),
-            button.rightAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.rightAnchor)
+            button.leftAnchor.constraint(greaterThanOrEqualTo: contentView.leftAnchor),
+            button.rightAnchor.constraint(lessThanOrEqualTo: contentView.rightAnchor),
+            button.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+            button.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
         ])
     }
 
