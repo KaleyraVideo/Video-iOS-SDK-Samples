@@ -120,6 +120,9 @@ final class SDKCoordinator: BaseCoordinator {
     private func present(call: Call) {
         let controller = CallViewController(call: call, configuration: appSettings.callSettings.controllerConfig)
         controller.delegate = self
+        if appSettings.callSettings.enableCustomButtons {
+            controller.buttonsProvider = ButtonsProvider(buttons: appSettings.callSettings.buttons).provideButtons
+        }
         callWindow.makeKeyAndVisible()
         callWindow.set(rootViewController: controller, animated: true)
     }
@@ -240,5 +243,19 @@ extension CallSettings {
         config.feedback = showsRating ? .init() : nil
         config.presentationMode = presentationMode == .pip ? .pip : .fullscreen
         return config
+    }
+}
+
+@available(iOS 15.0, *)
+private struct ButtonsProvider {
+
+    let buttons: [Button]
+
+    init(buttons: [Button]) {
+        self.buttons = buttons
+    }
+
+    func provideButtons(_ buttons: [CallButton]) -> [CallButton] {
+        self.buttons.compactMap(\.callButton)
     }
 }
