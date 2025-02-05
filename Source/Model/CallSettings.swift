@@ -6,12 +6,12 @@ import KaleyraVideoSDK
 
 struct CallSettings: Equatable {
 
-    enum PresentationMode: String, CaseIterable {
+    enum PresentationMode: String {
         case fullscreen
         case pip
     }
 
-    enum CameraPosition: String, CaseIterable {
+    enum CameraPosition: String {
         case front
         case back
     }
@@ -53,7 +53,7 @@ struct CallSettings: Equatable {
     }
 }
 
-extension CallSettings.PresentationMode: Codable {}
+extension CallSettings.PresentationMode: CaseIterable, Codable {}
 
 extension CallSettings.PresentationMode: CustomStringConvertible {
 

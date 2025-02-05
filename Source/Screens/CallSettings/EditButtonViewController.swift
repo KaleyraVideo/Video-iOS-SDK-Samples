@@ -305,18 +305,31 @@ extension EditButtonViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard SectionType(rawValue: indexPath.section) == .action else { return }
+        guard let section = SectionType(rawValue: indexPath.section) else { return }
 
-        switch indexPath.item {
-            case 0:
-                button.action = .openMaps
-            case 1:
-                button.action = .openURL
-            case 2:
-                button.action = nil
+        switch section {
+            case .properties:
+                guard indexPath.item == 1 else { return }
+                let picker = SymbolPickerViewController()
+                let controller = UINavigationController(rootViewController: picker)
+                picker.onSymbolSelected = { [weak self] _ in
+                    self?.dismiss(animated: true)
+                }
+                present(controller, animated: true)
+            case .action:
+                switch indexPath.item {
+                    case 0:
+                        button.action = .openMaps
+                    case 1:
+                        button.action = .openURL
+                    case 2:
+                        button.action = nil
+                    default:
+                        return
+                }
+                tableView.reloadSections(.init(integer: section.rawValue), with: .automatic)
             default:
                 return
         }
-        tableView.reloadSections(.init(integer: SectionType.action.rawValue), with: .automatic)
     }
 }
