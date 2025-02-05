@@ -15,7 +15,7 @@ final class CallSettingsCoordinator: BaseCoordinator {
     }()
 
     private lazy var settingsController: CallSettingsViewController = {
-        let controller = CallSettingsViewController(appSettings: appSettings, services: services)
+        let controller = CallSettingsViewController(appSettings: appSettings)
 
         if #available(iOS 15.0, *) {
             controller.onEditButtons = { [weak self] in
@@ -28,7 +28,7 @@ final class CallSettingsCoordinator: BaseCoordinator {
 
     @available(iOS 15.0, *)
     private var bottomSheetController: UIViewController {
-        let controller = BottomSheetViewController(settings: appSettings, services: services)
+        let controller = BottomSheetViewController(settings: appSettings)
         controller.onEditButtonAction = { [weak self] button in
             self?.presentEditButtonController(button)
         }
@@ -51,6 +51,6 @@ final class CallSettingsCoordinator: BaseCoordinator {
 
     @available(iOS 15.0, *)
     private func presentEditButtonController(_ button: Button.Custom, animated: Bool = true) {
-        controller.pushViewController(EditButtonViewController(settings: appSettings, services: services, button: button), animated: animated)
+        controller.pushViewController(EditButtonViewController(settings: appSettings, button: button), animated: animated)
     }
 }

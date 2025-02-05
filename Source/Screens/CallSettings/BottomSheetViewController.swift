@@ -78,14 +78,12 @@ final class BottomSheetViewController: UIViewController {
     }()
 
     private let settings: AppSettings
-    private let repository: SettingsRepository
     private lazy var subscriptions = Set<AnyCancellable>()
 
     var onEditButtonAction: ((Button.Custom) -> Void)?
 
-    init(settings: AppSettings, services: ServicesFactory) {
+    init(settings: AppSettings) {
         self.settings = settings
-        self.repository = services.makeSettingsRepository()
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -156,7 +154,6 @@ final class BottomSheetViewController: UIViewController {
         super.viewWillDisappear(animated)
 
         settings.callSettings.buttons = model.activeButtons.buttons
-        try? repository.store(settings.callSettings)
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -180,7 +177,6 @@ final class BottomSheetViewController: UIViewController {
             guard case Button.custom(let customButton) = button else { return }
 
             settings.customButtons.removeAll(where: { customButton.identifier == $0.identifier })
-            try? repository.store(settings.customButtons)
         }
 
         applySnapshots(animatingDifferences: true)
@@ -232,7 +228,7 @@ private extension BottomSheetViewController {
         init(traits: UITraitCollection, activeButtons: [Button], customButtons: [Button.Custom]) {
             self.customButtons = customButtons
             self.maxItemsPerSection = traits.userInterfaceIdiom == .pad ? 8 : 5
-            self.activeButtons = .init(maxNumberOfItemsPerSection: .max, buttons: [])
+            self.activeButtons = .init(maxNumberOfItemsPerSection: .max, buttons: activeButtons)
             self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: [])
             update()
         }

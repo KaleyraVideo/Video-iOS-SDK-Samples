@@ -6,31 +6,16 @@ import KaleyraVideoSDK
 
 final class CallSettingsViewController: UITableViewController {
 
-    fileprivate final class ViewModel {
-
-        var settings: CallSettings
-
-        init(settings: CallSettings) {
-            self.settings = settings
-        }
-    }
-
     private let appSettings: AppSettings
-    private let model: ViewModel
-    private let settingsRepository: SettingsRepository
-    private let services: ServicesFactory
     private lazy var dataSource: SectionedTableDataSource = {
-        .create(for: model, onEditButtons: onEditButtons)
+        .create(for: appSettings, onEditButtons: onEditButtons)
     }()
 
     var onDismiss: (() -> Void)?
     var onEditButtons: (() -> Void)?
 
-    init(appSettings: AppSettings, services: ServicesFactory) {
+    init(appSettings: AppSettings) {
         self.appSettings = appSettings
-        self.model = .init(settings: appSettings.callSettings)
-        self.settingsRepository = services.makeSettingsRepository()
-        self.services = services
         super.init(style: .insetGrouped)
     }
 
@@ -62,41 +47,39 @@ final class CallSettingsViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        try? settingsRepository.store(model.settings)
-        appSettings.callSettings = model.settings
         onDismiss?()
     }
 }
 
 private extension SectionedTableDataSource {
 
-    static func create(for model: CallSettingsViewController.ViewModel, onEditButtons: (() -> Void)?) -> SectionedTableDataSource {
+    static func create(for settings: AppSettings, onEditButtons: (() -> Void)?) -> SectionedTableDataSource {
         .init(sections: [
             SingleChoiceTableViewSection(header: Strings.CallSettings.CallTypeSection.title,
                                          options: [CallOptions.CallType.audioVideo, CallOptions.CallType.audioUpgradable, CallOptions.CallType.audioOnly],
-                                         selected: model.settings.type,
+                                         selected: settings.callSettings.type,
                                          optionName: CallTypePresenter.optionName,
-                                         onChange: { model.settings.type = $0 }),
+                                         onChange: { settings.callSettings.type = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.RecordingSection.title,
                                          options: [CallOptions.RecordingType?.none, CallOptions.RecordingType.automatic, CallOptions.RecordingType.manual],
-                                         selected: model.settings.recording,
+                                         selected: settings.callSettings.recording,
                                          optionName: RecordingPresenter.optionName(_:),
-                                         onChange: { model.settings.recording = $0 }),
-            TextFieldSection(header: Strings.CallSettings.DurationSection.title, value: "\(model.settings.maximumDuration)", onChange: { model.settings.maximumDuration = UInt($0) ?? 0 }),
-            ToggleSection(header: Strings.CallSettings.GroupSection.title, description: Strings.CallSettings.GroupSection.conference, value: model.settings.isGroup, onChange: { model.settings.isGroup = $0 }),
-            ToolsSection(config: model.settings.tools, onChange: { model.settings.tools = $0 }),
+                                         onChange: { settings.callSettings.recording = $0 }),
+            TextFieldSection(header: Strings.CallSettings.DurationSection.title, value: "\(settings.callSettings.maximumDuration)", onChange: { settings.callSettings.maximumDuration = UInt($0) ?? 0 }),
+            ToggleSection(header: Strings.CallSettings.GroupSection.title, description: Strings.CallSettings.GroupSection.conference, value: settings.callSettings.isGroup, onChange: { settings.callSettings.isGroup = $0 }),
+            ToolsSection(config: settings.callSettings.tools, onChange: { settings.callSettings.tools = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.CameraSection.title,
                                          options: [CallSettings.CameraPosition.front, CallSettings.CameraPosition.back],
-                                         selected: model.settings.cameraPosition,
+                                         selected: settings.callSettings.cameraPosition,
                                          optionName: CameraPositionPresenter.optionName,
-                                         onChange: { model.settings.cameraPosition = $0 }),
+                                         onChange: { settings.callSettings.cameraPosition = $0 }),
             ConfigurableSection(rows: [
-                ToggleRow(title: "Enable custom buttons", value: model, keypath: \.settings.enableCustomButtons, onChange: nil),
+                ToggleRow(title: "Enable custom buttons", value: settings, keypath: \.callSettings.enableCustomButtons, onChange: nil),
                 DisclosureRow(title: "Customize buttons", onSelect: onEditButtons)
             ], header: "Custom buttons"),
-            ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: model.settings.showsRating, onChange: { model.settings.showsRating = $0 }),
-            SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: model.settings.presentationMode, optionName: PresentationModePresenter.optionName, onChange: { model.settings.presentationMode = $0 }),
-            SingleChoiceTableViewSection(header: Strings.CallSettings.SpeakerSection.title, options: [KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.always, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.video, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.videoForeground, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.never], selected: model.settings.speakerOverride, optionName: SpeakerOverridePresenter.optionName, onChange: { model.settings.speakerOverride = $0 })
+            ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: settings.callSettings.showsRating, onChange: { settings.callSettings.showsRating = $0 }),
+            SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title, options: [CallSettings.PresentationMode.fullscreen, CallSettings.PresentationMode.pip], selected: settings.callSettings.presentationMode, optionName: PresentationModePresenter.optionName, onChange: { settings.callSettings.presentationMode = $0 }),
+            SingleChoiceTableViewSection(header: Strings.CallSettings.SpeakerSection.title, options: [KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.always, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.video, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.videoForeground, KaleyraVideoSDK.ConferenceSettings.SpeakerOverride.never], selected: settings.callSettings.speakerOverride, optionName: SpeakerOverridePresenter.optionName, onChange: { settings.callSettings.speakerOverride = $0 })
         ])
     }
 

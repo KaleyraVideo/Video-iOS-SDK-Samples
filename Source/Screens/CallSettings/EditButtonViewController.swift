@@ -80,7 +80,6 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     private var button: Button.Custom = .init(tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground) {
         didSet {
             updatePreviews()
-            defer { try? repository.store(settings.customButtons) }
             guard let index = settings.customButtons.firstIndex(where: { $0.identifier == button.identifier }) else {
                 settings.customButtons.append(button)
                 return
@@ -90,11 +89,9 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     }
 
     private let settings: AppSettings
-    private let repository: SettingsRepository
 
-    init(settings: AppSettings, services: ServicesFactory, button: Button.Custom) {
+    init(settings: AppSettings, button: Button.Custom) {
         self.settings = settings
-        self.repository = services.makeSettingsRepository()
         super.init(nibName: nil, bundle: nil)
     }
 

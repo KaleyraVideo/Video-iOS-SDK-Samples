@@ -18,12 +18,10 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
     override func setUp() {
         super.setUp()
 
-        appSettings = .init()
         userDefaults = .testSuite
         store = .init(userDefaults: userDefaults)
-        let services = ServicesFactoryStub()
-        services.settingsRepository = store
-        sut = .init(appSettings: appSettings, services: services)
+        appSettings = .init(repository: store)
+        sut = .init(appSettings: appSettings)
     }
 
     override func tearDown() {
@@ -51,7 +49,7 @@ final class CallSettingsViewControllerTests: UnitTestCase, CompletionSpyFactory 
     func testLoadViewShouldReloadData() {
         sut.loadViewIfNeeded()
 
-        assertThat(sut.numberOfSections(), equalTo(9))
+        assertThat(sut.numberOfSections(), equalTo(10))
         assertThat(sut.numberOfRowsIn(section: .callType), equalTo(3))
         assertThat(sut.numberOfRowsIn(section: .recording), equalTo(3))
         assertThat(sut.numberOfRowsIn(section: .duration), equalTo(1))
@@ -181,6 +179,7 @@ private extension CallSettingsViewController {
         case group
         case tools
         case camera
+        case buttons
         case rating
         case presentationMode
         case speakerOverride

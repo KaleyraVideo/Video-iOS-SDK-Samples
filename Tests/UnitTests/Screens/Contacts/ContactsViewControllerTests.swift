@@ -18,7 +18,7 @@ final class ContactsViewControllerTests: UnitTestCase, CompletionSpyFactory {
     override func setUp() {
         super.setUp()
 
-        appSettings = .init()
+        appSettings = .init(repository: SettingsRepositoryDummy())
         repository = .init()
         viewModel = .init(book: .init(repository: repository), loggedUser: Contact(alias: .alice))
         sut = .init(appSettings: appSettings, viewModel: viewModel, services: ServicesFactoryStub())

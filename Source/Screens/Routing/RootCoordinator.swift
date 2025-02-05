@@ -34,7 +34,7 @@ final class RootCoordinator: BaseCoordinator {
     private lazy var pageController: UIPageViewController = .init(transitionStyle: .scroll, navigationOrientation: .horizontal)
     private let settingsRepository: SettingsRepository
     private lazy var logService: LogServiceProtocol = services.makeLogService()
-    private var appSettings: AppSettings = .init()
+    private lazy var appSettings: AppSettings = .init(repository: settingsRepository)
 
     private var state: State = .startup() {
         didSet {
@@ -48,7 +48,6 @@ final class RootCoordinator: BaseCoordinator {
     }
 
     func start() {
-        appSettings.loadFromDefaults(settingsRepository)
         state.loadFromDefaults(settingsRepository)
 
         guard Config.logLevel != .off else { return }

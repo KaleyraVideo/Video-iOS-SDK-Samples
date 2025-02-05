@@ -6,14 +6,29 @@ import Combine
 
 final class AppSettings {
 
-    @Published
-    var callSettings: CallSettings = .init()
+    private let repository: SettingsRepository
 
     @Published
-    var customButtons: [Button.Custom] = []
+    var callSettings: CallSettings = .init() {
+        didSet {
+            guard callSettings != oldValue else { return }
 
-    func loadFromDefaults(_ repository: SettingsRepository) {
-        customButtons = (try? repository.loadCustomButtons()) ?? []
-        callSettings = (try? repository.loadSettings()) ?? .init()
+            try? repository.store(callSettings)
+        }
+    }
+
+    @Published
+    var customButtons: [Button.Custom] = [] {
+        didSet {
+            guard customButtons != oldValue else { return }
+
+            try? repository.store(customButtons)
+        }
+    }
+
+    init(repository: SettingsRepository) {
+        self.repository = repository
+        self.customButtons = (try? repository.loadCustomButtons()) ?? []
+        self.callSettings = (try? repository.loadSettings()) ?? .init()
     }
 }

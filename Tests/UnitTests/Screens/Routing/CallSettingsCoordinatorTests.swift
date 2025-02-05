@@ -12,24 +12,18 @@ final class CallSettingsCoordinatorTests: UnitTestCase {
     func testCreatesNavigationControllerWithCallOptionsTableViewControllerAsRoot() throws {
         let sut = makeSUT()
 
-        let controller = sut.controller
-
-        assertThat(controller, instanceOf(UINavigationController.self))
-        assertThat(controller.children.first, presentAnd(instanceOf(CallSettingsViewController.self)))
+        assertThat(sut.controller.children.first, presentAnd(instanceOf(CallSettingsViewController.self)))
     }
 
     func testComposeSetsNavigationItemPrefersLargeTitleToTrue() throws {
         let sut = makeSUT()
 
-        let controller = sut.controller
-
-        let navController = controller as? UINavigationController
-        assertThat(navController?.navigationBar.prefersLargeTitles, presentAnd(isTrue()))
+        assertThat(sut.controller.navigationBar.prefersLargeTitles, presentAnd(isTrue()))
     }
 
     // MARK: - Helpers
 
     private func makeSUT() -> CallSettingsCoordinator {
-        .init(appSettings: .init(), services: ServicesFactoryStub())
+        .init(appSettings: .init(repository: SettingsRepositoryDummy()), services: ServicesFactoryStub())
     }
 }
