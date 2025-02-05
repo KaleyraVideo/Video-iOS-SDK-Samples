@@ -19,12 +19,7 @@ final class CallSettingsCoordinator: BaseCoordinator {
     }
 
     private(set) lazy var controller: UINavigationController = {
-        let controller = if #available(iOS 15.0, *) {
-            bottomSheetController
-        } else {
-            settingsController
-        }
-        let navController = UINavigationController(rootViewController: controller)
+        let navController = UINavigationController(rootViewController: settingsController)
         navController.navigationBar.prefersLargeTitles = true
         return navController
     }()
