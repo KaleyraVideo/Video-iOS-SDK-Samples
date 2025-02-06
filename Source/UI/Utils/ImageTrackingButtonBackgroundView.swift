@@ -62,8 +62,8 @@ final class ImageTrackingButtonBackgroundView: UIView {
         guard imageView.constraints.isEmpty else { return }
 
         NSLayoutConstraint.activate([
+            decorationView.topAnchor.constraint(equalTo: topAnchor),
             decorationView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            decorationView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
             decorationView.widthAnchor.constraint(equalToConstant: 46),
             decorationView.heightAnchor.constraint(equalTo: decorationView.widthAnchor)
         ])
