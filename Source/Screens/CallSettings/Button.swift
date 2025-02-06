@@ -202,7 +202,7 @@ extension Button {
             case .cameraEffects: .cameraEffects
             case .audioOutput: .audioOutput
             case .fileShare: .fileShare
-            case .screenShare: .screenShare
+            case .screenShare: .screenShare(onTap: .askUser)
             case .chat: .chat
             case .whiteboard: .whiteboard
             default: nil
