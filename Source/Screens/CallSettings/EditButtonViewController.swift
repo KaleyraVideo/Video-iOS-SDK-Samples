@@ -23,11 +23,11 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         return view
     }()
 
-    private lazy var horizontalPreview: UIButton = {
+    private lazy var horizontalPreview: BadgedButton = {
         var config = UIButton.Configuration.bottomSheetHorizontalButton()
         config.image = button.icon
         config.title = button.title ?? "Title"
-        let button = UIButton(configuration: config)
+        let button = BadgedButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setContentHuggingPriority(.defaultLow - 1, for: .horizontal)
         NSLayoutConstraint.activate([
@@ -36,12 +36,12 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         return button
     }()
 
-    private lazy var verticalPreview: UIButton = {
+    private lazy var verticalPreview: BadgedButton = {
         var config = UIButton.Configuration.bottomSheetVerticalButton()
         config.image = button.icon
         config.title = button.title ?? "Title"
         config.background.customView = ImageTrackingButtonBackgroundView()
-        let button = UIButton(configuration: config)
+        let button = BadgedButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setContentHuggingPriority(.defaultLow, for: .horizontal)
         NSLayoutConstraint.activate([
@@ -59,7 +59,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 14, left: 14, bottom: 14, right: 14)
-        stack.backgroundColor = .init(rgb: 0xEEEEEE)
+        stack.backgroundColor = Theme.Color.bottomSheetBackground
         stack.layer.masksToBounds = true
         stack.layer.cornerRadius = 22
         return stack
@@ -77,7 +77,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         return table
     }()
 
-    private var button: Button.Custom = .init(tint: Theme.Color.defaultButtonTint, background: Theme.Color.defaultButtonBackground) {
+    private var button: Button.Custom {
         didSet {
             updatePreviews()
             guard let index = settings.customButtons.firstIndex(where: { $0.identifier == button.identifier }) else {
@@ -92,6 +92,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
 
     init(settings: AppSettings, button: Button.Custom) {
         self.settings = settings
+        self.button = button
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -150,6 +151,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         verticalPreview.isEnabled = button.isEnabled
         verticalPreview.configuration = config
         verticalPreview.accessibilityLabel = button.accessibilityLabel
+        verticalPreview.badgeValue = button.badge
     }
 
     private func updateHorizontalPreview() {
@@ -166,6 +168,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         horizontalPreview.isEnabled = button.isEnabled
         horizontalPreview.configuration = config
         horizontalPreview.accessibilityLabel = button.accessibilityLabel
+        horizontalPreview.badgeValue = button.badge
     }
 }
 

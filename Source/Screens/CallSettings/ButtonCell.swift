@@ -26,8 +26,8 @@ final class ButtonCell: UICollectionViewCell {
         }
     }
 
-    private lazy var button: UIButton = {
-        let button = UIButton(button: nil)
+    private lazy var button: BadgedButton = {
+        let button = BadgedButton(button: nil)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isUserInteractionEnabled = false
         return button
@@ -121,7 +121,7 @@ final class ButtonCell: UICollectionViewCell {
 }
 
 @available(iOS 15.0, *)
-extension UIButton {
+extension BadgedButton {
 
     convenience init(button: Button?) {
         var config = UIButton.Configuration.bottomSheetVerticalButton()
@@ -144,6 +144,7 @@ extension UIButton {
         configuration?.image = model.icon
         configuration?.background.customView?.backgroundColor = model.backgroundColor
         tintColor = model.tintColor
+        badgeValue = model.badgeValue
     }
 }
 
@@ -199,5 +200,10 @@ private extension Button {
             case .custom(let button): button.tint ?? Theme.Color.defaultButtonTint
             default: Theme.Color.defaultButtonTint
         }
+    }
+
+    var badgeValue: UInt? {
+        guard case Button.custom(let custom) = self else { return nil }
+        return custom.badge
     }
 }

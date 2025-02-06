@@ -23,5 +23,9 @@ struct Theme {
         static var defaultButtonTint: UIColor {
             .init(rgb: 0x1B1B1B)
         }
+
+        static var bottomSheetBackground: UIColor {
+            .init(rgb: 0xEEEEEE)
+        }
     }
 }

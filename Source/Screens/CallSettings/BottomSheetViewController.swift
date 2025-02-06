@@ -434,7 +434,7 @@ private extension UICollectionView {
         self.registerReusableCell(ButtonCell.self)
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .init(rgb: 0xEEEEEE)
+        view.backgroundColor = Theme.Color.bottomSheetBackground
         view.layer.cornerRadius = 22
         view.layer.masksToBounds = true
         self.backgroundView = view
