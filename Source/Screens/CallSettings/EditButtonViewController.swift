@@ -45,7 +45,8 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setContentHuggingPriority(.defaultLow, for: .horizontal)
         NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(greaterThanOrEqualToConstant: 46)
+            button.widthAnchor.constraint(greaterThanOrEqualToConstant: 46),
+            button.heightAnchor.constraint(greaterThanOrEqualToConstant: 73)
         ])
         return button
     }()
@@ -125,7 +126,6 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
             preview.leftAnchor.constraint(equalTo: header.layoutMarginsGuide.leftAnchor),
             preview.rightAnchor.constraint(equalTo: header.layoutMarginsGuide.rightAnchor),
             preview.centerYAnchor.constraint(equalTo: header.centerYAnchor),
-            preview.heightAnchor.constraint(equalToConstant: 95),
             tableView.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 12),
             tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
