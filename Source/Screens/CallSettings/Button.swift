@@ -46,7 +46,7 @@ extension Button {
     struct Custom: Hashable {
 
         let identifier: UUID
-        var title: String?
+        var title: String
         var symbol: String?
         var isEnabled: Bool
         var accessibilityLabel: String?
@@ -61,7 +61,7 @@ extension Button {
         }
 
         init(identifier: UUID = .init(),
-             title: String? = nil,
+             title: String,
              symbol: String? = nil,
              isEnabled: Bool = true,
              accessibilityLabel: String? = nil,
@@ -164,7 +164,7 @@ extension Button.Custom: Codable {
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: RootKeys.self)
         self.identifier = try container.decode(UUID.self, forKey: .id)
-        self.title = try container.decodeIfPresent(String.self, forKey: .title)
+        self.title = try container.decode(String.self, forKey: .title)
         self.symbol = try container.decodeIfPresent(String.self, forKey: .icon)
         self.isEnabled = try container.decode(Bool.self, forKey: .isEnabled)
         self.accessibilityLabel = try container.decodeIfPresent(String.self, forKey: .accessibilityLabel)
@@ -215,8 +215,8 @@ extension Button.Custom {
 
     var callButton: CallButton.Configuration {
         .init(text: title,
-              icon: icon ?? Icons.questionMark,
-              badgeValue: badge ?? 0,
+              icon: icon,
+              badgeValue: badge,
               isEnabled: isEnabled,
               accessibilityLabel: accessibilityLabel,
               appearance: appearance,

@@ -26,7 +26,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     private lazy var horizontalPreview: BadgedButton = {
         var config = UIButton.Configuration.bottomSheetHorizontalButton()
         config.image = button.icon
-        config.title = button.title ?? "Title"
+        config.title = button.title
         let button = BadgedButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setContentHuggingPriority(.defaultLow - 1, for: .horizontal)
@@ -39,7 +39,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     private lazy var verticalPreview: BadgedButton = {
         var config = UIButton.Configuration.bottomSheetVerticalButton()
         config.image = button.icon
-        config.title = button.title ?? "Title"
+        config.title = button.title
         config.background.customView = ImageTrackingButtonBackgroundView()
         let button = BadgedButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -140,7 +140,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
 
     private func updateVerticalPreview() {
         var config = verticalPreview.configuration
-        config?.title = button.title ?? "Title"
+        config?.title = button.title
         config?.image = button.icon
         config?.titleTextAttributesTransformer = .init({ _ in
             .init([.font : UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 12)),
@@ -156,7 +156,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
 
     private func updateHorizontalPreview() {
         var config = horizontalPreview.configuration
-        config?.title = button.title ?? "Title"
+        config?.title = button.title
         config?.image = button.icon
         let tintColor = button.tint
         config?.titleTextAttributesTransformer = .init({ [tintColor] _ in
@@ -198,6 +198,8 @@ extension EditButtonViewController: UITableViewDataSource {
                         cell.placeholder = "Title"
                         cell.text = button.title
                         cell.onTextChanged = { [weak self] title in
+                            guard let title else { return }
+
                             self?.button.title = title
                         }
                         return cell
