@@ -64,7 +64,7 @@ final class BottomSheetViewController: UIViewController {
         dataSource.reorderingHandlers.didReorder = { [weak self] transaction in
             guard let self else { return }
 
-            self.model.updateActiveButtons(from: transaction.finalSnapshot)
+            self.model.updateActiveButtons(from: transaction)
         }
         return dataSource
     }()
@@ -166,13 +166,11 @@ final class BottomSheetViewController: UIViewController {
     }
 
     private func deleteCell(_ cell: UICollectionViewCell, from collectionView: UICollectionView) {
-        if collectionView == activeButtonsCollectionView {
-            guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
 
+        if collectionView == activeButtonsCollectionView {
             model.deactivateButton(at: indexPath)
         } else {
-            guard let indexPath = collectionView.indexPath(for: cell) else { return }
-
             let button = model.inactiveButtons.button(at: indexPath)
             guard case Button.custom(let customButton) = button else { return }
 
@@ -265,8 +263,8 @@ private extension BottomSheetViewController {
             activeButtons.moveItem(button, to: destinationIndexPath)
         }
 
-        mutating func updateActiveButtons(from snapshot: NSDiffableDataSourceSnapshot<Int, Button>) {
-            activeButtons.update(from: snapshot)
+        mutating func updateActiveButtons(from transaction: NSDiffableDataSourceTransaction<Int, Button>) {
+            activeButtons.update(from: transaction)
         }
 
         struct Buttons {
@@ -353,8 +351,8 @@ private extension BottomSheetViewController {
                 return snapshot
             }
 
-            mutating func update(from snapshot: NSDiffableDataSourceSnapshot<Int, Button>) {
-                buttons = snapshot.itemIdentifiers
+            mutating func update(from transaction: NSDiffableDataSourceTransaction<Int, Button>) {
+                buttons = transaction.sectionTransactions.map(\.finalSnapshot.items).reversed().flatMap({ $0 })
             }
         }
     }
