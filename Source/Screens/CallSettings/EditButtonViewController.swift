@@ -211,6 +211,7 @@ extension EditButtonViewController: UITableViewDataSource {
                         let imageView = UIImageView(image: button.icon)
                         imageView.tintColor = .label
                         cell.accessoryView = imageView
+                        cell.accessoryType = .none
                         return cell
                     case 2:
                         let cell = tableView.dequeueReusableCell(SwitchTableViewCell.self, for: indexPath)
@@ -278,6 +279,7 @@ extension EditButtonViewController: UITableViewDataSource {
                         content.text = "Open maps"
                         cell.contentConfiguration = content
                         cell.accessoryType = button.action == .openMaps ? .checkmark : .none
+                        cell.accessoryView = nil
                         return cell
                     case 1:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
@@ -285,6 +287,7 @@ extension EditButtonViewController: UITableViewDataSource {
                         content.text = "Open Link"
                         cell.contentConfiguration = content
                         cell.accessoryType = button.action == .openURL ? .checkmark : .none
+                        cell.accessoryView = nil
                         return cell
                     case 2:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
@@ -292,6 +295,7 @@ extension EditButtonViewController: UITableViewDataSource {
                         content.text = "None"
                         cell.contentConfiguration = content
                         cell.accessoryType = button.action == nil ? .checkmark : .none
+                        cell.accessoryView = nil
                         return cell
                     default:
                         fatalError()
