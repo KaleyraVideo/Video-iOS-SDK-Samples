@@ -9,7 +9,7 @@ import KaleyraVideoSDK
 @available(iOS 15.0, *)
 final class BottomSheetViewController: UIViewController {
 
-    private lazy var addButtonLabel: UILabel = {
+    private lazy var inactiveButtonsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Tap a button to add it to the bottom sheet below"
@@ -19,7 +19,7 @@ final class BottomSheetViewController: UIViewController {
         return label
     }()
 
-    private lazy var reorderLabel: UILabel = {
+    private lazy var previewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Tap a button to remove it. Long press and drag to reorder the buttons"
@@ -60,17 +60,7 @@ final class BottomSheetViewController: UIViewController {
             cell.configure(for: button, shouldShowTitle: indexPath.section != collectionView.numberOfSections - 1)
             return cell
         }
-        dataSource.reorderingHandlers.canReorderItem = { _ in true }
-        dataSource.reorderingHandlers.didReorder = { [weak self] transaction in
-            guard let self else { return }
-
-            self.model.updateActiveButtons(from: transaction)
-        }
         return dataSource
-    }()
-
-    private lazy var longPressRecognizer: UILongPressGestureRecognizer = {
-        UILongPressGestureRecognizer(target: self, action: #selector(onLongPress(_:)))
     }()
 
     private lazy var model: Model = {
@@ -101,7 +91,6 @@ final class BottomSheetViewController: UIViewController {
         setupConstraints()
         inactiveButtonsCollectionView.dataSource = inactiveButtonsDataSource
         activeButtonsCollectionView.dataSource = activeButtonsDataSource
-        activeButtonsCollectionView.addGestureRecognizer(longPressRecognizer)
         settings.$customButtons.receive(on: RunLoop.main).sink { [weak self] customButtons in
             guard let self else { return }
             self.model.customButtons = customButtons
@@ -116,25 +105,25 @@ final class BottomSheetViewController: UIViewController {
     }
 
     private func setupHierarchy() {
-        view.addSubview(addButtonLabel)
+        view.addSubview(inactiveButtonsLabel)
         view.addSubview(inactiveButtonsCollectionView)
-        view.addSubview(reorderLabel)
+        view.addSubview(previewLabel)
         view.addSubview(activeButtonsCollectionView)
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            addButtonLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            addButtonLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            inactiveButtonsCollectionView.topAnchor.constraint(equalTo: addButtonLabel.bottomAnchor, constant: 20),
+            inactiveButtonsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            inactiveButtonsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            inactiveButtonsCollectionView.topAnchor.constraint(equalTo: inactiveButtonsLabel.bottomAnchor, constant: 20),
             inactiveButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
             inactiveButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
             inactiveButtonsCollectionView.bottomAnchor.constraint(lessThanOrEqualTo: activeButtonsCollectionView.topAnchor, constant: -8),
             inactiveButtonsCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 66),
-            reorderLabel.bottomAnchor.constraint(equalTo: activeButtonsCollectionView.topAnchor, constant: -16),
-            reorderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            reorderLabel.leftAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
-            reorderLabel.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
+            previewLabel.bottomAnchor.constraint(equalTo: activeButtonsCollectionView.topAnchor, constant: -16),
+            previewLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            previewLabel.leftAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
+            previewLabel.rightAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
             activeButtonsCollectionView.topAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor),
             activeButtonsCollectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
             activeButtonsCollectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
@@ -183,21 +172,6 @@ final class BottomSheetViewController: UIViewController {
     private func applySnapshots(animatingDifferences animated: Bool) {
         inactiveButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
         activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: animated)
-    }
-
-    @objc
-    private func onLongPress(_ recognizer: UILongPressGestureRecognizer) {
-        switch recognizer.state {
-            case .began:
-                guard let indexPath = activeButtonsCollectionView.indexPathForItem(at: recognizer.location(in: activeButtonsCollectionView)) else { return }
-                activeButtonsCollectionView.beginInteractiveMovementForItem(at: indexPath)
-            case .changed:
-                activeButtonsCollectionView.updateInteractiveMovementTargetPosition(recognizer.location(in: activeButtonsCollectionView))
-            case .ended:
-                activeButtonsCollectionView.endInteractiveMovement()
-            default:
-                activeButtonsCollectionView.cancelInteractiveMovement()
-        }
     }
 }
 
@@ -257,14 +231,6 @@ private extension BottomSheetViewController {
 
         mutating func deactivateButton(at indexPath: IndexPath) {
             deactivateButton(activeButtons.button(at: indexPath))
-        }
-
-        mutating func moveActiveButton(_ button: Button, to destinationIndexPath: IndexPath) {
-            activeButtons.moveItem(button, to: destinationIndexPath)
-        }
-
-        mutating func updateActiveButtons(from transaction: NSDiffableDataSourceTransaction<Int, Button>) {
-            activeButtons.update(from: transaction)
         }
 
         struct Buttons {
@@ -349,10 +315,6 @@ private extension BottomSheetViewController {
                 }
 
                 return snapshot
-            }
-
-            mutating func update(from transaction: NSDiffableDataSourceTransaction<Int, Button>) {
-                buttons = transaction.sectionTransactions.map(\.finalSnapshot.items).reversed().flatMap({ $0 })
             }
         }
     }
