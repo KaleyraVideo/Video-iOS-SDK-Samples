@@ -137,7 +137,9 @@
 "call_options.tools-fileshare" = "Condivisione file";
 "call_options.tools-screenshare" = "Condivisione schermo in-app";
 "call_options.tools-broadcast" = "Condivisione schermo broadcast";
-
+"call_options.buttons_section" = "Pulsanti di chiamata";
+"call_options.buttons_enable_cell_title" = "Abilita pulsanti personalizzati";
+"call_options.buttons_customize_cell_title" = "Personalizza i pulsanti";
 
 // MARK: - QR Reader
 

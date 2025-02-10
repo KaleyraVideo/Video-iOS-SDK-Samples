@@ -137,6 +137,9 @@
 "call_options.tools-fileshare" = "File share";
 "call_options.tools-screenshare" = "In-app screen share";
 "call_options.tools-broadcast" = "Broadcast screen share";
+"call_options.buttons_section" = "Call buttons";
+"call_options.buttons_enable_cell_title" = "Enable custom buttons";
+"call_options.buttons_customize_cell_title" = "Customize buttons";
 
 // MARK: - QR screen
 

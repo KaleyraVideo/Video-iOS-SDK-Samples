@@ -78,9 +78,9 @@ private extension SectionedTableDataSource {
                                          optionName: \.localizedName,
                                          onChange: { settings.callSettings.cameraPosition = $0 }),
             ConfigurableSection(rows: [
-                ToggleRow(title: "Enable custom buttons", value: settings, keypath: \.callSettings.enableCustomButtons, onChange: nil),
-                DisclosureRow(title: "Customize buttons", onSelect: onEditButtons)
-            ], header: "Custom buttons"),
+                ToggleRow(title: Strings.CallSettings.ButtonsSection.enableCellTitle, value: settings, keypath: \.callSettings.enableCustomButtons, onChange: nil),
+                DisclosureRow(title: Strings.CallSettings.ButtonsSection.customizeCellTitle, onSelect: onEditButtons)
+            ], header: Strings.CallSettings.ButtonsSection.title),
             ToggleSection(header: Strings.CallSettings.RatingSection.title, description: Strings.CallSettings.RatingSection.enabled, value: settings.callSettings.showsRating, onChange: { settings.callSettings.showsRating = $0 }),
             SingleChoiceTableViewSection(header: Strings.CallSettings.PresentationMode.title,
                                          options: CallSettings.PresentationMode.allCases,

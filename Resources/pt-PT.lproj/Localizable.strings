@@ -137,6 +137,9 @@
 "call_options.tools-fileshare" = "Compartilhamento de Arquivos";
 "call_options.tools-screenshare" = "Compartilhamento de Tela no Aplicativo";
 "call_options.tools-broadcast" = "Transmissão do Compartilhamento de Tela";
+"call_options.buttons_section" = "Botões de chamada";
+"call_options.buttons_enable_cell_title" = "Ativar botões personalizados";
+"call_options.buttons_customize_cell_title" = "Personalizar botões";
 
 
 // MARK: - QR screen

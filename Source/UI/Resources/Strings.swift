@@ -174,6 +174,13 @@ enum Strings {
             static let manual = NSLocalizedString("call_options.recording_manual", comment: "Manual")
         }
 
+        enum ButtonsSection {
+            static let title = NSLocalizedString("call_options.buttons_section", comment: "Custom buttons")
+
+            static let enableCellTitle = NSLocalizedString("call_options.buttons_enable_cell_title", comment: "Enable custom buttons")
+            static let customizeCellTitle = NSLocalizedString("call_options.buttons_customize_cell_title", comment: "Customize buttons")
+        }
+
         enum ToolsSection {
 
             static let title = NSLocalizedString("call_options.tools_section", comment: "Tools")
