@@ -3,6 +3,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 import KaleyraVideoSDK
 
 enum Button: Hashable, CaseIterable {
@@ -208,11 +209,42 @@ extension Button.Custom {
               isEnabled: isEnabled,
               accessibilityLabel: accessibilityLabel,
               appearance: appearance,
-              action: {})
+              action: action?.function ?? {})
     }
 
     var appearance: CallButton.Configuration.Appearance? {
         guard let tint, let background else { return nil }
         return .init(background: background, content: tint)
+    }
+}
+
+extension Button.Custom.Action {
+
+    private struct Command {
+
+        func openMaps() {
+            MKMapItem.openMaps(with: [.forCurrentLocation()])
+        }
+
+        func openLink() {
+            UIApplication.shared.open(URL(string: "https://www.kaleyra.com")!)
+        }
+
+        private func presentAlert(_ alert: UIAlertController) {
+            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+            guard !scene.windows.isEmpty else { return }
+            guard let presenter = scene.windows.last?.rootViewController else { return }
+
+            presenter.present(alert, animated: true)
+        }
+    }
+
+    var function: () -> Void {
+        switch self {
+            case .openMaps:
+                Command().openMaps
+            case .openURL:
+                Command().openLink
+        }
     }
 }
