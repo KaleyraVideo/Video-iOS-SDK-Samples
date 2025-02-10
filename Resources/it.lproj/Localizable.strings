@@ -146,6 +146,17 @@
 "buttons.title" = "Personalizzazione pulsanti";
 "buttons.inactive-buttons-heading" = "Tocca un pulsante per aggiungerlo all'anteprima sotto";
 "buttons.preview-heading" = "Tocca un pulsante per rimuoverlo";
+"buttons.hangup" = "end";
+"buttons.microphone" = "microfono";
+"buttons.camera" = "camera";
+"buttons.flip" = "cambia camera";
+"buttons.effects" = "effetti";
+"buttons.audioOutput" = "uscita audio";
+"buttons.file" = "file";
+"buttons.screenShare" = "condivisione schermo";
+"buttons.chat" = "chat";
+"buttons.board" = "lavagna";
+"buttons.new" = "nuovo";
 
 // MARK: - QR Reader
 

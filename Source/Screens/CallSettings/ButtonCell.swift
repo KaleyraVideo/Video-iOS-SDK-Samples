@@ -153,18 +153,18 @@ private extension Button {
 
     var title: String {
         switch self {
-            case .hangUp: "end"
-            case .microphone: "mute"
-            case .camera: "camera"
-            case .flipCamera: "flip"
-            case .cameraEffects: "effects"
-            case .audioOutput: "audio output"
-            case .fileShare: "fileshare"
-            case .screenShare: "screenshare"
-            case .chat: "chat"
-            case .whiteboard: "board"
-            case .addCustom: "new"
-            case .custom(let button): button.title ?? "N/A"
+            case .hangUp: Strings.Buttons.hangup
+            case .microphone: Strings.Buttons.microphone
+            case .camera: Strings.Buttons.camera
+            case .flipCamera: Strings.Buttons.flipCamera
+            case .cameraEffects: Strings.Buttons.effects
+            case .audioOutput: Strings.Buttons.audioOutput
+            case .fileShare: Strings.Buttons.file
+            case .screenShare: Strings.Buttons.screenShare
+            case .chat: Strings.Buttons.chat
+            case .whiteboard: Strings.Buttons.board
+            case .addCustom: Strings.Buttons.new
+            case .custom(let button): button.title
         }
     }
 

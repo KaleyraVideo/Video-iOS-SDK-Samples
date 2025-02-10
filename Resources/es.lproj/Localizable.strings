@@ -146,6 +146,17 @@
 "buttons.title" = "Personalización de botones";
 "buttons.inactive-buttons-heading" = "Toque un botón para agregarlo a la vista previa a continuación";
 "buttons.preview-heading" = "Toca un botón para eliminarlo";
+"buttons.hangup" = "finalizar";
+"buttons.microphone" = "micrófono";
+"buttons.camera" = "cámara";
+"buttons.flip" = "voltear cámara";
+"buttons.effects" = "efectos";
+"buttons.audioOutput" = "salida de audio";
+"buttons.file" = "archivo";
+"buttons.screenShare" = "compartir pantalla";
+"buttons.chat" = "chat";
+"buttons.board" = "pizarra";
+"buttons.new" = "nuevo";
 
 // MARK: - QR screen
 

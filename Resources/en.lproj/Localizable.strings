@@ -146,6 +146,17 @@
 "buttons.title" = "Buttons customization";
 "buttons.inactive-buttons-heading" = "Tap a button to add it to the preview below";
 "buttons.preview-heading" = "Tap a button to remove it";
+"buttons.hangup" = "hangup";
+"buttons.microphone" = "microphone";
+"buttons.camera" = "camera";
+"buttons.flip" = "flip";
+"buttons.effects" = "effects";
+"buttons.audioOutput" = "audio output";
+"buttons.file" = "file";
+"buttons.screenShare" = "screen share";
+"buttons.chat" = "chat";
+"buttons.board" = "board";
+"buttons.new" = "new";
 
 // MARK: - QR screen
 

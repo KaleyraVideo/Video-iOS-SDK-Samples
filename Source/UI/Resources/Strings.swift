@@ -236,6 +236,18 @@ enum Strings {
         static let title = NSLocalizedString("", comment: "Buttons customization")
         static let inactiveButtonsHeading = NSLocalizedString("buttons.inactive-buttons-heading", comment: "Tap a button to add it to the preview below")
         static let previewHeading = NSLocalizedString("buttons.preview-heading", comment: "Tap a button to remove it")
+
+        static let hangup = NSLocalizedString("buttons.hangup", comment: "hangup")
+        static let microphone = NSLocalizedString("buttons.microphone", comment: "microphone")
+        static let camera = NSLocalizedString("buttons.camera", comment: "camera")
+        static let flipCamera = NSLocalizedString("buttons.flip", comment: "flip")
+        static let effects = NSLocalizedString("buttons.effects", comment: "effects")
+        static let audioOutput = NSLocalizedString("buttons.audioOutput", comment: "audio output")
+        static let file = NSLocalizedString("buttons.file", comment: "file")
+        static let screenShare = NSLocalizedString("buttons.screenShare", comment: "screen share")
+        static let chat = NSLocalizedString("buttons.chat", comment: "chat")
+        static let board = NSLocalizedString("buttons.board", comment: "board")
+        static let new = NSLocalizedString("buttons.new", comment: "new")
     }
 
     // MARK: - Settings
