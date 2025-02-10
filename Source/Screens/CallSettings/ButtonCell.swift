@@ -40,10 +40,10 @@ final class ButtonCell: UICollectionViewCell {
             if secondaryAction != nil, secondaryButton.superview == nil {
                 contentView.addSubview(secondaryButton)
                 NSLayoutConstraint.activate([
-                    secondaryButton.centerXAnchor.constraint(equalTo: button.leftAnchor, constant: 11),
-                    secondaryButton.centerYAnchor.constraint(equalTo: button.topAnchor, constant: 6),
-                    secondaryButton.widthAnchor.constraint(lessThanOrEqualToConstant: 34),
-                    secondaryButton.heightAnchor.constraint(lessThanOrEqualToConstant: 34)
+                    secondaryButton.centerXAnchor.constraint(equalTo: button.leftAnchor),
+                    secondaryButton.centerYAnchor.constraint(equalTo: button.topAnchor),
+                    secondaryButton.widthAnchor.constraint(lessThanOrEqualToConstant: 24),
+                    secondaryButton.heightAnchor.constraint(lessThanOrEqualToConstant: 24)
                 ])
             } else if secondaryAction == nil, secondaryButton.superview != nil {
                 secondaryButton.removeFromSuperview()

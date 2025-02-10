@@ -356,7 +356,12 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 0, left: 4, bottom: 0, right: 4)
+        guard collectionView == activeButtonsCollectionView else {
+            return .init(top: section == 0 ? 12 : 6, left: 4, bottom: 0, right: 4)
+        }
+        let topInset: CGFloat = section == 0 ? 10 : 0
+        let bottomInset: CGFloat = section == model.activeButtons.numberOfSections - 1 ? 10 : 0
+        return .init(top: topInset, left: 4, bottom: bottomInset, right: 4)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

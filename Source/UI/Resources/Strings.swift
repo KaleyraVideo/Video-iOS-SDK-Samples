@@ -233,7 +233,7 @@ enum Strings {
 
     enum Buttons {
 
-        static let title = NSLocalizedString("", comment: "Buttons customization")
+        static let title = NSLocalizedString("buttons.title", comment: "Buttons customization")
         static let inactiveButtonsHeading = NSLocalizedString("buttons.inactive-buttons-heading", comment: "Tap a button to add it to the preview below")
         static let previewHeading = NSLocalizedString("buttons.preview-heading", comment: "Tap a button to remove it")
 
