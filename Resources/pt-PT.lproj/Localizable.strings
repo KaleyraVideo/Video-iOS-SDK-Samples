@@ -157,6 +157,22 @@
 "buttons.chat" = "chat";
 "buttons.board" = "quadro branco";
 "buttons.new" = "novo";
+"buttons.edit.title" = "Botão editar";
+"buttons.edit.properties-title" = "Propriedades";
+"buttons.edit.appearance-title" = "Aspeto";
+"buttons.edit.accessibility-title" = "Acessibilidade";
+"buttons.edit.action-title" = "Ação";
+
+"buttons.edit.title-placeholder" = "Título";
+"buttons.edit.icon" = "Ícone";
+"buttons.edit.enabled" = "Habilitado";
+"buttons.edit.badge-placeholder" = "Badge (e.g: 42)";
+"buttons.edit.content-color" = "Cor do conteúdo";
+"buttons.edit.background-color" = "Cor de fundo";
+"buttons.edit.accessibility-placeholder" = "Etiqueta de acessibilidade";
+"buttons.edit.action-none" = "Nenhum";
+"buttons.edit.action-open-maps" = "Abrir maps";
+"buttons.edit.action-open-link" = "Abrir link";
 
 // MARK: - QR screen
 

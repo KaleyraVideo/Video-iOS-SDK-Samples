@@ -157,6 +157,22 @@
 "buttons.chat" = "chat";
 "buttons.board" = "lavagna";
 "buttons.new" = "nuovo";
+"buttons.edit.title" = "Modifica pulsante";
+"buttons.edit.properties-title" = "Proprietà";
+"buttons.edit.appearance-title" = "Aspetto";
+"buttons.edit.accessibility-title" = "Accessibilità";
+"buttons.edit.action-title" = "Azione";
+
+"buttons.edit.title-placeholder" = "Titolo";
+"buttons.edit.icon" = "Icona";
+"buttons.edit.enabled" = "Abilitato";
+"buttons.edit.badge-placeholder" = "Badge (e.g: 42)";
+"buttons.edit.content-color" = "Colore del contenuto";
+"buttons.edit.background-color" = "Colore di sfondo";
+"buttons.edit.accessibility-placeholder" = "Accessibility label";
+"buttons.edit.action-none" = "Nessuna";
+"buttons.edit.action-open-maps" = "Apri maps";
+"buttons.edit.action-open-link" = "Apri link";
 
 // MARK: - QR Reader
 

@@ -105,7 +105,7 @@ final class EditButtonViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Edit button"
+        navigationItem.title = Strings.Buttons.Edit.title
         view.backgroundColor = .systemBackground
         setupHierarchy()
         setupConstraints()
@@ -195,7 +195,7 @@ extension EditButtonViewController: UITableViewDataSource {
                 switch indexPath.item {
                     case 0:
                         let cell = tableView.dequeueReusableCell(TextFieldTableViewCell.self, for: indexPath)
-                        cell.placeholder = "Title"
+                        cell.placeholder = Strings.Buttons.Edit.titlePlaceholder
                         cell.text = button.title
                         cell.onTextChanged = { [weak self] title in
                             guard let title else { return }
@@ -206,7 +206,7 @@ extension EditButtonViewController: UITableViewDataSource {
                     case 1:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
-                        content.text = "Icon"
+                        content.text = Strings.Buttons.Edit.icon
                         cell.contentConfiguration = content
                         let imageView = UIImageView(image: button.icon)
                         imageView.tintColor = .label
@@ -216,7 +216,7 @@ extension EditButtonViewController: UITableViewDataSource {
                     case 2:
                         let cell = tableView.dequeueReusableCell(SwitchTableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
-                        content.text = "Enabled"
+                        content.text = Strings.Buttons.Edit.enabled
                         cell.isOn = button.isEnabled
                         cell.contentConfiguration = content
                         cell.onSwitchValueChange = { [weak self] cell in
@@ -225,7 +225,7 @@ extension EditButtonViewController: UITableViewDataSource {
                         return cell
                     case 3:
                         let cell = tableView.dequeueReusableCell(TextFieldTableViewCell.self, for: indexPath)
-                        cell.placeholder = "Badge"
+                        cell.placeholder = Strings.Buttons.Edit.badgePlaceholder
                         cell.text = button.badge.map({ "\($0)" })
                         cell.keyboardType = .numberPad
                         cell.onTextChanged = { [weak self] title in
@@ -239,18 +239,18 @@ extension EditButtonViewController: UITableViewDataSource {
                 switch indexPath.item {
                     case 0:
                         let cell = tableView.dequeueReusableCell(ColorTableViewCell.self, for: indexPath)
-                        cell.title = "Tint color"
+                        cell.title = Strings.Buttons.Edit.contentColor
                         cell.color = button.tint
-                        cell.pickerTitle = "Tint color"
+                        cell.pickerTitle = Strings.Buttons.Edit.contentColor
                         cell.onColorChanged = { [weak self] color in
                             self?.button.tint = color
                         }
                         return cell
                     case 1:
                         let cell = tableView.dequeueReusableCell(ColorTableViewCell.self, for: indexPath)
-                        cell.title = "Background color"
+                        cell.title = Strings.Buttons.Edit.backgroundColor
                         cell.color = button.background
-                        cell.pickerTitle = "Background color"
+                        cell.pickerTitle = Strings.Buttons.Edit.backgroundColor
                         cell.onColorChanged = { [weak self] color in
                             self?.button.background = color
                         }
@@ -262,7 +262,7 @@ extension EditButtonViewController: UITableViewDataSource {
                 switch indexPath.item {
                     case 0:
                         let cell = tableView.dequeueReusableCell(TextFieldTableViewCell.self, for: indexPath)
-                        cell.placeholder = "Accessibility label"
+                        cell.placeholder = Strings.Buttons.Edit.accessibilityLabelPlaceholder
                         cell.text = button.accessibilityLabel
                         cell.onTextChanged = { [weak self] label in
                             self?.button.accessibilityLabel = label
@@ -276,7 +276,7 @@ extension EditButtonViewController: UITableViewDataSource {
                     case 0:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
-                        content.text = "Open maps"
+                        content.text = Strings.Buttons.Edit.actionOpenMaps
                         cell.contentConfiguration = content
                         cell.accessoryType = button.action == .openMaps ? .checkmark : .none
                         cell.accessoryView = nil
@@ -284,7 +284,7 @@ extension EditButtonViewController: UITableViewDataSource {
                     case 1:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
-                        content.text = "Open Link"
+                        content.text = Strings.Buttons.Edit.actionOpenLink
                         cell.contentConfiguration = content
                         cell.accessoryType = button.action == .openURL ? .checkmark : .none
                         cell.accessoryView = nil
@@ -292,7 +292,7 @@ extension EditButtonViewController: UITableViewDataSource {
                     case 2:
                         let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
                         var content = UIListContentConfiguration.cell()
-                        content.text = "None"
+                        content.text = Strings.Buttons.Edit.actionNone
                         cell.contentConfiguration = content
                         cell.accessoryType = button.action == nil ? .checkmark : .none
                         cell.accessoryView = nil
@@ -307,10 +307,10 @@ extension EditButtonViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch SectionType(rawValue: section) {
-            case .properties: "Properties"
-            case .appearance: "Appearance"
-            case .accessibility: "Accessibility"
-            case .action: "Action"
+            case .properties: Strings.Buttons.Edit.propertiesSectionTitle
+            case .appearance: Strings.Buttons.Edit.appearanceSectionTitle
+            case .accessibility: Strings.Buttons.Edit.accessibilitySectionTitle
+            case .action: Strings.Buttons.Edit.actionSectionTitle
             default: nil
         }
     }

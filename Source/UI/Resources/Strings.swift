@@ -248,6 +248,27 @@ enum Strings {
         static let chat = NSLocalizedString("buttons.chat", comment: "chat")
         static let board = NSLocalizedString("buttons.board", comment: "board")
         static let new = NSLocalizedString("buttons.new", comment: "new")
+
+        enum Edit {
+
+            static let title = NSLocalizedString("buttons.edit.title", comment: "Edit button")
+
+            static let propertiesSectionTitle = NSLocalizedString("buttons.edit.properties-title", comment: "Properties")
+            static let appearanceSectionTitle = NSLocalizedString("buttons.edit.appearance-title", comment: "")
+            static let accessibilitySectionTitle = NSLocalizedString("buttons.edit.accessibility-title", comment: "")
+            static let actionSectionTitle = NSLocalizedString("buttons.edit.action-title", comment: "")
+
+            static let titlePlaceholder = NSLocalizedString("buttons.edit.title-placeholder", comment: "")
+            static let icon = NSLocalizedString("buttons.edit.icon", comment: "")
+            static let enabled = NSLocalizedString("buttons.edit.enabled", comment: "")
+            static let badgePlaceholder = NSLocalizedString("buttons.edit.badge-placeholder", comment: "")
+            static let contentColor = NSLocalizedString("buttons.edit.content-color", comment: "")
+            static let backgroundColor = NSLocalizedString("buttons.edit.background-color", comment: "")
+            static let accessibilityLabelPlaceholder = NSLocalizedString("buttons.edit.accessibility-placeholder", comment: "")
+            static let actionNone = NSLocalizedString("buttons.edit.action-none", comment: "")
+            static let actionOpenMaps = NSLocalizedString("buttons.edit.action-open-maps", comment: "")
+            static let actionOpenLink = NSLocalizedString("buttons.edit.action-open-link", comment: "")
+        }
     }
 
     // MARK: - Settings
