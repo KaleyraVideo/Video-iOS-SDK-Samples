@@ -269,6 +269,13 @@ enum Strings {
             static let actionOpenMaps = NSLocalizedString("buttons.edit.action-open-maps", comment: "")
             static let actionOpenLink = NSLocalizedString("buttons.edit.action-open-link", comment: "")
         }
+
+        enum DeleteButtonAlert {
+            static let title = NSLocalizedString("buttons.delete-button-alert.title", comment: "")
+            static let message = NSLocalizedString("buttons.delete-button-alert.message", comment: "")
+            static let deleteAction = NSLocalizedString("buttons.delete-button-alert.delete-action", comment: "")
+            static let cancelAction = NSLocalizedString("buttons.delete-button-alert.cancel-action", comment: "")
+        }
     }
 
     // MARK: - Settings

@@ -157,12 +157,17 @@
 "buttons.chat" = "chat";
 "buttons.board" = "pizarra";
 "buttons.new" = "nuevo";
+
+"buttons.delete-button-alert.title" = "¿Estas seguro?";
+"buttons.delete-button-alert.message" = "¿Quieres eliminar el botón? Esta operación no se puede deshacer.";
+"buttons.delete-button-alert.delete-action" = "Eliminar";
+"buttons.delete-button-alert.cancel-action" = "Cancelar";
+
 "buttons.edit.title" = "Botón editar";
 "buttons.edit.properties-title" = "Propiedades";
 "buttons.edit.appearance-title" = "Apariencia";
 "buttons.edit.accessibility-title" = "Accesibilidad";
 "buttons.edit.action-title" = "Acción";
-
 "buttons.edit.title-placeholder" = "Título";
 "buttons.edit.icon" = "Icono";
 "buttons.edit.enabled" = "Activado";

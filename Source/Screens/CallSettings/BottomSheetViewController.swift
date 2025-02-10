@@ -48,7 +48,7 @@ final class BottomSheetViewController: UIViewController {
             cell.configure(for: button, shouldShowTitle: true)
             cell.onSecondaryAction = { [weak self] cell in
                 guard collectionView.isEditing else { return }
-                self?.deleteCell(cell, from: collectionView)
+                self?.presentDeleteButtonAlert(cell: cell)
             }
             return cell
         }
@@ -172,6 +172,16 @@ final class BottomSheetViewController: UIViewController {
     private func applySnapshots(animatingDifferences animated: Bool) {
         inactiveButtonsDataSource.apply(model.inactiveButtons.snapshot(), animatingDifferences: animated)
         activeButtonsDataSource.apply(model.activeButtons.snapshot(), animatingDifferences: animated)
+    }
+
+    private func presentDeleteButtonAlert(cell: UICollectionViewCell) {
+        let alert = UIAlertController.alert(title: Strings.Buttons.DeleteButtonAlert.title, message: Strings.Buttons.DeleteButtonAlert.message)
+        alert.addAction(.destructive(title: Strings.Buttons.DeleteButtonAlert.deleteAction, handler: { [weak self] _ in
+            guard let self else { return }
+            self.deleteCell(cell, from: self.inactiveButtonsCollectionView)
+        }))
+        alert.addAction(.cancel(title: Strings.Buttons.DeleteButtonAlert.cancelAction))
+        presentAlert(alert)
     }
 }
 

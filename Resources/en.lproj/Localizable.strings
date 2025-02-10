@@ -157,12 +157,17 @@
 "buttons.chat" = "chat";
 "buttons.board" = "board";
 "buttons.new" = "new";
+
+"buttons.delete-button-alert.title" = "Are you sure?";
+"buttons.delete-button-alert.message" = "Do you want to remove the button? This operation cannot be undone.";
+"buttons.delete-button-alert.delete-action" = "Remove";
+"buttons.delete-button-alert.cancel-action" = "Cancel";
+
 "buttons.edit.title" = "Edit button";
 "buttons.edit.properties-title" = "Properties";
 "buttons.edit.appearance-title" = "Appearance";
 "buttons.edit.accessibility-title" = "Accessibility";
 "buttons.edit.action-title" = "Action";
-
 "buttons.edit.title-placeholder" = "Title";
 "buttons.edit.icon" = "Icon";
 "buttons.edit.enabled" = "Enabled";

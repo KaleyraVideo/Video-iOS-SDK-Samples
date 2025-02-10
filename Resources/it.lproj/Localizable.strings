@@ -157,12 +157,17 @@
 "buttons.chat" = "chat";
 "buttons.board" = "lavagna";
 "buttons.new" = "nuovo";
+
+"buttons.delete-button-alert.title" = "Sei sicuro?";
+"buttons.delete-button-alert.message" = "Vuoi rimuovere il bottone? Questa operazione non può essere annullata.";
+"buttons.delete-button-alert.delete-action" = "Rimuovi";
+"buttons.delete-button-alert.cancel-action" = "Annulla";
+
 "buttons.edit.title" = "Modifica pulsante";
 "buttons.edit.properties-title" = "Proprietà";
 "buttons.edit.appearance-title" = "Aspetto";
 "buttons.edit.accessibility-title" = "Accessibilità";
 "buttons.edit.action-title" = "Azione";
-
 "buttons.edit.title-placeholder" = "Titolo";
 "buttons.edit.icon" = "Icona";
 "buttons.edit.enabled" = "Abilitato";
