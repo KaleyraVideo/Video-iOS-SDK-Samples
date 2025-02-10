@@ -141,6 +141,11 @@
 "call_options.buttons_enable_cell_title" = "Ativar botões personalizados";
 "call_options.buttons_customize_cell_title" = "Personalizar botões";
 
+// MARK: - Buttons
+
+"buttons.title" = "Personalização de botões";
+"buttons.inactive-buttons-heading" = "Toque num botão para adicioná-lo à visualização abaixo";
+"buttons.preview-heading" = "Toque num botão para removê-lo";
 
 // MARK: - QR screen
 

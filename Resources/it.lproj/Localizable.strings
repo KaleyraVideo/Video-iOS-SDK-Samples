@@ -141,6 +141,12 @@
 "call_options.buttons_enable_cell_title" = "Abilita pulsanti personalizzati";
 "call_options.buttons_customize_cell_title" = "Personalizza i pulsanti";
 
+// MARK: - Buttons
+
+"buttons.title" = "Personalizzazione pulsanti";
+"buttons.inactive-buttons-heading" = "Tocca un pulsante per aggiungerlo all'anteprima sotto";
+"buttons.preview-heading" = "Tocca un pulsante per rimuoverlo";
+
 // MARK: - QR Reader
 
 "qr_reader.alert_title" = "Errore!";

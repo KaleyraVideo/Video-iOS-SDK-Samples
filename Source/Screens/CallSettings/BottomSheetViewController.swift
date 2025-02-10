@@ -12,7 +12,7 @@ final class BottomSheetViewController: UIViewController {
     private lazy var inactiveButtonsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Tap a button to add it to the bottom sheet below"
+        label.text = Strings.Buttons.inactiveButtonsHeading
         label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: UIFont.systemFont(ofSize: 16))
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -22,7 +22,7 @@ final class BottomSheetViewController: UIViewController {
     private lazy var previewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Tap a button to remove it. Long press and drag to reorder the buttons"
+        label.text = Strings.Buttons.previewHeading
         label.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: UIFont.systemFont(ofSize: 16))
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -100,7 +100,7 @@ final class BottomSheetViewController: UIViewController {
     }
 
     private func setupNavigationItem() {
-        navigationItem.title = "Custom bottom sheet"
+        navigationItem.title = Strings.Buttons.title
         navigationItem.rightBarButtonItem = editButtonItem
     }
 

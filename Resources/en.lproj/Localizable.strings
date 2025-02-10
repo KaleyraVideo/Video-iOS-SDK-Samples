@@ -141,6 +141,12 @@
 "call_options.buttons_enable_cell_title" = "Enable custom buttons";
 "call_options.buttons_customize_cell_title" = "Customize buttons";
 
+// MARK: - Buttons
+
+"buttons.title" = "Buttons customization";
+"buttons.inactive-buttons-heading" = "Tap a button to add it to the preview below";
+"buttons.preview-heading" = "Tap a button to remove it";
+
 // MARK: - QR screen
 
 "qr_reader.alert_title" = "An error has occurred!";
