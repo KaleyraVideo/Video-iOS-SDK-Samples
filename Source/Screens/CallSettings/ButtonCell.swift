@@ -163,7 +163,7 @@ private extension Button {
             case .screenShare: Strings.Buttons.screenShare
             case .chat: Strings.Buttons.chat
             case .whiteboard: Strings.Buttons.board
-            case .addCustom: Strings.Buttons.new
+            case .new: Strings.Buttons.new
             case .custom(let button): button.title
         }
     }
@@ -180,7 +180,7 @@ private extension Button {
             case .screenShare: Icons.screenShare
             case .chat: Icons.chat
             case .whiteboard: Icons.whiteboard
-            case .addCustom: Icons.addButton
+            case .new: Icons.addButton
             case .custom(let button): button.icon
         }
         return icon ?? Icons.questionMark

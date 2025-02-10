@@ -219,7 +219,7 @@ private extension BottomSheetViewController {
             let currentActiveButtons = activeButtons.buttons
             var inactiveButtons = (Button.allCases + customButtons.map({ .custom($0) })).filter({ !currentActiveButtons.contains($0) })
             if isEditing {
-                inactiveButtons.append(.addCustom)
+                inactiveButtons.append(.new)
             }
             self.activeButtons = .init(maxNumberOfItemsPerSection: maxItemsPerSection, buttons: currentActiveButtons)
             self.inactiveButtons = .init(maxNumberOfItemsPerSection: .max, buttons: inactiveButtons)
@@ -305,7 +305,7 @@ private extension BottomSheetViewController {
             }
 
             mutating func insert(_ button: Button) {
-                guard let index = buttons.firstIndex(of: .addCustom) else {
+                guard let index = buttons.firstIndex(of: .new) else {
                     buttons.append(button)
                     return
                 }
@@ -345,7 +345,7 @@ extension BottomSheetViewController: UICollectionViewDelegateFlowLayout {
             let selectedButton = model.inactiveButtons.button(at: indexPath)
 
             switch selectedButton {
-                case .addCustom:
+                case .new:
                     onEditButtonAction?(.new)
                 case .custom(let custom) where !isEditing:
                     onEditButtonAction?(custom)

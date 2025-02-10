@@ -32,7 +32,7 @@ extension CallSettings: Codable {
         self.cameraPosition = .init(try container.decodeIfPresent(String.self, forKey: .camera) ?? "") ?? .front
         self.speakerOverride = .init(try container.decodeIfPresent(String.self, forKey: .speaker) ?? "") ?? .default
         self.enableCustomButtons = try container.decodeIfPresent(Bool.self, forKey: .enableCustomButtons) ?? false
-        self.buttons = (try? .init(from: decoder)) ?? Button.default
+        self.buttons = (try? .init(from: decoder)) ?? []
     }
 
     func encode(to encoder: any Encoder) throws {

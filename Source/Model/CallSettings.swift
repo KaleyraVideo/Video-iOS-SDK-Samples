@@ -49,7 +49,7 @@ struct CallSettings: Equatable {
         cameraPosition = .front
         speakerOverride = .default
         enableCustomButtons = false
-        buttons = Button.default
+        buttons = Button.allCases
     }
 }
 

@@ -16,24 +16,11 @@ enum Button: Hashable, CaseIterable {
     case screenShare
     case chat
     case whiteboard
-    case addCustom
+    case new
     case custom(Custom)
 
     static var allCases: [Button] {
         [.hangUp, .microphone, .camera, .flipCamera, .cameraEffects, .audioOutput, .fileShare, .screenShare, .chat, .whiteboard]
-    }
-
-    static var `default`: [Button] {
-        allCases.filter({
-            switch $0 {
-                case .addCustom:
-                    false
-                case .custom:
-                    false
-                default:
-                    true
-            }
-        })
     }
 
     func hash(into hasher: inout Hasher) {
@@ -112,7 +99,7 @@ extension Button {
             case .screenShare: "screenshare"
             case .chat: "chat"
             case .whiteboard: "whiteboard"
-            case .addCustom: "addCustom"
+            case .new: "new"
             case .custom(let custom): custom.identifier.uuidString
         }
     }
@@ -205,6 +192,7 @@ extension Button {
             case .screenShare: .screenShare(onTap: .askUser)
             case .chat: .chat
             case .whiteboard: .whiteboard
+            case .custom(let custom): .custom(config: custom.callButton)
             default: nil
         }
     }
