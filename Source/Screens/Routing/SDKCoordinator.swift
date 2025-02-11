@@ -120,8 +120,10 @@ final class SDKCoordinator: BaseCoordinator {
     private func present(call: Call) {
         let controller = CallViewController(call: call, configuration: appSettings.callSettings.controllerConfig)
         controller.delegate = self
-        if appSettings.callSettings.enableCustomButtons {
-            controller.buttonsProvider = ButtonsProvider(buttons: appSettings.callSettings.buttons).provideButtons
+        controller.buttonsProvider = if appSettings.callSettings.enableCustomButtons {
+            ButtonsProvider(buttons: appSettings.callSettings.buttons).provideButtons
+        } else {
+            nil
         }
         callWindow.makeKeyAndVisible()
         callWindow.set(rootViewController: controller, animated: true)
