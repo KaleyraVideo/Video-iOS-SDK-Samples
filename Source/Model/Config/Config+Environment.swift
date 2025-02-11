@@ -37,12 +37,9 @@ extension Config.Environment {
 
     var sdkEnvironment: KaleyraVideoSDK.Environment {
         switch self {
-            case .production:
-                return .production
-            case .sandbox:
-                return .sandbox
-            case .development:
-                return .init("develop")
+            case .production: .production
+            case .sandbox: .sandbox
+            case .development: .init("develop")
         }
     }
 }

@@ -15,25 +15,18 @@ extension Config {
 
     private var regionDomain: String {
         switch region {
-            case .europe:
-                return "eu"
-            case .india:
-                return "in"
-            case .us:
-                return "us"
-            case .middleEast:
-                return "me"
+            case .europe: "eu"
+            case .india: "in"
+            case .us: "us"
+            case .middleEast: "me"
         }
     }
 
     private var environmentDomain: String {
         switch environment {
-            case .production:
-                return ""
-            case .sandbox:
-                return ".sandbox"
-            case .development:
-                return ".development"
+            case .production:  ""
+            case .sandbox: ".sandbox"
+            case .development: ".development"
         }
     }
 

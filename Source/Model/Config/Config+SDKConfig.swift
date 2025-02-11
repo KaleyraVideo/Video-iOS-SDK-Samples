@@ -17,6 +17,9 @@ extension Config {
 #endif
         config.voip = voip.sdk
         config.shouldListenForDirectIncomingCalls = !disableDirectIncomingCalls
+#if DEMO_PRIVATE
+        config.broadcast = .init(appGroupIdentifier: .kaleyra, extensionBundleIdentifier: .appExtensionIdentifier)
+#endif
 
         return config
     }
@@ -26,12 +29,9 @@ extension Config.VoIP {
 
     var sdk: KaleyraVideoSDK.Config.VoIP {
         switch self {
-            case .disabled:
-                .disabled
-            case .manual:
-                .manual
-            case .automatic(strategy: let strategy):
-                .automatic(listenForNotificationsInForeground: strategy == .always)
+            case .disabled: .disabled
+            case .manual: .manual
+            case .automatic(strategy: let strategy): .automatic(listenForNotificationsInForeground: strategy == .always)
         }
     }
 }

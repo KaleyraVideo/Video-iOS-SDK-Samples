@@ -36,12 +36,8 @@ extension Config {
 
         var shouldListenForNotificationsInForeground: Bool {
             switch self {
-                case .disabled:
-                    return false
-                case .manual(strategy: let strategy):
-                    return strategy == .always
-                case .automatic(strategy: let strategy):
-                    return strategy == .always
+                case .disabled: false
+                case .manual(strategy: let strategy), .automatic(strategy: let strategy): strategy == .always
             }
         }
 

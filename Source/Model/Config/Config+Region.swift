@@ -40,14 +40,8 @@ extension Config.Region {
 
     var availableEnvironments: [Config.Environment] {
         switch self {
-            case .europe:
-                Config.Environment.allCases
-            case .india:
-                [.production]
-            case .us:
-                [.production]
-            case .middleEast:
-                [.production]
+            case .europe: Config.Environment.allCases
+            case .india, .us, .middleEast: [.production]
         }
     }
 }
@@ -56,14 +50,10 @@ extension Config.Region {
 
     var sdkRegion: KaleyraVideoSDK.Region {
         switch self {
-            case .europe:
-                return .europe
-            case .india:
-                return .india
-            case .us:
-                return .us
-            case .middleEast:
-                return .middleEast
+            case .europe: .europe
+            case .india: .india
+            case .us: .us
+            case .middleEast: .middleEast
         }
     }
 }
