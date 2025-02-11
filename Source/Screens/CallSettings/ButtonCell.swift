@@ -104,8 +104,6 @@ final class ButtonCell: UICollectionViewCell {
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
 
-        guard secondaryAction != nil else { return }
-
         if state.isEditing {
             startWobbling()
         } else {
@@ -117,6 +115,7 @@ final class ButtonCell: UICollectionViewCell {
         super.prepareForReuse()
 
         secondaryAction = nil
+        stopWobbling()
     }
 }
 
