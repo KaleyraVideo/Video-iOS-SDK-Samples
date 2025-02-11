@@ -241,10 +241,8 @@ extension Button.Custom.Action {
 
     var function: () -> Void {
         switch self {
-            case .openMaps:
-                Command().openMaps
-            case .openURL:
-                Command().openLink
+            case .openMaps: Command().openMaps
+            case .openURL: Command().openLink
         }
     }
 }

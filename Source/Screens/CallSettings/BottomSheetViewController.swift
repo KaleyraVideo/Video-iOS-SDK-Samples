@@ -55,12 +55,11 @@ final class BottomSheetViewController: UIViewController {
     }()
 
     private lazy var activeButtonsDataSource: UICollectionViewDiffableDataSource<Int, Button> = {
-        var dataSource = UICollectionViewDiffableDataSource<Int, Button>(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
+        .init(collectionView: activeButtonsCollectionView) { collectionView, indexPath, button in
             let cell = collectionView.dequeueReusableCell(ButtonCell.self, for: indexPath)
             cell.configure(for: button, shouldShowTitle: indexPath.section != collectionView.numberOfSections - 1)
             return cell
         }
-        return dataSource
     }()
 
     private lazy var model: Model = {
@@ -277,7 +276,20 @@ private extension BottomSheetViewController {
                     sections[i / maxNumberOfItemsPerSection].items.append(buttons[i])
                 }
 
-                self.sections = sections.reversed()
+                guard !sections.isEmpty else {
+                    self.sections = sections
+                    return
+                }
+
+                let mainSection = sections[0]
+                let otherSections: [Section<Button>] = if sections.count >= 2 {
+                    Array(sections[1 ..< sections.endIndex])
+                } else {
+                    []
+                }
+                sections = otherSections
+                sections.append(mainSection)
+                self.sections = sections
             }
 
             func numberOfItems(in section: Int) -> Int {

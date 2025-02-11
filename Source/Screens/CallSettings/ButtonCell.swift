@@ -164,7 +164,7 @@ private extension Button {
             case .chat: Strings.Buttons.chat
             case .whiteboard: Strings.Buttons.board
             case .new: Strings.Buttons.new
-            case .custom(let button): button.title
+            case .custom(let button): button.title.lowercased()
         }
     }
 
