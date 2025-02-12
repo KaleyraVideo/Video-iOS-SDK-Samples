@@ -26,6 +26,7 @@ enum CoordinatorEvent: Equatable {
     case openChat(userId: String)
     case siri(intent: INIntent)
     case shareLogFiles
+    case toggleFloatingMessage
 }
 
 enum EventDirection {

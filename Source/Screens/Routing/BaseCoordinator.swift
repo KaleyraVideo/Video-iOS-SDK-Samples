@@ -44,9 +44,8 @@ class BaseCoordinator: NSObject, Coordinator {
             case .toChildren:
                 for element in children {
                     let handled = element.handle(event: event, direction: direction)
-                    if handled {
-                        return true
-                    }
+                    guard handled else { continue }
+                    return true
                 }
         }
         return false

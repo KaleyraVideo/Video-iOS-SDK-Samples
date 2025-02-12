@@ -34,6 +34,7 @@ final class SDKCoordinator: BaseCoordinator {
     }
 
     private lazy var subscriptions = Set<AnyCancellable>()
+    private var floatingMessage: FloatingMessage?
 
     init(controller: UIViewController,
          config: Config,
@@ -129,6 +130,21 @@ final class SDKCoordinator: BaseCoordinator {
         callWindow.set(rootViewController: controller, animated: true)
     }
 
+    private func toggleFloatingMessage() {
+        guard let controller = callWindow.rootViewController as? CallViewController else { return }
+
+        if let floatingMessage {
+            controller.dismiss(message: floatingMessage)
+        } else {
+            let message = FloatingMessage(body: "Hi, I'm a floating message. Shake to dismiss me",
+                                          button: .init(text: "Tap me", icon: UIImage(systemName: "maps"), action: { [weak controller] in
+                controller?.presentAlert(.floatingMessageAlert())
+            }))
+            controller.present(message: message)
+            floatingMessage = message
+        }
+    }
+
     // MARK: - Open chat
 
     private func openChat(id: String) {
@@ -179,6 +195,8 @@ final class SDKCoordinator: BaseCoordinator {
                 openChat(userId: userId)
             case .siri(intent: let intent):
                 handleSiriIntent(intent)
+            case .toggleFloatingMessage:
+                toggleFloatingMessage()
         }
         return true
     }
@@ -259,5 +277,14 @@ private struct ButtonsProvider {
 
     func provideButtons(_ buttons: [CallButton]) -> [CallButton] {
         self.buttons.compactMap(\.callButton)
+    }
+}
+
+private extension UIAlertController {
+
+    static func floatingMessageAlert() -> UIAlertController {
+        let alert = UIAlertController.alert(title: "Warning!", message: "Shake to dismiss the toast")
+        alert.addAction(.cancel(title: "Cancel"))
+        return alert
     }
 }

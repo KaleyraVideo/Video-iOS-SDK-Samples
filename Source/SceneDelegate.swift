@@ -7,13 +7,13 @@ import Intents
 import KaleyraVideoSDK
 
 @objc(SceneDelegate)
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: NSObject, UIWindowSceneDelegate {
 
     private lazy var services: ServicesFactory = {
         DefaultServicesFactory()
     }()
 
-    private lazy var coordinator: RootCoordinator = {
+    fileprivate lazy var coordinator: RootCoordinator = {
         .init(services: services)
     }()
 
@@ -81,13 +81,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        defer { completionHandler(.newData) }
+
         guard application.applicationState != .active else {
-            completionHandler(.newData)
             return
         }
 
         handleUserChatNotification(userInfo: userInfo)
-        completionHandler(.newData)
     }
 
     private func handleUserChatNotification(userInfo: [AnyHashable : Any]) {
@@ -104,5 +104,16 @@ private extension UIApplicationShortcutItem {
 
     var isShareLogs: Bool {
         type == LogServiceConstants.shareLogsItemType
+    }
+}
+
+extension UIWindow {
+
+    open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        super.motionEnded(motion, with: event)
+
+        guard motion == .motionShake, let windowScene, let delegate = windowScene.delegate as? SceneDelegate else { return }
+
+        _ = delegate.coordinator.handle(event: .toggleFloatingMessage, direction: .toChildren)
     }
 }
