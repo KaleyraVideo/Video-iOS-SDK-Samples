@@ -29,7 +29,7 @@ final class SingleChoiceTableViewSection<Option: Equatable>: TableViewSection {
     }
 
     func registerReusableCells(_ tableView: UITableView) {
-        tableView.registerReusableCell(UITableViewCell.self)
+        tableView.registerReusableCell(ReusableTableViewCell.self)
     }
 
     func numberOfRows() -> Int {
@@ -41,7 +41,7 @@ final class SingleChoiceTableViewSection<Option: Equatable>: TableViewSection {
     }
 
     func cellForRowAt(indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(for: indexPath)
+        let cell: ReusableTableViewCell = tableView.dequeueReusableCell(for: indexPath)
         let current = options[indexPath.row]
         cell.selectionStyle = .none
         cell.tintColor = Theme.Color.secondary
